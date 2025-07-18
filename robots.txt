@@ -1,0 +1,40 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://associazionesbarbara.github.io/sitemap.xml
+
+# Disallow access to private member areas
+Disallow: /assets/data/
+Disallow: /assets/js/private/
+
+# Allow access to main assets
+Allow: /assets/css/
+Allow: /assets/js/
+Allow: /assets/images/
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Yandexbot
+Allow: /
+Crawl-delay: 2
+
+# Block unwanted bots
+User-agent: BadBot
+Disallow: /
+
+User-agent: ScrapingBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /

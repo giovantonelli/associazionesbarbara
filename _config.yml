@@ -1,0 +1,72 @@
+# GitHub Pages Configuration
+
+# Site settings
+title: "Associazione Santa Barbara APS"
+description: "Sito ufficiale dell'Associazione Santa Barbara APS - Promuoviamo la cultura e il volontariato nel nostro territorio"
+baseurl: ""
+url: "https://associazionesbarbara.github.io"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+
+# Plugins
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Exclude from processing
+exclude:
+  - README.md
+  - LICENSE
+  - node_modules
+  - vendor
+  - .git
+  - .gitignore
+  - .sass-cache
+  - Gemfile
+  - Gemfile.lock
+  - package.json
+  - package-lock.json
+  - gulpfile.js
+  - _config.yml
+
+# Include files
+include:
+  - .htaccess
+  - _pages
+  - assets
+
+# SEO settings
+author:
+  name: "Associazione Santa Barbara APS"
+  email: "info@associazionesbarbara.it"
+
+social:
+  name: "Associazione Santa Barbara APS"
+  links:
+    - https://facebook.com/associazionesbarbara
+    - https://instagram.com/associazionesbarbara
+
+# Analytics
+google_analytics: # Add your Google Analytics ID here
+
+# Sass settings
+sass:
+  sass_dir: assets/css
+  style: compressed
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+      author: "Associazione Santa Barbara APS"
+
+# Security
+safe: true
+lsi: false
