@@ -7,6 +7,9 @@ let currentYear = new Date().getFullYear();
 
 // DOM Content Loaded
 document.addEventListener('DOMContentLoaded', function() {
+    // Check and apply existing consent choice
+    checkExistingConsent();
+    
     // Initialize all components
     initNavigation();
     initCookieBanner();
@@ -19,6 +22,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check if user is logged in
     checkUserSession();
 });
+
+// Check existing consent and apply it
+function checkExistingConsent() {
+    const existingConsent = localStorage.getItem('cookieConsent');
+    
+    if (existingConsent === 'accepted' && typeof gtag === 'function') {
+        // User previously accepted cookies, grant consent
+        gtag('consent', 'update', {
+            'ad_storage': 'granted',
+            'ad_user_data': 'granted',
+            'ad_personalization': 'granted',
+            'analytics_storage': 'granted'
+        });
+    }
+    // If no consent or declined, keep the default 'denied' state
+}
 
 // Navigation
 function initNavigation() {
@@ -73,14 +92,26 @@ function initCookieBanner() {
     acceptBtn?.addEventListener('click', function() {
         localStorage.setItem('cookieConsent', 'accepted');
         cookieBanner.classList.remove('show');
-        // Initialize analytics or tracking here
-        console.log('Cookies accepted');
+        
+        // Update Google Analytics consent
+        if (typeof gtag === 'function') {
+            gtag('consent', 'update', {
+                'ad_storage': 'granted',
+                'ad_user_data': 'granted',
+                'ad_personalization': 'granted',
+                'analytics_storage': 'granted'
+            });
+        }
+        
+        console.log('Cookies accepted - Analytics consent granted');
     });
     
     declineBtn?.addEventListener('click', function() {
         localStorage.setItem('cookieConsent', 'declined');
         cookieBanner.classList.remove('show');
-        console.log('Cookies declined');
+        
+        // Keep Google Analytics consent denied (already set as default)
+        console.log('Cookies declined - Analytics consent remains denied');
     });
 }
 
