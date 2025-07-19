@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Area Soci - Associazione Santa Barbara APS</title>
+    <meta name="description" content="Accesso riservato ai soci dell'Associazione Santa Barbara APS">
+    <meta name="keywords" content="login, area soci, accesso riservato, associazione">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    
+    <!-- Google tag (gtag.js) with Consent Mode -->
+    <script>
+      // Define dataLayer and the gtag function
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      
+      // Set default consent to 'denied' as a placeholder for EU users
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied',
+        'wait_for_update': 500
+      });
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F465WJF33T"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      
+      gtag('js', new Date());
+      gtag('config', 'G-F465WJF33T');
+    </script>
+
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="assets/images/logo.svg" alt="Logo Associazione Santa Barbara APS" class="logo">
+                <span class="brand-text">Associazione Santa Barbara APS</span>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="chi-siamo.html">Chi Siamo</a></li>
+                <li><a href="attivita.html">Attività</a></li>
+                <li><a href="eventi.html">Eventi</a></li>
+                <li><a href="galleria.html">Galleria</a></li>
+                <li><a href="partner.html">Partner</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="contatti.html">Contatti</a></li>
+                <li><a href="area-soci.html" class="nav-cta">Area Soci</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-overlay"></div>
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <h1>Area Soci Riservata</h1>
+                    <p>Accedi con la tua email per visualizzare contenuti esclusivi, documenti riservati e partecipare alle attività dei soci.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login Section -->
+        <section class="login-section">
+            <div class="container">
+                <div class="login-container">
+                    <div class="login-card">
+                        <div class="login-header">
+                            <h2>🔐 Accesso Area Soci</h2>
+                            <p>Inserisci la tua email per ricevere il link di accesso</p>
+                        </div>
+
+                        <!-- Status Messages -->
+                        <div id="auth-status" class="auth-status" style="display: none;"></div>
+                        <div id="loading-state" class="loading-state" style="display: none;">
+                            <div class="loading-spinner"></div>
+                            <p>Invio email in corso...</p>
+                        </div>
+
+                        <!-- Login Form -->
+                        <form id="login-form" class="login-form">
+                            <div class="form-group">
+                                <label for="email">Email del Socio</label>
+                                <input 
+                                    type="email" 
+                                    id="email" 
+                                    name="email" 
+                                    required
+                                    placeholder="inserisci@tuaemail.com"
+                                    class="form-input"
+                                >
+                            </div>
+                            
+                            <button type="submit" id="login-btn" class="btn btn-primary btn-large">
+                                📧 Invia Link di Accesso
+                            </button>
+                        </form>
+
+                        <!-- Email Sent Success -->
+                        <div id="email-sent" class="email-sent" style="display: none;">
+                            <div class="success-icon">✅</div>
+                            <h3>Email Inviata!</h3>
+                            <p>Abbiamo inviato un link di accesso sicuro alla tua email.</p>
+                            <div class="email-instructions">
+                                <ol>
+                                    <li>Controlla la tua casella di posta</li>
+                                    <li>Clicca sul link nell'email ricevuta</li>
+                                    <li>Verrai automaticamente loggato nell'area soci</li>
+                                </ol>
+                                <p><small>Non hai ricevuto l'email? Controlla anche nella cartella spam.</small></p>
+                            </div>
+                            <button id="resend-btn" class="btn btn-secondary">🔄 Invia di nuovo</button>
+                        </div>
+
+                        <!-- Login Help -->
+                        <div class="login-help">
+                            <h4>ℹ️ Informazioni</h4>
+                            <ul>
+                                <li><strong>Solo per soci:</strong> L'accesso è riservato ai membri attivi dell'associazione</li>
+                                <li><strong>Email sicura:</strong> Riceverai un link temporaneo valido per 1 ora</li>
+                                <li><strong>Nessuna password:</strong> Sistema di autenticazione senza password</li>
+                                <li><strong>Supporto:</strong> Per problemi contatta <a href="mailto:info@associazionesbarbara.it">info@associazionesbarbara.it</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Registration Info -->
+                    <div class="registration-info">
+                        <h3>🤝 Non sei ancora socio?</h3>
+                        <p>Scopri come diventare membro attivo dell'Associazione Santa Barbara APS e accedere a tutti i vantaggi riservati.</p>
+                        <a href="chi-siamo.html#iscrizione" class="btn btn-outline">Scopri come iscriverti</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <img src="assets/images/logo.svg" alt="Logo Associazione Santa Barbara APS" class="footer-logo">
+                        <h3>Associazione Santa Barbara APS</h3>
+                    </div>
+                    <p>Preserviamo e promuoviamo le tradizioni culturali e religiose della nostra comunità dal 2008.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contatti</h4>
+                    <div class="contact-info">
+                        <p><strong>📍 Indirizzo:</strong><br>Via N. Mastroserio 12<br>Grumo Appula (BA), 70025</p>
+                        <p><strong>📧 Email:</strong><br><a href="mailto:info@associazionesbarbara.it">info@associazionesbarbara.it</a></p>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Seguici</h4>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/santabarbara.grumoappula" target="_blank" rel="noopener" aria-label="Facebook">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/corteostoricosantabarbara" target="_blank" rel="noopener" aria-label="Instagram">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                        <a href="https://t.me/associazionesbarbara" target="_blank" rel="noopener" aria-label="Telegram">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="m20.665 3.717-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701h-.002l.002.001-.314 4.692c.46 0 .663-.211.921-.46l2.211-2.15 4.599 3.397c.848.467 1.457.227 1.668-.787l3.019-14.228c.309-1.239-.473-1.8-1.282-1.434z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Link Utili</h4>
+                    <ul class="footer-links">
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="area-soci.html">Area Soci</a></li>
+                        <li><a href="eventi.html">Calendario Eventi</a></li>
+                        <li><a href="galleria.html">Galleria Foto</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year">2008</span>-<span id="copyright-year">2025</span> Associazione Santa Barbara APS. Tutti i diritti riservati.</p>
+                <p>Sito web sviluppato con ❤️ per la comunità di Grumo Appula</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/script.js"></script>
+    
+    <!-- Supabase Authentication Script -->
+    <script>
+        // Initialize Supabase
+        const supabase = supabase.createClient(
+            'https://ciezrbsolxpjxswdkkpo.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpZXpyYnNvbHhwanhzd2Rra3BvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5MjM1NjAsImV4cCI6MjA2ODQ5OTU2MH0.V-U8KhO8byObUW5kJ8XbLBkp9O9Efh98MdbKYFfbQJk'
+        );
+
+        // DOM Elements
+        const loginForm = document.getElementById('login-form');
+        const emailInput = document.getElementById('email');
+        const loginBtn = document.getElementById('login-btn');
+        const authStatus = document.getElementById('auth-status');
+        const loadingState = document.getElementById('loading-state');
+        const emailSent = document.getElementById('email-sent');
+        const resendBtn = document.getElementById('resend-btn');
+
+        // Utility Functions
+        function showStatus(message, type = 'info') {
+            authStatus.className = `auth-status ${type}`;
+            authStatus.innerHTML = message;
+            authStatus.style.display = 'block';
+            
+            // Auto-hide after 5 seconds for success messages
+            if (type === 'success') {
+                setTimeout(() => {
+                    authStatus.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        function showLoading(show = true) {
+            loadingState.style.display = show ? 'block' : 'none';
+            loginForm.style.display = show ? 'none' : 'block';
+        }
+
+        function showEmailSent(email) {
+            loginForm.style.display = 'none';
+            emailSent.style.display = 'block';
+            authStatus.style.display = 'none';
+            
+            // Update email in the success message if needed
+            const emailDisplay = emailSent.querySelector('.email-address');
+            if (emailDisplay) {
+                emailDisplay.textContent = email;
+            }
+        }
+
+        function resetForm() {
+            loginForm.style.display = 'block';
+            emailSent.style.display = 'none';
+            authStatus.style.display = 'none';
+            loadingState.style.display = 'none';
+            emailInput.value = '';
+        }
+
+        // Check if user is already logged in
+        async function checkSession() {
+            try {
+                const { data: { session }, error } = await supabase.auth.getSession();
+                
+                if (error) {
+                    console.error('Session check error:', error);
+                    return;
+                }
+
+                if (session) {
+                    // User is already logged in, redirect to area soci
+                    showStatus('Sessione attiva trovata. Reindirizzamento...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'area-soci.html';
+                    }, 1500);
+                }
+            } catch (error) {
+                console.error('Session check failed:', error);
+            }
+        }
+
+        // Handle OTP Login
+        async function handleLogin(email) {
+            try {
+                showLoading(true);
+                showStatus('Invio email in corso...', 'info');
+
+                const { data, error } = await supabase.auth.signInWithOtp({
+                    email: email,
+                    options: {
+                        emailRedirectTo: `${window.location.origin}/area-soci.html`
+                    }
+                });
+
+                if (error) {
+                    throw error;
+                }
+
+                showLoading(false);
+                showEmailSent(email);
+                showStatus('Email inviata con successo! Controlla la tua casella di posta.', 'success');
+
+                // Track login attempt
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'login_attempt', {
+                        method: 'email_otp',
+                        email_domain: email.split('@')[1]
+                    });
+                }
+
+            } catch (error) {
+                showLoading(false);
+                console.error('Login error:', error);
+                
+                let errorMessage = 'Errore durante l\'invio dell\'email.';
+                
+                if (error.message.includes('rate limit')) {
+                    errorMessage = 'Troppe richieste. Riprova tra qualche minuto.';
+                } else if (error.message.includes('invalid email')) {
+                    errorMessage = 'Indirizzo email non valido.';
+                } else if (error.message.includes('email not confirmed')) {
+                    errorMessage = 'Email non confermata. Controlla la tua casella di posta.';
+                }
+                
+                showStatus(`❌ ${errorMessage}<br><small>Dettagli: ${error.message}</small>`, 'error');
+            }
+        }
+
+        // Event Listeners
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = emailInput.value.trim();
+            
+            if (!email) {
+                showStatus('❌ Inserisci un indirizzo email valido.', 'error');
+                return;
+            }
+
+            // Basic email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showStatus('❌ Formato email non valido.', 'error');
+                return;
+            }
+
+            await handleLogin(email);
+        });
+
+        // Resend email
+        resendBtn.addEventListener('click', async () => {
+            const email = emailInput.value.trim();
+            if (email) {
+                resetForm();
+                await handleLogin(email);
+            }
+        });
+
+        // Listen for auth changes
+        supabase.auth.onAuthStateChange((event, session) => {
+            console.log('Auth state changed:', event, session);
+            
+            if (event === 'SIGNED_IN' && session) {
+                showStatus('Login effettuato con successo! Reindirizzamento...', 'success');
+                setTimeout(() => {
+                    window.location.href = 'area-soci.html';
+                }, 1500);
+            } else if (event === 'SIGNED_OUT') {
+                resetForm();
+                showStatus('Logout effettuato.', 'info');
+            }
+        });
+
+        // Check session on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkSession();
+        });
+    </script>
+
+    <!-- Additional CSS for Login Components -->
+    <style>
+        .login-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 60vh;
+        }
+
+        .login-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h2 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(188, 155, 91, 0.1);
+        }
+
+        .btn-large {
+            width: 100%;
+            padding: 18px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .loading-state {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .auth-status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+
+        .auth-status.info {
+            background-color: #e3f2fd;
+            border: 1px solid #2196f3;
+            color: #1565c0;
+        }
+
+        .auth-status.success {
+            background-color: #e8f5e8;
+            border: 1px solid #4caf50;
+            color: #2e7d32;
+        }
+
+        .auth-status.error {
+            background-color: #ffebee;
+            border: 1px solid #f44336;
+            color: #c62828;
+        }
+
+        .email-sent {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .success-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .email-sent h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .email-instructions {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .email-instructions ol {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .email-instructions li {
+            margin: 8px 0;
+        }
+
+        .login-help {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+        }
+
+        .login-help h4 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .login-help ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .login-help li {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .login-help li::before {
+            content: "•";
+            color: var(--primary-color);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .registration-info {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .registration-info h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .registration-info p {
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .login-card {
+                padding: 30px 20px;
+                margin: 0 15px 30px;
+            }
+            
+            .login-header h2 {
+                font-size: 24px;
+            }
+            
+            .registration-info {
+                margin: 0 15px;
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</body>
+</html>

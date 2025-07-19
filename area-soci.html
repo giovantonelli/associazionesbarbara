@@ -33,6 +33,9 @@
       gtag('js', new Date());
       gtag('config', 'G-F465WJF33T');
     </script>
+
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -74,26 +77,31 @@
         <div class="container">
             <div class="login-form">
                 <h2>Accedi alla tua area riservata</h2>
-                <p>L'area soci è protetta da Cloudflare Access. Clicca sul pulsante per autenticarti.</p>
+                <p>Utilizza il sistema di autenticazione sicuro Cloudflare Access per accedere ai contenuti riservati ai soci</p>
                 
-                <div class="cloudflare-access-auth">
-                    <button id="access-login-btn" class="btn btn-primary btn-large">
+                <div class="oidc-auth">
+                    <button id="login-btn" class="btn btn-primary btn-large">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                         </svg>
-                        Accedi con Cloudflare Access
+                        Accedi all'Area Soci
                     </button>
                     
-                    <div id="access-status" class="access-status"></div>
+                    <div id="loading-state" style="display: none;">
+                        <div class="loading-spinner"></div>
+                        <p>Autenticazione in corso...</p>
+                    </div>
+                    
+                    <div id="auth-status" class="auth-status"></div>
                 </div>
                 
                 <div class="login-help">
                     <p><strong>ℹ️ Come funziona:</strong></p>
                     <ul>
-                        <li>Clicca su "Accedi con Cloudflare Access"</li>
-                        <li>Sarai reindirizzato alla pagina protetta</li>
-                        <li>Cloudflare verificherà automaticamente le tue credenziali</li>
-                        <li>Se autorizzato, potrai accedere all'area riservata</li>
+                        <li>Clicca su "Accedi all'Area Soci" per iniziare l'autenticazione</li>
+                        <li>Sarai reindirizzato al sistema sicuro Cloudflare Access</li>
+                        <li>Inserisci le tue credenziali autorizzate</li>
+                        <li>Verrai automaticamente riportato all'area riservata</li>
                     </ul>
                     <p>Non hai ancora l'accesso? <a href="contatti.html">Contattaci</a> per richiedere l'abilitazione.</p>
                 </div>
@@ -101,18 +109,12 @@
         </div>
     </section>
 
-    <!-- Protected Content Notice -->
-    <section id="protected-notice" class="protected-notice" style="display: none;">
+    <!-- Authentication Debug Info (only for development) -->
+    <section id="auth-debug" class="debug-section" style="display: none;">
         <div class="container">
-            <div class="notice-content">
-                <h3>� Contenuto Protetto</h3>
-                <p>Questa pagina è protetta da Cloudflare Access. Se vedi questo messaggio, significa che:</p>
-                <ul>
-                    <li>✅ Sei autenticato correttamente</li>
-                    <li>✅ Hai i permessi per accedere all'area soci</li>
-                    <li>✅ La protezione Cloudflare è attiva</li>
-                </ul>
-                <button onclick="showMembersContent()" class="btn btn-primary">Accedi all'Area Soci</button>
+            <div class="debug-info">
+                <h3>🔧 Debug Autenticazione (Solo Sviluppo)</h3>
+                <div id="debug-content"></div>
             </div>
         </div>
     </section>
@@ -363,233 +365,444 @@
 
     <script src="assets/js/script.js"></script>
     
-    <!-- Cloudflare Access Authentication Script -->
+    <!-- Supabase Authentication Script -->
     <script>
-        // Cloudflare Access Configuration
-        const ACCESS_CONFIG = {
-            // URL dell'area protetta (sarà creata in Cloudflare Access)
-            protected_url: 'https://associazionesbarbara.it/soci/area-protetta.html',
-            // Endpoint per verificare lo stato di autenticazione
-            auth_status_url: 'https://associazionesbarbara.it/cdn-cgi/access/get-identity',
-            // Team domain Cloudflare
-            team_domain: 'associazionesbarbara.cloudflareaccess.com'
-        };
+        // Initialize Supabase
+        const supabase = supabase.createClient(
+            'https://ciezrbsolxpjxswdkkpo.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpZXpyYnNvbHhwanhzd2Rra3BvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5MjM1NjAsImV4cCI6MjA2ODQ5OTU2MH0.V-U8KhO8byObUW5kJ8XbLBkp9O9Efh98MdbKYFfbQJk'
+        );
 
-        // Funzioni di utilità
-        function showAccessStatus(message, type = 'info') {
-            const statusDiv = document.getElementById('access-status');
-            statusDiv.className = `access-status ${type}`;
-            statusDiv.innerHTML = message;
-            statusDiv.style.display = 'block';
+        // DOM Elements
+        const loginForm = document.getElementById('login-form');
+        const membersContent = document.getElementById('members-content');
+        const authStatus = document.getElementById('auth-status');
+        const loadingState = document.getElementById('loading-state');
+        const loginBtn = document.getElementById('login-btn');
+
+        // Utility Functions
+        function showStatus(message, type = 'info') {
+            if (authStatus) {
+                authStatus.className = `auth-status ${type}`;
+                authStatus.innerHTML = message;
+                authStatus.style.display = 'block';
+            }
         }
 
-        function checkAccessAuthentication() {
-            // Verifica se l'utente è già autenticato con Cloudflare Access
-            fetch(ACCESS_CONFIG.auth_status_url, {
-                credentials: 'include' // Include cookies di Cloudflare Access
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error('Not authenticated');
-            })
-            .then(identity => {
-                // Utente già autenticato
-                showAuthenticatedContent(identity);
-                showAccessStatus(`
-                    <strong>✅ Autenticato con successo!</strong><br>
-                    Email: ${identity.email}<br>
-                    Ultimo accesso: ${new Date().toLocaleString('it-IT')}
-                `, 'success');
-            })
-            .catch(error => {
-                // Utente non autenticato, mostra form di login
-                console.log('User not authenticated with Cloudflare Access');
-                showLoginForm();
-            });
-        }
-
-        function redirectToAccess() {
-            showAccessStatus('Reindirizzamento a Cloudflare Access...', 'info');
-            
-            // Reindirizza alla pagina protetta
-            // Cloudflare Access intercetterà la richiesta e gestirà l'autenticazione
-            setTimeout(() => {
-                window.location.href = ACCESS_CONFIG.protected_url;
-            }, 1000);
+        function showLoading(show = true) {
+            if (loadingState) {
+                loadingState.style.display = show ? 'block' : 'none';
+            }
+            if (loginBtn) {
+                loginBtn.style.display = show ? 'none' : 'block';
+            }
         }
 
         function showLoginForm() {
-            document.getElementById('login-form').style.display = 'block';
-            document.getElementById('members-content').style.display = 'none';
-            document.getElementById('protected-notice').style.display = 'none';
-        }
-
-        function showAuthenticatedContent(identity = null) {
-            document.getElementById('login-form').style.display = 'none';
-            document.getElementById('members-content').style.display = 'block';
-            
-            if (identity) {
-                // Aggiorna le informazioni utente se disponibili
-                const userEmail = document.getElementById('user-email');
-                const userName = document.getElementById('user-name');
-                const userId = document.getElementById('user-id');
-                
-                if (userEmail) userEmail.textContent = identity.email || 'N/A';
-                if (userName) userName.textContent = identity.name || identity.given_name || 'N/A';
-                if (userId) userId.textContent = identity.user_uuid || identity.sub || 'N/A';
-            }
+            if (loginForm) loginForm.style.display = 'block';
+            if (membersContent) membersContent.style.display = 'none';
         }
 
         function showMembersContent() {
-            showAuthenticatedContent();
+            if (loginForm) loginForm.style.display = 'none';
+            if (membersContent) membersContent.style.display = 'block';
         }
 
-        function logout() {
-            // Per Cloudflare Access, il logout deve essere gestito tramite il loro endpoint
-            const logoutUrl = `https://${ACCESS_CONFIG.team_domain}/cdn-cgi/access/logout`;
-            
-            showAccessStatus('Logout in corso...', 'info');
-            
-            // Reindirizza al logout di Cloudflare Access
-            setTimeout(() => {
-                window.location.href = logoutUrl;
-            }, 1000);
+        function updateUserInfo(user) {
+            const userEmail = document.getElementById('user-email');
+            const userName = document.getElementById('user-name');
+            const userId = document.getElementById('user-id');
+
+            if (userEmail) userEmail.textContent = user.email || 'N/A';
+            if (userName) userName.textContent = user.user_metadata?.full_name || user.email?.split('@')[0] || 'N/A';
+            if (userId) userId.textContent = user.id || 'N/A';
         }
 
-        // Verifica se siamo sulla pagina protetta
-        function checkIfProtectedPage() {
-            if (window.location.pathname.includes('area-protetta') || 
-                window.location.search.includes('cf_access=true')) {
-                // Siamo sulla pagina protetta, mostra il contenuto
-                document.getElementById('login-form').style.display = 'none';
-                document.getElementById('protected-notice').style.display = 'block';
-                return true;
-            }
-            return false;
+        // Authentication Functions
+        function redirectToLogin() {
+            window.location.href = 'login.html';
         }
 
-        // Event Listeners e Inizializzazione
-        document.addEventListener('DOMContentLoaded', function() {
-            // Controlla se siamo sulla pagina protetta
-            if (checkIfProtectedPage()) {
-                return; // Non fare altro se siamo già sulla pagina protetta
-            }
+        async function logout() {
+            try {
+                showLoading(true);
+                showStatus('Logout in corso...', 'info');
 
-            // Aggiungi event listener al pulsante di login
-            const loginBtn = document.getElementById('access-login-btn');
-            if (loginBtn) {
-                loginBtn.addEventListener('click', redirectToAccess);
-            }
-
-            // Verifica lo stato di autenticazione attuale
-            checkAccessAuthentication();
-        });
-
-        // Gestione messaggi da Cloudflare Access (se utilizzano postMessage)
-        window.addEventListener('message', function(event) {
-            if (event.origin.includes('cloudflareaccess.com')) {
-                console.log('Message from Cloudflare Access:', event.data);
+                const { error } = await supabase.auth.signOut();
                 
-                if (event.data.type === 'access_authenticated') {
-                    showAuthenticatedContent(event.data.identity);
-                } else if (event.data.type === 'access_denied') {
-                    showAccessStatus('Accesso negato. Contatta l\'amministratore.', 'error');
+                if (error) {
+                    throw error;
                 }
+
+                showStatus('Logout effettuato con successo!', 'success');
+                
+                // Redirect to login page after logout
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
+
+            } catch (error) {
+                console.error('Logout error:', error);
+                showStatus(`❌ Errore durante il logout: ${error.message}`, 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Check user session
+        async function checkSession() {
+            try {
+                showLoading(true);
+                
+                const { data: { session }, error } = await supabase.auth.getSession();
+                
+                if (error) {
+                    console.error('Session check error:', error);
+                    showStatus('Errore nella verifica della sessione', 'error');
+                    redirectToLogin();
+                    return;
+                }
+
+                if (!session) {
+                    // No active session, redirect to login
+                    showStatus('Accesso richiesto. Reindirizzamento al login...', 'info');
+                    setTimeout(() => {
+                        redirectToLogin();
+                    }, 2000);
+                    return;
+                }
+
+                // User is authenticated, show members content
+                showMembersContent();
+                updateUserInfo(session.user);
+                showStatus(`Benvenuto, ${session.user.email}!`, 'success');
+
+                // Track login
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'login_success', {
+                        method: 'supabase_otp',
+                        user_id: session.user.id
+                    });
+                }
+
+            } catch (error) {
+                console.error('Session verification failed:', error);
+                showStatus('Errore nella verifica della sessione', 'error');
+                redirectToLogin();
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Handle authentication state changes
+        supabase.auth.onAuthStateChange((event, session) => {
+            console.log('Auth state changed:', event, session);
+
+            switch (event) {
+                case 'SIGNED_IN':
+                    if (session) {
+                        showMembersContent();
+                        updateUserInfo(session.user);
+                        showStatus(`Accesso effettuato con successo!`, 'success');
+                    }
+                    break;
+                    
+                case 'SIGNED_OUT':
+                    showLoginForm();
+                    showStatus('Sessione terminata', 'info');
+                    break;
+                    
+                case 'TOKEN_REFRESHED':
+                    console.log('Token refreshed successfully');
+                    break;
+                    
+                default:
+                    console.log('Unhandled auth event:', event);
             }
         });
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is already authenticated
+            checkSession();
+
+            // Add login button click handler
+            if (loginBtn) {
+                loginBtn.addEventListener('click', function() {
+                    redirectToLogin();
+                });
+            }
+        });
+
+        // Make logout function globally available
+        window.logout = logout;
     </script>
     
-    <!-- Additional CSS for Cloudflare Access components -->
+    <!-- Additional CSS for Authentication -->
     <style>
-        .cloudflare-access-auth {
-            text-align: center;
-            margin: 30px 0;
-        }
-        
-        .access-status {
+        .auth-status {
             margin: 20px 0;
             padding: 15px;
-            border-radius: 5px;
+            border-radius: 8px;
+            font-weight: 500;
             display: none;
         }
-        
-        .access-status.info {
+
+        .auth-status.info {
             background-color: #e3f2fd;
             border: 1px solid #2196f3;
             color: #1565c0;
         }
-        
-        .access-status.success {
+
+        .auth-status.success {
             background-color: #e8f5e8;
             border: 1px solid #4caf50;
             color: #2e7d32;
         }
-        
-        .access-status.error {
+
+        .auth-status.error {
             background-color: #ffebee;
             border: 1px solid #f44336;
             color: #c62828;
         }
-        
-        .protected-notice {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 60px 0;
+
+        .loading-state {
             text-align: center;
+            padding: 20px 0;
         }
-        
-        .notice-content {
-            background: rgba(255, 255, 255, 0.1);
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .members-content {
+            padding: 40px 0;
+        }
+
+        .members-welcome {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #d4a853 100%);
+            color: white;
             padding: 40px;
             border-radius: 15px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 40px;
+            text-align: center;
         }
-        
-        .notice-content h3 {
+
+        .members-welcome h2 {
             margin-bottom: 20px;
             font-size: 28px;
         }
-        
-        .notice-content ul {
-            text-align: left;
-            max-width: 400px;
-            margin: 20px auto;
-        }
-        
-        .notice-content li {
-            margin: 10px 0;
-            font-size: 16px;
-        }
-        
-        .btn-large {
-            padding: 15px 30px;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        
+
         .user-info {
-            background-color: #f0f8ff;
+            background: rgba(255, 255, 255, 0.1);
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 10px;
             margin: 20px 0;
-            border: 1px solid #b3d9ff;
+            backdrop-filter: blur(10px);
         }
-        
+
         .user-info p {
             margin: 10px 0;
             font-size: 16px;
         }
-        
-        .login-help ul {
-            text-align: left;
-            margin: 15px 0;
+
+        .dashboard-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
         }
-        
-        .login-help li {
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .dashboard-icon {
+            margin-bottom: 20px;
+        }
+
+        .dashboard-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .dashboard-card p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .event-summary {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .event-date {
+            background: var(--primary-color);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-right: 20px;
+            min-width: 70px;
+        }
+
+        .date-day {
+            display: block;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .date-month {
+            display: block;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .event-info h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .event-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .event-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .event-status.confirmed {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .event-status.pending {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .document-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .document-icon {
+            margin-right: 15px;
+        }
+
+        .document-info {
+            flex: 1;
+        }
+
+        .document-info h4 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .document-info p {
+            color: #666;
+            margin: 0;
+        }
+
+        .member-profile {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .profile-section {
+            margin-bottom: 30px;
+        }
+
+        .profile-section h4 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .profile-section p {
             margin: 8px 0;
+        }
+
+        .status-active {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        .profile-actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .profile-actions .btn {
+            margin: 0 10px;
+        }
+
+        @media (max-width: 768px) {
+            .members-welcome {
+                padding: 30px 20px;
+            }
+            
+            .dashboard-card {
+                padding: 20px;
+            }
+            
+            .event-summary {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .event-date {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .document-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .document-icon {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .profile-actions .btn {
+                display: block;
+                margin: 10px 0;
+            }
         }
     </style>
 </body>
