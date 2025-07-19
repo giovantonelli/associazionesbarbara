@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://associazionesbarbara.github.io/sitemap.xml
+Sitemap: https://associazionesbarbara.it/sitemap.xml
 
 # Disallow access to private member areas
 Disallow: /assets/data/

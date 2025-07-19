@@ -5,70 +5,70 @@
                            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     
     <url>
-        <loc>https://associazionesbarbara.github.io/</loc>
+        <loc>https://associazionesbarbara.it/</loc>
         <lastmod>2025-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
     
     <url>
-        <loc>https://associazionesbarbara.github.io/chi-siamo.html</loc>
+        <loc>https://associazionesbarbara.it/chi-siamo.html</loc>
         <lastmod>2025-07-18</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://associazionesbarbara.github.io/attivita.html</loc>
+        <loc>https://associazionesbarbara.it/attivita.html</loc>
         <lastmod>2025-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     
     <url>
-        <loc>https://associazionesbarbara.github.io/eventi.html</loc>
+        <loc>https://associazionesbarbara.it/eventi.html</loc>
         <lastmod>2025-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     
     <url>
-        <loc>https://associazionesbarbara.github.io/galleria.html</loc>
+        <loc>https://associazionesbarbara.it/galleria.html</loc>
         <lastmod>2025-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     
     <url>
-        <loc>https://associazionesbarbara.github.io/faq.html</loc>
+        <loc>https://associazionesbarbara.it/faq.html</loc>
         <lastmod>2025-07-18</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
     
     <url>
-        <loc>https://associazionesbarbara.github.io/contatti.html</loc>
+        <loc>https://associazionesbarbara.it/contatti.html</loc>
         <lastmod>2025-07-18</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://associazionesbarbara.github.io/partner.html</loc>
+        <loc>https://associazionesbarbara.it/partner.html</loc>
         <lastmod>2025-07-18</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     
     <url>
-        <loc>https://associazionesbarbara.github.io/privacy.html</loc>
+        <loc>https://associazionesbarbara.it/privacy.html</loc>
         <lastmod>2025-07-18</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
     
     <url>
-        <loc>https://associazionesbarbara.github.io/area-soci.html</loc>
+        <loc>https://associazionesbarbara.it/area-soci.html</loc>
         <lastmod>2025-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>

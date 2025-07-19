@@ -156,7 +156,7 @@ Aggiungi prima di `</head>` in tutte le pagine:
 1. Vai su [Google Search Console](https://search.google.com/search-console/)
 2. Aggiungi la proprietà `https://associazionesbarbara.github.io`
 3. Verifica la proprietà
-4. Invia la sitemap: `https://associazionesbarbara.github.io/sitemap.xml`
+4. Invia la sitemap: `https://associazionesbarbara.it/sitemap.xml`
 
 ### Analytics
 1. Crea account Google Analytics
@@ -182,7 +182,7 @@ Aggiungi prima di `</head>` in tutte le pagine:
 ```html
 <meta property="og:title" content="Titolo Pagina">
 <meta property="og:description" content="Descrizione">
-<meta property="og:image" content="https://associazionesbarbara.github.io/assets/images/og-image.jpg">
+<meta property="og:image" content="https://associazionesbarbara.it/assets/images/og-image.jpg">
 ```
 
 ### Instagram
