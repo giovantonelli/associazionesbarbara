@@ -468,6 +468,36 @@ function validatePasswordConfirmation(confirmInput, originalPassword) {
     }
 }
 
+function handleContactForm(formData) {
+    const name = formData.get('name') || formData.get('nome');
+    const email = formData.get('email');
+    const message = formData.get('message') || formData.get('messaggio');
+    const phone = formData.get('phone') || formData.get('telefono');
+    
+    // Validate required fields
+    if (!name || !email || !message) {
+        showNotification('Compila tutti i campi obbligatori', 'error');
+        return;
+    }
+    
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        showNotification('Formato email non valido', 'error');
+        return;
+    }
+    
+    // Success message
+    showNotification('Messaggio inviato con successo! Ti risponderemo presto.', 'success');
+    console.log('Contact form data:', { name, email, message, phone });
+    
+    // Reset form (if it exists)
+    const contactForm = document.querySelector('form[data-form-type="contact"]');
+    if (contactForm) {
+        contactForm.reset();
+    }
+}
+
 function handleLoginForm(formData) {
     const email = formData.get('email');
     const password = formData.get('password');

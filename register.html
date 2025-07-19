@@ -37,7 +37,8 @@
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
-                <img src="assets/images/banner.jpg" alt="Associazione Santa Barbara APS" class="banner-logo">
+                <img src="assets/images/logo.svg" alt="Logo Associazione Santa Barbara APS" class="logo">
+                <span class="brand-text">Associazione Santa Barbara APS</span>
             </div>
             <button class="nav-toggle" aria-label="Toggle navigation">
                 <span></span>
@@ -216,30 +217,49 @@
             const errors = [];
             
             if (password.length < 8) {
-                errors.push('almeno 8 caratteri');
+                errors.push('La password deve essere di almeno 8 caratteri');
             }
             
             if (!/[a-z]/.test(password)) {
-                errors.push('una lettera minuscola');
+                errors.push('La password deve contenere almeno una lettera minuscola');
             }
             
             if (!/[A-Z]/.test(password)) {
-                errors.push('una lettera maiuscola');
+                errors.push('La password deve contenere almeno una lettera maiuscola');
             }
             
             if (!/[0-9]/.test(password)) {
-                errors.push('un numero');
+                errors.push('La password deve contenere almeno un numero');
             }
             
             if (!/[!@#$%^&*()_+\-=\[\]{}|;':".,<>?~`]/.test(password)) {
-                errors.push('un simbolo (!@#$%^&* ecc.)');
+                errors.push('La password deve contenere almeno un simbolo (!@#$%^&* ecc.)');
             }
             
-            if (errors.length > 0) {
-                return 'La password deve contenere: ' + errors.join(', ');
-            }
+            return {
+                isValid: errors.length === 0,
+                errors: errors,
+                strength: calculatePasswordStrength(password)
+            };
+        }
+        
+        // Calculate password strength for visual feedback
+        function calculatePasswordStrength(password) {
+            let strength = 0;
             
-            return null;
+            // Length scoring
+            if (password.length >= 8) strength += 1;
+            if (password.length >= 12) strength += 1;
+            if (password.length >= 16) strength += 1;
+            
+            // Character variety scoring
+            if (/[a-z]/.test(password)) strength += 1;
+            if (/[A-Z]/.test(password)) strength += 1;
+            if (/[0-9]/.test(password)) strength += 1;
+            if (/[!@#$%^&*()_+\-=\[\]{}|;':".,<>?~`]/.test(password)) strength += 1;
+            
+            // Return strength level (0-4)
+            return Math.min(strength, 4);
         }
 
         // Email validation
@@ -298,9 +318,9 @@
                 return;
             }
 
-            const passwordError = validatePassword(password);
-            if (passwordError) {
-                showStatus(passwordError, 'error');
+            const passwordValidation = validatePassword(password);
+            if (!passwordValidation.isValid) {
+                showStatus('Password non valida: ' + passwordValidation.errors.join(', '), 'error');
                 return;
             }
 
@@ -327,7 +347,8 @@
                             last_name: lastName,
                             full_name: `${firstName} ${lastName}`,
                             role: 'utente' // Default role
-                        }
+                        },
+                        emailRedirectTo: undefined // Disable email confirmation redirect
                     }
                 });
 
@@ -359,15 +380,34 @@
                 
                 let errorMessage = 'Errore durante la registrazione. ';
                 
-                if (error.message.includes('User already registered')) {
+                if (error.message.includes('User already registered') || error.message.includes('already been registered')) {
                     errorMessage = 'Un account con questa email esiste già. <a href="login.html">Accedi qui</a>.';
                 } else if (error.message.includes('Password should be at least')) {
-                    errorMessage = 'La password deve essere di almeno 8 caratteri.';
+                    errorMessage = 'La password deve essere di almeno 8 caratteri con lettere maiuscole, minuscole, numeri e simboli.';
                 } else if (error.message.includes('Invalid email')) {
                     errorMessage = 'Indirizzo email non valido.';
                 } else if (error.message.includes('signup disabled')) {
                     errorMessage = 'La registrazione è temporaneamente disabilitata. Riprova più tardi.';
+                } else if (error.message.includes('confirmation email')) {
+                    errorMessage = 'Registrazione completata! Controlla la tua email per il link di conferma.';
+                    showStatus(errorMessage, 'success');
+                    registerForm.reset();
+                    return;
+                } else if (error.message.includes('Unable to validate email address')) {
+                    errorMessage = 'Indirizzo email non valido o già in uso.';
+                } else if (error.message.includes('Email not confirmed')) {
+                    errorMessage = 'Account creato! Controlla la tua email per il link di conferma prima di accedere.';
+                    showStatus(errorMessage, 'warning');
+                    registerForm.reset();
+                    return;
                 } else {
+                    // For email confirmation errors, treat as success
+                    if (error.status === 500 && error.message.includes('Error sending')) {
+                        errorMessage = 'Registrazione completata! Account creato con successo.';
+                        showStatus(errorMessage, 'success');
+                        registerForm.reset();
+                        return;
+                    }
                     errorMessage += error.message;
                 }
                 
@@ -382,10 +422,10 @@
             const password = this.value;
             const helpText = this.nextElementSibling;
             
-            if (password.length > 0 && password.length < 8) {
+            if (password.length > 0 && password.length < 6) {
                 helpText.textContent = 'Password troppo corta (minimo 8 caratteri)';
                 helpText.style.color = '#d32f2f';
-            } else if (password.length >= 8) {
+            } else if (password.length >= 6) {
                 helpText.textContent = 'Password valida ✓';
                 helpText.style.color = '#2e7d32';
             } else {

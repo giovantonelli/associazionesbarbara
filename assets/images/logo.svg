@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="30" cy="30" r="28" fill="#E10600" stroke="#FFD700" stroke-width="2"/>
+  <text x="30" y="20" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="white">S.B.</text>
+  <text x="30" y="35" font-family="Arial, sans-serif" font-size="8" text-anchor="middle" fill="#FFD700">APS</text>
+  <path d="M15 40 L30 45 L45 40" stroke="#FFD700" stroke-width="2" fill="none"/>
+</svg>
