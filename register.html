@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accesso Area Soci - Associazione Santa Barbara APS</title>
-    <meta name="description" content="Effettua l'accesso all'area riservata ai soci dell'Associazione Santa Barbara APS">
-    <meta name="keywords" content="login, accesso, area soci, associazione santa barbara">
+    <title>Registrazione - Associazione Santa Barbara APS</title>
+    <meta name="description" content="Registrati per accedere all'area riservata ai soci dell'Associazione Santa Barbara APS">
+    <meta name="keywords" content="registrazione, iscrizione, area soci, associazione santa barbara">
     
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
@@ -66,87 +66,169 @@
     <!-- Main Content -->
     <main>
         <!-- Hero Section -->
-        <section class="hero-section login-hero">
+        <section class="hero-section register-hero">
             <div class="container">
                 <div class="hero-content">
-                    <h1>🔐 Accesso Area Soci</h1>
-                    <p>Accedi all'area riservata ai membri dell'Associazione Santa Barbara APS</p>
+                    <h1>📝 Registrazione Soci</h1>
+                    <p>Unisciti all'Associazione Santa Barbara APS e accedi all'area riservata</p>
                 </div>
             </div>
         </section>
 
-        <!-- Login Form Section -->
+        <!-- Registration Form Section -->
         <section class="form-section">
             <div class="container">
                 <div class="auth-container">
                     <!-- Status Messages -->
                     <div id="auth-status" class="auth-status" style="display: none;"></div>
                     
-                    <!-- Email Login Form -->
-                    <div id="email-login" class="auth-form">
+                    <!-- Registration Form -->
+                    <div id="registration-form" class="auth-form">
                         <div class="form-header">
-                            <h2>📧 Accesso con Email</h2>
-                            <p>Inserisci la tua email per ricevere un link di accesso sicuro</p>
+                            <h2>🎭 Unisciti a Noi</h2>
+                            <p>Compila il modulo per richiedere l'accesso all'area soci</p>
                         </div>
                         
-                        <form id="email-form" class="login-form">
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" name="email" required placeholder="tua@email.com">
+                        <form id="register-form" class="registration-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName">Nome *</label>
+                                    <input type="text" id="firstName" name="firstName" required placeholder="Mario">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Cognome *</label>
+                                    <input type="text" id="lastName" name="lastName" required placeholder="Rossi">
+                                </div>
                             </div>
                             
-                            <button type="submit" id="email-submit" class="btn btn-primary btn-large">
-                                <span id="email-text">Invia Link di Accesso</span>
-                                <span id="email-loading" class="loading-spinner" style="display: none;"></span>
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" required placeholder="mario.rossi@example.com">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phone">Telefono</label>
+                                <input type="tel" id="phone" name="phone" placeholder="+39 333 123 4567">
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="birthDate">Data di Nascita</label>
+                                    <input type="date" id="birthDate" name="birthDate">
+                                </div>
+                                <div class="form-group">
+                                    <label for="city">Città</label>
+                                    <input type="text" id="city" name="city" placeholder="Grumo Appula">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="interests">Interessi/Motivazioni</label>
+                                <textarea id="interests" name="interests" rows="3" placeholder="Perché vuoi unirti all'associazione? Quali sono i tuoi interessi nel corteo storico?"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="membershipType">Tipo di Iscrizione</label>
+                                <select id="membershipType" name="membershipType" required>
+                                    <option value="">Seleziona tipo iscrizione</option>
+                                    <option value="socio-ordinario">Socio Ordinario</option>
+                                    <option value="socio-sostenitore">Socio Sostenitore</option>
+                                    <option value="socio-onorario">Socio Onorario</option>
+                                    <option value="volontario">Volontario</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Privacy and Terms -->
+                            <div class="form-group checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="privacy" name="privacy" required>
+                                    <span class="checkmark"></span>
+                                    Accetto la <a href="privacy.html" target="_blank">Privacy Policy</a> e il trattamento dei dati personali *
+                                </label>
+                            </div>
+                            
+                            <div class="form-group checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="newsletter" name="newsletter">
+                                    <span class="checkmark"></span>
+                                    Desidero ricevere newsletter e comunicazioni dell'associazione
+                                </label>
+                            </div>
+                            
+                            <button type="submit" id="register-submit" class="btn btn-primary btn-large">
+                                <span id="register-text">Invia Richiesta di Iscrizione</span>
+                                <span id="register-loading" class="loading-spinner" style="display: none;"></span>
                             </button>
                         </form>
                     </div>
 
-                    <!-- Social Login Options -->
+                    <!-- Social Registration Options -->
                     <div class="social-login">
                         <div class="divider">
-                            <span>oppure</span>
+                            <span>oppure registrati con</span>
                         </div>
                         
                         <div class="social-buttons">
-                            <button id="google-login" class="btn btn-social btn-google">
+                            <button id="google-register" class="btn btn-social btn-google">
                                 <svg width="20" height="20" viewBox="0 0 24 24">
                                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                                     <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                                     <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                                     <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                                 </svg>
-                                Accedi con Google
+                                Registrati con Google
                             </button>
                             
-                            <button id="facebook-login" class="btn btn-social btn-facebook">
+                            <button id="facebook-register" class="btn btn-social btn-facebook">
                                 <svg width="20" height="20" viewBox="0 0 24 24">
                                     <path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                                 </svg>
-                                Accedi con Facebook
+                                Registrati con Facebook
                             </button>
                         </div>
                     </div>
 
-                    <!-- Registration Link -->
+                    <!-- Login Link -->
                     <div class="auth-links">
-                        <p>Non hai ancora un account? <a href="register.html">Registrati qui</a></p>
+                        <p>Hai già un account? <a href="login.html">Accedi qui</a></p>
                         <p><a href="area-soci.html">← Torna all'Area Soci</a></p>
                     </div>
 
-                    <!-- Help Section -->
-                    <div class="login-help">
-                        <h3>ℹ️ Come funziona l'accesso</h3>
-                        <ul>
-                            <li><strong>Email sicura</strong>: Riceverai un link di accesso temporaneo</li>
-                            <li><strong>Nessuna password</strong>: Sistema passwordless per maggiore sicurezza</li>
-                            <li><strong>Accesso social</strong>: Usa il tuo account Google o Facebook</li>
-                            <li><strong>Sessione temporanea</strong>: L'accesso scade dopo 24 ore per sicurezza</li>
-                        </ul>
+                    <!-- Info Section -->
+                    <div class="registration-info">
+                        <h3>ℹ️ Informazioni sull'iscrizione</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <h4>🎭 Socio Ordinario</h4>
+                                <p>Partecipazione attiva al corteo storico e alle attività dell'associazione</p>
+                            </div>
+                            <div class="info-item">
+                                <h4>💰 Socio Sostenitore</h4>
+                                <p>Supporto economico alle attività dell'associazione</p>
+                            </div>
+                            <div class="info-item">
+                                <h4>🏆 Socio Onorario</h4>
+                                <p>Riconoscimento per contributi significativi alla tradizione</p>
+                            </div>
+                            <div class="info-item">
+                                <h4>🤝 Volontario</h4>
+                                <p>Aiuto nell'organizzazione di eventi e attività</p>
+                            </div>
+                        </div>
                         
-                        <div class="support-info">
-                            <p><strong>Problemi di accesso?</strong></p>
-                            <p>Contatta il supporto: <a href="mailto:info@associazionesbarbara.it">info@associazionesbarbara.it</a></p>
+                        <div class="process-info">
+                            <h4>📋 Processo di Approvazione</h4>
+                            <ol>
+                                <li>Invio della richiesta di iscrizione</li>
+                                <li>Revisione da parte del direttivo</li>
+                                <li>Comunicazione dell'esito via email</li>
+                                <li>Attivazione dell'accesso all'area soci</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="contact-info">
+                            <p><strong>Domande sull'iscrizione?</strong></p>
+                            <p>Contatta: <a href="mailto:info@associazionesbarbara.it">info@associazionesbarbara.it</a></p>
                         </div>
                     </div>
                 </div>
@@ -205,7 +287,7 @@
     <!-- Scripts -->
     <script src="assets/js/script.js"></script>
     
-    <!-- Supabase Authentication Script -->
+    <!-- Supabase Registration Script -->
     <script>
         // Initialize Supabase
         const { createClient } = supabase;
@@ -262,19 +344,48 @@
             }
         }
 
-        // Email login with OTP
-        async function signInWithEmail(email) {
-            try {
-                showLoading('email-submit', true);
-                showStatus('Invio del link di accesso in corso...', 'info');
+        // Form validation
+        function validateForm() {
+            const requiredFields = ['firstName', 'lastName', 'email', 'membershipType', 'privacy'];
+            let isValid = true;
+            
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim() || (field.type === 'checkbox' && !field.checked)) {
+                    field.style.borderColor = '#f44336';
+                    isValid = false;
+                } else {
+                    field.style.borderColor = '#e0e0e0';
+                }
+            });
+            
+            return isValid;
+        }
 
-                const { data, error } = await supabaseClient.auth.signInWithOtp({
-                    email: email,
+        // Email registration with user data
+        async function registerWithEmail(formData) {
+            try {
+                showLoading('register-submit', true);
+                showStatus('Invio della richiesta di registrazione...', 'info');
+
+                const { data, error } = await supabaseClient.auth.signUp({
+                    email: formData.email,
+                    password: generateTempPassword(), // Generate temporary password
                     options: {
                         emailRedirectTo: `${window.location.origin}/area-soci.html`,
                         data: {
-                            full_name: '',
-                            organization: 'Associazione Santa Barbara APS'
+                            full_name: `${formData.firstName} ${formData.lastName}`,
+                            first_name: formData.firstName,
+                            last_name: formData.lastName,
+                            phone: formData.phone || '',
+                            birth_date: formData.birthDate || '',
+                            city: formData.city || '',
+                            interests: formData.interests || '',
+                            membership_type: formData.membershipType,
+                            newsletter: formData.newsletter || false,
+                            organization: 'Associazione Santa Barbara APS',
+                            registration_date: new Date().toISOString(),
+                            status: 'pending_approval'
                         }
                     }
                 });
@@ -284,32 +395,47 @@
                 }
 
                 showStatus(`
-                    <h4>✅ Link di accesso inviato!</h4>
-                    <p>Controlla la tua email <strong>${email}</strong> e clicca sul link per accedere.</p>
-                    <p><small>Il link è valido per 1 ora. Controlla anche la cartella spam.</small></p>
+                    <h4>✅ Richiesta inviata con successo!</h4>
+                    <p>Grazie <strong>${formData.firstName}</strong> per la tua richiesta di iscrizione.</p>
+                    <p>Controlla la tua email <strong>${formData.email}</strong> per confermare la registrazione.</p>
+                    <p><small>La tua richiesta sarà esaminata dal direttivo e riceverai una comunicazione entro 3-5 giorni lavorativi.</small></p>
                 `, 'success');
+
+                // Clear form
+                document.getElementById('register-form').reset();
 
                 // Track event
                 if (typeof gtag !== 'undefined') {
-                    gtag('event', 'login_attempt', {
-                        method: 'email_otp'
+                    gtag('event', 'sign_up', {
+                        method: 'email',
+                        membership_type: formData.membershipType
                     });
                 }
 
             } catch (error) {
-                console.error('Error during email sign in:', error);
+                console.error('Error during registration:', error);
+                
+                let errorMessage = error.message;
+                if (error.message.includes('User already registered')) {
+                    errorMessage = 'Un account con questa email esiste già. <a href="login.html">Prova ad accedere</a>.';
+                }
+                
                 showStatus(`
-                    <h4>❌ Errore nell'invio</h4>
-                    <p>${error.message}</p>
-                    <p><small>Verifica che l'email sia corretta e riprova.</small></p>
+                    <h4>❌ Errore nella registrazione</h4>
+                    <p>${errorMessage}</p>
                 `, 'error');
             } finally {
-                showLoading('email-submit', false);
+                showLoading('register-submit', false);
             }
         }
 
-        // Google login
-        async function signInWithGoogle() {
+        // Generate temporary password for email signup
+        function generateTempPassword() {
+            return Math.random().toString(36).slice(-12) + Math.random().toString(36).slice(-12);
+        }
+
+        // Google registration
+        async function registerWithGoogle() {
             try {
                 showStatus('Reindirizzamento a Google...', 'info');
 
@@ -330,22 +456,22 @@
 
                 // Track event
                 if (typeof gtag !== 'undefined') {
-                    gtag('event', 'login_attempt', {
+                    gtag('event', 'sign_up', {
                         method: 'google'
                     });
                 }
 
             } catch (error) {
-                console.error('Error during Google sign in:', error);
+                console.error('Error during Google registration:', error);
                 showStatus(`
-                    <h4>❌ Errore accesso Google</h4>
+                    <h4>❌ Errore registrazione Google</h4>
                     <p>${error.message}</p>
                 `, 'error');
             }
         }
 
-        // Facebook login
-        async function signInWithFacebook() {
+        // Facebook registration
+        async function registerWithFacebook() {
             try {
                 showStatus('Reindirizzamento a Facebook...', 'info');
 
@@ -363,15 +489,15 @@
 
                 // Track event
                 if (typeof gtag !== 'undefined') {
-                    gtag('event', 'login_attempt', {
+                    gtag('event', 'sign_up', {
                         method: 'facebook'
                     });
                 }
 
             } catch (error) {
-                console.error('Error during Facebook sign in:', error);
+                console.error('Error during Facebook registration:', error);
                 showStatus(`
-                    <h4>❌ Errore accesso Facebook</h4>
+                    <h4>❌ Errore registrazione Facebook</h4>
                     <p>${error.message}</p>
                 `, 'error');
             }
@@ -382,29 +508,40 @@
             // Check if user is already authenticated
             checkAuthStatus();
 
-            // Email form submission
-            document.getElementById('email-form').addEventListener('submit', function(e) {
+            // Registration form submission
+            document.getElementById('register-form').addEventListener('submit', function(e) {
                 e.preventDefault();
-                const email = document.getElementById('email').value.trim();
                 
-                if (!email) {
-                    showStatus('Inserisci un indirizzo email valido', 'error');
+                if (!validateForm()) {
+                    showStatus('Compila tutti i campi obbligatori', 'error');
                     return;
                 }
+                
+                const formData = {
+                    firstName: document.getElementById('firstName').value.trim(),
+                    lastName: document.getElementById('lastName').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    phone: document.getElementById('phone').value.trim(),
+                    birthDate: document.getElementById('birthDate').value,
+                    city: document.getElementById('city').value.trim(),
+                    interests: document.getElementById('interests').value.trim(),
+                    membershipType: document.getElementById('membershipType').value,
+                    newsletter: document.getElementById('newsletter').checked
+                };
 
-                signInWithEmail(email);
+                registerWithEmail(formData);
             });
 
-            // Social login buttons
-            document.getElementById('google-login').addEventListener('click', signInWithGoogle);
-            document.getElementById('facebook-login').addEventListener('click', signInWithFacebook);
+            // Social registration buttons
+            document.getElementById('google-register').addEventListener('click', registerWithGoogle);
+            document.getElementById('facebook-register').addEventListener('click', registerWithFacebook);
 
             // Listen for auth state changes
             supabaseClient.auth.onAuthStateChange((event, session) => {
                 console.log('Auth state changed:', event, session);
                 
-                if (event === 'SIGNED_IN') {
-                    showStatus('Accesso effettuato con successo! Reindirizzamento...', 'success');
+                if (event === 'SIGNED_IN' && session) {
+                    showStatus('Registrazione completata! Reindirizzamento...', 'success');
                     setTimeout(() => {
                         window.location.href = 'area-soci.html';
                     }, 2000);
@@ -413,9 +550,9 @@
         });
     </script>
 
-    <!-- Custom Styles for Login Page -->
+    <!-- Custom Styles for Registration Page -->
     <style>
-        .login-hero {
+        .register-hero {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 100px 0;
@@ -428,7 +565,7 @@
         }
         
         .auth-container {
-            max-width: 500px;
+            max-width: 600px;
             margin: 0 auto;
             background: white;
             border-radius: 15px;
@@ -451,8 +588,14 @@
             font-size: 14px;
         }
         
-        .login-form {
+        .registration-form {
             margin-bottom: 30px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
         
         .form-group {
@@ -466,18 +609,57 @@
             color: #333;
         }
         
-        .form-group input {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
             padding: 12px 15px;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
             font-size: 16px;
             transition: border-color 0.3s ease;
+            font-family: inherit;
         }
         
-        .form-group input:focus {
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
             outline: none;
             border-color: var(--primary-color);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .checkbox-label input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+        
+        .checkbox-label a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .checkbox-label a:hover {
+            text-decoration: underline;
         }
         
         .btn-large {
@@ -594,39 +776,78 @@
             text-decoration: underline;
         }
         
-        .login-help {
+        .registration-info {
             background: #f8f9fa;
-            padding: 20px;
+            padding: 25px;
             border-radius: 8px;
             margin-top: 30px;
         }
         
-        .login-help h3 {
-            margin-bottom: 15px;
+        .registration-info h3 {
+            margin-bottom: 20px;
             color: #333;
-            font-size: 16px;
+            font-size: 18px;
         }
         
-        .login-help ul {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 20px 0;
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
         }
         
-        .login-help li {
-            padding: 8px 0;
-            font-size: 14px;
-            color: #666;
-        }
-        
-        .support-info {
+        .info-item {
             background: white;
             padding: 15px;
             border-radius: 6px;
             border-left: 4px solid var(--primary-color);
         }
         
-        .support-info p {
+        .info-item h4 {
+            margin: 0 0 8px 0;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .info-item p {
+            margin: 0;
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+        }
+        
+        .process-info {
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        
+        .process-info h4 {
+            margin: 0 0 15px 0;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .process-info ol {
+            margin: 0;
+            padding-left: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .process-info li {
+            margin: 8px 0;
+        }
+        
+        .contact-info {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .contact-info p {
             margin: 5px 0;
             font-size: 14px;
         }
@@ -672,8 +893,17 @@
                 padding: 30px 20px;
             }
             
-            .login-hero {
+            .register-hero {
                 padding: 60px 0;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>

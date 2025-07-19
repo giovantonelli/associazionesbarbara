@@ -152,136 +152,329 @@ Aggiungi prima di `</head>` in tutte le pagine:
 
 ## 🔐 Autenticazione Area Soci (Supabase)
 
-L'area soci utilizza **Supabase** con autenticazione **OTP via email** per un accesso sicuro e senza password.
+L'area soci utilizza **Supabase Authentication** per un sistema di login moderno, sicuro e facile da gestire.
 
 ### 📋 Configurazione Supabase
 
 ```javascript
-const supabase = supabase.createClient(
+const supabaseClient = createClient(
     'https://ciezrbsolxpjxswdkkpo.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpZXpyYnNvbHhwanhzd2Rra3BvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5MjM1NjAsImV4cCI6MjA2ODQ5OTU2MH0.V-U8KhO8byObUW5kJ8XbLBkp9O9Efh98MdbKYFfbQJk'
 );
 ```
 
-### 🏗️ Struttura del Sistema
+### 🎯 Funzionalità Implementate
 
-```
-/login.html              # Pagina di login con form email
-/area-soci.html          # Area riservata (solo per utenti autenticati)
-/chi-siamo.html          # Link per diventare socio
-```
+#### ✅ **Autenticazione Email Magic Link**
+- Login senza password tramite link temporaneo
+- `supabaseClient.auth.signInWithOtp({ email })`
+- Link valido per 1 ora, sicuro e user-friendly
+
+#### ✅ **Autenticazione Social (Google + Facebook)**
+- Login rapido con OAuth providers
+- `supabaseClient.auth.signInWithOAuth({ provider: 'google' })`
+- `supabaseClient.auth.signInWithOAuth({ provider: 'facebook' })`
+
+#### ✅ **Registrazione Completa**
+- Form dettagliato per nuovi soci
+- Metadati utente completi (nome, telefono, tipo iscrizione)
+- `supabaseClient.auth.signUp()` con user metadata
+
+#### ✅ **Protezione Area Soci**
+- Controllo automatico sessione su `area-soci.html`
+- Reindirizzamento a `login.html` se non autenticato
+- Content condizionale basato su stato autenticazione
+
+#### ✅ **Logout Sicuro**
+- `supabaseClient.auth.signOut()`
+- Pulizia automatica della sessione
+- Reindirizzamento a pagina login
 
 ### 🔄 Flusso di Autenticazione
 
-1. **Pagina Login** (`/login.html`):
-   - Form di inserimento email
-   - Invio OTP automatico tramite Supabase
-   - Istruzioni per l'utente
+```mermaid
+sequenceDiagram
+    participant U as Utente
+    participant W as Website
+    participant S as Supabase
+    participant E as Email/OAuth
 
-2. **Email OTP**:
-   - L'utente riceve email con link sicuro
-   - Clic sul link = login automatico
-   - Redirect automatico all'area soci
+    U->>W: Visita area-soci.html
+    W->>S: Verifica sessione
+    S->>W: Sessione non valida
+    W->>U: Redirect a login.html
+    U->>W: Inserisce email
+    W->>S: signInWithOtp(email)
+    S->>E: Invia magic link
+    E->>U: Email con link
+    U->>S: Click magic link
+    S->>W: Redirect ad area-soci.html
+    W->>S: Verifica sessione
+    S->>W: Sessione valida + user data
+    W->>U: Mostra contenuto protetto
+```
 
-3. **Area Riservata** (`/area-soci.html`):
-   - Verifica sessione automatica
-   - Se non autenticato → redirect a login
-   - Dashboard completo per i soci
+### 📁 Struttura File
 
-### ✅ Vantaggi di Supabase
+```
+├── login.html          # Pagina di accesso con email OTP e social login
+├── register.html       # Registrazione nuovi soci con form completo
+├── area-soci.html      # Area protetta con controllo autenticazione
+```
 
-- 🔒 **Sicurezza**: Autenticazione enterprise-grade
-- 📧 **Email OTP**: Nessuna password da ricordare
-- 🚀 **Performance**: CDN globale di Supabase
-- 🛠️ **Zero Maintenance**: Backend completamente gestito
-- 📊 **Analytics**: Dashboard utenti integrato
-- 🔧 **Scalabilità**: Automatic scaling fino a milioni di utenti
+### 🎨 Caratteristiche UI/UX
 
-### �️ Implementazione JavaScript
+#### **login.html**
+- 🔐 Form email magic link
+- 🌐 Pulsanti social (Google/Facebook)
+- ℹ️ Sezione help e istruzioni
+- 📱 Design responsive e moderno
 
-#### Login (login.html):
+#### **register.html**
+- 📝 Form completo registrazione
+- 🎭 Selezione tipo iscrizione (Ordinario, Sostenitore, Onorario, Volontario)
+- ✅ Checkbox privacy e newsletter
+- 🌐 Opzioni social registration
+
+#### **area-soci.html**
+- 👋 Dashboard personalizzata
+- 📋 Sezioni: Documenti, Eventi, Forum, Newsletter
+- 👤 Profilo utente con metadati
+- 🚪 Logout sicuro
+
+### 🛡️ Sicurezza e Compliance
+
+#### **Gestione Sessioni**
+- JWT tokens gestiti automaticamente da Supabase
+- Refresh automatico dei token
+- Scadenza sessione configurabile
+
+#### **Privacy e GDPR**
+- Checkbox consenso privacy obbligatorio
+- Gestione opt-in newsletter
+- Dati utente crittografati in Supabase
+
+#### **Protezione Dati**
+- API Key public (anon) per frontend
+- Service role key protetta (solo backend)
+- RLS (Row Level Security) configurabile
+
+### 🔧 Configurazione Provider OAuth
+
+#### **Google OAuth**
+Nel dashboard Supabase → Authentication → Providers:
+```
+Enabled: ✅
+Client ID: [da Google Cloud Console]
+Client Secret: [da Google Cloud Console]
+Redirect URL: https://ciezrbsolxpjxswdkkpo.supabase.co/auth/v1/callback
+```
+
+#### **Facebook OAuth**
+Nel dashboard Supabase → Authentication → Providers:
+```
+Enabled: ✅
+App ID: [da Facebook Developers]
+App Secret: [da Facebook Developers] 
+Redirect URL: https://ciezrbsolxpjxswdkkpo.supabase.co/auth/v1/callback
+```
+
+### 📊 User Metadata Schema
+
 ```javascript
-// Invio OTP
-const { data, error } = await supabase.auth.signInWithOtp({
-    email: email,
-    options: {
-        emailRedirectTo: `${window.location.origin}/area-soci.html`
+{
+  full_name: "Mario Rossi",
+  first_name: "Mario", 
+  last_name: "Rossi",
+  phone: "+39 333 123 4567",
+  birth_date: "1985-06-15",
+  city: "Grumo Appula",
+  interests: "Corteo storico, tradizioni locali",
+  membership_type: "socio-ordinario", // ordinario|sostenitore|onorario|volontario
+  newsletter: true,
+  organization: "Associazione Santa Barbara APS",
+  registration_date: "2025-07-19T10:30:00Z",
+  status: "pending_approval" // pending_approval|approved|suspended
+}
+```
+
+### 🚀 Vantaggi Supabase vs Cloudflare Access
+
+| Caratteristica | Supabase | Cloudflare Access |
+|----------------|----------|-------------------|
+| **Setup Complexity** | ✅ Semplice | ❌ Complesso |
+| **Frontend Only** | ✅ Sì | ❌ Richiede backend |
+| **User Management** | ✅ Dashboard completo | ❌ Limitato |
+| **Social Providers** | ✅ 10+ providers | ✅ Providers limitati |
+| **Custom Metadata** | ✅ Completo | ❌ Limitato |
+| **Email Templates** | ✅ Personalizzabili | ❌ Standard |
+| **Cost** | ✅ Free tier generoso | 💰 $3/user/month |
+| **Analytics** | ✅ Built-in | ❌ Esterno |
+
+### 📈 Analytics e Tracking
+
+Eventi Google Analytics implementati:
+- `login_attempt` (method: email_otp|google|facebook)
+- `sign_up` (method: email|google|facebook, membership_type)
+- `logout` (method: supabase)
+- `page_view` (Area Soci authenticated)
+
+### 🔍 Troubleshooting
+
+#### **Magic Link non arriva**
+1. Controlla cartella spam
+2. Verifica configurazione SMTP in Supabase
+3. Controlla rate limiting (max 1 email/minuto)
+
+#### **OAuth providers non funzionano**
+1. Verifica configurazione provider nel dashboard
+2. Controlla redirect URL
+3. Verifica domini autorizzati
+
+#### **Sessione non persiste**
+1. Controlla localStorage del browser
+2. Verifica JWT token validity
+3. Controlla configurazione sessione timeout
+
+### 📝 TODO Future
+
+- [ ] Implementare RLS policies per user data
+- [ ] Aggiungere tabelle custom per forum e documenti
+- [ ] Implementare notifiche real-time
+- [ ] Aggiungere sistema di ruoli/permissions
+- [ ] Implementare password recovery (opzionale)
+- [ ] Aggiungere MFA (Multi-Factor Authentication)
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+            grant_type: 'authorization_code',
+            client_id: '3b71a23f7628bed97c76249561ac3b6a8d549710e976a7ce908a0267dd82e934',
+            client_secret: CLIENT_SECRET, // ← Dal server, MAI nel frontend!
+            code: code,
+            redirect_uri: 'https://associazionesbarbara.it/area-soci.html'
+        })
+    });
+    
+    const tokens = await tokenResponse.json();
+    res.json(tokens);
+});
+```
+
+#### Variabili di Ambiente (.env)
+```bash
+# File .env (MAI committare nel repository!)
+CLOUDFLARE_CLIENT_ID=3b71a23f7628bed97c76249561ac3b6a8d549710e976a7ce908a0267dd82e934
+CLOUDFLARE_CLIENT_SECRET=f398ed6af69e6b6248b738270b1d4ed9ad41f5a2a8a49e5c9383b25a4a938645
+REDIRECT_URI=https://associazionesbarbara.it/area-soci.html
+```
+
+#### Implementazione Sicura
+```javascript
+// Usa variabili di ambiente per sicurezza
+const CLIENT_SECRET = process.env.CLOUDFLARE_CLIENT_SECRET;
+
+// Validazione endpoint
+app.post('/auth/token', async (req, res) => {
+    try {
+        const { code, state } = req.body;
+        
+        // Validazioni di sicurezza
+        if (!code) {
+            return res.status(400).json({ error: 'Authorization code required' });
+        }
+        
+        // Scambio codice con token
+        const tokenData = {
+            grant_type: 'authorization_code',
+            client_id: process.env.CLOUDFLARE_CLIENT_ID,
+            client_secret: CLIENT_SECRET,
+            code: code,
+            redirect_uri: process.env.REDIRECT_URI
+        };
+        
+        const response = await fetch('https://associazionesbarbara.cloudflareaccess.com/cdn-cgi/access/sso/oidc/3b71a23f7628bed97c76249561ac3b6a8d549710e976a7ce908a0267dd82e934/token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Accept': 'application/json'
+            },
+            body: new URLSearchParams(tokenData)
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Token exchange failed: ${response.status}`);
+        }
+        
+        const tokens = await response.json();
+        
+        // Log per debug (rimuovere in produzione)
+        console.log('Token exchange successful:', { 
+            access_token: tokens.access_token ? '***EXISTS***' : null,
+            token_type: tokens.token_type,
+            expires_in: tokens.expires_in
+        });
+        
+        res.json(tokens);
+        
+    } catch (error) {
+        console.error('Token exchange error:', error);
+        res.status(500).json({ 
+            error: 'Token exchange failed',
+            message: error.message 
+        });
+    }
+});
+
+// Endpoint per UserInfo
+app.get('/auth/userinfo', async (req, res) => {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(401).json({ error: 'Bearer token required' });
+        }
+        
+        const accessToken = authHeader.substring(7);
+        
+        const response = await fetch('https://associazionesbarbara.cloudflareaccess.com/cdn-cgi/access/sso/oidc/3b71a23f7628bed97c76249561ac3b6a8d549710e976a7ce908a0267dd82e934/userinfo', {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Accept': 'application/json'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`UserInfo failed: ${response.status}`);
+        }
+        
+        const userInfo = await response.json();
+        res.json(userInfo);
+        
+    } catch (error) {
+        console.error('UserInfo error:', error);
+        res.status(500).json({ 
+            error: 'UserInfo failed',
+            message: error.message 
+        });
     }
 });
 ```
 
-#### Verifica Sessione (area-soci.html):
-```javascript
-// Controllo automatico sessione
-const { data: { session }, error } = await supabase.auth.getSession();
+### 🔧 Debug Mode
 
-if (!session) {
-    // Redirect a login se non autenticato
-    window.location.href = 'login.html';
-}
-```
+L'implementazione include una **modalità debug** che mostra:
+- Parametri URL ricevuti
+- Stato dell'autenticazione
+- Codici di autorizzazione
+- Errori di rete
 
-#### Logout:
-```javascript
-// Logout sicuro
-const { error } = await supabase.auth.signOut();
-window.location.href = 'login.html';
-```
+Utile per test e sviluppo.
 
-### 🎯 User Experience
+### 🚀 Deployment Cloudflare Access
 
-1. **Accesso facilitato**: Un click dal menu → pagina login
-2. **Processo veloce**: Email → Link → Accesso immediato  
-3. **Sicurezza massima**: Token JWT con scadenza automatica
-4. **Responsive**: Funziona perfettamente su mobile
-5. **Feedback**: Messaggi chiari ad ogni step
-
-### 🔧 Configurazione Supabase Dashboard
-
-#### Auth Settings:
-- **Email Provider**: Configurato con SMTP
-- **Email Templates**: Personalizzati per l'associazione
-- **Site URL**: `https://associazionesbarbara.it`
-- **Redirect URLs**: `https://associazionesbarbara.it/area-soci.html`
-
-#### Security:
-- **RLS (Row Level Security)**: Abilitato
-- **Email Confirmation**: Automatico
-- **Session Timeout**: 24 ore (configurabile)
-
-### 📊 Analytics e Monitoraggio
-
-Supabase fornisce:
-- Statistiche di utilizzo real-time
-- Logs di autenticazione
-- Metriche di performance
-- Dashboard utenti attivi
-
-### 🧪 Test dell'Implementazione
-
-1. Vai su `https://associazionesbarbara.it/login.html`
-2. Inserisci email autorizzata (es: `test@associazionesbarbara.it`)
-3. Clicca "Invia Link di Accesso"
-4. Controlla email ricevuta
-5. Clicca link nell'email
-6. Verifica redirect automatico ad area-soci.html
-7. Conferma visualizzazione dashboard soci
-
-### � Gestione Utenti
-
-Gli utenti autorizzati vengono gestiti tramite:
-- **Supabase Dashboard** → Auth → Users
-- Inviti manuali via dashboard
-- Blocco/sblocco utenti
-- Reset password se necessario
-
-### � Sicurezza
-
-- **HTTPS Only**: Forzato su tutto il sito
-- **JWT Tokens**: Con scadenza automatica
-- **Email Verification**: Obbligatoria per primo accesso
-- **Session Management**: Gestione automatica da Supabase
-- **GDPR Compliant**: Supabase è conforme GDPR
+1. **Configura Access Policy** in Cloudflare Dashboard
+2. **Aggiungi applicazione** per `associazionesbarbara.it/area-soci.html`
+3. **Imposta regole di accesso** (email specifiche, gruppi, etc.)
+4. **Genera client credentials** e aggiorna la configurazione
+5. **Testa il flusso** di autenticazione completo
 
 ## 📊 SEO e Analytics
 
