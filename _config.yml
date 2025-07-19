@@ -4,7 +4,7 @@
 title: "Associazione Santa Barbara APS"
 description: "Sito ufficiale dell'Associazione Santa Barbara APS - Promuoviamo la cultura e il volontariato nel nostro territorio"
 baseurl: ""
-url: "https://associazionesbarbara.github.io"
+url: "https://associazionesbarbara.it"
 
 # Build settings
 markdown: kramdown
@@ -49,7 +49,6 @@ social:
   links:
     - https://www.facebook.com/santabarbara.grumoappula
     - https://www.instagram.com/corteostoricosantabarbara/
-    - https://t.me/associazionesbarbara
 
 # Analytics
 google_analytics: # Add your Google Analytics ID here
