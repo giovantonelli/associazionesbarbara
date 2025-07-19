@@ -150,6 +150,186 @@ Aggiungi prima di `</head>` in tutte le pagine:
 - **Microsoft 365**: $5/mese per utente
 - **Zoho Mail**: $1/mese per utente
 
+## 🔐 Autenticazione Area Soci (OIDC)
+
+L'area soci utilizza **Cloudflare Access** con protocollo **OIDC (OpenID Connect)** per un'autenticazione sicura e moderna.
+
+### 📋 Configurazione Attuale
+
+```javascript
+const OIDC_CONFIG = {
+    client_id: '3b71a23f7628bed97c76249561ac3b6a8d549710e976a7ce908a0267dd82e934',
+    redirect_uri: 'https://associazionesbarbara.it/area-soci.html',
+    authorization_endpoint: 'https://associazionesbarbara.cloudflareaccess.com/cdn-cgi/access/sso/oidc/.../authorization',
+    token_endpoint: 'https://associazionesbarbara.cloudflareaccess.com/cdn-cgi/access/sso/oidc/.../token',
+    userinfo_endpoint: 'https://associazionesbarbara.cloudflareaccess.com/cdn-cgi/access/sso/oidc/.../userinfo',
+    scope: 'openid email profile'
+};
+```
+
+### 🔄 Flusso di Autenticazione
+
+1. **Click su "Accedi all'Area Soci"** → Reindirizzamento a Cloudflare Access
+2. **Inserimento credenziali** → L'utente si autentica tramite provider configurato
+3. **Callback con codice** → Ritorno all'applicazione con authorization code
+4. **Scambio token** → Il codice viene scambiato con access token
+5. **Informazioni utente** → Recupero dei dati dell'utente autenticato
+
+### ⚠️ Limitazioni Frontend
+
+Il **token exchange** richiede il `client_secret` che **NON deve essere esposto nel frontend**. Attualmente:
+
+- ✅ **Authorization flow**: Funziona completamente
+- ✅ **Callback handling**: Gestisce codici e errori
+- ❌ **Token exchange**: Richiede backend (CORS policy)
+- ❌ **UserInfo access**: Richiede access token valido
+
+### 🛠️ Implementazione Backend Necessaria
+
+Per un'implementazione completa, crea un endpoint backend:
+
+```javascript
+// Backend endpoint: /auth/token
+app.post('/auth/token', async (req, res) => {
+    const { code } = req.body;
+    
+    // ⚠️ CLIENT SECRET: Conservare come variabile di ambiente
+    const CLIENT_SECRET = 'f398ed6af69e6b6248b738270b1d4ed9ad41f5a2a8a49e5c9383b25a4a938645';
+    
+    const tokenResponse = await fetch(OIDC_CONFIG.token_endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+            grant_type: 'authorization_code',
+            client_id: '3b71a23f7628bed97c76249561ac3b6a8d549710e976a7ce908a0267dd82e934',
+            client_secret: CLIENT_SECRET, // ← Dal server, MAI nel frontend!
+            code: code,
+            redirect_uri: 'https://associazionesbarbara.it/area-soci.html'
+        })
+    });
+    
+    const tokens = await tokenResponse.json();
+    res.json(tokens);
+});
+```
+
+#### Variabili di Ambiente (.env)
+```bash
+# File .env (MAI committare nel repository!)
+CLOUDFLARE_CLIENT_ID=3b71a23f7628bed97c76249561ac3b6a8d549710e976a7ce908a0267dd82e934
+CLOUDFLARE_CLIENT_SECRET=f398ed6af69e6b6248b738270b1d4ed9ad41f5a2a8a49e5c9383b25a4a938645
+REDIRECT_URI=https://associazionesbarbara.it/area-soci.html
+```
+
+#### Implementazione Sicura
+```javascript
+// Usa variabili di ambiente per sicurezza
+const CLIENT_SECRET = process.env.CLOUDFLARE_CLIENT_SECRET;
+
+// Validazione endpoint
+app.post('/auth/token', async (req, res) => {
+    try {
+        const { code, state } = req.body;
+        
+        // Validazioni di sicurezza
+        if (!code) {
+            return res.status(400).json({ error: 'Authorization code required' });
+        }
+        
+        // Scambio codice con token
+        const tokenData = {
+            grant_type: 'authorization_code',
+            client_id: process.env.CLOUDFLARE_CLIENT_ID,
+            client_secret: CLIENT_SECRET,
+            code: code,
+            redirect_uri: process.env.REDIRECT_URI
+        };
+        
+        const response = await fetch('https://associazionesbarbara.cloudflareaccess.com/cdn-cgi/access/sso/oidc/3b71a23f7628bed97c76249561ac3b6a8d549710e976a7ce908a0267dd82e934/token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Accept': 'application/json'
+            },
+            body: new URLSearchParams(tokenData)
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Token exchange failed: ${response.status}`);
+        }
+        
+        const tokens = await response.json();
+        
+        // Log per debug (rimuovere in produzione)
+        console.log('Token exchange successful:', { 
+            access_token: tokens.access_token ? '***EXISTS***' : null,
+            token_type: tokens.token_type,
+            expires_in: tokens.expires_in
+        });
+        
+        res.json(tokens);
+        
+    } catch (error) {
+        console.error('Token exchange error:', error);
+        res.status(500).json({ 
+            error: 'Token exchange failed',
+            message: error.message 
+        });
+    }
+});
+
+// Endpoint per UserInfo
+app.get('/auth/userinfo', async (req, res) => {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(401).json({ error: 'Bearer token required' });
+        }
+        
+        const accessToken = authHeader.substring(7);
+        
+        const response = await fetch('https://associazionesbarbara.cloudflareaccess.com/cdn-cgi/access/sso/oidc/3b71a23f7628bed97c76249561ac3b6a8d549710e976a7ce908a0267dd82e934/userinfo', {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Accept': 'application/json'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`UserInfo failed: ${response.status}`);
+        }
+        
+        const userInfo = await response.json();
+        res.json(userInfo);
+        
+    } catch (error) {
+        console.error('UserInfo error:', error);
+        res.status(500).json({ 
+            error: 'UserInfo failed',
+            message: error.message 
+        });
+    }
+});
+```
+
+### 🔧 Debug Mode
+
+L'implementazione include una **modalità debug** che mostra:
+- Parametri URL ricevuti
+- Stato dell'autenticazione
+- Codici di autorizzazione
+- Errori di rete
+
+Utile per test e sviluppo.
+
+### 🚀 Deployment Cloudflare Access
+
+1. **Configura Access Policy** in Cloudflare Dashboard
+2. **Aggiungi applicazione** per `associazionesbarbara.it/area-soci.html`
+3. **Imposta regole di accesso** (email specifiche, gruppi, etc.)
+4. **Genera client credentials** e aggiorna la configurazione
+5. **Testa il flusso** di autenticazione completo
+
 ## 📊 SEO e Analytics
 
 ### Search Console
