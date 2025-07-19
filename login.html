@@ -3,20 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accesso Area Soci - Associazione Santa Barbara APS</title>
-    <meta name="description" content="Effettua l'accesso all'area riservata ai soci dell'Associazione Santa Barbara APS">
-    <meta name="keywords" content="login, accesso, area soci, associazione santa barbara">
+    <title>Login - Associazione Santa Barbara APS</title>
+    <meta name="description" content="Accedi al tuo account dell'Associazione Santa Barbara APS">
+    <meta name="keywords" content="login, accesso, associazione santa barbara">
     
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
     
     <!-- Google tag (gtag.js) with Consent Mode -->
     <script>
-      // Define dataLayer and the gtag function
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       
-      // Set default consent to 'denied' as a placeholder for EU users
       gtag('consent', 'default', {
         'ad_storage': 'denied',
         'ad_user_data': 'denied',
@@ -33,9 +31,6 @@
       gtag('js', new Date());
       gtag('config', 'G-F465WJF33T');
     </script>
-
-    <!-- Supabase Client -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -57,102 +52,53 @@
                 <li><a href="eventi.html">Eventi</a></li>
                 <li><a href="galleria.html">Galleria</a></li>
                 <li><a href="partner.html">Partner</a></li>
+                <li><a href="faq.html">FAQ</a></li>
                 <li><a href="contatti.html">Contatti</a></li>
-                <li><a href="area-soci.html" class="active">Area Soci</a></li>
+                <li><a href="area-soci.html" class="btn-nav">Area Soci</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section class="hero-section login-hero">
-            <div class="container">
-                <div class="hero-content">
-                    <h1>🔐 Accesso Area Soci</h1>
-                    <p>Accedi all'area riservata ai membri dell'Associazione Santa Barbara APS</p>
+    <!-- Login Section -->
+    <section class="auth-section">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h1>Accedi al tuo Account</h1>
+                    <p>Inserisci le tue credenziali per accedere all'area riservata</p>
                 </div>
-            </div>
-        </section>
 
-        <!-- Login Form Section -->
-        <section class="form-section">
-            <div class="container">
-                <div class="auth-container">
+                <!-- Login Form -->
+                <div class="auth-form-container">
+                    <form id="loginForm" class="auth-form">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-full" id="loginButton">
+                            <span class="btn-text">Accedi</span>
+                            <div class="loading-spinner" style="display: none;"></div>
+                        </button>
+                    </form>
+
                     <!-- Status Messages -->
-                    <div id="auth-status" class="auth-status" style="display: none;"></div>
-                    
-                    <!-- Email Login Form -->
-                    <div id="email-login" class="auth-form">
-                        <div class="form-header">
-                            <h2>📧 Accesso con Email</h2>
-                            <p>Inserisci la tua email per ricevere un link di accesso sicuro</p>
-                        </div>
-                        
-                        <form id="email-form" class="login-form">
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" name="email" required placeholder="tua@email.com">
-                            </div>
-                            
-                            <button type="submit" id="email-submit" class="btn btn-primary btn-large">
-                                <span id="email-text">Invia Link di Accesso</span>
-                                <span id="email-loading" class="loading-spinner" style="display: none;"></span>
-                            </button>
-                        </form>
-                    </div>
+                    <div id="statusMessage" class="status-message" style="display: none;"></div>
 
-                    <!-- Social Login Options -->
-                    <div class="social-login">
-                        <div class="divider">
-                            <span>oppure</span>
-                        </div>
-                        
-                        <div class="social-buttons">
-                            <button id="google-login" class="btn btn-social btn-google">
-                                <svg width="20" height="20" viewBox="0 0 24 24">
-                                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                                </svg>
-                                Accedi con Google
-                            </button>
-                            
-                            <button id="facebook-login" class="btn btn-social btn-facebook">
-                                <svg width="20" height="20" viewBox="0 0 24 24">
-                                    <path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                                </svg>
-                                Accedi con Facebook
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Registration Link -->
+                    <!-- Auth Links -->
                     <div class="auth-links">
-                        <p>Non hai ancora un account? <a href="register.html">Registrati qui</a></p>
-                        <p><a href="area-soci.html">← Torna all'Area Soci</a></p>
-                    </div>
-
-                    <!-- Help Section -->
-                    <div class="login-help">
-                        <h3>ℹ️ Come funziona l'accesso</h3>
-                        <ul>
-                            <li><strong>Email sicura</strong>: Riceverai un link di accesso temporaneo</li>
-                            <li><strong>Nessuna password</strong>: Sistema passwordless per maggiore sicurezza</li>
-                            <li><strong>Accesso social</strong>: Usa il tuo account Google o Facebook</li>
-                            <li><strong>Sessione temporanea</strong>: L'accesso scade dopo 24 ore per sicurezza</li>
-                        </ul>
-                        
-                        <div class="support-info">
-                            <p><strong>Problemi di accesso?</strong></p>
-                            <p>Contatta il supporto: <a href="mailto:info@associazionesbarbara.it">info@associazionesbarbara.it</a></p>
-                        </div>
+                        <p>Non hai un account? <a href="register.html">Registrati qui</a></p>
+                        <p><a href="index.html">← Torna alla Home</a></p>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="footer">
@@ -160,49 +106,40 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>Associazione Santa Barbara APS</h3>
-                    <p>Un'associazione di promozione sociale dedicata alla tradizione e alla cultura del Corteo Storico di Santa Barbara.</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Contatti</h3>
-                    <p>📍 Via N. Mastroserio 12, Grumo Appula (BA)</p>
-                    <p>📧 info@associazionesbarbara.it</p>
-                    <p>📱 Telegram: <a href="https://t.me/associazionesbarbara" target="_blank">@associazionesbarbara</a></p>
-                </div>
-                <div class="footer-section">
-                    <h3>Seguici</h3>
+                    <p>Preserviamo le tradizioni di Grumo Appula dal 2008</p>
                     <div class="social-links">
                         <a href="https://www.facebook.com/santabarbara.grumoappula" target="_blank" aria-label="Facebook">📘</a>
                         <a href="https://www.instagram.com/corteostoricosantabarbara" target="_blank" aria-label="Instagram">📷</a>
-                        <a href="https://t.me/associazionesbarbara" target="_blank" aria-label="Telegram">💬</a>
+                        <a href="https://t.me/associazionesbarbara" target="_blank" aria-label="Telegram">✈️</a>
                     </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Contatti</h4>
+                    <p>📍 Via N. Mastroserio 12, Grumo Appula (BA)</p>
+                    <p>📧 info@associazionesbarbara.it</p>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; <span id="current-year">2025</span> Associazione Santa Barbara APS. Tutti i diritti riservati.</p>
-                <div class="footer-links">
-                    <a href="privacy.html">Privacy Policy</a>
-                    <a href="faq.html">FAQ</a>
-                </div>
+                <p><a href="privacy.html">Privacy Policy</a></p>
             </div>
         </div>
     </footer>
 
     <!-- Cookie Banner -->
-    <div id="cookie-banner" class="cookie-banner" style="display: none;">
+    <div id="cookieBanner" class="cookie-banner" style="display: none;">
         <div class="cookie-content">
-            <div class="cookie-text">
-                <h4>🍪 Utilizzo dei Cookie</h4>
-                <p>Utilizziamo cookie per migliorare la tua esperienza di navigazione. Accettando, consenti l'uso di cookie analytics e funzionali.</p>
-            </div>
+            <p>Questo sito utilizza cookie per migliorare l'esperienza di navigazione. Continuando a navigare accetti l'uso dei cookie.</p>
             <div class="cookie-buttons">
-                <button id="accept-cookies" class="btn btn-primary">Accetta tutti</button>
-                <button id="reject-cookies" class="btn btn-secondary">Solo necessari</button>
-                <a href="privacy.html" class="privacy-link">Dettagli Privacy</a>
+                <button id="acceptCookies" class="btn btn-primary">Accetta</button>
+                <button id="rejectCookies" class="btn btn-secondary">Rifiuta</button>
+                <a href="privacy.html" class="btn btn-link">Privacy Policy</a>
             </div>
         </div>
     </div>
 
     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/script.js"></script>
     
     <!-- Supabase Authentication Script -->
@@ -214,466 +151,299 @@
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpZXpyYnNvbHhwanhzd2Rra3BvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5MjM1NjAsImV4cCI6MjA2ODQ5OTU2MH0.V-U8KhO8byObUW5kJ8XbLBkp9O9Efh98MdbKYFfbQJk'
         );
 
-        // Utility functions
+        // DOM Elements
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const loginButton = document.getElementById('loginButton');
+        const statusMessage = document.getElementById('statusMessage');
+        const btnText = loginButton.querySelector('.btn-text');
+        const loadingSpinner = loginButton.querySelector('.loading-spinner');
+
+        // Utility Functions
         function showStatus(message, type = 'info') {
-            const statusDiv = document.getElementById('auth-status');
-            statusDiv.className = `auth-status ${type}`;
-            statusDiv.innerHTML = message;
-            statusDiv.style.display = 'block';
-            
-            // Auto-hide after 10 seconds for success messages
-            if (type === 'success') {
-                setTimeout(() => {
-                    statusDiv.style.display = 'none';
-                }, 10000);
-            }
+            statusMessage.className = `status-message ${type}`;
+            statusMessage.innerHTML = message;
+            statusMessage.style.display = 'block';
         }
 
-        function showLoading(buttonId, isLoading) {
-            const button = document.getElementById(buttonId);
-            const text = document.getElementById(buttonId.replace('-submit', '-text'));
-            const loading = document.getElementById(buttonId.replace('-submit', '-loading'));
-            
+        function hideStatus() {
+            statusMessage.style.display = 'none';
+        }
+
+        function setLoading(isLoading) {
             if (isLoading) {
-                button.disabled = true;
-                text.style.display = 'none';
-                loading.style.display = 'inline-block';
+                btnText.style.display = 'none';
+                loadingSpinner.style.display = 'block';
+                loginButton.disabled = true;
             } else {
-                button.disabled = false;
-                text.style.display = 'inline';
-                loading.style.display = 'none';
+                btnText.style.display = 'block';
+                loadingSpinner.style.display = 'none';
+                loginButton.disabled = false;
             }
         }
 
         // Check if user is already logged in
-        async function checkAuthStatus() {
+        async function checkExistingSession() {
             try {
-                const { data: { session } } = await supabaseClient.auth.getSession();
+                const { data: { session }, error } = await supabaseClient.auth.getSession();
                 
-                if (session) {
-                    // User is already logged in, redirect to area soci
-                    showStatus('Sei già autenticato. Reindirizzamento all\'area soci...', 'success');
-                    setTimeout(() => {
-                        window.location.href = 'area-soci.html';
-                    }, 2000);
-                }
-            } catch (error) {
-                console.error('Error checking auth status:', error);
-            }
-        }
-
-        // Email login with OTP
-        async function signInWithEmail(email) {
-            try {
-                showLoading('email-submit', true);
-                showStatus('Invio del link di accesso in corso...', 'info');
-
-                const { data, error } = await supabaseClient.auth.signInWithOtp({
-                    email: email,
-                    options: {
-                        emailRedirectTo: `${window.location.origin}/area-soci.html`,
-                        data: {
-                            full_name: '',
-                            organization: 'Associazione Santa Barbara APS'
-                        }
-                    }
-                });
-
                 if (error) {
-                    throw error;
-                }
-
-                showStatus(`
-                    <h4>✅ Link di accesso inviato!</h4>
-                    <p>Controlla la tua email <strong>${email}</strong> e clicca sul link per accedere.</p>
-                    <p><small>Il link è valido per 1 ora. Controlla anche la cartella spam.</small></p>
-                `, 'success');
-
-                // Track event
-                if (typeof gtag !== 'undefined') {
-                    gtag('event', 'login_attempt', {
-                        method: 'email_otp'
-                    });
-                }
-
-            } catch (error) {
-                console.error('Error during email sign in:', error);
-                showStatus(`
-                    <h4>❌ Errore nell'invio</h4>
-                    <p>${error.message}</p>
-                    <p><small>Verifica che l'email sia corretta e riprova.</small></p>
-                `, 'error');
-            } finally {
-                showLoading('email-submit', false);
-            }
-        }
-
-        // Google login
-        async function signInWithGoogle() {
-            try {
-                showStatus('Reindirizzamento a Google...', 'info');
-
-                const { data, error } = await supabaseClient.auth.signInWithOAuth({
-                    provider: 'google',
-                    options: {
-                        redirectTo: `${window.location.origin}/area-soci.html`,
-                        queryParams: {
-                            access_type: 'offline',
-                            prompt: 'consent',
-                        },
-                    }
-                });
-
-                if (error) {
-                    throw error;
-                }
-
-                // Track event
-                if (typeof gtag !== 'undefined') {
-                    gtag('event', 'login_attempt', {
-                        method: 'google'
-                    });
-                }
-
-            } catch (error) {
-                console.error('Error during Google sign in:', error);
-                showStatus(`
-                    <h4>❌ Errore accesso Google</h4>
-                    <p>${error.message}</p>
-                `, 'error');
-            }
-        }
-
-        // Facebook login
-        async function signInWithFacebook() {
-            try {
-                showStatus('Reindirizzamento a Facebook...', 'info');
-
-                const { data, error } = await supabaseClient.auth.signInWithOAuth({
-                    provider: 'facebook',
-                    options: {
-                        redirectTo: `${window.location.origin}/area-soci.html`,
-                        scopes: 'email'
-                    }
-                });
-
-                if (error) {
-                    throw error;
-                }
-
-                // Track event
-                if (typeof gtag !== 'undefined') {
-                    gtag('event', 'login_attempt', {
-                        method: 'facebook'
-                    });
-                }
-
-            } catch (error) {
-                console.error('Error during Facebook sign in:', error);
-                showStatus(`
-                    <h4>❌ Errore accesso Facebook</h4>
-                    <p>${error.message}</p>
-                `, 'error');
-            }
-        }
-
-        // Event listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check if user is already authenticated
-            checkAuthStatus();
-
-            // Email form submission
-            document.getElementById('email-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const email = document.getElementById('email').value.trim();
-                
-                if (!email) {
-                    showStatus('Inserisci un indirizzo email valido', 'error');
+                    console.error('Error checking session:', error);
                     return;
                 }
 
-                signInWithEmail(email);
-            });
-
-            // Social login buttons
-            document.getElementById('google-login').addEventListener('click', signInWithGoogle);
-            document.getElementById('facebook-login').addEventListener('click', signInWithFacebook);
-
-            // Listen for auth state changes
-            supabaseClient.auth.onAuthStateChange((event, session) => {
-                console.log('Auth state changed:', event, session);
-                
-                if (event === 'SIGNED_IN') {
-                    showStatus('Accesso effettuato con successo! Reindirizzamento...', 'success');
+                if (session) {
+                    // User is already logged in, redirect to area soci
+                    showStatus('Sessione esistente trovata, reindirizzamento...', 'success');
                     setTimeout(() => {
                         window.location.href = 'area-soci.html';
-                    }, 2000);
+                    }, 1000);
                 }
-            });
+            } catch (error) {
+                console.error('Error checking existing session:', error);
+            }
+        }
+
+        // Login Function
+        async function handleLogin(event) {
+            event.preventDefault();
+            hideStatus();
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            // Validation
+            if (!email || !password) {
+                showStatus('Inserisci email e password.', 'error');
+                return;
+            }
+
+            if (!email.includes('@')) {
+                showStatus('Inserisci un indirizzo email valido.', 'error');
+                return;
+            }
+
+            setLoading(true);
+
+            try {
+                // Sign in with Supabase
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+                if (error) {
+                    throw error;
+                }
+
+                if (data.user) {
+                    // Check if email is confirmed
+                    if (!data.user.email_confirmed_at) {
+                        showStatus('Email non confermata. Controlla la tua casella di posta e clicca sul link di conferma.', 'warning');
+                        setLoading(false);
+                        return;
+                    }
+
+                    showStatus('Login effettuato con successo! Reindirizzamento...', 'success');
+                    
+                    // Redirect to area soci after successful login
+                    setTimeout(() => {
+                        window.location.href = 'area-soci.html';
+                    }, 1500);
+                } else {
+                    throw new Error('Errore durante il login');
+                }
+
+            } catch (error) {
+                console.error('Login error:', error);
+                
+                let errorMessage = 'Errore durante il login. ';
+                
+                if (error.message.includes('Invalid login credentials')) {
+                    errorMessage = 'Email o password non corretti.';
+                } else if (error.message.includes('Email not confirmed')) {
+                    errorMessage = 'Email non confermata. Controlla la tua casella di posta.';
+                } else if (error.message.includes('Too many requests')) {
+                    errorMessage = 'Troppi tentativi di login. Riprova tra qualche minuto.';
+                } else {
+                    errorMessage += error.message;
+                }
+                
+                showStatus(errorMessage, 'error');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        // Event Listeners
+        loginForm.addEventListener('submit', handleLogin);
+
+        // Check for existing session on page load
+        document.addEventListener('DOMContentLoaded', checkExistingSession);
+
+        // Auto-focus email field
+        document.addEventListener('DOMContentLoaded', () => {
+            emailInput.focus();
         });
     </script>
 
-    <!-- Custom Styles for Login Page -->
+    <!-- Custom CSS for Auth Pages -->
     <style>
-        .login-hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 100px 0;
-            text-align: center;
-        }
-        
-        .form-section {
+        .auth-section {
+            min-height: calc(100vh - 200px);
+            display: flex;
+            align-items: center;
             padding: 80px 0;
-            background-color: #f8f9fa;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-        
+
         .auth-container {
-            max-width: 500px;
+            max-width: 400px;
             margin: 0 auto;
             background: white;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
-        
-        .form-header {
+
+        .auth-header {
             text-align: center;
-            margin-bottom: 30px;
+            padding: 40px 30px 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
         }
-        
-        .form-header h2 {
-            color: #333;
-            margin-bottom: 10px;
+
+        .auth-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 24px;
+            font-weight: 600;
         }
-        
-        .form-header p {
-            color: #666;
+
+        .auth-header p {
+            margin: 0;
+            opacity: 0.9;
             font-size: 14px;
         }
-        
-        .login-form {
-            margin-bottom: 30px;
+
+        .auth-form-container {
+            padding: 30px;
         }
-        
-        .form-group {
+
+        .auth-form .form-group {
             margin-bottom: 20px;
         }
-        
-        .form-group label {
+
+        .auth-form label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
+            font-weight: 500;
             color: #333;
         }
-        
-        .form-group input {
+
+        .auth-form input {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
+            padding: 12px;
+            border: 2px solid #e1e1e1;
             border-radius: 8px;
             font-size: 16px;
             transition: border-color 0.3s ease;
+            box-sizing: border-box;
         }
-        
-        .form-group input:focus {
+
+        .auth-form input:focus {
             outline: none;
             border-color: var(--primary-color);
         }
-        
-        .btn-large {
+
+        .btn-full {
             width: 100%;
-            padding: 15px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            position: relative;
         }
-        
-        .btn-large:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        
+
         .loading-spinner {
             width: 20px;
             height: 20px;
-            border: 2px solid transparent;
-            border-top: 2px solid white;
+            border: 2px solid #ffffff40;
+            border-top: 2px solid #ffffff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-        
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
-        .social-login {
-            margin: 30px 0;
-        }
-        
-        .divider {
-            text-align: center;
+
+        .status-message {
             margin: 20px 0;
-            position: relative;
-        }
-        
-        .divider::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: #e0e0e0;
-        }
-        
-        .divider span {
-            background: white;
-            padding: 0 15px;
-            color: #666;
-            font-size: 14px;
-        }
-        
-        .social-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .btn-social {
-            width: 100%;
-            padding: 12px 20px;
-            border: 2px solid #e0e0e0;
-            background: white;
+            padding: 15px;
             border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            text-align: center;
+            font-weight: 500;
         }
-        
-        .btn-google:hover {
-            border-color: #4285F4;
-            background: #f8f9ff;
+
+        .status-message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
         }
-        
-        .btn-facebook:hover {
-            border-color: #1877F2;
-            background: #f8f9ff;
+
+        .status-message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
-        
+
+        .status-message.warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .status-message.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
         .auth-links {
             text-align: center;
-            margin: 30px 0;
+            margin-top: 25px;
             padding-top: 20px;
-            border-top: 1px solid #e0e0e0;
+            border-top: 1px solid #e1e1e1;
         }
-        
+
         .auth-links p {
-            margin: 10px 0;
-            font-size: 14px;
+            margin: 8px 0;
+            color: #666;
         }
-        
+
         .auth-links a {
             color: var(--primary-color);
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 500;
         }
-        
+
         .auth-links a:hover {
             text-decoration: underline;
         }
-        
-        .login-help {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 30px;
-        }
-        
-        .login-help h3 {
-            margin-bottom: 15px;
-            color: #333;
-            font-size: 16px;
-        }
-        
-        .login-help ul {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 20px 0;
-        }
-        
-        .login-help li {
-            padding: 8px 0;
-            font-size: 14px;
-            color: #666;
-        }
-        
-        .support-info {
-            background: white;
-            padding: 15px;
-            border-radius: 6px;
-            border-left: 4px solid var(--primary-color);
-        }
-        
-        .support-info p {
-            margin: 5px 0;
-            font-size: 14px;
-        }
-        
-        .auth-status {
-            margin: 0 0 20px 0;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid;
-        }
-        
-        .auth-status.info {
-            background: #e3f2fd;
-            border-color: #2196f3;
-            color: #1565c0;
-        }
-        
-        .auth-status.success {
-            background: #e8f5e8;
-            border-color: #4caf50;
-            color: #2e7d32;
-        }
-        
-        .auth-status.error {
-            background: #ffebee;
-            border-color: #f44336;
-            color: #c62828;
-        }
-        
-        .auth-status h4 {
-            margin: 0 0 10px 0;
-            font-size: 16px;
-        }
-        
-        .auth-status p {
-            margin: 5px 0;
-            font-size: 14px;
-        }
-        
+
         @media (max-width: 768px) {
             .auth-container {
-                margin: 0 20px;
-                padding: 30px 20px;
+                margin: 20px;
+                max-width: none;
             }
             
-            .login-hero {
-                padding: 60px 0;
+            .auth-header {
+                padding: 30px 20px 15px;
+            }
+            
+            .auth-form-container {
+                padding: 20px;
             }
         }
     </style>
