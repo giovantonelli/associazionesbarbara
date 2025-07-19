@@ -7,6 +7,9 @@ let currentYear = new Date().getFullYear();
 
 // DOM Content Loaded
 document.addEventListener('DOMContentLoaded', function() {
+    // Update copyright year automatically
+    updateCopyrightYear();
+    
     // Check and apply existing consent choice
     checkExistingConsent();
     
@@ -22,6 +25,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check if user is logged in
     checkUserSession();
 });
+
+// Update copyright year automatically
+function updateCopyrightYear() {
+    const currentYearElement = document.getElementById('current-year');
+    if (currentYearElement) {
+        currentYearElement.textContent = new Date().getFullYear();
+    }
+}
 
 // Check existing consent and apply it
 function checkExistingConsent() {
