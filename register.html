@@ -37,8 +37,7 @@
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
-                <img src="assets/images/logo.svg" alt="Logo Associazione Santa Barbara APS" class="logo">
-                <span class="brand-text">Associazione Santa Barbara APS</span>
+                <img src="assets/images/banner.jpg" alt="Associazione Santa Barbara APS" class="banner-logo">
             </div>
             <button class="nav-toggle" aria-label="Toggle navigation">
                 <span></span>
@@ -363,7 +362,7 @@
                 if (error.message.includes('User already registered')) {
                     errorMessage = 'Un account con questa email esiste già. <a href="login.html">Accedi qui</a>.';
                 } else if (error.message.includes('Password should be at least')) {
-                    errorMessage = 'La password deve essere di almeno 6 caratteri.';
+                    errorMessage = 'La password deve essere di almeno 8 caratteri.';
                 } else if (error.message.includes('Invalid email')) {
                     errorMessage = 'Indirizzo email non valido.';
                 } else if (error.message.includes('signup disabled')) {
@@ -383,10 +382,10 @@
             const password = this.value;
             const helpText = this.nextElementSibling;
             
-            if (password.length > 0 && password.length < 6) {
+            if (password.length > 0 && password.length < 8) {
                 helpText.textContent = 'Password troppo corta (minimo 8 caratteri)';
                 helpText.style.color = '#d32f2f';
-            } else if (password.length >= 6) {
+            } else if (password.length >= 8) {
                 helpText.textContent = 'Password valida ✓';
                 helpText.style.color = '#2e7d32';
             } else {

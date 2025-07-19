@@ -189,6 +189,13 @@ body {
     width: auto;
 }
 
+.banner-logo {
+    height: 50px;
+    width: auto;
+    max-width: 300px;
+    object-fit: contain;
+}
+
 .brand-text {
     font-size: 18px;
     font-weight: 600;
