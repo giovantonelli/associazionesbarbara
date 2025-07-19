@@ -89,7 +89,7 @@
                         <div class="form-group">
                             <label for="password">Password</label>
                             <input type="password" id="password" name="password" required>
-                            <small class="password-help">Minimo 6 caratteri</small>
+                            <small class="password-help">Minimo 8 caratteri con lettere maiuscole, minuscole, numeri e simboli</small>
                         </div>
                         
                         <div class="form-group">
@@ -214,9 +214,32 @@
 
         // Password validation
         function validatePassword(password) {
-            if (password.length < 6) {
-                return 'La password deve essere di almeno 6 caratteri.';
+            const errors = [];
+            
+            if (password.length < 8) {
+                errors.push('almeno 8 caratteri');
             }
+            
+            if (!/[a-z]/.test(password)) {
+                errors.push('una lettera minuscola');
+            }
+            
+            if (!/[A-Z]/.test(password)) {
+                errors.push('una lettera maiuscola');
+            }
+            
+            if (!/[0-9]/.test(password)) {
+                errors.push('un numero');
+            }
+            
+            if (!/[!@#$%^&*()_+\-=\[\]{}|;':".,<>?~`]/.test(password)) {
+                errors.push('un simbolo (!@#$%^&* ecc.)');
+            }
+            
+            if (errors.length > 0) {
+                return 'La password deve contenere: ' + errors.join(', ');
+            }
+            
             return null;
         }
 
@@ -361,13 +384,13 @@
             const helpText = this.nextElementSibling;
             
             if (password.length > 0 && password.length < 6) {
-                helpText.textContent = 'Password troppo corta (minimo 6 caratteri)';
+                helpText.textContent = 'Password troppo corta (minimo 8 caratteri)';
                 helpText.style.color = '#d32f2f';
             } else if (password.length >= 6) {
                 helpText.textContent = 'Password valida ✓';
                 helpText.style.color = '#2e7d32';
             } else {
-                helpText.textContent = 'Minimo 6 caratteri';
+                helpText.textContent = 'Minimo 8 caratteri';
                 helpText.style.color = '#666';
             }
         });

@@ -842,3 +842,42 @@ document.addEventListener('DOMContentLoaded', function() {
 // Export functions for global use
 window.logout = logout;
 window.showNotification = showNotification;
+
+// Cookie management function - available globally
+function manageCookies() {
+    // Simple cookie consent management
+    const currentConsent = localStorage.getItem('cookieConsent');
+    
+    const userChoice = confirm(
+        'Gestione Cookie:\n\n' +
+        'Cookie Analytics (Google Analytics): ' + (currentConsent === 'accepted' ? 'ATTIVATI' : 'DISATTIVATI') + '\n\n' +
+        'Vuoi modificare le impostazioni?\n\n' +
+        'OK = Attiva Analytics\n' +
+        'Annulla = Disattiva Analytics'
+    );
+    
+    if (userChoice) {
+        // User clicked OK - enable analytics
+        localStorage.setItem('cookieConsent', 'accepted');
+        if (typeof gtag === 'function') {
+            gtag('consent', 'update', {
+                'analytics_storage': 'granted'
+            });
+        }
+        showNotification('Cookie analytics attivati. La pagina verrà ricaricata.', 'success');
+        setTimeout(() => location.reload(), 1500);
+    } else {
+        // User clicked Cancel - disable analytics
+        localStorage.setItem('cookieConsent', 'denied');
+        if (typeof gtag === 'function') {
+            gtag('consent', 'update', {
+                'analytics_storage': 'denied'
+            });
+        }
+        showNotification('Cookie analytics disattivati. La pagina verrà ricaricata.', 'info');
+        setTimeout(() => location.reload(), 1500);
+    }
+}
+
+// Make manageCookies globally available
+window.manageCookies = manageCookies;
