@@ -80,31 +80,34 @@
         <div class="container">
             <div class="privacy-document">
                 <div class="privacy-intro">
-                    <p class="last-updated">Ultimo aggiornamento: 15 gennaio 2025</p>
+                    <p class="last-updated">Ultimo aggiornamento: 19 luglio 2025</p>
                     <p>L'Associazione Santa Barbara APS (di seguito "Associazione") rispetta la privacy dei propri utenti e si impegna a proteggere i dati personali in conformità al Regolamento Europeo per la Protezione dei Dati Personali (GDPR 2016/679) e alla normativa italiana vigente.</p>
                 </div>
 
                 <div class="privacy-section">
                     <h2>1. Titolare del Trattamento</h2>
                     <div class="info-box">
-                        <p><strong>Titolare del Trattamento:</strong> Associazione Santa Barbara APS</p>
-                        <p><strong>Sede legale:</strong> Via Roma, 123 - 00100 Roma (RM)</p>
-                        <p><strong>Codice Fiscale:</strong> 12345678901</p>
-                        <p><strong>Email:</strong> privacy@associazionesbarbara.it</p>
-                        <p><strong>Telefono:</strong> +39 06 123456</p>
+                        <p><strong>Titolare del Trattamento: </strong>Associazione Santa Barbara APS</p>
+                        <p><strong>Sede legale: </strong>Via N. Mastroserio 12, Grumo Appula (BA)</p>
+                        <p><strong>Codice Fiscale: </strong>93544830727</p>
+                        <p><strong>Email: </strong>info@associazionesbarbara.it</p>
+                        <p><strong>Telefono:</strong> +39 ..........</p>
                     </div>
                 </div>
 
                 <div class="privacy-section">
                     <h2>2. Dati Raccolti</h2>
-                    <h3>2.1 Dati di Navigazione</h3>
-                    <p>Durante la navigazione sul sito web, i sistemi informatici acquisiscono automaticamente alcuni dati la cui trasmissione è implicita nell'uso dei protocolli di comunicazione Internet:</p>
+                    <h3>2.1 Dati di Navigazione e Analytics</h3>
+                    <p>Durante la navigazione sul sito web, vengono raccolti automaticamente alcuni dati tramite Google Analytics (ID: G-F465WJF33T) e i sistemi informatici:</p>
                     <ul>
-                        <li>Indirizzo IP</li>
+                        <li>Indirizzo IP (anonimizzato)</li>
                         <li>Tipo di browser e versione</li>
-                        <li>Sistema operativo</li>
+                        <li>Sistema operativo e dispositivo utilizzato</li>
                         <li>Pagine visitate e tempo di permanenza</li>
                         <li>Data e ora di accesso</li>
+                        <li>Paese e città di provenienza (approssimativa)</li>
+                        <li>Modalità di arrivo al sito (sorgente del traffico)</li>
+                        <li>Interazioni con gli elementi della pagina</li>
                     </ul>
 
                     <h3>2.2 Dati Forniti Volontariamente</h3>
@@ -112,13 +115,25 @@
                     <ul>
                         <li>Nome e cognome</li>
                         <li>Indirizzo email</li>
-                        <li>Numero di telefono</li>
+                        <li>Numero di telefono (opzionale)</li>
+                        <li>Password criptata (per registrazione area soci)</li>
                         <li>Messaggio di contatto</li>
+                        <li>Ruolo utente (utente/socio)</li>
                         <li>Altri dati specificati nei moduli</li>
                     </ul>
 
-                    <h3>2.3 Cookie</h3>
-                    <p>Il sito utilizza cookie tecnici necessari per il funzionamento e cookie di analisi per migliorare l'esperienza utente. Per maggiori informazioni, consulta la nostra <a href="#cookie-policy">Cookie Policy</a>.</p>
+                    <h3>2.3 Dati di Autenticazione Supabase</h3>
+                    <p>Per l'accesso all'area soci, utilizziamo il servizio Supabase per la gestione sicura dell'autenticazione che raccoglie:</p>
+                    <ul>
+                        <li>Email e password (criptata con algoritmi di sicurezza)</li>
+                        <li>Metadati dell'utente (nome, cognome, ruolo)</li>
+                        <li>Sessioni di accesso e timestamp</li>
+                        <li>Token di verifica email</li>
+                        <li>Log di autenticazione per sicurezza</li>
+                    </ul>
+
+                    <h3>2.4 Cookie e Tecnologie di Tracciamento</h3>
+                    <p>Il sito utilizza cookie tecnici e di analytics. Implementiamo il Consent Mode di Google per rispettare le preferenze dell'utente. Per maggiori informazioni, consulta la nostra <a href="#cookie-policy">Cookie Policy</a>.</p>
                 </div>
 
                 <div class="privacy-section">
@@ -134,14 +149,20 @@
                         
                         <div class="purpose-item">
                             <h4>👥 Gestione Soci</h4>
-                            <p>Gestire l'iscrizione e i rapporti con i soci dell'Associazione</p>
+                            <p>Gestire l'iscrizione e i rapporti con i soci dell'Associazione tramite sistema di autenticazione Supabase</p>
                             <p><strong>Base giuridica:</strong> Esecuzione di un contratto</p>
                         </div>
                         
                         <div class="purpose-item">
-                            <h4>📊 Analisi Statistiche</h4>
-                            <p>Analizzare le preferenze e migliorare i servizi offerti</p>
-                            <p><strong>Base giuridica:</strong> Interesse legittimo</p>
+                            <h4>📊 Analisi Web e Statistics</h4>
+                            <p>Analizzare l'utilizzo del sito web tramite Google Analytics per migliorare i servizi e contenuti offerti</p>
+                            <p><strong>Base giuridica:</strong> Consenso dell'interessato (via Consent Mode)</p>
+                        </div>
+                        
+                        <div class="purpose-item">
+                            <h4>🔐 Sicurezza e Autenticazione</h4>
+                            <p>Garantire la sicurezza dell'accesso all'area riservata e prevenire accessi non autorizzati</p>
+                            <p><strong>Base giuridica:</strong> Interesse legittimo e sicurezza</p>
                         </div>
                         
                         <div class="purpose-item">
@@ -168,8 +189,10 @@
                     <p>I dati personali sono conservati per il tempo necessario al raggiungimento delle finalità per cui sono stati raccolti:</p>
                     <ul>
                         <li><strong>Dati di contatto:</strong> Fino a 2 anni dalla raccolta o fino alla revoca del consenso</li>
-                        <li><strong>Dati dei soci:</strong> Per la durata del rapporto associativo e fino a 10 anni dalla cessazione</li>
-                        <li><strong>Dati di navigazione:</strong> Fino a 24 mesi dalla raccolta</li>
+                        <li><strong>Dati dei soci (Supabase):</strong> Per la durata del rapporto associativo e fino a 10 anni dalla cessazione per adempimenti normativi</li>
+                        <li><strong>Dati di navigazione e analytics:</strong> Fino a 26 mesi dalla raccolta (standard Google Analytics)</li>
+                        <li><strong>Sessioni di autenticazione:</strong> Fino alla scadenza naturale della sessione o disconnessione volontaria</li>
+                        <li><strong>Log di sicurezza:</strong> Fino a 12 mesi per garantire la sicurezza del sistema</li>
                     </ul>
                 </div>
 
@@ -184,8 +207,14 @@
                 </div>
 
                 <div class="privacy-section">
-                    <h2>7. Trasferimento dei Dati</h2>
-                    <p>I dati personali sono trattati all'interno del territorio dell'Unione Europea. Nel caso di trasferimento verso paesi terzi, l'Associazione garantisce che tale trasferimento avvenga in conformità alle disposizioni del GDPR.</p>
+                    <h2>7. Trasferimento dei Dati e Servizi Terzi</h2>
+                    <p>I dati personali sono principalmente trattati all'interno del territorio dell'Unione Europea. Tuttavia, per alcune funzionalità del sito utilizziamo i seguenti servizi terzi:</p>
+                    <ul>
+                        <li><strong>Google Analytics:</strong> Per l'analisi statistica del sito (Google LLC, USA - con clausole contrattuali standard)</li>
+                        <li><strong>Supabase:</strong> Per l'autenticazione e gestione utenti (sede in Europa, conforme GDPR)</li>
+                        <li><strong>Servizi di hosting:</strong> I dati possono essere ospitati su server europei certificati</li>
+                    </ul>
+                    <p>Nel caso di trasferimento verso paesi terzi, l'Associazione garantisce che tale trasferimento avvenga in conformità alle disposizioni del GDPR e con adeguate garanzie di protezione.</p>
                 </div>
 
                 <div class="privacy-section">
@@ -229,8 +258,9 @@
                         <p>Per esercitare i propri diritti, l'interessato può contattare il Titolare del trattamento:</p>
                         <ul>
                             <li>Email: <a href="mailto:privacy@associazionesbarbara.it">privacy@associazionesbarbara.it</a></li>
-                            <li>Telefono: +39 06 123456</li>
-                            <li>Posta: Via Roma, 123 - 00100 Roma (RM)</li>
+                            <li>Email generale: <a href="mailto:info@associazionesbarbara.it">info@associazionesbarbara.it</a></li>
+                            <li>Indirizzo: Via N. Mastroserio 12, 70023 Grumo Appula (BA)</li>
+                            <li>Telefono: +39 ..........</li>
                         </ul>
                     </div>
                 </div>
@@ -254,20 +284,34 @@
                     <div class="cookie-types">
                         <div class="cookie-type">
                             <h4>Cookie Tecnici</h4>
-                            <p>Necessari per il funzionamento del sito web. Non richiedono consenso.</p>
+                            <p>Necessari per il funzionamento del sito web. Non richiedono consenso esplicito.</p>
                             <ul>
                                 <li>Cookie di sessione per la navigazione</li>
                                 <li>Cookie per le preferenze linguistiche</li>
-                                <li>Cookie per la sicurezza</li>
+                                <li>Cookie per la sicurezza e autenticazione Supabase</li>
+                                <li>Cookie per il funzionamento dell'area riservata</li>
                             </ul>
                         </div>
                         
                         <div class="cookie-type">
-                            <h4>Cookie di Analisi</h4>
-                            <p>Utilizzati per analizzare l'utilizzo del sito web. Richiedono consenso.</p>
+                            <h4>Cookie di Analisi (Google Analytics)</h4>
+                            <p>Utilizzati per analizzare l'utilizzo del sito web. Sono soggetti al Consent Mode di Google e richiedono consenso.</p>
                             <ul>
-                                <li>Cookie per statistiche di visita</li>
-                                <li>Cookie per analisi delle performance</li>
+                                <li><strong>_ga:</strong> Identifica gli utenti unici (durata: 2 anni)</li>
+                                <li><strong>_ga_G-F465WJF33T:</strong> Mantiene lo stato della sessione (durata: 2 anni)</li>
+                                <li><strong>_gid:</strong> Identifica gli utenti unici (durata: 24 ore)</li>
+                                <li><strong>_gat:</strong> Limita la frequenza delle richieste (durata: 1 minuto)</li>
+                            </ul>
+                            <p><em>Nota: I cookie di analytics sono attivati solo previo consenso dell'utente tramite banner informativo.</em></p>
+                        </div>
+                        
+                        <div class="cookie-type">
+                            <h4>Cookie di Autenticazione</h4>
+                            <p>Utilizzati per gestire l'accesso sicuro all'area soci tramite Supabase.</p>
+                            <ul>
+                                <li>Token di sessione per l'autenticazione</li>
+                                <li>Cookie per il refresh automatico della sessione</li>
+                                <li>Cookie per le preferenze di sicurezza</li>
                             </ul>
                         </div>
                     </div>
@@ -276,10 +320,12 @@
                         <h3>Gestione dei Cookie</h3>
                         <p>È possibile gestire le preferenze dei cookie tramite:</p>
                         <ul>
-                            <li>Il banner informativo presente alla prima visita</li>
-                            <li>Le impostazioni del browser</li>
+                            <li>Il banner informativo presente alla prima visita con Consent Mode</li>
+                            <li>Le impostazioni del browser (gestione manuale)</li>
                             <li>Il pulsante "Gestisci Cookie" presente nel footer</li>
+                            <li>La pagina delle impostazioni privacy di Google per Analytics</li>
                         </ul>
+                        <p><strong>Importante:</strong> Disabilitando i cookie tecnici, alcune funzionalità del sito (come l'area soci) potrebbero non funzionare correttamente.</p>
                         <button class="btn btn-outline" onclick="manageCookies()">Gestisci Cookie</button>
                     </div>
                 </div>
@@ -300,7 +346,8 @@
                         <div class="contact-item">
                             <strong>Ufficio Privacy</strong>
                             <p>Email: <a href="mailto:privacy@associazionesbarbara.it">privacy@associazionesbarbara.it</a></p>
-                            <p>Telefono: +39 06 123456</p>
+                            <p>Email generale: <a href="mailto:info@associazionesbarbara.it">info@associazionesbarbara.it</a></p>
+                            <p>Indirizzo: Via N. Mastroserio 12, 70023 Grumo Appula (BA)</p>
                         </div>
                     </div>
                 </div>

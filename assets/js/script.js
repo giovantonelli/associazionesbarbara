@@ -247,6 +247,16 @@ function initForms() {
                 return;
             }
             
+            // Advanced password validation for registration/login forms
+            const passwordInput = form.querySelector('input[name="password"]');
+            if (passwordInput && (formType === 'register' || formType === 'registration')) {
+                const validation = validatePassword(passwordInput.value);
+                if (!validation.isValid) {
+                    showNotification('Password non valida: ' + validation.errors.join(', '), 'error');
+                    return;
+                }
+            }
+            
             // Handle different form types
             switch(formType) {
                 case 'contact':
@@ -258,8 +268,19 @@ function initForms() {
                 case 'newsletter':
                     handleNewsletterForm(formData);
                     break;
+                case 'register':
+                case 'registration':
+                    handleRegistrationForm(formData);
+                    break;
             }
         });
+    });
+    
+    // Initialize password validation for all password fields
+    const passwordInputs = document.querySelectorAll('input[name="password"]');
+    passwordInputs.forEach(passwordInput => {
+        const confirmPasswordInput = passwordInput.form.querySelector('input[name="confirmPassword"], input[name="confirm_password"], input[name="passwordConfirm"]');
+        attachPasswordValidation(passwordInput, confirmPasswordInput);
     });
 }
 
@@ -289,10 +310,162 @@ function validateForm(form) {
     return isValid;
 }
 
-function handleContactForm(formData) {
-    // Simulate form submission
-    showNotification('Messaggio inviato con successo! Ti risponderemo presto.', 'success');
-    console.log('Contact form submitted:', Object.fromEntries(formData));
+// Advanced Password Validation (matches Supabase requirements)
+function validatePassword(password) {
+    const errors = [];
+    
+    // Minimum length check (8 characters)
+    if (password.length < 8) {
+        errors.push('La password deve essere di almeno 8 caratteri');
+    }
+    
+    // Lowercase letter check
+    if (!/[a-z]/.test(password)) {
+        errors.push('La password deve contenere almeno una lettera minuscola');
+    }
+    
+    // Uppercase letter check
+    if (!/[A-Z]/.test(password)) {
+        errors.push('La password deve contenere almeno una lettera maiuscola');
+    }
+    
+    // Digit check
+    if (!/\d/.test(password)) {
+        errors.push('La password deve contenere almeno un numero');
+    }
+    
+    // Symbol check (special characters)
+    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]/.test(password)) {
+        errors.push('La password deve contenere almeno un simbolo (!@#$%^&* etc.)');
+    }
+    
+    return {
+        isValid: errors.length === 0,
+        errors: errors,
+        strength: calculatePasswordStrength(password)
+    };
+}
+
+// Calculate password strength for visual feedback
+function calculatePasswordStrength(password) {
+    let strength = 0;
+    
+    // Length scoring
+    if (password.length >= 8) strength += 1;
+    if (password.length >= 12) strength += 1;
+    if (password.length >= 16) strength += 1;
+    
+    // Character variety scoring
+    if (/[a-z]/.test(password)) strength += 1;
+    if (/[A-Z]/.test(password)) strength += 1;
+    if (/\d/.test(password)) strength += 1;
+    if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]/.test(password)) strength += 1;
+    
+    // Return strength level
+    if (strength <= 2) return 'weak';
+    if (strength <= 4) return 'medium';
+    if (strength <= 6) return 'strong';
+    return 'very-strong';
+}
+
+// Real-time password validation for input fields
+function attachPasswordValidation(passwordInput, confirmPasswordInput = null) {
+    if (!passwordInput) return;
+    
+    // Create or find password feedback container
+    let feedbackContainer = passwordInput.parentNode.querySelector('.password-feedback');
+    if (!feedbackContainer) {
+        feedbackContainer = document.createElement('div');
+        feedbackContainer.className = 'password-feedback';
+        passwordInput.parentNode.appendChild(feedbackContainer);
+    }
+    
+    // Create or find password strength indicator
+    let strengthIndicator = passwordInput.parentNode.querySelector('.password-strength');
+    if (!strengthIndicator) {
+        strengthIndicator = document.createElement('div');
+        strengthIndicator.className = 'password-strength';
+        strengthIndicator.innerHTML = `
+            <div class="strength-bar">
+                <div class="strength-fill"></div>
+            </div>
+            <span class="strength-text">Inserisci password</span>
+        `;
+        passwordInput.parentNode.appendChild(strengthIndicator);
+    }
+    
+    // Password input validation
+    passwordInput.addEventListener('input', function() {
+        const password = this.value;
+        const validation = validatePassword(password);
+        const strengthFill = strengthIndicator.querySelector('.strength-fill');
+        const strengthText = strengthIndicator.querySelector('.strength-text');
+        
+        // Update feedback
+        if (password.length === 0) {
+            feedbackContainer.innerHTML = '';
+            strengthText.textContent = 'Inserisci password';
+            strengthFill.className = 'strength-fill';
+            this.classList.remove('error', 'success');
+        } else if (validation.isValid) {
+            feedbackContainer.innerHTML = '<span class="success">✓ Password valida</span>';
+            this.classList.remove('error');
+            this.classList.add('success');
+        } else {
+            feedbackContainer.innerHTML = `
+                <ul class="error-list">
+                    ${validation.errors.map(error => `<li>${error}</li>`).join('')}
+                </ul>
+            `;
+            this.classList.remove('success');
+            this.classList.add('error');
+        }
+        
+        // Update strength indicator
+        const strengthLevels = {
+            'weak': { width: '25%', color: '#f44336', text: 'Debole' },
+            'medium': { width: '50%', color: '#ff9800', text: 'Media' },
+            'strong': { width: '75%', color: '#4caf50', text: 'Forte' },
+            'very-strong': { width: '100%', color: '#2e7d32', text: 'Molto Forte' }
+        };
+        
+        const level = strengthLevels[validation.strength] || { width: '0%', color: '#e0e0e0', text: 'Inserisci password' };
+        strengthFill.style.width = level.width;
+        strengthFill.style.backgroundColor = level.color;
+        strengthText.textContent = `Sicurezza: ${level.text}`;
+        
+        // Validate confirm password if present
+        if (confirmPasswordInput && confirmPasswordInput.value) {
+            validatePasswordConfirmation(confirmPasswordInput, password);
+        }
+    });
+    
+    // Confirm password validation
+    if (confirmPasswordInput) {
+        confirmPasswordInput.addEventListener('input', function() {
+            const password = passwordInput.value;
+            const confirmPassword = this.value;
+            validatePasswordConfirmation(this, password);
+        });
+    }
+}
+
+// Validate password confirmation
+function validatePasswordConfirmation(confirmInput, originalPassword) {
+    const confirmPassword = confirmInput.value;
+    
+    if (confirmPassword.length === 0) {
+        confirmInput.classList.remove('error', 'success');
+        return;
+    }
+    
+    if (confirmPassword === originalPassword) {
+        confirmInput.classList.remove('error');
+        confirmInput.classList.add('success');
+    } else {
+        confirmInput.classList.remove('success');
+        confirmInput.classList.add('error');
+    }
 }
 
 function handleLoginForm(formData) {
@@ -310,6 +483,57 @@ function handleLoginForm(formData) {
     } else {
         showNotification('Email e password sono obbligatori', 'error');
     }
+}
+
+function handleRegistrationForm(formData) {
+    const email = formData.get('email');
+    const password = formData.get('password');
+    const confirmPassword = formData.get('confirm-password');
+    const name = formData.get('name') || formData.get('nome');
+    const surname = formData.get('surname') || formData.get('cognome');
+    const phone = formData.get('phone') || formData.get('telefono');
+    const acceptTerms = formData.get('privacy');
+    
+    // Validate required fields
+    if (!email || !password || !name || !surname) {
+        showNotification('Tutti i campi obbligatori devono essere compilati', 'error');
+        return;
+    }
+    
+    // Validate password strength
+    const passwordValidation = validatePassword(password);
+    if (!passwordValidation.isValid) {
+        showNotification('Password non valida: ' + passwordValidation.errors.join(', '), 'error');
+        return;
+    }
+    
+    // Check password confirmation
+    if (password !== confirmPassword) {
+        showNotification('Le password non coincidono', 'error');
+        return;
+    }
+    
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        showNotification('Formato email non valido', 'error');
+        return;
+    }
+    
+    // Check terms acceptance
+    if (!acceptTerms) {
+        showNotification('È necessario accettare la privacy policy', 'error');
+        return;
+    }
+    
+    // Registration successful
+    showNotification('Registrazione completata! Controlla la tua email per verificare l\'account.', 'success');
+    console.log('Registration data:', { email, name, surname, phone });
+    
+    // Optional: redirect to login page after a delay
+    setTimeout(() => {
+        window.location.href = 'login.html';
+    }, 2000);
 }
 
 function handleNewsletterForm(formData) {
@@ -479,14 +703,14 @@ function getMonthName(monthIndex) {
 
 function loadEvents() {
     // Mock function to load events from server
-    console.log('Loading events for members...');
+    console.log('Caricando eventi per membri...');
 }
 
 // Social Media Integration
 function initSocialFeeds() {
     // Mock social media integration
     // In a real implementation, you would use Facebook and Instagram APIs
-    console.log('Initializing social media feeds...');
+    console.log('Inizializzando notizie dai social...');
 }
 
 // Utility Functions
