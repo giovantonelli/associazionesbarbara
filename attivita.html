@@ -1,3 +1,34 @@
+	   <style>
+		   .activity-details { display: none; margin-top: 30px; }
+		   .activity-details.active { display: block; animation: fadeIn 0.5s; }
+		   .activity-details img { max-width: 220px; margin: 10px 15px 10px 0; border-radius: 8px; }
+		   .card { transition: transform 0.25s cubic-bezier(.4,1.5,.5,1); min-height: 410px; display: flex; flex-direction: column; justify-content: stretch; }
+		   .card.card-active { transform: scale(1.06); box-shadow: 0 8px 32px rgba(80,60,20,0.13); z-index:2; }
+		   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+	   </style>
+	   <style>
+		   .activity-details { display: none; margin-top: 30px; }
+		   .activity-details.active { display: block; animation: fadeIn 0.5s; }
+		   .activity-details img { max-width: 220px; margin: 10px 15px 10px 0; border-radius: 8px; }
+		   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+	   </style>
+	   <script>
+		   function showActivityDetails(id) {
+			   document.querySelectorAll('.activity-details').forEach(function(sec) { sec.classList.remove('active'); });
+			   var el = document.getElementById(id);
+			   if (el) el.classList.add('active');
+			   // Gestione effetto card
+			   document.querySelectorAll('.card[onclick]').forEach(function(card) { card.classList.remove('card-active'); });
+			   if (id === 'dettagli-corteo') {
+				   document.querySelector('.card[onclick*="dettagli-corteo"]').classList.add('card-active');
+			   } else if (id === 'dettagli-tamburi') {
+				   document.querySelector('.card[onclick*="dettagli-tamburi"]').classList.add('card-active');
+			   } else if (id === 'dettagli-inarrivo') {
+				   document.querySelector('.card[onclick*="dettagli-inarrivo"]').classList.add('card-active');
+			   }
+			   window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });
+		   }
+	   </script>
 <!DOCTYPE html>
 <html lang="it">
 	<head>
@@ -12,6 +43,7 @@
 		<meta property="og:type" content="website">
 		<meta property="og:url" content="https://associazionesbarbara.it/attivita.html">
 		<link rel="stylesheet" href="assets/css/style.css">
+
 		<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
 		<!-- Google tag (gtag.js) with Consent Mode -->
 		<script>
@@ -30,16 +62,19 @@
 				'wait_for_update': 500
 			});
 		</script>
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-F465WJF33T"></script>
-		<script>
-			window.dataLayer = window.dataLayer || [];
+	   <style>
 
-			function gtag() {
-				dataLayer.push(arguments);
-			}
-			gtag('js', new Date());
-			gtag('config', 'G-F465WJF33T');
-		</script>
+	   </style>
+	   <script async src="https://www.googletagmanager.com/gtag/js?id=G-F465WJF33T"></script>
+	   <script>
+		   window.dataLayer = window.dataLayer || [];
+
+		   function gtag() {
+			   dataLayer.push(arguments);
+		   }
+		   gtag('js', new Date());
+		   gtag('config', 'G-F465WJF33T');
+	   </script>
 	</head>
 	<body>
 		<!-- Navigation -->
@@ -87,283 +122,95 @@
 				</ul>
 			</div>
 		</nav>
-		<!-- Page Header -->
+				<!-- Page Header -->
 		<section class="page-header">
 			<div class="container">
 				<h1>Attività e Progetti</h1>
 				<p>Scopri tutte le nostre iniziative per la comunità</p>
 			</div>
 		</section>
-		<!-- Attività Principali -->
-		<section class="attivita-principali">
-			<div class="container">
-				<h2 class="section-title">Le nostre attività principali</h2>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="card activity-card">
-							<img src="assets/images/eventi-culturali.jpg" alt="Eventi culturali" class="card-img">
-							<div class="card-content">
-								<h3>Eventi Culturali</h3>
-								<p>Organizziamo conferenze, mostre d'arte, spettacoli teatrali e concerti per promuovere la cultura e valorizzare il patrimonio artistico locale.</p>
-								<ul>
-									<li>Conferenze mensili su temi di interesse sociale</li>
-									<li>Mostre d'arte di artisti locali</li>
-									<li>Spettacoli teatrali e concerti</li>
-									<li>Presentazioni di libri e incontri con autori</li>
-								</ul>
-								<div class="activity-meta">
-									<span class="activity-status active">Attivo</span>
-									<span class="activity-frequency">Mensile</span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="card activity-card">
-							<img src="assets/images/volontariato.jpg" alt="Volontariato" class="card-img">
-							<div class="card-content">
-								<h3>Progetti di Volontariato</h3>
-								<p>Coordiniamo attività di volontariato per supportare le persone in difficoltà e promuovere la solidarietà sociale nella nostra comunità.</p>
-								<ul>
-									<li>Assistenza domiciliare agli anziani</li>
-									<li>Supporto alle famiglie in difficoltà</li>
-									<li>Banco alimentare e distribuzione viveri</li>
-									<li>Doposcuola per bambini e ragazzi</li>
-								</ul>
-								<div class="activity-meta">
-									<span class="activity-status active">Attivo</span>
-									<span class="activity-frequency">Continuativo</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="card activity-card">
-							<img src="assets/images/ambiente.jpg" alt="Tutela ambientale" class="card-img">
-							<div class="card-content">
-								<h3>Tutela Ambientale</h3>
-								<p>Promuoviamo la sostenibilità ambientale attraverso progetti di sensibilizzazione e azioni concrete per la protezione del territorio.</p>
-								<ul>
-									<li>Pulizia spiagge e parchi pubblici</li>
-									<li>Piantumazione di alberi e verde urbano</li>
-									<li>Progetti di educazione ambientale</li>
-									<li>Promozione della raccolta differenziata</li>
-								</ul>
-								<div class="activity-meta">
-									<span class="activity-status active">Attivo</span>
-									<span class="activity-frequency">Stagionale</span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="card activity-card">
-							<img src="assets/images/formazione.jpg" alt="Formazione" class="card-img">
-							<div class="card-content">
-								<h3>Formazione e Educazione</h3>
-								<p>Organizziamo corsi di formazione per volontari e cittadini, promuovendo lo sviluppo delle competenze e la crescita personale.</p>
-								<ul>
-									<li>Corsi di primo soccorso</li>
-									<li>Formazione per volontari</li>
-									<li>Workshop su temi sociali</li>
-									<li>Laboratori creativi e artigianali</li>
-								</ul>
-								<div class="activity-meta">
-									<span class="activity-status active">Attivo</span>
-									<span class="activity-frequency">Trimestrale</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- Progetti in Corso -->
-		<section class="progetti-corso">
-			<div class="container">
-				<h2 class="section-title">Progetti in corso</h2>
-				<div class="row">
-					<div class="col-md-4">
-						<div class="card project-card">
-							<div class="project-header">
-								<h3>Ponte Generazionale</h3>
-								<span class="project-status in-progress">In corso</span>
-							</div>
-							<div class="card-content">
-								<p>Un progetto che mette in contatto giovani e anziani per uno scambio reciproco di esperienze e competenze.</p>
-								<div class="project-progress">
-									<div class="progress-bar">
-										<div class="progress-fill" style="width: 75%"></div>
-									</div>
-									<span class="progress-text">75% completato</span>
-								</div>
-								<div class="project-details">
-									<p>
-										<strong>Durata:</strong> 12 mesi
-									</p>
-									<p>
-										<strong>Beneficiari:</strong> 50 persone
-									</p>
-									<p>
-										<strong>Inizio:</strong> Gennaio 2025
-									</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="card project-card">
-							<div class="project-header">
-								<h3>Verde Urbano</h3>
-								<span class="project-status in-progress">In corso</span>
-							</div>
-							<div class="card-content">
-								<p>Riqualificazione di spazi verdi urbani attraverso la piantumazione di alberi e la creazione di orti comunitari.</p>
-								<div class="project-progress">
-									<div class="progress-bar">
-										<div class="progress-fill" style="width: 60%"></div>
-									</div>
-									<span class="progress-text">60% completato</span>
-								</div>
-								<div class="project-details">
-									<p>
-										<strong>Durata:</strong> 18 mesi
-									</p>
-									<p>
-										<strong>Aree interessate:</strong> 5 parchi
-									</p>
-									<p>
-										<strong>Inizio:</strong> Ottobre 2024
-									</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="card project-card">
-							<div class="project-header">
-								<h3>Digitale per Tutti</h3>
-								<span class="project-status planning">In pianificazione</span>
-							</div>
-							<div class="card-content">
-								<p>Corsi di alfabetizzazione digitale per cittadini over 65 per ridurre il divario digitale e promuovere l'inclusione.</p>
-								<div class="project-progress">
-									<div class="progress-bar">
-										<div class="progress-fill" style="width: 25%"></div>
-									</div>
-									<span class="progress-text">25% completato</span>
-								</div>
-								<div class="project-details">
-									<p>
-										<strong>Durata:</strong> 6 mesi
-									</p>
-									<p>
-										<strong>Partecipanti:</strong> 30 persone
-									</p>
-									<p>
-										<strong>Inizio:</strong> Marzo 2025
-									</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- Progetti Completati -->
-		<section class="progetti-completati">
-			<div class="container">
-				<h2 class="section-title">Progetti completati</h2>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="card project-card completed">
-							<div class="project-header">
-								<h3>Memoria Storica</h3>
-								<span class="project-status completed">Completato</span>
-							</div>
-							<div class="card-content">
-								<p>Raccolta e digitalizzazione di testimonianze storiche degli anziani del territorio per preservare la memoria collettiva.</p>
-								<div class="project-achievements">
-									<div class="achievement">
-										<span class="achievement-number">50</span>
-										<span class="achievement-label">Testimonianze raccolte</span>
-									</div>
-									<div class="achievement">
-										<span class="achievement-number">200</span>
-										<span class="achievement-label">Ore di registrazione</span>
-									</div>
-									<div class="achievement">
-										<span class="achievement-number">1</span>
-										<span class="achievement-label">Documentario prodotto</span>
-									</div>
-								</div>
-								<p class="project-period">Completato nel 2024</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="card project-card completed">
-							<div class="project-header">
-								<h3>Solidarietà Alimentare</h3>
-								<span class="project-status completed">Completato</span>
-							</div>
-							<div class="card-content">
-								<p>Distribuzione di pacchi alimentari durante l'emergenza COVID-19 per supportare le famiglie in difficoltà economica.</p>
-								<div class="project-achievements">
-									<div class="achievement">
-										<span class="achievement-number">300</span>
-										<span class="achievement-label">Famiglie aiutate</span>
-									</div>
-									<div class="achievement">
-										<span class="achievement-number">1500</span>
-										<span class="achievement-label">Pacchi distribuiti</span>
-									</div>
-									<div class="achievement">
-										<span class="achievement-number">80</span>
-										<span class="achievement-label">Volontari coinvolti</span>
-									</div>
-								</div>
-								<p class="project-period">Completato nel 2023</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- Come Partecipare -->
-		<section class="come-partecipare">
-			<div class="container">
-				<h2 class="section-title">Come partecipare</h2>
-				<div class="row">
-					<div class="col-md-4">
-						<div class="participation-step">
-							<div class="step-number">1</div>
-							<h3>Contattaci</h3>
-							<p>Scrivi una mail o chiamaci per manifestare il tuo interesse a partecipare alle nostre attività.</p>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="participation-step">
-							<div class="step-number">2</div>
-							<h3>Incontra il team</h3>
-							<p>Partecipa a un incontro informativo per conoscere meglio l'associazione e le opportunità di volontariato.</p>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="participation-step">
-							<div class="step-number">3</div>
-							<h3>Inizia a contribuire</h3>
-							<p>Scegli l'attività che più ti ispira e inizia a fare la differenza nella tua comunità.</p>
-						</div>
-					</div>
-				</div>
-				<div class="text-center">
-					<a href="contatti.html" class="btn btn-primary">Contattaci ora</a>
-				</div>
-			</div>
-		</section>
+	   <!-- Attività Principali (allineate a index.html) -->
+	   <section class="attivita-principali">
+		   <div class="container">
+			   <h2 class="section-title">Le nostre attività principali</h2>
+			   <div class="row">
+				   <div class="col-md-4">
+					   <div class="card" onclick="showActivityDetails('dettagli-corteo')" style="cursor:pointer;">
+						   <img src="assets/images/corteostorico.jpg" alt="Corteo Storico" class="card-img">
+						   <div class="card-content">
+							   <h3>Corteo storico</h3>
+							   <p>Un viaggio nel tempo tra costumi d’epoca, figuranti, tamburini e sbandieratori: il Corteo Storico anima le strade del paese, rievocando la storia locale e coinvolgendo grandi e piccoli in un’esperienza unica di comunità e tradizione.</p>
+						   </div>
+					   </div>
+				   </div>
+				   <div class="col-md-4">
+					   <div class="card" onclick="showActivityDetails('dettagli-tamburi')" style="cursor:pointer;">
+						   <img src="assets/images/tamburini.jpg" alt="Tamburi medievali" class="card-img">
+						   <div class="card-content">
+							   <h3>Tamburi medievali</h3>
+							   <p>Il gruppo di tamburi medievali porta energia e ritmo agli eventi: giovani e adulti si esibiscono in parate e spettacoli, trasmettendo passione per la musica tradizionale e coinvolgendo il pubblico con performance spettacolari.</p>
+						   </div>
+					   </div>
+				   </div>
+				   <div class="col-md-4">
+					   <div class="card" onclick="showActivityDetails('dettagli-inarrivo')" style="cursor:pointer;">
+						   <img src="assets/images/activity3.jpg" alt="Coming soon..." class="card-img">
+						   <div class="card-content">
+							   <h3>In arrivo...</h3>
+							   <p>Una nuova iniziativa sociale e culturale è in fase di sviluppo: sarà un progetto innovativo pensato per coinvolgere la cittadinanza, promuovere inclusione e offrire nuove opportunità di partecipazione. Segui i nostri canali per scoprire tutte le novità!</p>
+						   </div>
+					   </div>
+				   </div>
+		   <!-- Sezioni dettagliate attività -->
+		   <div id="dettagli-corteo" class="activity-details">
+			   <h3>Corteo Storico</h3>
+			   <div style="display:flex;align-items:flex-start;flex-wrap:wrap;">
+				   <img src="assets/images/corteostorico.jpg" alt="Corteo Storico">
+				   <img src="assets/images/banner.jpg" alt="Sfilata storica">
+				   <div>
+					   <p>Il Corteo Storico è l’evento simbolo dell’associazione: una rievocazione che coinvolge decine di figuranti in abiti d’epoca, cavalli, tamburini e sbandieratori. Il corteo attraversa le vie principali del paese, rievocando momenti salienti della storia locale e promuovendo la partecipazione di tutta la comunità.</p>
+					   <p>Il Corteo Storico rappresenta il cuore pulsante della nostra associazione: una grande festa popolare che unisce storia, arte e senso di appartenenza. Ogni anno, centinaia di persone partecipano come figuranti, artigiani, musicisti e spettatori, rendendo l’evento un’occasione di crescita e condivisione per tutto il territorio.</p>
+					   <ul>
+						   <li>Costumi realizzati artigianalmente</li>
+						   <li>Collaborazione con scuole e associazioni</li>
+						   <li>Spettacoli e animazione durante il percorso</li>
+					   </ul>
+				   </div>
+			   </div>
+		   </div>
+		   <div id="dettagli-tamburi" class="activity-details">
+			   <h3>Tamburi Medievali</h3>
+			   <div style="display:flex;align-items:flex-start;flex-wrap:wrap;">
+				   <img src="assets/images/tamburini.jpg" alt="Tamburi Medievali">
+				   <img src="assets/images/testimonials/tamburi1.jpg" alt="Esibizione tamburini">
+				   <div>
+					   <p>I Tamburi Medievali sono il battito della nostra associazione: con prove settimanali e tanta passione, il gruppo anima cortei, rievocazioni e festival, trasmettendo energia e tradizione. Le loro esibizioni sono un momento di aggregazione e spettacolo che coinvolge giovani e famiglie.</p>
+					   <ul>
+						   <li>Prove settimanali aperte ai giovani</li>
+						   <li>Partecipazione a festival storici</li>
+						   <li>Collaborazioni con altri gruppi folkloristici</li>
+					   </ul>
+				   </div>
+			   </div>
+		   </div>
+		   <div id="dettagli-inarrivo" class="activity-details">
+			   <h3>Nuovo Progetto in Arrivo</h3>
+			   <div style="display:flex;align-items:flex-start;flex-wrap:wrap;">
+				   <img src="assets/images/activity3.jpg" alt="Nuovo progetto">
+				   <img src="assets/images/about-preview.jpg" alt="Progetto sociale">
+				   <div>
+					   <p>Il prossimo progetto dell’associazione sarà dedicato all’innovazione sociale e alla partecipazione attiva: attività, laboratori e incontri pensati per favorire l’inclusione, la creatività e il dialogo tra generazioni. Presto tutte le informazioni su come aderire!</p>
+					   <ul>
+						   <li>Attività innovative per tutte le età</li>
+						   <li>Collaborazione con enti e associazioni del territorio</li>
+						   <li>Opportunità di volontariato e formazione</li>
+					   </ul>
+				   </div>
+			   </div>
+		   </div>
+			   </div>
+		   </div>
+	   </section>
 		<!-- Footer -->
 		<footer class="footer">
 			<div class="container">

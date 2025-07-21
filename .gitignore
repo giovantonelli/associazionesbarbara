@@ -1,0 +1,52 @@
+# This is a .gitignore file for a website project.
+# It specifies files and directories that should be ignored by Git.
+# Do not include any files that have been recently edited.
+# Common directories to ignore
+node_modules/
+dist/
+build/
+tmp/
+logs/
+coverage/
+# Configuration files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+# Dependency directories
+bower_components/
+jspm_packages/
+# IDE and editor specific files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+# Operating system files
+.DS_Store
+Thumbs.db
+# Compiled files
+*.o
+*.pyc
+*.pyo
+*.class
+*.log
+# Backup files
+*.bak
+*.tmp
+*.swp
+# Miscellaneous files
+*.orig
+*.rej
+*.swo
+# Ignore specific files that are not part of the project
+# but are not deleted
+*.log
+*.cache
+*.pid
+*.pid.lock
+# AI generated files/directories
+*.ai
+*.openai
+.claude/
+CLAUDE.md
