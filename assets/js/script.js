@@ -780,7 +780,23 @@ function initSocialFeeds() {
 
 // Utility Functions
 function showNotification(message, type = 'info') {
-	// Create notification element
+	// Use the new notification system if available, fallback to old system
+	if (window.notify) {
+		switch(type) {
+			case 'success':
+				return window.notify.success(message);
+			case 'error':
+			case 'danger':
+				return window.notify.error(message);
+			case 'warning':
+				return window.notify.warning(message);
+			case 'info':
+			default:
+				return window.notify.info(message);
+		}
+	}
+	
+	// Fallback - Create notification element (old system)
 	const notification = document.createElement('div');
 	notification.className = `notification notification-${type}`;
 	notification.innerHTML = `

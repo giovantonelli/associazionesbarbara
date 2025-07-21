@@ -91,6 +91,74 @@ body {
   transform: translateY(-2px);
 }
 
+/* Override nav-link color for Area Soci button */
+.nav-link.btn-primary {
+  color: white !important;
+}
+
+.nav-link.btn-primary:hover {
+  color: white !important;
+}
+
+/* Loading States for Buttons */
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.btn:disabled:hover {
+  background-color: var(--primary-color) !important;
+  transform: none !important;
+}
+
+/* Form Improvements */
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(225, 6, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.form-group input:invalid {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.1);
+}
+
+.form-group input:valid {
+  border-color: #28a745;
+}
+
+/* Smooth transitions for all interactive elements */
+.btn,
+.form-group input,
+.form-group textarea,
+.nav-link {
+  transition: all 0.2s ease;
+}
+
+/* Better hover states */
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nav-link:hover {
+  color: var(--primary-color);
+  transform: translateY(-1px);
+}
+
+/* Improved notifications positioning for mobile */
+@media (max-width: 768px) {
+  #notification-container {
+    top: 10px !important;
+    right: 10px !important;
+    left: 10px !important;
+    max-width: none !important;
+  }
+}
+
 .btn-secondary {
   background-color: var(--secondary-color);
   color: var(--text-color);
@@ -183,6 +251,23 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.nav-brand-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.2s ease;
+}
+
+.nav-brand-link:hover {
+  opacity: 0.8;
+}
+
+.nav-brand-link:visited {
+  color: inherit;
 }
 
 .logo {
@@ -1592,20 +1677,6 @@ section {
   margin-bottom: 30px;
 }
 
-.user-avatar {
-  width: 80px;
-  height: 80px;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 25px;
-  font-size: 2rem;
-  font-weight: bold;
-  color: white;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-}
 
 .user-details h3 {
   margin: 0 0 8px 0;
@@ -1700,13 +1771,6 @@ section {
     margin-bottom: 25px;
   }
 
-  .user-avatar {
-    margin-right: 0;
-    margin-bottom: 15px;
-    width: 60px;
-    height: 60px;
-    font-size: 1.5rem;
-  }
 
   .user-details h3 {
     font-size: 1.3rem;

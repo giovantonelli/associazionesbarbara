@@ -39,8 +39,10 @@
 		<nav class="navbar">
 			<div class="container">
 				<div class="nav-brand">
-					<img src="assets/images/logo.svg" alt="Logo Associazione Santa Barbara APS" class="logo">
-					<span class="brand-text">Associazione Santa Barbara APS</span>
+					<a href="index.html" class="nav-brand-link">
+						<img src="assets/images/logo.svg" alt="Logo Associazione Santa Barbara APS" class="logo">
+						<span class="brand-text">Associazione Santa Barbara APS</span>
+					</a>
 				</div>
 				<button class="nav-toggle" aria-label="Toggle navigation">
 					<span></span>
@@ -49,31 +51,31 @@
 				</button>
 				<ul class="nav-menu">
 					<li>
-						<a href="index.html">Home</a>
+						<a href="index.html" class="nav-link">Home</a>
 					</li>
 					<li>
-						<a href="chi-siamo.html">Chi Siamo</a>
+						<a href="chi-siamo.html" class="nav-link">Chi siamo</a>
 					</li>
 					<li>
-						<a href="attivita.html">Attività</a>
+						<a href="attivita.html" class="nav-link">Attività</a>
 					</li>
 					<li>
-						<a href="eventi.html">Eventi</a>
+						<a href="eventi.html" class="nav-link">Eventi</a>
 					</li>
 					<li>
-						<a href="galleria.html">Galleria</a>
+						<a href="galleria.html" class="nav-link">Galleria</a>
 					</li>
 					<li>
-						<a href="partner.html">Partner</a>
+						<a href="faq.html" class="nav-link">FAQ</a>
 					</li>
 					<li>
-						<a href="faq.html">FAQ</a>
+						<a href="partner.html" class="nav-link">Partner</a>
 					</li>
 					<li>
-						<a href="contatti.html">Contatti</a>
+						<a href="contatti.html" class="nav-link">Contatti</a>
 					</li>
 					<li>
-						<a href="area-soci.html" class="btn-nav">Area Soci</a>
+						<a href="area-soci.html" class="nav-link btn btn-primary">Area Soci</a>
 					</li>
 				</ul>
 			</div>
@@ -166,6 +168,7 @@
 		</div>
 		<!-- Scripts -->
 		<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+		<script src="assets/js/notifications.js"></script>
 		<script src="assets/js/script.js"></script>
 		<!-- Supabase Authentication Script -->
 		<script>
