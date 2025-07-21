@@ -449,7 +449,7 @@
 				const dateOfBirth = dateOfBirthInput.value || null;
 				const placeOfBirth = placeOfBirthInput.value.trim() || null;
 				const gender = genderInput.value || null;
-				// Get form values - Optional fields
+				// Get form values - Optional fields (convert empty strings to null)
 				const fiscalCode = fiscalCodeInput.value.trim().toUpperCase() || null;
 				const phoneNumber = phoneNumberInput.value.trim() || null;
 				const address = addressInput.value.trim() || null;
@@ -505,12 +505,46 @@
 					showStatus('Devi accettare i Termini e Condizioni e l\'Informativa sulla Privacy per procedere.', 'error');
 					return;
 				}
+				// Additional field validation
+				if (zipCode && !/^\d{5}$/.test(zipCode)) {
+					showStatus('Il CAP deve essere di 5 cifre.', 'error');
+					return;
+				}
+				if (province && !/^[A-Z]{2}$/.test(province)) {
+					showStatus('La provincia deve essere di 2 lettere maiuscole (es. BA).', 'error');
+					return;
+				}
+				if (fiscalCode && !/^[A-Z0-9]{16}$/.test(fiscalCode)) {
+					showStatus('Il codice fiscale deve essere di 16 caratteri alfanumerici.', 'error');
+					return;
+				}
+				if (phoneNumber && !/^\+?[\d\s\-\(\)]{7,20}$/.test(phoneNumber.replace(/\s/g, ''))) {
+					showStatus('Formato numero di telefono non valido. Usa un formato come +39 320 123 4567.', 'error');
+					return;
+				}
+
 				setLoading(true);
 				try {
-					// Sign up with Supabase
+					// Helper function to convert empty strings to null
+					function toNullIfEmpty(value) {
+						if (value === undefined || value === null) return null;
+						if (typeof value === 'string' && value.trim() === '') return null;
+						return typeof value === 'string' ? value.trim() : value;
+					}
+
+					// Helper function for date conversion
+					function formatDateForDB(dateStr) {
+						if (!dateStr || typeof dateStr !== 'string') return null;
+						// Ensure YYYY-MM-DD format
+						const date = new Date(dateStr);
+						if (isNaN(date.getTime())) return null;
+						return dateStr; // HTML date input already provides YYYY-MM-DD format
+					}
+
+					// Sign up with Supabase Auth
 					const {
-						data,
-						error
+						data: authData,
+						error: authError
 					} = await supabaseClient.auth.signUp({
 						email: email,
 						password: password,
@@ -518,59 +552,101 @@
 							data: {
 								first_name: firstName,
 								last_name: lastName,
-								full_name: `${firstName} ${lastName}`,
-								role: 'utente', // Default role
-								date_of_birth: dateOfBirth,
-								place_of_birth: placeOfBirth,
-								gender: gender,
-								fiscal_code: fiscalCode,
-								phone_number: phoneNumber,
-								address: address,
-								city: city,
-								zip_code: zipCode,
-								province: province,
-								profession: profession,
-								privacy_accepted: true,
-								membership_type: 'ordinario',
-								membership_status: 'in_attesa'
+								full_name: `${firstName} ${lastName}`
 							},
 							emailRedirectTo: undefined // Disable email confirmation redirect
 						}
 					});
-					if (error) {
-						throw error;
+
+					if (authError) {
+						throw authError;
 					}
-					if (data.user) {
-						if (data.user.identities && data.user.identities.length === 0) {
-							// User already exists
-							showStatus('Un account con questa email esiste già.', 'warning');
-						} else {
-							// Registration successful
+
+					if (authData.user) {
+						// Build profile data using ONLY existing database columns
+						const profileData = {
+							id: authData.user.id,
+							user_id: authData.user.id, // Required for RLS policies
+							email: email // Required field
+						};
+
+						// Add optional fields that exist in the database
+						if (firstName) profileData.first_name = firstName;
+						if (lastName) profileData.last_name = lastName;
+						if (firstName && lastName) profileData.full_name = `${firstName} ${lastName}`;
+						if (dateOfBirth) profileData.date_of_birth = formatDateForDB(dateOfBirth);
+						if (placeOfBirth) profileData.place_of_birth = placeOfBirth;
+						if (gender) profileData.gender = gender; // Now exists in database
+						if (fiscalCode) profileData.fiscal_code = fiscalCode;
+						if (phoneNumber) profileData.phone_number = phoneNumber;
+						if (address) profileData.address = address;
+						if (city) profileData.city = city; // Has default 'Grumo Appula'
+						if (zipCode) profileData.zip_code = zipCode;
+						if (province) profileData.province = province;
+						if (profession) profileData.profession = profession;
+						
+						// Set privacy accepted to true (user checked the checkbox)
+						profileData.privacy_accepted = true;
+						
+						// Note: created_at and updated_at have default values (now()) so we don't set them
+						// Note: role, membership_type, membership_status have defaults so we don't override them
+
+						// Insert into profiles table using the same simple approach
+						console.log('Inserting profile data:', JSON.stringify(profileData, null, 2));
+						const { error: profileError } = await supabaseClient
+							.from('profiles')
+							.insert([profileData]);
+
+						if (profileError) {
+							console.error('Profile creation error:', profileError);
+							console.error('Profile data that failed:', JSON.stringify(profileData, null, 2));
 							showStatus(`
-                            
-																									
-																									
-																									<strong>Registrazione completata!</strong>
-																									<br>
-                            Ti abbiamo inviato un'email di conferma all'indirizzo 
-																										
-																										
-																										<strong>${email}</strong>.
-																										
-																										
-																										<br>
-                            Controlla la tua casella di posta e clicca sul link di conferma per attivare il tuo account.
-																											
-																											
-																											<br>
-																												<small>Una volta confermato, la tua richiesta di iscrizione sarà esaminata dall'amministrazione.</small>
-                        `, 'success');
-							// Reset form
-							registerForm.reset();
-							// Restore default values
-							cityInput.value = 'Grumo Appula';
-							provinceInput.value = 'BA';
+								<strong>Account creato!</strong><br>
+								L'account è stato creato con successo. Ti abbiamo inviato un'email di conferma all'indirizzo <strong>${email}</strong>.<br>
+								Controlla la tua casella di posta e clicca sul link di conferma per attivare il tuo account.<br>
+								<small style="color: #dc3545;">Errore salvataggio profilo: ${profileError.message}. Contatta l'amministrazione per completare la registrazione.</small>
+							`, 'warning');
+						} else {
+							// Both auth and profile creation successful
+							console.log('Profile created successfully with all data!');
+							showStatus(`
+								<strong>Registrazione completata!</strong><br>
+								Ti abbiamo inviato un'email di conferma all'indirizzo <strong>${email}</strong>.<br>
+								Controlla la tua casella di posta e clicca sul link di conferma per attivare il tuo account.<br>
+								<small>Una volta confermato, la tua richiesta di iscrizione sarà esaminata dall'amministrazione.</small>
+							`, 'success');
 						}
+
+						// Reset form and clear all fields
+						registerForm.reset();
+						// Clear all input fields explicitly
+						firstNameInput.value = '';
+						lastNameInput.value = '';
+						emailInput.value = '';
+						passwordInput.value = '';
+						confirmPasswordInput.value = '';
+						dateOfBirthInput.value = '';
+						placeOfBirthInput.value = '';
+						genderInput.value = '';
+						fiscalCodeInput.value = '';
+						phoneNumberInput.value = '';
+						addressInput.value = '';
+						cityInput.value = '';
+						zipCodeInput.value = '';
+						provinceInput.value = '';
+						professionInput.value = '';
+						acceptTermsInput.checked = false;
+						// Reset fiscal code field
+						fiscalCodeInput.placeholder = 'Verrà calcolato automaticamente';
+						fiscalCodeInput.setAttribute('readonly', 'readonly');
+						const helpElement = document.getElementById('fiscalCodeHelp');
+						if (helpElement) {
+							helpElement.textContent = 'Compila i campi sopra per il calcolo automatico';
+							helpElement.style.color = '#666';
+						}
+					} else if (authData.user && authData.user.identities && authData.user.identities.length === 0) {
+						// User already exists
+						showStatus('Un account con questa email esiste già.', 'warning');
 					} else {
 						throw new Error('Errore durante la registrazione');
 					}
