@@ -92,6 +92,67 @@
         </div>
     </section>
 
+    <!-- Authentication Forms -->
+    <section id="auth-section" class="auth-section">
+        <div class="container">
+            <!-- Login Form -->
+            <div id="login-form" class="auth-form">
+                <h2>Accedi all'Area Soci</h2>
+                <form data-form-type="login">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Accedi</button>
+                    <p class="auth-switch">
+                        Non sei ancora registrato? 
+                        <a href="#" id="show-register">Registrati qui</a>
+                    </p>
+                </form>
+            </div>
+
+            <!-- Registration Form -->
+            <div id="register-form" class="auth-form" style="display: none;">
+                <h2>Registrati come Socio</h2>
+                <form data-form-type="register" id="register-form-element">
+                    <div class="form-group">
+                        <label for="register-name">Nome Completo</label>
+                        <input type="text" id="register-name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" id="register-email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Password</label>
+                        <input type="password" id="register-password" name="password" required>
+                        
+                        <!-- Password requirements - ONLY shown in registration -->
+                        <div id="password-requirements" class="password-requirements">
+                            <p>La password deve contenere:</p>
+                            <ul>
+                                <li id="req-length" class="requirement">Almeno 8 caratteri</li>
+                                <li id="req-uppercase" class="requirement">Una lettera maiuscola</li>
+                                <li id="req-lowercase" class="requirement">Una lettera minuscola</li>
+                                <li id="req-number" class="requirement">Un numero</li>
+                                <li id="req-special" class="requirement">Un carattere speciale</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Registrati</button>
+                    <p class="auth-switch">
+                        Hai già un account? 
+                        <a href="#" id="show-login">Accedi qui</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </section>
+
     <!-- Members Content (for authenticated soci) -->
     <section id="members-content" class="members-content">
         <div class="container">

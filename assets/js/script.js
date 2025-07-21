@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initForms();
     initCalendar();
     initSocialFeeds();
+    initMemberArea();
     
     // Check if user is logged in
     checkUserSession();
@@ -276,11 +277,18 @@ function initForms() {
         });
     });
     
-    // Initialize password validation for all password fields
+    // Initialize password validation ONLY for registration forms
     const passwordInputs = document.querySelectorAll('input[name="password"]');
     passwordInputs.forEach(passwordInput => {
-        const confirmPasswordInput = passwordInput.form.querySelector('input[name="confirmPassword"], input[name="confirm_password"], input[name="passwordConfirm"]');
-        attachPasswordValidation(passwordInput, confirmPasswordInput);
+        const form = passwordInput.closest('form');
+        const formType = form?.getAttribute('data-form-type');
+        
+        // Only apply password validation to registration forms, not login
+        if (formType === 'register' || formType === 'registration' || 
+            form?.id === 'register-form' || form?.classList.contains('register-form')) {
+            const confirmPasswordInput = passwordInput.form.querySelector('input[name="confirmPassword"], input[name="confirm_password"], input[name="passwordConfirm"]');
+            attachPasswordValidation(passwordInput, confirmPasswordInput);
+        }
     });
 }
 
@@ -502,35 +510,37 @@ function handleLoginForm(formData) {
     const email = formData.get('email');
     const password = formData.get('password');
     
-    // Simple mock authentication
-    if (email && password) {
-        currentUser = { email: email, name: 'Socio' };
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        showNotification('Login effettuato con successo!', 'success');
-        
-        // Redirect to members area or show members content
-        showMembersContent();
-    } else {
+    // Simple login validation - no password requirements check
+    if (!email || !password) {
         showNotification('Email e password sono obbligatori', 'error');
+        return;
     }
+    
+    // Simple mock authentication for login
+    currentUser = { email: email, name: 'Socio' };
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    showNotification('Login effettuato con successo!', 'success');
+    
+    // Redirect to members area or show members content
+    showMembersContent();
 }
 
 function handleRegistrationForm(formData) {
+    const userName = formData.get('name') || formData.get('nome');
     const email = formData.get('email');
     const password = formData.get('password');
     const confirmPassword = formData.get('confirm-password');
-    const name = formData.get('name') || formData.get('nome');
     const surname = formData.get('surname') || formData.get('cognome');
     const phone = formData.get('phone') || formData.get('telefono');
     const acceptTerms = formData.get('privacy');
     
     // Validate required fields
-    if (!email || !password || !name || !surname) {
+    if (!email || !password || !userName || !surname) {
         showNotification('Tutti i campi obbligatori devono essere compilati', 'error');
         return;
     }
     
-    // Validate password strength
+    // Validate password strength ONLY for registration
     const passwordValidation = validatePassword(password);
     if (!passwordValidation.isValid) {
         showNotification('Password non valida: ' + passwordValidation.errors.join(', '), 'error');
@@ -574,10 +584,10 @@ function handleNewsletterForm(formData) {
 
 function showMembersContent() {
     const membersContent = document.getElementById('members-content');
-    const loginForm = document.getElementById('login-form');
+    const authSection = document.getElementById('auth-section');
     
-    if (membersContent && loginForm) {
-        loginForm.style.display = 'none';
+    if (membersContent && authSection) {
+        authSection.style.display = 'none';
         membersContent.style.display = 'block';
         
         // Initialize calendar for members
@@ -585,6 +595,33 @@ function showMembersContent() {
             initMembersCalendar();
         }
     }
+}
+
+// Initialize member area functionality
+function initMemberArea() {
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const showRegisterBtn = document.getElementById('show-register');
+    const showLoginBtn = document.getElementById('show-login');
+
+    if (showRegisterBtn) {
+        showRegisterBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+        });
+    }
+
+    if (showLoginBtn) {
+        showLoginBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            registerForm.style.display = 'none';
+            loginForm.style.display = 'block';
+        });
+    }
+
+    // Check if user is already logged in
+    checkUserSession();
 }
 
 function checkUserSession() {
