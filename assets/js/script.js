@@ -422,29 +422,32 @@ registerForm.addEventListener('submit', async function(event) {
 		// 2. Crea il profilo nella tabella profiles
 		const user = signUpData.user;
 		if (user) {
-			const { error: profileError } = await supabaseClient.from('profiles').insert([
-				{
-					id: user.id, // id primario
-					user_id: user.id, // per policy RLS
-					email,
-					first_name: firstName,
-					last_name: lastName,
-					full_name: firstName + ' ' + lastName,
-					gender,
-					date_of_birth: dateOfBirth,
-					place_of_birth: placeOfBirth,
-					fiscal_code: fiscalCode,
-					phone_number: phoneNumber,
-					address,
-					city,
-					zip_code: zipCode,
-					province,
-					profession,
-					privacy_accepted: true,
-					membership_type: 'ordinario',
-					membership_status: 'attivo'
-				}
-			]);
+			// Helper per convertire stringhe vuote in null
+			function toNull(val) {
+				return (val === undefined || val === null || (typeof val === 'string' && val.trim() === '')) ? null : val;
+			}
+			const profileData = {
+				id: user.id, // id primario
+				user_id: user.id, // per policy RLS
+				email: toNull(email),
+				first_name: toNull(firstName),
+				last_name: toNull(lastName),
+				full_name: toNull(firstName + ' ' + lastName),
+				gender: toNull(gender),
+				date_of_birth: toNull(dateOfBirth),
+				place_of_birth: toNull(placeOfBirth),
+				fiscal_code: toNull(fiscalCode),
+				phone_number: toNull(phoneNumber),
+				address: toNull(address),
+				city: toNull(city),
+				zip_code: toNull(zipCode),
+				province: toNull(province),
+				profession: toNull(profession),
+				privacy_accepted: true,
+				membership_type: 'ordinario',
+				membership_status: 'attivo'
+			};
+			const { error: profileError } = await supabaseClient.from('profiles').insert([profileData]);
 			if (profileError) {
 				showStatus('Registrazione utente riuscita, ma errore nella creazione del profilo: ' + profileError.message, 'error');
 				setLoading(false);
