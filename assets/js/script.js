@@ -385,8 +385,21 @@ registerForm.addEventListener('submit', async function(event) {
 		showStatus('Devi accettare i Termini e Condizioni e la Privacy.', 'error');
 		return;
 	}
+
 	if (password !== confirmPassword) {
 		showStatus('Le password non coincidono.', 'error');
+		return;
+	}
+
+	// Validazione codice fiscale (16 caratteri alfanumerici)
+	if (fiscalCode && !/^[A-Z0-9]{16}$/.test(fiscalCode)) {
+		showStatus('Codice fiscale non valido. Deve essere di 16 caratteri alfanumerici.', 'error');
+		return;
+	}
+
+	// Validazione provincia (2 lettere)
+	if (province && !/^[A-Z]{2}$/.test(province)) {
+		showStatus('Provincia non valida. Inserisci la sigla di 2 lettere (es. BA).', 'error');
 		return;
 	}
 
@@ -426,6 +439,17 @@ registerForm.addEventListener('submit', async function(event) {
 			function toNull(val) {
 				return (val === undefined || val === null || (typeof val === 'string' && val.trim() === '')) ? null : val;
 			}
+			// Conversione robusta per i campi data
+			function toDateOrNull(val) {
+				if (!val || typeof val !== 'string' || val.trim() === '') return null;
+				// Se formato dd-mm-yyyy, convertilo in yyyy-mm-dd
+				if (/^\d{2}-\d{2}-\d{4}$/.test(val)) {
+					const [d, m, y] = val.split('-');
+					return `${y}-${m}-${d}`;
+				}
+				// accetta solo formato YYYY-MM-DD
+				return /^\d{4}-\d{2}-\d{2}$/.test(val) ? val : null;
+			}
 			const profileData = {
 				id: user.id, // id primario
 				user_id: user.id, // per policy RLS
@@ -434,7 +458,7 @@ registerForm.addEventListener('submit', async function(event) {
 				last_name: toNull(lastName),
 				full_name: toNull(firstName + ' ' + lastName),
 				gender: toNull(gender),
-				date_of_birth: toNull(dateOfBirth),
+				date_of_birth: toDateOrNull(dateOfBirth),
 				place_of_birth: toNull(placeOfBirth),
 				fiscal_code: toNull(fiscalCode),
 				phone_number: toNull(phoneNumber),
@@ -447,6 +471,7 @@ registerForm.addEventListener('submit', async function(event) {
 				membership_type: 'ordinario',
 				membership_status: 'attivo'
 			};
+			console.log('DEBUG profileData:', profileData);
 			const { error: profileError } = await supabaseClient.from('profiles').insert([profileData]);
 			if (profileError) {
 				showStatus('Registrazione utente riuscita, ma errore nella creazione del profilo: ' + profileError.message, 'error');
