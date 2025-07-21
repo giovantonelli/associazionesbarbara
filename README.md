@@ -1,44 +1,129 @@
-# Sito Web Associazione Santa Barbara APS
 
-Sito web statico ufficiale dell'Associazione Santa Barbara APS, sviluppato con HTML5, CSS3 e JavaScript vanilla.
 
-## 🚀 Funzionalità Principali
+# Associazione Santa Barbara APS – Sito Ufficiale
 
-- **Responsive Design**: Ottimizzato per tutti i dispositivi (desktop, tablet, mobile)
-- **SEO Friendly**: Meta tags ottimizzati, sitemap.xml, robots.txt
-- **GDPR Compliant**: Cookie banner, privacy policy completa
-- **Area Soci**: Sistema di autenticazione per membri
-- **Galleria**: Lightbox per foto e video
-- **Calendario Eventi**: Sistema di gestione eventi
-- **FAQ Dinamiche**: Sistema di FAQ con categorie
-- **Formulario Contatti**: Con validazione e protezione CAPTCHA
+Benvenuto nel repository del sito ufficiale dell’Associazione Santa Barbara APS!
 
-## 📁 Struttura del Progetto
+## Chi siamo
+L’Associazione Santa Barbara APS è una realtà di promozione sociale nata nel 2010 dall’iniziativa di cittadini appassionati e dediti al servizio della comunità. Prende il nome da Santa Barbara, simbolo di forza e protezione. La sede principale è in Via N. Mastroserio 12, Grumo Appula (BA).
+
+## Missione
+- Promuovere la cultura attraverso eventi, conferenze e mostre
+- Sostenere il volontariato e la solidarietà sociale
+- Tutelare l’ambiente e il territorio
+- Valorizzare la comunità e favorire l’inclusione sociale
+
+## Valori
+- **Solidarietà**: Aiuto reciproco e inclusione
+- **Trasparenza**: Chiarezza e onestà nelle attività
+- **Innovazione**: Nuove soluzioni per la comunità
+- **Eccellenza**: Impegno costante in ogni progetto
+
+## Direttivo
+- **Presidente:** Tonia Baccelliere
+- **Vicepresidente:** Francesca Rita Favia
+
+## Descrizione sito
+Questo sito web è il punto di riferimento online per i soci, i volontari e tutti coloro che vogliono conoscere le attività, gli eventi e i servizi dell’Associazione. Offre:
+- Informazioni sull’associazione, la sua storia e i suoi valori
+- Calendario eventi e attività
+- Area riservata ai soci (con autenticazione e gestione profilo)
+- Galleria fotografica
+- FAQ e contatti
+- Gestione privacy, cookie e iscrizione newsletter
+
+## Struttura del progetto
 
 ```
-/
-├── index.html              # Homepage
-├── chi-siamo.html          # Chi siamo
-├── attivita.html           # Attività
-├── eventi.html             # Eventi
-├── galleria.html           # Galleria
-├── faq.html               # FAQ
-├── contatti.html          # Contatti
-├── partner.html           # Partner
-├── area-soci.html         # Area soci
-├── privacy.html           # Privacy policy
-├── sitemap.xml            # Sitemap per SEO
-├── robots.txt             # Robots.txt per SEO
-├── README.md              # Documentazione
+Sito S.Barbara/
 ├── assets/
 │   ├── css/
-│   │   └── style.css      # Foglio di stile principale
-│   ├── js/
-│   │   └── script.js      # JavaScript principale
-│   └── images/            # Immagini e risorse
-└── data/
-    └── faq.json           # Dati FAQ
+│   │   └── style.css
+│   ├── images/
+│   │   ├── banner.jpg
+│   │   ├── logo.svg
+│   │   └── ...
+│   └── js/
+│       └── script.js
+├── data/
+│   └── faq.json
+├── index.html
+├── chi-siamo.html
+├── attivita.html
+├── eventi.html
+├── galleria.html
+├── faq.html
+├── contatti.html
+├── partner.html
+├── privacy.html
+├── area-soci.html
+├── login.html
+├── register.html
+├── robots.txt
+├── sitemap.xml
+├── CNAME
+├── _config.yml
+└── README.md
 ```
+
+## Funzionalità principali
+
+- **Area pubblica:**
+  - Presentazione dell’associazione
+  - Elenco attività, eventi e partner
+  - Galleria fotografica
+  - FAQ e modulo contatti
+  - Informativa privacy e gestione cookie
+
+- **Area soci (protetta):**
+  - Accesso tramite autenticazione Supabase
+  - Visualizzazione e modifica profilo
+  - Dashboard eventi, tessera, comunicazioni e documenti
+  - Accesso riservato solo ai soci (controllo ruolo)
+
+- **Backend:**
+  - Supabase per autenticazione, gestione profili, RLS e database eventi/documenti
+
+## Come avviare il sito in locale
+
+1. Clona il repository:
+   ```bash
+   git clone https://github.com/giovantonelli/associazionesbarbara.git
+   ```
+2. Apri la cartella `Sito S.Barbara` in un editor (es. VS Code).
+3. Avvia un server locale (es. con Live Server di VS Code o Python):
+   ```bash
+   # Con Python 3
+   python3 -m http.server
+   # Oppure con Live Server extension su VS Code
+   ```
+4. Visita `http://localhost:8000` nel browser.
+
+## Dipendenze principali
+- [Supabase JS](https://supabase.com/docs/reference/javascript) (autenticazione e database)
+- HTML5, CSS3, JavaScript (vanilla)
+
+## Sicurezza e privacy
+- L’area soci è protetta da autenticazione e controllo ruolo (solo i soci possono accedere ai contenuti riservati)
+- Gestione cookie e privacy conforme GDPR
+
+## Personalizzazione
+- Modifica i file HTML/CSS/JS secondo le esigenze dell’associazione
+- Aggiorna le immagini e i dati in `assets/images` e `data/faq.json`
+- Configura i parametri Supabase in `area-soci.html` e `assets/js/script.js` se necessario
+
+
+## Contatti
+Per segnalazioni, richieste o collaborazioni:
+- Email: info@associazionesbarbara.it
+- Sede: Via N. Mastroserio 12, Grumo Appula (BA)
+- Facebook: [santabarbara.grumoappula](https://www.facebook.com/santabarbara.grumoappula)
+- Instagram: [corteostoricosantabarbara](https://www.instagram.com/corteostoricosantabarbara/)
+- Telegram: [associazionesbarbara](https://t.me/associazionesbarbara)
+
+---
+
+© 2008–2025 Associazione Santa Barbara APS. Tutti i diritti riservati.
 
 ## 🛠️ Tecnologie Utilizzate
 
