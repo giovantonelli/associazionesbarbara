@@ -20,7 +20,7 @@ L’Associazione Santa Barbara APS è una realtà di promozione sociale nata nel
 - **Eccellenza**: Impegno costante in ogni progetto
 
 ## Direttivo
-- **Presidente:** Tonia Baccelliere
+- **Presidente:** Antonia Baccelliere
 - **Vicepresidente:** Francesca Rita Favia
 
 ## Descrizione sito
