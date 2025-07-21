@@ -343,78 +343,122 @@ if (document.getElementById('registerForm')) {
 		}
 	}
 
-	registerForm.addEventListener('submit', async function(event) {
-		event.preventDefault();
-		hideStatus();
+registerForm.addEventListener('submit', async function(event) {
+	event.preventDefault();
+	hideStatus();
 
-		// Raccogli valori
-		const firstName = firstNameInput.value.trim();
-		const lastName = lastNameInput.value.trim();
-		const email = emailInput.value.trim();
-		const password = passwordInput.value;
-		const confirmPassword = confirmPasswordInput.value;
-		const dateOfBirth = dateOfBirthInput.value;
-		const placeOfBirth = placeOfBirthInput.value.trim();
-		const gender = genderInput.value;
-		const fiscalCode = fiscalCodeInput.value.trim().toUpperCase();
-		const phoneNumber = phoneNumberInput.value.trim();
-		const address = addressInput.value.trim();
-		const city = cityInput.value.trim() || 'Grumo Appula';
-		const zipCode = zipCodeInput.value.trim();
-		const province = provinceInput.value.trim().toUpperCase() || 'BA';
-		const profession = professionInput.value.trim();
-		const acceptTerms = acceptTermsInput.checked;
+	// Raccogli valori
+	const firstName = firstNameInput.value.trim();
+	const lastName = lastNameInput.value.trim();
+	const email = emailInput.value.trim();
+	const password = passwordInput.value;
+	const confirmPassword = confirmPasswordInput.value;
+	const dateOfBirth = dateOfBirthInput.value;
+	const placeOfBirth = placeOfBirthInput.value.trim();
+	const gender = genderInput.value;
+	const fiscalCode = fiscalCodeInput.value.trim().toUpperCase();
+	const phoneNumber = phoneNumberInput.value.trim();
+	const address = addressInput.value.trim();
+	const city = cityInput.value.trim() || 'Grumo Appula';
+	const zipCode = zipCodeInput.value.trim();
+	const province = provinceInput.value.trim().toUpperCase() || 'BA';
+	const profession = professionInput.value.trim();
+	const acceptTerms = acceptTermsInput.checked;
 
-		// Validazione robusta dei campi obbligatori
-		const missingFields = [{
-				label: 'Nome',
-				value: firstName
-			},
-			{
-				label: 'Cognome',
-				value: lastName
-			},
-			{
-				label: 'Email',
-				value: email
-			},
-			{
-				label: 'Password',
-				value: password
-			},
-			{
-				label: 'Conferma Password',
-				value: confirmPassword
-			},
-			{
-				label: 'Data di nascita',
-				value: dateOfBirth
-			},
-			{
-				label: 'Luogo di nascita',
-				value: placeOfBirth
-			},
-			{
-				label: 'Sesso',
-				value: gender
+	// Validazione robusta dei campi obbligatori
+	const missingFields = [
+		{ label: 'Nome', value: firstName },
+		{ label: 'Cognome', value: lastName },
+		{ label: 'Email', value: email },
+		{ label: 'Password', value: password },
+		{ label: 'Conferma Password', value: confirmPassword },
+		{ label: 'Data di nascita', value: dateOfBirth },
+		{ label: 'Luogo di nascita', value: placeOfBirth },
+		{ label: 'Sesso', value: gender }
+	].filter(f => !f.value || (typeof f.value === 'string' && f.value.trim() === ''));
+
+	if (missingFields.length > 0 || !(gender === 'M' || gender === 'F')) {
+		showStatus('Compila tutti i campi obbligatori (contrassegnati con *).', 'error');
+		return;
+	}
+	if (!acceptTerms) {
+		showStatus('Devi accettare i Termini e Condizioni e la Privacy.', 'error');
+		return;
+	}
+	if (password !== confirmPassword) {
+		showStatus('Le password non coincidono.', 'error');
+		return;
+	}
+
+	setLoading(true);
+	try {
+		// 1. Registrazione utente su Supabase Auth
+		const { data: signUpData, error: signUpError } = await supabaseClient.auth.signUp({
+			email,
+			password,
+			options: {
+				data: {
+					first_name: firstName,
+					last_name: lastName,
+					full_name: firstName + ' ' + lastName,
+					gender,
+					date_of_birth: dateOfBirth,
+					place_of_birth: placeOfBirth,
+					fiscal_code: fiscalCode,
+					phone_number: phoneNumber,
+					address,
+					city,
+					zip_code: zipCode,
+					province,
+					profession
+				}
 			}
-		].filter(f => !f.value || (typeof f.value === 'string' && f.value.trim() === ''));
-
-		if (missingFields.length > 0 || !(gender === 'M' || gender === 'F')) {
-			showStatus('Compila tutti i campi obbligatori (contrassegnati con *).', 'error');
+		});
+		if (signUpError) {
+			showStatus('Errore durante la registrazione: ' + signUpError.message, 'error');
+			setLoading(false);
 			return;
 		}
-		if (!acceptTerms) {
-			showStatus('Devi accettare i Termini e Condizioni e la Privacy.', 'error');
-			return;
+		// 2. Crea il profilo nella tabella profiles
+		const user = signUpData.user;
+		if (user) {
+			const { error: profileError } = await supabaseClient.from('profiles').insert([
+				{
+					id: user.id, // id primario
+					user_id: user.id, // per policy RLS
+					email,
+					first_name: firstName,
+					last_name: lastName,
+					full_name: firstName + ' ' + lastName,
+					gender,
+					date_of_birth: dateOfBirth,
+					place_of_birth: placeOfBirth,
+					fiscal_code: fiscalCode,
+					phone_number: phoneNumber,
+					address,
+					city,
+					zip_code: zipCode,
+					province,
+					profession,
+					privacy_accepted: true,
+					membership_type: 'ordinario',
+					membership_status: 'attivo'
+				}
+			]);
+			if (profileError) {
+				showStatus('Registrazione utente riuscita, ma errore nella creazione del profilo: ' + profileError.message, 'error');
+				setLoading(false);
+				return;
+			}
 		}
-		if (password !== confirmPassword) {
-			showStatus('Le password non coincidono.', 'error');
-			return;
-		}
-		// Puoi aggiungere qui la logica di invio dati a Supabase o altro backend
-		showStatus('Registrazione completata! (Demo, aggiungi qui la logica di invio dati)', 'success');
-	});
+		showStatus('Registrazione completata! Controlla la tua email per confermare l’account.', 'success');
+		registerForm.reset();
+	} catch (err) {
+		showStatus('Errore imprevisto: ' + (err.message || err), 'error');
+	} finally {
+		setLoading(false);
+	}
+});
 }
 // --- FINE REGISTRAZIONE UTENTE ---
 
@@ -520,11 +564,11 @@ function attachPasswordValidation(passwordInput, confirmPasswordInput = null) {
 		strengthIndicator = document.createElement('div');
 		strengthIndicator.className = 'password-strength';
 		strengthIndicator.innerHTML = `
-            <div class="strength-bar">
-                <div class="strength-fill"></div>
-            </div>
-            <span class="strength-text">Inserisci password</span>
-        `;
+			<div class="strength-bar">
+				<div class="strength-fill"></div>
+			</div>
+			<span class="strength-text">Inserisci password</span>
+		`;
 		passwordInput.parentNode.appendChild(strengthIndicator);
 	}
 
@@ -547,10 +591,10 @@ function attachPasswordValidation(passwordInput, confirmPasswordInput = null) {
 			this.classList.add('success');
 		} else {
 			feedbackContainer.innerHTML = `
-                <ul class="error-list">
-                    ${validation.errors.map(error => `<li>${error}</li>`).join('')}
-                </ul>
-            `;
+				<ul class="error-list">
+					${validation.errors.map(error => `<li>${error}</li>`).join('')}
+				</ul>
+			`;
 			this.classList.remove('success');
 			this.classList.add('error');
 		}
@@ -910,55 +954,55 @@ function showNotification(message, type = 'info') {
 	const notification = document.createElement('div');
 	notification.className = `notification notification-${type}`;
 	notification.innerHTML = `
-        <div class="notification-content">
-            <span class="notification-message">${message}</span>
-            <button class="notification-close">&times;</button>
-        </div>
-    `;
+		<div class="notification-content">
+			<span class="notification-message">${message}</span>
+			<button class="notification-close">&times;</button>
+		</div>
+	`;
 
 	// Add styles if not already present
 	if (!document.querySelector('#notification-styles')) {
 		const styles = document.createElement('style');
 		styles.id = 'notification-styles';
 		styles.textContent = `
-            .notification {
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: white;
-                border-radius: 5px;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-                z-index: 1001;
-                max-width: 400px;
-                transform: translateX(100%);
-                transition: transform 0.3s ease;
-            }
-            .notification.show {
-                transform: translateX(0);
-            }
-            .notification-success {
-                border-left: 4px solid #28a745;
-            }
-            .notification-error {
-                border-left: 4px solid #dc3545;
-            }
-            .notification-info {
-                border-left: 4px solid #17a2b8;
-            }
-            .notification-content {
-                padding: 15px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
-            .notification-close {
-                background: none;
-                border: none;
-                font-size: 18px;
-                cursor: pointer;
-                margin-left: 10px;
-            }
-        `;
+			.notification {
+				position: fixed;
+				top: 20px;
+				right: 20px;
+				background: white;
+				border-radius: 5px;
+				box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+				z-index: 1001;
+				max-width: 400px;
+				transform: translateX(100%);
+				transition: transform 0.3s ease;
+			}
+			.notification.show {
+				transform: translateX(0);
+			}
+			.notification-success {
+				border-left: 4px solid #28a745;
+			}
+			.notification-error {
+				border-left: 4px solid #dc3545;
+			}
+			.notification-info {
+				border-left: 4px solid #17a2b8;
+			}
+			.notification-content {
+				padding: 15px;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+			}
+			.notification-close {
+				background: none;
+				border: none;
+				font-size: 18px;
+				cursor: pointer;
+				margin-left: 10px;
+			}
+		`;
 		document.head.appendChild(styles);
 	}
 
@@ -1012,14 +1056,14 @@ function createFAQElement(question, answer) {
 	const faqItem = document.createElement('div');
 	faqItem.className = 'faq-item';
 	faqItem.innerHTML = `
-        <button class="faq-question">
-            ${question}
-            <span class="faq-icon">▼</span>
-        </button>
-        <div class="faq-answer">
-            <p>${answer}</p>
-        </div>
-    `;
+		<button class="faq-question">
+			${question}
+			<span class="faq-icon">▼</span>
+		</button>
+		<div class="faq-answer">
+			<p>${answer}</p>
+		</div>
+	`;
 	return faqItem;
 }
 
