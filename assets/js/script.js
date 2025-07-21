@@ -7,796 +7,920 @@ let currentYear = new Date().getFullYear();
 
 // DOM Content Loaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Update copyright year automatically
-    updateCopyrightYear();
-    
-    // Check and apply existing consent choice
-    checkExistingConsent();
-    
-    // Initialize all components
-    initNavigation();
-    initCookieBanner();
-    initFAQ();
-    initGallery();
-    initForms();
-    initCalendar();
-    initSocialFeeds();
-    initMemberArea();
-    
-    // Check if user is logged in
-    checkUserSession();
+	// Update copyright year automatically
+	updateCopyrightYear();
+
+	// Check and apply existing consent choice
+	checkExistingConsent();
+
+	// Initialize all components
+	initNavigation();
+	initCookieBanner();
+	initFAQ();
+	initGallery();
+	initForms();
+	initCalendar();
+	initSocialFeeds();
+	initMemberArea();
+
+	// Check if user is logged in
+	checkUserSession();
 });
 
 // Update copyright year automatically
 function updateCopyrightYear() {
-    const currentYearElement = document.getElementById('current-year');
-    if (currentYearElement) {
-        currentYearElement.textContent = new Date().getFullYear();
-    }
+	const currentYearElement = document.getElementById('current-year');
+	if (currentYearElement) {
+		currentYearElement.textContent = new Date().getFullYear();
+	}
 }
 
 // Check existing consent and apply it
 function checkExistingConsent() {
-    const existingConsent = localStorage.getItem('cookieConsent');
-    
-    if (existingConsent === 'accepted' && typeof gtag === 'function') {
-        // User previously accepted cookies, grant consent
-        gtag('consent', 'update', {
-            'ad_storage': 'granted',
-            'ad_user_data': 'granted',
-            'ad_personalization': 'granted',
-            'analytics_storage': 'granted'
-        });
-    }
-    // If no consent or declined, keep the default 'denied' state
+	const existingConsent = localStorage.getItem('cookieConsent');
+
+	if (existingConsent === 'accepted' && typeof gtag === 'function') {
+		// User previously accepted cookies, grant consent
+		gtag('consent', 'update', {
+			'ad_storage': 'granted',
+			'ad_user_data': 'granted',
+			'ad_personalization': 'granted',
+			'analytics_storage': 'granted'
+		});
+	}
+	// If no consent or declined, keep the default 'denied' state
 }
 
 // Navigation
 function initNavigation() {
-    const navToggle = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-    
-    if (navToggle && navMenu) {
-        navToggle.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
-            navToggle.classList.toggle('active');
-        });
-    }
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.navbar')) {
-            navMenu?.classList.remove('active');
-            navToggle?.classList.remove('active');
-        }
-    });
-    
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
+	const navToggle = document.querySelector('.nav-toggle');
+	const navMenu = document.querySelector('.nav-menu');
+
+	if (navToggle && navMenu) {
+		navToggle.addEventListener('click', function() {
+			navMenu.classList.toggle('active');
+			navToggle.classList.toggle('active');
+		});
+	}
+
+	// Close menu when clicking outside
+	document.addEventListener('click', function(e) {
+		if (!e.target.closest('.navbar')) {
+			navMenu?.classList.remove('active');
+			navToggle?.classList.remove('active');
+		}
+	});
+
+	// Smooth scrolling for anchor links
+	document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+		anchor.addEventListener('click', function(e) {
+			e.preventDefault();
+			const target = document.querySelector(this.getAttribute('href'));
+			if (target) {
+				target.scrollIntoView({
+					behavior: 'smooth',
+					block: 'start'
+				});
+			}
+		});
+	});
 }
 
 // Cookie Banner
 function initCookieBanner() {
-    const cookieBanner = document.getElementById('cookie-banner');
-    const acceptBtn = document.getElementById('cookie-accept');
-    const declineBtn = document.getElementById('cookie-decline');
-    
-    if (!cookieBanner) return;
-    
-    // Check if user has already made a choice
-    if (!localStorage.getItem('cookieConsent')) {
-        setTimeout(() => {
-            cookieBanner.classList.add('show');
-        }, 1000);
-    }
-    
-    acceptBtn?.addEventListener('click', function() {
-        localStorage.setItem('cookieConsent', 'accepted');
-        cookieBanner.classList.remove('show');
-        
-        // Update Google Analytics consent
-        if (typeof gtag === 'function') {
-            gtag('consent', 'update', {
-                'ad_storage': 'granted',
-                'ad_user_data': 'granted',
-                'ad_personalization': 'granted',
-                'analytics_storage': 'granted'
-            });
-        }
-        
-        console.log('Cookies accepted - Analytics consent granted');
-    });
-    
-    declineBtn?.addEventListener('click', function() {
-        localStorage.setItem('cookieConsent', 'declined');
-        cookieBanner.classList.remove('show');
-        
-        // Keep Google Analytics consent denied (already set as default)
-        console.log('Cookies declined - Analytics consent remains denied');
-    });
+	const cookieBanner = document.getElementById('cookie-banner');
+	const acceptBtn = document.getElementById('cookie-accept');
+	const declineBtn = document.getElementById('cookie-decline');
+
+	if (!cookieBanner) return;
+
+	// Check if user has already made a choice
+	if (!localStorage.getItem('cookieConsent')) {
+		setTimeout(() => {
+			cookieBanner.classList.add('show');
+		}, 1000);
+	}
+
+	acceptBtn?.addEventListener('click', function() {
+		localStorage.setItem('cookieConsent', 'accepted');
+		cookieBanner.classList.remove('show');
+
+		// Update Google Analytics consent
+		if (typeof gtag === 'function') {
+			gtag('consent', 'update', {
+				'ad_storage': 'granted',
+				'ad_user_data': 'granted',
+				'ad_personalization': 'granted',
+				'analytics_storage': 'granted'
+			});
+		}
+
+		console.log('Cookies accepted - Analytics consent granted');
+	});
+
+	declineBtn?.addEventListener('click', function() {
+		localStorage.setItem('cookieConsent', 'declined');
+		cookieBanner.classList.remove('show');
+
+		// Keep Google Analytics consent denied (already set as default)
+		console.log('Cookies declined - Analytics consent remains denied');
+	});
 }
 
 // FAQ Functionality
 function initFAQ() {
-    const faqItems = document.querySelectorAll('.faq-item');
-    
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        question?.addEventListener('click', function() {
-            const isActive = item.classList.contains('active');
-            
-            // Close all other FAQ items
-            faqItems.forEach(otherItem => {
-                if (otherItem !== item) {
-                    otherItem.classList.remove('active');
-                }
-            });
-            
-            // Toggle current item
-            item.classList.toggle('active', !isActive);
-        });
-    });
+	const faqItems = document.querySelectorAll('.faq-item');
+
+	faqItems.forEach(item => {
+		const question = item.querySelector('.faq-question');
+		question?.addEventListener('click', function() {
+			const isActive = item.classList.contains('active');
+
+			// Close all other FAQ items
+			faqItems.forEach(otherItem => {
+				if (otherItem !== item) {
+					otherItem.classList.remove('active');
+				}
+			});
+
+			// Toggle current item
+			item.classList.toggle('active', !isActive);
+		});
+	});
 }
 
 // Gallery and Lightbox
 function initGallery() {
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    const lightbox = document.querySelector('.lightbox');
-    const lightboxImage = document.querySelector('.lightbox-image');
-    const lightboxClose = document.querySelector('.lightbox-close');
-    const lightboxPrev = document.querySelector('.lightbox-prev');
-    const lightboxNext = document.querySelector('.lightbox-next');
-    
-    if (!lightbox) return;
-    
-    // Collect all gallery images
-    lightboxImages = Array.from(galleryItems).map(item => {
-        const img = item.querySelector('img');
-        return {
-            src: img.src,
-            alt: img.alt
-        };
-    });
-    
-    // Gallery item click handlers
-    galleryItems.forEach((item, index) => {
-        item.addEventListener('click', function() {
-            currentLightboxImage = index;
-            showLightbox();
-        });
-    });
-    
-    // Lightbox controls
-    lightboxClose?.addEventListener('click', closeLightbox);
-    lightboxPrev?.addEventListener('click', prevLightboxImage);
-    lightboxNext?.addEventListener('click', nextLightboxImage);
-    
-    // Close lightbox on background click
-    lightbox.addEventListener('click', function(e) {
-        if (e.target === lightbox) {
-            closeLightbox();
-        }
-    });
-    
-    // Keyboard navigation
-    document.addEventListener('keydown', function(e) {
-        if (!lightbox.classList.contains('active')) return;
-        
-        switch(e.key) {
-            case 'Escape':
-                closeLightbox();
-                break;
-            case 'ArrowLeft':
-                prevLightboxImage();
-                break;
-            case 'ArrowRight':
-                nextLightboxImage();
-                break;
-        }
-    });
-    
-    function showLightbox() {
-        if (lightboxImages.length === 0) return;
-        
-        const image = lightboxImages[currentLightboxImage];
-        lightboxImage.src = image.src;
-        lightboxImage.alt = image.alt;
-        lightbox.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-    
-    function closeLightbox() {
-        lightbox.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-    
-    function prevLightboxImage() {
-        currentLightboxImage = (currentLightboxImage - 1 + lightboxImages.length) % lightboxImages.length;
-        showLightbox();
-    }
-    
-    function nextLightboxImage() {
-        currentLightboxImage = (currentLightboxImage + 1) % lightboxImages.length;
-        showLightbox();
-    }
+	const galleryItems = document.querySelectorAll('.gallery-item');
+	const lightbox = document.querySelector('.lightbox');
+	const lightboxImage = document.querySelector('.lightbox-image');
+	const lightboxClose = document.querySelector('.lightbox-close');
+	const lightboxPrev = document.querySelector('.lightbox-prev');
+	const lightboxNext = document.querySelector('.lightbox-next');
+
+	if (!lightbox) return;
+
+	// Collect all gallery images
+	lightboxImages = Array.from(galleryItems).map(item => {
+		const img = item.querySelector('img');
+		return {
+			src: img.src,
+			alt: img.alt
+		};
+	});
+
+	// Gallery item click handlers
+	galleryItems.forEach((item, index) => {
+		item.addEventListener('click', function() {
+			currentLightboxImage = index;
+			showLightbox();
+		});
+	});
+
+	// Lightbox controls
+	lightboxClose?.addEventListener('click', closeLightbox);
+	lightboxPrev?.addEventListener('click', prevLightboxImage);
+	lightboxNext?.addEventListener('click', nextLightboxImage);
+
+	// Close lightbox on background click
+	lightbox.addEventListener('click', function(e) {
+		if (e.target === lightbox) {
+			closeLightbox();
+		}
+	});
+
+	// Keyboard navigation
+	document.addEventListener('keydown', function(e) {
+		if (!lightbox.classList.contains('active')) return;
+
+		switch (e.key) {
+			case 'Escape':
+				closeLightbox();
+				break;
+			case 'ArrowLeft':
+				prevLightboxImage();
+				break;
+			case 'ArrowRight':
+				nextLightboxImage();
+				break;
+		}
+	});
+
+	function showLightbox() {
+		if (lightboxImages.length === 0) return;
+
+		const image = lightboxImages[currentLightboxImage];
+		lightboxImage.src = image.src;
+		lightboxImage.alt = image.alt;
+		lightbox.classList.add('active');
+		document.body.style.overflow = 'hidden';
+	}
+
+	function closeLightbox() {
+		lightbox.classList.remove('active');
+		document.body.style.overflow = '';
+	}
+
+	function prevLightboxImage() {
+		currentLightboxImage = (currentLightboxImage - 1 + lightboxImages.length) % lightboxImages.length;
+		showLightbox();
+	}
+
+	function nextLightboxImage() {
+		currentLightboxImage = (currentLightboxImage + 1) % lightboxImages.length;
+		showLightbox();
+	}
 }
 
 // Forms
 function initForms() {
-    const forms = document.querySelectorAll('form');
-    
-    forms.forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(form);
-            const formType = form.dataset.type || 'contact';
-            
-            // Basic form validation
-            if (!validateForm(form)) {
-                return;
-            }
-            
-            // Advanced password validation for registration/login forms
-            const passwordInput = form.querySelector('input[name="password"]');
-            if (passwordInput && (formType === 'register' || formType === 'registration')) {
-                const validation = validatePassword(passwordInput.value);
-                if (!validation.isValid) {
-                    showNotification('Password non valida: ' + validation.errors.join(', '), 'error');
-                    return;
-                }
-            }
-            
-            // Handle different form types
-            switch(formType) {
-                case 'contact':
-                    handleContactForm(formData);
-                    break;
-                case 'login':
-                    handleLoginForm(formData);
-                    break;
-                case 'newsletter':
-                    handleNewsletterForm(formData);
-                    break;
-                case 'register':
-                case 'registration':
-                    handleRegistrationForm(formData);
-                    break;
-            }
-        });
-    });
-    
-    // Initialize password validation ONLY for registration forms
-    const passwordInputs = document.querySelectorAll('input[name="password"]');
-    passwordInputs.forEach(passwordInput => {
-        const form = passwordInput.closest('form');
-        const formType = form?.getAttribute('data-form-type');
-        
-        // Only apply password validation to registration forms, not login
-        if (formType === 'register' || formType === 'registration' || 
-            form?.id === 'register-form' || form?.classList.contains('register-form')) {
-            const confirmPasswordInput = passwordInput.form.querySelector('input[name="confirmPassword"], input[name="confirm_password"], input[name="passwordConfirm"]');
-            attachPasswordValidation(passwordInput, confirmPasswordInput);
-        }
-    });
+	const forms = document.querySelectorAll('form');
+
+	forms.forEach(form => {
+		// Skip forms that have their own specific handlers (like loginForm)
+		if (form.id === 'loginForm') {
+			return;
+		}
+
+		form.addEventListener('submit', function(e) {
+			e.preventDefault();
+
+			const formData = new FormData(form);
+			const formType = form.dataset.type || 'contact';
+
+			// Basic form validation
+			if (!validateForm(form)) {
+				return;
+			}
+
+			// Advanced password validation for registration/login forms
+			const passwordInput = form.querySelector('input[name="password"]');
+			if (passwordInput && (formType === 'register' || formType === 'registration')) {
+				const validation = validatePassword(passwordInput.value);
+				if (!validation.isValid) {
+					showNotification('Password non valida: ' + validation.errors.join(', '), 'error');
+					return;
+				}
+			}
+
+			// Handle different form types
+			switch (formType) {
+				case 'login':
+					handleLoginForm(formData);
+					break;
+				case 'registration':
+					handleRegistrationForm(formData);
+					break;
+			}
+		});
+	});
+
+	// Initialize password validation ONLY for registration forms
+	const passwordInputs = document.querySelectorAll('input[name="password"]');
+	passwordInputs.forEach(passwordInput => {
+		const form = passwordInput.closest('form');
+		const formType = form?.getAttribute('data-form-type');
+
+		// Only apply password validation to registration forms, not login
+		if (formType === 'register' || formType === 'registration' ||
+			form?.id === 'register-form' || form?.classList.contains('register-form')) {
+			const confirmPasswordInput = passwordInput.form.querySelector('input[name="confirmPassword"], input[name="confirm_password"], input[name="passwordConfirm"]');
+			attachPasswordValidation(passwordInput, confirmPasswordInput);
+		}
+	});
 }
 
+// --- REGISTRAZIONE UTENTE ---
+if (document.getElementById('registerForm')) {
+	const registerForm = document.getElementById('registerForm');
+	const firstNameInput = document.getElementById('firstName');
+	const lastNameInput = document.getElementById('lastName');
+	const emailInput = document.getElementById('email');
+	const passwordInput = document.getElementById('password');
+	const confirmPasswordInput = document.getElementById('confirmPassword');
+	const dateOfBirthInput = document.getElementById('dateOfBirth');
+	const placeOfBirthInput = document.getElementById('placeOfBirth');
+	const genderInput = document.getElementById('gender');
+	const fiscalCodeInput = document.getElementById('fiscalCode');
+	const phoneNumberInput = document.getElementById('phoneNumber');
+	const addressInput = document.getElementById('address');
+	const cityInput = document.getElementById('city');
+	const zipCodeInput = document.getElementById('zipCode');
+	const provinceInput = document.getElementById('province');
+	const professionInput = document.getElementById('profession');
+	const acceptTermsInput = document.getElementById('acceptTerms');
+	const statusMessage = document.getElementById('statusMessage');
+	const registerButton = document.getElementById('registerButton');
+	const btnText = registerButton?.querySelector('.btn-text');
+	const loadingSpinner = registerButton?.querySelector('.loading-spinner');
+
+	function showStatus(message, type = 'info') {
+		if (!statusMessage) return;
+		statusMessage.className = `status-message ${type}`;
+		statusMessage.innerHTML = message;
+		statusMessage.style.display = 'block';
+		statusMessage.scrollIntoView({
+			behavior: 'smooth',
+			block: 'nearest'
+		});
+	}
+
+	function hideStatus() {
+		if (!statusMessage) return;
+		statusMessage.style.display = 'none';
+	}
+
+	function setLoading(isLoading) {
+		if (!registerButton || !btnText || !loadingSpinner) return;
+		if (isLoading) {
+			btnText.style.display = 'none';
+			loadingSpinner.style.display = 'block';
+			registerButton.disabled = true;
+		} else {
+			btnText.style.display = 'block';
+			loadingSpinner.style.display = 'none';
+			registerButton.disabled = false;
+		}
+	}
+
+	registerForm.addEventListener('submit', async function(event) {
+		event.preventDefault();
+		hideStatus();
+
+		// Raccogli valori
+		const firstName = firstNameInput.value.trim();
+		const lastName = lastNameInput.value.trim();
+		const email = emailInput.value.trim();
+		const password = passwordInput.value;
+		const confirmPassword = confirmPasswordInput.value;
+		const dateOfBirth = dateOfBirthInput.value;
+		const placeOfBirth = placeOfBirthInput.value.trim();
+		const gender = genderInput.value;
+		const fiscalCode = fiscalCodeInput.value.trim().toUpperCase();
+		const phoneNumber = phoneNumberInput.value.trim();
+		const address = addressInput.value.trim();
+		const city = cityInput.value.trim() || 'Grumo Appula';
+		const zipCode = zipCodeInput.value.trim();
+		const province = provinceInput.value.trim().toUpperCase() || 'BA';
+		const profession = professionInput.value.trim();
+		const acceptTerms = acceptTermsInput.checked;
+
+		// Validazione robusta dei campi obbligatori
+		const missingFields = [{
+				label: 'Nome',
+				value: firstName
+			},
+			{
+				label: 'Cognome',
+				value: lastName
+			},
+			{
+				label: 'Email',
+				value: email
+			},
+			{
+				label: 'Password',
+				value: password
+			},
+			{
+				label: 'Conferma Password',
+				value: confirmPassword
+			},
+			{
+				label: 'Data di nascita',
+				value: dateOfBirth
+			},
+			{
+				label: 'Luogo di nascita',
+				value: placeOfBirth
+			},
+			{
+				label: 'Sesso',
+				value: gender
+			}
+		].filter(f => !f.value || (typeof f.value === 'string' && f.value.trim() === ''));
+
+		if (missingFields.length > 0 || !(gender === 'M' || gender === 'F')) {
+			showStatus('Compila tutti i campi obbligatori (contrassegnati con *).', 'error');
+			return;
+		}
+		if (!acceptTerms) {
+			showStatus('Devi accettare i Termini e Condizioni e la Privacy.', 'error');
+			return;
+		}
+		if (password !== confirmPassword) {
+			showStatus('Le password non coincidono.', 'error');
+			return;
+		}
+		// Puoi aggiungere qui la logica di invio dati a Supabase o altro backend
+		showStatus('Registrazione completata! (Demo, aggiungi qui la logica di invio dati)', 'success');
+	});
+}
+// --- FINE REGISTRAZIONE UTENTE ---
+
 function validateForm(form) {
-    const requiredFields = form.querySelectorAll('[required]');
-    let isValid = true;
-    
-    requiredFields.forEach(field => {
-        if (!field.value.trim()) {
-            field.classList.add('error');
-            isValid = false;
-        } else {
-            field.classList.remove('error');
-        }
-    });
-    
-    // Email validation
-    const emailFields = form.querySelectorAll('input[type="email"]');
-    emailFields.forEach(field => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (field.value && !emailRegex.test(field.value)) {
-            field.classList.add('error');
-            isValid = false;
-        }
-    });
-    
-    return isValid;
+	const requiredFields = form.querySelectorAll('[required]');
+	let isValid = true;
+
+	requiredFields.forEach(field => {
+		if (!field.value.trim()) {
+			field.classList.add('error');
+			isValid = false;
+		} else {
+			field.classList.remove('error');
+		}
+	});
+
+	// Email validation
+	const emailFields = form.querySelectorAll('input[type="email"]');
+	emailFields.forEach(field => {
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (field.value && !emailRegex.test(field.value)) {
+			field.classList.add('error');
+			isValid = false;
+		}
+	});
+
+	return isValid;
 }
 
 // Advanced Password Validation (matches Supabase requirements)
 function validatePassword(password) {
-    const errors = [];
-    
-    // Minimum length check (8 characters)
-    if (password.length < 8) {
-        errors.push('La password deve essere di almeno 8 caratteri');
-    }
-    
-    // Lowercase letter check
-    if (!/[a-z]/.test(password)) {
-        errors.push('La password deve contenere almeno una lettera minuscola');
-    }
-    
-    // Uppercase letter check
-    if (!/[A-Z]/.test(password)) {
-        errors.push('La password deve contenere almeno una lettera maiuscola');
-    }
-    
-    // Digit check
-    if (!/\d/.test(password)) {
-        errors.push('La password deve contenere almeno un numero');
-    }
-    
-    // Symbol check (special characters)
-    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]/.test(password)) {
-        errors.push('La password deve contenere almeno un simbolo (!@#$%^&* etc.)');
-    }
-    
-    return {
-        isValid: errors.length === 0,
-        errors: errors,
-        strength: calculatePasswordStrength(password)
-    };
+	const errors = [];
+
+	// Minimum length check (8 characters)
+	if (password.length < 8) {
+		errors.push('La password deve essere di almeno 8 caratteri');
+	}
+
+	// Lowercase letter check
+	if (!/[a-z]/.test(password)) {
+		errors.push('La password deve contenere almeno una lettera minuscola');
+	}
+
+	// Uppercase letter check
+	if (!/[A-Z]/.test(password)) {
+		errors.push('La password deve contenere almeno una lettera maiuscola');
+	}
+
+	// Digit check
+	if (!/\d/.test(password)) {
+		errors.push('La password deve contenere almeno un numero');
+	}
+
+	// Symbol check (special characters)
+	if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]/.test(password)) {
+		errors.push('La password deve contenere almeno un simbolo (!@#$%^&* etc.)');
+	}
+
+	return {
+		isValid: errors.length === 0,
+		errors: errors,
+		strength: calculatePasswordStrength(password)
+	};
 }
 
 // Calculate password strength for visual feedback
 function calculatePasswordStrength(password) {
-    let strength = 0;
-    
-    // Length scoring
-    if (password.length >= 8) strength += 1;
-    if (password.length >= 12) strength += 1;
-    if (password.length >= 16) strength += 1;
-    
-    // Character variety scoring
-    if (/[a-z]/.test(password)) strength += 1;
-    if (/[A-Z]/.test(password)) strength += 1;
-    if (/\d/.test(password)) strength += 1;
-    if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]/.test(password)) strength += 1;
-    
-    // Return strength level
-    if (strength <= 2) return 'weak';
-    if (strength <= 4) return 'medium';
-    if (strength <= 6) return 'strong';
-    return 'very-strong';
+	let strength = 0;
+
+	// Length scoring
+	if (password.length >= 8) strength += 1;
+	if (password.length >= 12) strength += 1;
+	if (password.length >= 16) strength += 1;
+
+	// Character variety scoring
+	if (/[a-z]/.test(password)) strength += 1;
+	if (/[A-Z]/.test(password)) strength += 1;
+	if (/\d/.test(password)) strength += 1;
+	if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]/.test(password)) strength += 1;
+
+	// Return strength level
+	if (strength <= 2) return 'weak';
+	if (strength <= 4) return 'medium';
+	if (strength <= 6) return 'strong';
+	return 'very-strong';
 }
 
 // Real-time password validation for input fields
 function attachPasswordValidation(passwordInput, confirmPasswordInput = null) {
-    if (!passwordInput) return;
-    
-    // Create or find password feedback container
-    let feedbackContainer = passwordInput.parentNode.querySelector('.password-feedback');
-    if (!feedbackContainer) {
-        feedbackContainer = document.createElement('div');
-        feedbackContainer.className = 'password-feedback';
-        passwordInput.parentNode.appendChild(feedbackContainer);
-    }
-    
-    // Create or find password strength indicator
-    let strengthIndicator = passwordInput.parentNode.querySelector('.password-strength');
-    if (!strengthIndicator) {
-        strengthIndicator = document.createElement('div');
-        strengthIndicator.className = 'password-strength';
-        strengthIndicator.innerHTML = `
+	if (!passwordInput) return;
+
+	// Create or find password feedback container
+	let feedbackContainer = passwordInput.parentNode.querySelector('.password-feedback');
+	if (!feedbackContainer) {
+		feedbackContainer = document.createElement('div');
+		feedbackContainer.className = 'password-feedback';
+		passwordInput.parentNode.appendChild(feedbackContainer);
+	}
+
+	// Create or find password strength indicator
+	let strengthIndicator = passwordInput.parentNode.querySelector('.password-strength');
+	if (!strengthIndicator) {
+		strengthIndicator = document.createElement('div');
+		strengthIndicator.className = 'password-strength';
+		strengthIndicator.innerHTML = `
             <div class="strength-bar">
                 <div class="strength-fill"></div>
             </div>
             <span class="strength-text">Inserisci password</span>
         `;
-        passwordInput.parentNode.appendChild(strengthIndicator);
-    }
-    
-    // Password input validation
-    passwordInput.addEventListener('input', function() {
-        const password = this.value;
-        const validation = validatePassword(password);
-        const strengthFill = strengthIndicator.querySelector('.strength-fill');
-        const strengthText = strengthIndicator.querySelector('.strength-text');
-        
-        // Update feedback
-        if (password.length === 0) {
-            feedbackContainer.innerHTML = '';
-            strengthText.textContent = 'Inserisci password';
-            strengthFill.className = 'strength-fill';
-            this.classList.remove('error', 'success');
-        } else if (validation.isValid) {
-            feedbackContainer.innerHTML = '<span class="success">✓ Password valida</span>';
-            this.classList.remove('error');
-            this.classList.add('success');
-        } else {
-            feedbackContainer.innerHTML = `
+		passwordInput.parentNode.appendChild(strengthIndicator);
+	}
+
+	// Password input validation
+	passwordInput.addEventListener('input', function() {
+		const password = this.value;
+		const validation = validatePassword(password);
+		const strengthFill = strengthIndicator.querySelector('.strength-fill');
+		const strengthText = strengthIndicator.querySelector('.strength-text');
+
+		// Update feedback
+		if (password.length === 0) {
+			feedbackContainer.innerHTML = '';
+			strengthText.textContent = 'Inserisci password';
+			strengthFill.className = 'strength-fill';
+			this.classList.remove('error', 'success');
+		} else if (validation.isValid) {
+			feedbackContainer.innerHTML = '<span class="success">✓ Password valida</span>';
+			this.classList.remove('error');
+			this.classList.add('success');
+		} else {
+			feedbackContainer.innerHTML = `
                 <ul class="error-list">
                     ${validation.errors.map(error => `<li>${error}</li>`).join('')}
                 </ul>
             `;
-            this.classList.remove('success');
-            this.classList.add('error');
-        }
-        
-        // Update strength indicator
-        const strengthLevels = {
-            'weak': { width: '25%', color: '#f44336', text: 'Debole' },
-            'medium': { width: '50%', color: '#ff9800', text: 'Media' },
-            'strong': { width: '75%', color: '#4caf50', text: 'Forte' },
-            'very-strong': { width: '100%', color: '#2e7d32', text: 'Molto Forte' }
-        };
-        
-        const level = strengthLevels[validation.strength] || { width: '0%', color: '#e0e0e0', text: 'Inserisci password' };
-        strengthFill.style.width = level.width;
-        strengthFill.style.backgroundColor = level.color;
-        strengthText.textContent = `Sicurezza: ${level.text}`;
-        
-        // Validate confirm password if present
-        if (confirmPasswordInput && confirmPasswordInput.value) {
-            validatePasswordConfirmation(confirmPasswordInput, password);
-        }
-    });
-    
-    // Confirm password validation
-    if (confirmPasswordInput) {
-        confirmPasswordInput.addEventListener('input', function() {
-            const password = passwordInput.value;
-            const confirmPassword = this.value;
-            validatePasswordConfirmation(this, password);
-        });
-    }
+			this.classList.remove('success');
+			this.classList.add('error');
+		}
+
+		// Update strength indicator
+		const strengthLevels = {
+			'weak': {
+				width: '25%',
+				color: '#f44336',
+				text: 'Debole'
+			},
+			'medium': {
+				width: '50%',
+				color: '#ff9800',
+				text: 'Media'
+			},
+			'strong': {
+				width: '75%',
+				color: '#4caf50',
+				text: 'Forte'
+			},
+			'very-strong': {
+				width: '100%',
+				color: '#2e7d32',
+				text: 'Molto Forte'
+			}
+		};
+
+		const level = strengthLevels[validation.strength] || {
+			width: '0%',
+			color: '#e0e0e0',
+			text: 'Inserisci password'
+		};
+		strengthFill.style.width = level.width;
+		strengthFill.style.backgroundColor = level.color;
+		strengthText.textContent = `Sicurezza: ${level.text}`;
+
+		// Validate confirm password if present
+		if (confirmPasswordInput && confirmPasswordInput.value) {
+			validatePasswordConfirmation(confirmPasswordInput, password);
+		}
+	});
+
+	// Confirm password validation
+	if (confirmPasswordInput) {
+		confirmPasswordInput.addEventListener('input', function() {
+			const password = passwordInput.value;
+			const confirmPassword = this.value;
+			validatePasswordConfirmation(this, password);
+		});
+	}
 }
 
 // Validate password confirmation
 function validatePasswordConfirmation(confirmInput, originalPassword) {
-    const confirmPassword = confirmInput.value;
-    
-    if (confirmPassword.length === 0) {
-        confirmInput.classList.remove('error', 'success');
-        return;
-    }
-    
-    if (confirmPassword === originalPassword) {
-        confirmInput.classList.remove('error');
-        confirmInput.classList.add('success');
-    } else {
-        confirmInput.classList.remove('success');
-        confirmInput.classList.add('error');
-    }
-}
+	const confirmPassword = confirmInput.value;
 
-function handleContactForm(formData) {
-    const name = formData.get('name') || formData.get('nome');
-    const email = formData.get('email');
-    const message = formData.get('message') || formData.get('messaggio');
-    const phone = formData.get('phone') || formData.get('telefono');
-    
-    // Validate required fields
-    if (!name || !email || !message) {
-        showNotification('Compila tutti i campi obbligatori', 'error');
-        return;
-    }
-    
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        showNotification('Formato email non valido', 'error');
-        return;
-    }
-    
-    // Success message
-    showNotification('Messaggio inviato con successo! Ti risponderemo presto.', 'success');
-    console.log('Contact form data:', { name, email, message, phone });
-    
-    // Reset form (if it exists)
-    const contactForm = document.querySelector('form[data-form-type="contact"]');
-    if (contactForm) {
-        contactForm.reset();
-    }
+	if (confirmPassword.length === 0) {
+		confirmInput.classList.remove('error', 'success');
+		return;
+	}
+
+	if (confirmPassword === originalPassword) {
+		confirmInput.classList.remove('error');
+		confirmInput.classList.add('success');
+	} else {
+		confirmInput.classList.remove('success');
+		confirmInput.classList.add('error');
+	}
 }
 
 function handleLoginForm(formData) {
-    const email = formData.get('email');
-    const password = formData.get('password');
-    
-    // Simple login validation - no password requirements check
-    if (!email || !password) {
-        showNotification('Email e password sono obbligatori', 'error');
-        return;
-    }
-    
-    // Simple mock authentication for login
-    currentUser = { email: email, name: 'Socio' };
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    showNotification('Login effettuato con successo!', 'success');
-    
-    // Redirect to members area or show members content
-    showMembersContent();
+	const email = formData.get('email');
+	const password = formData.get('password');
+
+	// Simple login validation - no password requirements check
+	if (!email || !password) {
+		showNotification('Email e password sono obbligatori', 'error');
+		return;
+	}
+
+	// Simple mock authentication for login
+	currentUser = {
+		email: email,
+		name: 'Socio'
+	};
+	localStorage.setItem('currentUser', JSON.stringify(currentUser));
+	showNotification('Login effettuato con successo!', 'success');
+
+	// Redirect to members area or show members content
+	showMembersContent();
 }
 
 function handleRegistrationForm(formData) {
-    const userName = formData.get('name') || formData.get('nome');
-    const email = formData.get('email');
-    const password = formData.get('password');
-    const confirmPassword = formData.get('confirm-password');
-    const surname = formData.get('surname') || formData.get('cognome');
-    const phone = formData.get('phone') || formData.get('telefono');
-    const acceptTerms = formData.get('privacy');
-    
-    // Validate required fields
-    if (!email || !password || !userName || !surname) {
-        showNotification('Tutti i campi obbligatori devono essere compilati', 'error');
-        return;
-    }
-    
-    // Validate password strength ONLY for registration
-    const passwordValidation = validatePassword(password);
-    if (!passwordValidation.isValid) {
-        showNotification('Password non valida: ' + passwordValidation.errors.join(', '), 'error');
-        return;
-    }
-    
-    // Check password confirmation
-    if (password !== confirmPassword) {
-        showNotification('Le password non coincidono', 'error');
-        return;
-    }
-    
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        showNotification('Formato email non valido', 'error');
-        return;
-    }
-    
-    // Check terms acceptance
-    if (!acceptTerms) {
-        showNotification('È necessario accettare la privacy policy', 'error');
-        return;
-    }
-    
-    // Registration successful
-    showNotification('Registrazione completata! Controlla la tua email per verificare l\'account.', 'success');
-    console.log('Registration data:', { email, name, surname, phone });
-    
-    // Optional: redirect to login page after a delay
-    setTimeout(() => {
-        window.location.href = 'login.html';
-    }, 2000);
+	const userName = formData.get('name') || formData.get('nome');
+	const email = formData.get('email');
+	const password = formData.get('password');
+	const confirmPassword = formData.get('confirm-password');
+	const surname = formData.get('surname') || formData.get('cognome');
+	const phone = formData.get('phone') || formData.get('telefono');
+	const acceptTerms = formData.get('privacy');
+
+	// Validate required fields
+	if (!email || !password || !userName || !surname) {
+		showNotification('Tutti i campi obbligatori devono essere compilati', 'error');
+		return;
+	}
+
+	// Validate password strength ONLY for registration
+	const passwordValidation = validatePassword(password);
+	if (!passwordValidation.isValid) {
+		showNotification('Password non valida: ' + passwordValidation.errors.join(', '), 'error');
+		return;
+	}
+
+	// Check password confirmation
+	if (password !== confirmPassword) {
+		showNotification('Le password non coincidono', 'error');
+		return;
+	}
+
+	// Validate email format
+	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	if (!emailRegex.test(email)) {
+		showNotification('Formato email non valido', 'error');
+		return;
+	}
+
+	// Check terms acceptance
+	if (!acceptTerms) {
+		showNotification('È necessario accettare la privacy policy', 'error');
+		return;
+	}
+
+	// Registration successful
+	showNotification('Registrazione completata! Controlla la tua email per verificare l\'account.', 'success');
+	console.log('Registration data:', {
+		email,
+		name,
+		surname,
+		phone
+	});
+
+	// Optional: redirect to login page after a delay
+	setTimeout(() => {
+		window.location.href = 'login.html';
+	}, 2000);
 }
 
 function handleNewsletterForm(formData) {
-    const email = formData.get('email');
-    showNotification('Iscrizione alla newsletter completata!', 'success');
-    console.log('Newsletter subscription:', email);
+	const email = formData.get('email');
+	showNotification('Iscrizione alla newsletter completata!', 'success');
+	console.log('Newsletter subscription:', email);
 }
 
 function showMembersContent() {
-    const membersContent = document.getElementById('members-content');
-    const authSection = document.getElementById('auth-section');
-    
-    if (membersContent && authSection) {
-        authSection.style.display = 'none';
-        membersContent.style.display = 'block';
-        
-        // Initialize calendar for members
-        if (document.getElementById('events-calendar')) {
-            initMembersCalendar();
-        }
-    }
+	const membersContent = document.getElementById('members-content');
+	const authSection = document.getElementById('auth-section');
+
+	if (membersContent && authSection) {
+		authSection.style.display = 'none';
+		membersContent.style.display = 'block';
+
+		// Initialize calendar for members
+		if (document.getElementById('events-calendar')) {
+			initMembersCalendar();
+		}
+	}
 }
 
 // Initialize member area functionality
 function initMemberArea() {
-    const loginForm = document.getElementById('login-form');
-    const registerForm = document.getElementById('register-form');
-    const showRegisterBtn = document.getElementById('show-register');
-    const showLoginBtn = document.getElementById('show-login');
+	const loginForm = document.getElementById('login-form');
+	const registerForm = document.getElementById('register-form');
+	const showRegisterBtn = document.getElementById('show-register');
+	const showLoginBtn = document.getElementById('show-login');
 
-    if (showRegisterBtn) {
-        showRegisterBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            loginForm.style.display = 'none';
-            registerForm.style.display = 'block';
-        });
-    }
+	if (showRegisterBtn) {
+		showRegisterBtn.addEventListener('click', function(e) {
+			e.preventDefault();
+			loginForm.style.display = 'none';
+			registerForm.style.display = 'block';
+		});
+	}
 
-    if (showLoginBtn) {
-        showLoginBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            registerForm.style.display = 'none';
-            loginForm.style.display = 'block';
-        });
-    }
+	if (showLoginBtn) {
+		showLoginBtn.addEventListener('click', function(e) {
+			e.preventDefault();
+			registerForm.style.display = 'none';
+			loginForm.style.display = 'block';
+		});
+	}
 
-    // Check if user is already logged in
-    checkUserSession();
+	// Check if user is already logged in
+	checkUserSession();
 }
 
 function checkUserSession() {
-    const savedUser = localStorage.getItem('currentUser');
-    if (savedUser) {
-        currentUser = JSON.parse(savedUser);
-        showMembersContent();
-    }
+	const savedUser = localStorage.getItem('currentUser');
+	if (savedUser) {
+		currentUser = JSON.parse(savedUser);
+		showMembersContent();
+	}
 }
 
 function logout() {
-    currentUser = null;
-    localStorage.removeItem('currentUser');
-    
-    const membersContent = document.getElementById('members-content');
-    const loginForm = document.getElementById('login-form');
-    
-    if (membersContent && loginForm) {
-        membersContent.style.display = 'none';
-        loginForm.style.display = 'block';
-    }
-    
-    showNotification('Logout effettuato con successo', 'info');
+	currentUser = null;
+	localStorage.removeItem('currentUser');
+
+	const membersContent = document.getElementById('members-content');
+	const loginForm = document.getElementById('login-form');
+
+	if (membersContent && loginForm) {
+		membersContent.style.display = 'none';
+		loginForm.style.display = 'block';
+	}
+
+	showNotification('Logout effettuato con successo', 'info');
 }
 
 // Calendar
 function initCalendar() {
-    const calendar = document.getElementById('calendar-grid');
-    if (!calendar) return;
-    
-    renderCalendar();
-    
-    // Navigation buttons
-    const prevBtn = document.getElementById('calendar-prev');
-    const nextBtn = document.getElementById('calendar-next');
-    
-    prevBtn?.addEventListener('click', function() {
-        currentMonth--;
-        if (currentMonth < 0) {
-            currentMonth = 11;
-            currentYear--;
-        }
-        renderCalendar();
-    });
-    
-    nextBtn?.addEventListener('click', function() {
-        currentMonth++;
-        if (currentMonth > 11) {
-            currentMonth = 0;
-            currentYear++;
-        }
-        renderCalendar();
-    });
+	const calendar = document.getElementById('calendar-grid');
+	if (!calendar) return;
+
+	renderCalendar();
+
+	// Navigation buttons
+	const prevBtn = document.getElementById('calendar-prev');
+	const nextBtn = document.getElementById('calendar-next');
+
+	prevBtn?.addEventListener('click', function() {
+		currentMonth--;
+		if (currentMonth < 0) {
+			currentMonth = 11;
+			currentYear--;
+		}
+		renderCalendar();
+	});
+
+	nextBtn?.addEventListener('click', function() {
+		currentMonth++;
+		if (currentMonth > 11) {
+			currentMonth = 0;
+			currentYear++;
+		}
+		renderCalendar();
+	});
 }
 
 function initMembersCalendar() {
-    // This would be called only for logged-in members
-    initCalendar();
-    
-    // Load events from server (mock data for now)
-    loadEvents();
+	// This would be called only for logged-in members
+	initCalendar();
+
+	// Load events from server (mock data for now)
+	loadEvents();
 }
 
 function renderCalendar() {
-    const calendar = document.getElementById('calendar-grid');
-    const monthTitle = document.getElementById('calendar-month');
-    
-    if (!calendar) return;
-    
-    const monthNames = [
-        'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
-        'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
-    ];
-    
-    const dayNames = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
-    
-    // Update month title
-    if (monthTitle) {
-        monthTitle.textContent = `${monthNames[currentMonth]} ${currentYear}`;
-    }
-    
-    // Clear calendar
-    calendar.innerHTML = '';
-    
-    // Add day headers
-    dayNames.forEach(day => {
-        const dayHeader = document.createElement('div');
-        dayHeader.className = 'calendar-day-header';
-        dayHeader.textContent = day;
-        calendar.appendChild(dayHeader);
-    });
-    
-    // Get first day of month and number of days
-    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-    
-    // Add empty cells for days before month starts
-    for (let i = 0; i < firstDay; i++) {
-        const emptyDay = document.createElement('div');
-        emptyDay.className = 'calendar-day';
-        calendar.appendChild(emptyDay);
-    }
-    
-    // Add days of month
-    for (let day = 1; day <= daysInMonth; day++) {
-        const dayElement = document.createElement('div');
-        dayElement.className = 'calendar-day';
-        dayElement.textContent = day;
-        
-        // Check if day has events (mock data)
-        if (hasEvent(day)) {
-            dayElement.classList.add('has-event');
-            dayElement.addEventListener('click', () => showEventDetails(day));
-        }
-        
-        calendar.appendChild(dayElement);
-    }
+	const calendar = document.getElementById('calendar-grid');
+	const monthTitle = document.getElementById('calendar-month');
+
+	if (!calendar) return;
+
+	const monthNames = [
+		'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
+		'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
+	];
+
+	const dayNames = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
+
+	// Update month title
+	if (monthTitle) {
+		monthTitle.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+	}
+
+	// Clear calendar
+	calendar.innerHTML = '';
+
+	// Add day headers
+	dayNames.forEach(day => {
+		const dayHeader = document.createElement('div');
+		dayHeader.className = 'calendar-day-header';
+		dayHeader.textContent = day;
+		calendar.appendChild(dayHeader);
+	});
+
+	// Get first day of month and number of days
+	const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+	const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+	// Add empty cells for days before month starts
+	for (let i = 0; i < firstDay; i++) {
+		const emptyDay = document.createElement('div');
+		emptyDay.className = 'calendar-day';
+		calendar.appendChild(emptyDay);
+	}
+
+	// Add days of month
+	for (let day = 1; day <= daysInMonth; day++) {
+		const dayElement = document.createElement('div');
+		dayElement.className = 'calendar-day';
+		dayElement.textContent = day;
+
+		// Check if day has events (mock data)
+		if (hasEvent(day)) {
+			dayElement.classList.add('has-event');
+			dayElement.addEventListener('click', () => showEventDetails(day));
+		}
+
+		calendar.appendChild(dayElement);
+	}
 }
 
 function hasEvent(day) {
-    // Mock event data - in real app, this would check against actual events
-    const eventDays = [5, 12, 18, 25];
-    return eventDays.includes(day);
+	// Mock event data - in real app, this would check against actual events
+	const eventDays = [5, 12, 18, 25];
+	return eventDays.includes(day);
 }
 
 function showEventDetails(day) {
-    // Mock event details
-    const events = {
-        5: 'Riunione mensile del direttivo',
-        12: 'Evento di raccolta fondi',
-        18: 'Conferenza sulla storia locale',
-        25: 'Festa di Santa Barbara'
-    };
-    
-    const eventTitle = events[day] || 'Evento';
-    showNotification(`${day} ${getMonthName(currentMonth)}: ${eventTitle}`, 'info');
+	// Mock event details
+	const events = {
+		5: 'Riunione mensile del direttivo',
+		12: 'Evento di raccolta fondi',
+		18: 'Conferenza sulla storia locale',
+		25: 'Festa di Santa Barbara'
+	};
+
+	const eventTitle = events[day] || 'Evento';
+	showNotification(`${day} ${getMonthName(currentMonth)}: ${eventTitle}`, 'info');
 }
 
 function getMonthName(monthIndex) {
-    const months = [
-        'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
-        'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
-    ];
-    return months[monthIndex];
+	const months = [
+		'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
+		'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
+	];
+	return months[monthIndex];
 }
 
 function loadEvents() {
-    // Mock function to load events from server
-    console.log('Caricando eventi per membri...');
+	// Mock function to load events from server
+	console.log('Caricando eventi per membri...');
 }
 
 // Social Media Integration
 function initSocialFeeds() {
-    // Mock social media integration
-    // In a real implementation, you would use Facebook and Instagram APIs
-    console.log('Inizializzando notizie dai social...');
+	// Mock social media integration
+	// In a real implementation, you would use Facebook and Instagram APIs
+	console.log('Inizializzando notizie dai social...');
 }
 
 // Utility Functions
 function showNotification(message, type = 'info') {
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.innerHTML = `
+	// Create notification element
+	const notification = document.createElement('div');
+	notification.className = `notification notification-${type}`;
+	notification.innerHTML = `
         <div class="notification-content">
             <span class="notification-message">${message}</span>
             <button class="notification-close">&times;</button>
         </div>
     `;
-    
-    // Add styles if not already present
-    if (!document.querySelector('#notification-styles')) {
-        const styles = document.createElement('style');
-        styles.id = 'notification-styles';
-        styles.textContent = `
+
+	// Add styles if not already present
+	if (!document.querySelector('#notification-styles')) {
+		const styles = document.createElement('style');
+		styles.id = 'notification-styles';
+		styles.textContent = `
             .notification {
                 position: fixed;
                 top: 20px;
@@ -835,59 +959,59 @@ function showNotification(message, type = 'info') {
                 margin-left: 10px;
             }
         `;
-        document.head.appendChild(styles);
-    }
-    
-    // Add to page
-    document.body.appendChild(notification);
-    
-    // Show notification
-    setTimeout(() => {
-        notification.classList.add('show');
-    }, 100);
-    
-    // Auto-hide after 5 seconds
-    setTimeout(() => {
-        hideNotification(notification);
-    }, 5000);
-    
-    // Close button handler
-    notification.querySelector('.notification-close').addEventListener('click', () => {
-        hideNotification(notification);
-    });
+		document.head.appendChild(styles);
+	}
+
+	// Add to page
+	document.body.appendChild(notification);
+
+	// Show notification
+	setTimeout(() => {
+		notification.classList.add('show');
+	}, 100);
+
+	// Auto-hide after 5 seconds
+	setTimeout(() => {
+		hideNotification(notification);
+	}, 5000);
+
+	// Close button handler
+	notification.querySelector('.notification-close').addEventListener('click', () => {
+		hideNotification(notification);
+	});
 }
 
 function hideNotification(notification) {
-    notification.classList.remove('show');
-    setTimeout(() => {
-        notification.remove();
-    }, 300);
+	notification.classList.remove('show');
+	setTimeout(() => {
+		notification.remove();
+	}, 300);
 }
 
 // Load FAQ from JSON (if exists)
 function loadFAQ() {
-    fetch('data/faq.json')
-        .then(response => response.json())
-        .then(data => {
-            const faqContainer = document.getElementById('faq-container');
-            if (faqContainer) {
-                faqContainer.innerHTML = '';
-                data.forEach(item => {
-                    const faqElement = createFAQElement(item.question, item.answer);
-                    faqContainer.appendChild(faqElement);
-                });
-                initFAQ();
-            }
-        })
-        .catch(error => {
-            console.log('FAQ JSON not found, using HTML version');
-        });
+	fetch('data/faq.json')
+		.then(response => response.json())
+		.then(data => {
+			const faqContainer = document.getElementById('faq-container');
+			if (faqContainer) {
+				faqContainer.innerHTML = '';
+				data.forEach(item => {
+					const faqElement = createFAQElement(item.question, item.answer);
+					faqContainer.appendChild(faqElement);
+				});
+				initFAQ();
+			}
+		})
+		.catch(error => {
+			console.log('FAQ JSON not found, using HTML version');
+		});
 }
 
 function createFAQElement(question, answer) {
-    const faqItem = document.createElement('div');
-    faqItem.className = 'faq-item';
-    faqItem.innerHTML = `
+	const faqItem = document.createElement('div');
+	faqItem.className = 'faq-item';
+	faqItem.innerHTML = `
         <button class="faq-question">
             ${question}
             <span class="faq-icon">▼</span>
@@ -896,14 +1020,14 @@ function createFAQElement(question, answer) {
             <p>${answer}</p>
         </div>
     `;
-    return faqItem;
+	return faqItem;
 }
 
 // Initialize FAQ loading
 document.addEventListener('DOMContentLoaded', function() {
-    if (document.getElementById('faq-container')) {
-        loadFAQ();
-    }
+	if (document.getElementById('faq-container')) {
+		loadFAQ();
+	}
 });
 
 // Export functions for global use
@@ -912,38 +1036,38 @@ window.showNotification = showNotification;
 
 // Cookie management function - available globally
 function manageCookies() {
-    // Simple cookie consent management
-    const currentConsent = localStorage.getItem('cookieConsent');
-    
-    const userChoice = confirm(
-        'Gestione Cookie:\n\n' +
-        'Cookie Analytics (Google Analytics): ' + (currentConsent === 'accepted' ? 'ATTIVATI' : 'DISATTIVATI') + '\n\n' +
-        'Vuoi modificare le impostazioni?\n\n' +
-        'OK = Attiva Analytics\n' +
-        'Annulla = Disattiva Analytics'
-    );
-    
-    if (userChoice) {
-        // User clicked OK - enable analytics
-        localStorage.setItem('cookieConsent', 'accepted');
-        if (typeof gtag === 'function') {
-            gtag('consent', 'update', {
-                'analytics_storage': 'granted'
-            });
-        }
-        showNotification('Cookie analytics attivati. La pagina verrà ricaricata.', 'success');
-        setTimeout(() => location.reload(), 1500);
-    } else {
-        // User clicked Cancel - disable analytics
-        localStorage.setItem('cookieConsent', 'denied');
-        if (typeof gtag === 'function') {
-            gtag('consent', 'update', {
-                'analytics_storage': 'denied'
-            });
-        }
-        showNotification('Cookie analytics disattivati. La pagina verrà ricaricata.', 'info');
-        setTimeout(() => location.reload(), 1500);
-    }
+	// Simple cookie consent management
+	const currentConsent = localStorage.getItem('cookieConsent');
+
+	const userChoice = confirm(
+		'Gestione Cookie:\n\n' +
+		'Cookie Analytics (Google Analytics): ' + (currentConsent === 'accepted' ? 'ATTIVATI' : 'DISATTIVATI') + '\n\n' +
+		'Vuoi modificare le impostazioni?\n\n' +
+		'OK = Attiva Analytics\n' +
+		'Annulla = Disattiva Analytics'
+	);
+
+	if (userChoice) {
+		// User clicked OK - enable analytics
+		localStorage.setItem('cookieConsent', 'accepted');
+		if (typeof gtag === 'function') {
+			gtag('consent', 'update', {
+				'analytics_storage': 'granted'
+			});
+		}
+		showNotification('Cookie analytics attivati. La pagina verrà ricaricata.', 'success');
+		setTimeout(() => location.reload(), 1500);
+	} else {
+		// User clicked Cancel - disable analytics
+		localStorage.setItem('cookieConsent', 'denied');
+		if (typeof gtag === 'function') {
+			gtag('consent', 'update', {
+				'analytics_storage': 'denied'
+			});
+		}
+		showNotification('Cookie analytics disattivati. La pagina verrà ricaricata.', 'info');
+		setTimeout(() => location.reload(), 1500);
+	}
 }
 
 // Make manageCookies globally available

@@ -136,3 +136,124 @@ WHERE email = 'test@example.com';
 3. **Creazione utenti admin** per gestione soci
 4. **Backup configurazioni** Supabase
 5. **Monitoring** accessi e registrazioni
+
+## Tabella Profiles (Opzionale ma Consigliata)
+
+Per memorizzare informazioni dettagliate sui soci, puoi creare una tabella `profiles` con questo SQL:
+
+```sql
+-- Crea la tabella profiles
+CREATE TABLE profiles (
+    id UUID REFERENCES auth.users(id) PRIMARY KEY,
+    email TEXT,
+    first_name TEXT,
+    last_name TEXT,
+    full_name TEXT,
+    phone_number TEXT,
+    alternative_email TEXT,
+    role TEXT DEFAULT 'utente',
+    
+    -- Dati iscrizione
+    membership_number TEXT UNIQUE,
+    membership_date DATE,
+    membership_type TEXT DEFAULT 'ordinario',
+    membership_status TEXT DEFAULT 'attivo',
+    membership_expiry DATE,
+    
+    -- Dati personali
+    date_of_birth DATE,
+    place_of_birth TEXT,
+    address TEXT,
+    city TEXT,
+    zip_code TEXT,
+    province TEXT,
+    profession TEXT,
+    
+    -- Contatti emergenza
+    emergency_contact TEXT,
+    emergency_phone TEXT,
+    
+    -- Note
+    notes TEXT,
+    
+    -- Timestamp
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Abilita RLS (Row Level Security)
+ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+
+-- Policy: Gli utenti possono vedere solo il proprio profilo
+CREATE POLICY "Users can view own profile" ON profiles
+    FOR SELECT USING (auth.uid() = id);
+
+-- Policy: Gli utenti possono aggiornare solo il proprio profilo
+CREATE POLICY "Users can update own profile" ON profiles
+    FOR UPDATE USING (auth.uid() = id);
+
+-- Policy: Gli utenti possono inserire solo il proprio profilo
+CREATE POLICY "Users can insert own profile" ON profiles
+    FOR INSERT WITH CHECK (auth.uid() = id);
+
+-- Trigger per aggiornare updated_at automaticamente
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+CREATE TRIGGER update_profiles_updated_at
+    BEFORE UPDATE ON profiles
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
+
+-- Funzione per creare automaticamente un profilo quando un utente si registra
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS trigger AS $$
+BEGIN
+    INSERT INTO public.profiles (id, email, full_name, first_name, last_name, role)
+    VALUES (
+        NEW.id,
+        NEW.email,
+        COALESCE(NEW.raw_user_meta_data->>'full_name', ''),
+        COALESCE(NEW.raw_user_meta_data->>'first_name', ''),
+        COALESCE(NEW.raw_user_meta_data->>'last_name', ''),
+        COALESCE(NEW.raw_user_meta_data->>'role', 'utente')
+    );
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Trigger per creare profilo automaticamente
+CREATE TRIGGER on_auth_user_created
+    AFTER INSERT ON auth.users
+    FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+```
+
+### Esempio di Dati Completi per un Socio
+
+```json
+{
+  "first_name": "Mario",
+  "last_name": "Rossi", 
+  "full_name": "Mario Rossi",
+  "phone_number": "+39 123 456 7890",
+  "role": "socio",
+  "membership_number": "2025-001",
+  "membership_date": "2020-01-15",
+  "membership_type": "ordinario",
+  "membership_status": "attivo",
+  "date_of_birth": "1985-03-15",
+  "place_of_birth": "Grumo Appula (BA)",
+  "address": "Via Roma 123",
+  "city": "Grumo Appula",
+  "zip_code": "70025",
+  "province": "BA",
+  "profession": "Ingegnere",
+  "emergency_contact": "Anna Rossi",
+  "emergency_phone": "+39 321 654 0987"
+}
+```
