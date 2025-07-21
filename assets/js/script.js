@@ -602,6 +602,102 @@ function initMemberArea() {
 	const showRegisterBtn = document.getElementById('show-register');
 	const showLoginBtn = document.getElementById('show-login');
 
+	// Cambio Email
+	const changeEmailBtn = document.getElementById('change-email-btn');
+	const emailChangeForm = document.getElementById('email-change-form');
+	const passwordChangeForm = document.getElementById('password-change-form');
+	const profileEditForm = document.getElementById('profile-edit-form');
+	const updateEmailForm = document.getElementById('update-email-form');
+	const cancelEmailBtn = document.getElementById('cancel-email-btn');
+	const resendEmailVerificationBtn = document.getElementById('resend-email-verification-btn');
+
+	if (changeEmailBtn && emailChangeForm) {
+		changeEmailBtn.addEventListener('click', function() {
+			// Mostra il form cambio email, nasconde altri
+			emailChangeForm.style.display = 'block';
+			if (passwordChangeForm) passwordChangeForm.style.display = 'none';
+			if (profileEditForm) profileEditForm.style.display = 'none';
+			// Precompila email attuale
+			const currentEmailInput = document.getElementById('current-email');
+			if (currentEmailInput && currentUser && currentUser.email) {
+				currentEmailInput.value = currentUser.email;
+			}
+		});
+	}
+
+	if (resendEmailVerificationBtn) {
+		resendEmailVerificationBtn.addEventListener('click', async function() {
+			const newEmail = document.getElementById('new-email').value.trim();
+			if (!newEmail) {
+				showNotification('Inserisci prima la nuova email per poter reinviare la verifica.', 'error');
+				return;
+			}
+			try {
+				if (typeof supabaseClient === 'undefined') {
+					showNotification('Supabase non inizializzato.', 'error');
+					return;
+				}
+				const { error } = await supabaseClient.auth.resend({
+					type: 'email_change',
+					email: newEmail
+				});
+				if (error) {
+					showNotification('Errore nell\'invio della mail di verifica: ' + error.message, 'error');
+				} else {
+					showNotification('Email di verifica reinviata! Controlla la casella di posta.', 'success');
+				}
+			} catch (err) {
+				showNotification('Errore imprevisto: ' + err.message, 'error');
+			}
+		});
+	}
+
+	if (cancelEmailBtn && emailChangeForm) {
+		cancelEmailBtn.addEventListener('click', function() {
+			emailChangeForm.style.display = 'none';
+		});
+	}
+
+if (updateEmailForm) {
+	updateEmailForm.addEventListener('submit', async function(e) {
+		e.preventDefault();
+		const newEmail = document.getElementById('new-email').value.trim();
+		const confirmNewEmail = document.getElementById('confirm-new-email').value.trim();
+
+		if (!newEmail || !confirmNewEmail) {
+			showNotification('Inserisci la nuova email e la conferma', 'error');
+			return;
+		}
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (!emailRegex.test(newEmail)) {
+			showNotification('Formato email non valido', 'error');
+			return;
+		}
+		if (newEmail !== confirmNewEmail) {
+			showNotification('Le email non coincidono', 'error');
+			return;
+		}
+
+		// Cambio email reale con Supabase
+		try {
+			if (typeof supabaseClient === 'undefined') {
+				showNotification('Supabase non inizializzato.', 'error');
+				return;
+			}
+			const { error } = await supabaseClient.auth.updateUser({
+				email: newEmail
+			});
+			if (error) {
+				showNotification('Errore durante la richiesta di cambio email: ' + error.message, 'error');
+			} else {
+				showNotification('Controlla la nuova casella email per confermare il cambio. Il cambio sarà effettivo solo dopo la conferma!', 'success');
+			}
+		} catch (err) {
+			showNotification('Errore imprevisto: ' + err.message, 'error');
+		}
+	});
+}
+
 	if (showRegisterBtn) {
 		showRegisterBtn.addEventListener('click', function(e) {
 			e.preventDefault();

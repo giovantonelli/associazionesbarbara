@@ -131,7 +131,8 @@
 					<div class="profile-management">
 						<div class="profile-actions">
 							<button id="edit-profile-btn" class="btn btn-outline">✏️ Modifica Profilo</button>
-							<button id="change-password-btn" class="btn btn-outline">🔑 Cambia Password</button>
+					<button id="change-password-btn" class="btn btn-outline">🔑 Cambia Password</button>
+					<button id="change-email-btn" class="btn btn-outline">✉️ Cambia Email</button>
 						</div>
 					</div>
 				</div>
@@ -175,10 +176,6 @@
 							<div class="form-group">
 								<label for="edit-phone">Telefono</label>
 								<input type="tel" id="edit-phone" name="phone">
-							</div>
-							<div class="form-group">
-								<label for="edit-email">Email *</label>
-								<input type="email" id="edit-email" name="email" required readonly title="L'email non può essere modificata da qui">
 							</div>
 							
 							<!-- Indirizzo -->
@@ -227,6 +224,29 @@
 							<button type="submit" class="btn btn-primary">🔑 Cambia Password</button>
 							<button type="button" id="cancel-password-btn" class="btn btn-secondary">❌ Annulla</button>
 						</div>
+					</form>
+				</div>
+
+				<!-- Change Email Form (initially hidden) -->
+				<div id="email-change-form" class="content-section" style="display: none; margin-top: 20px;">
+					<h3>✉️ Cambia Email</h3>
+					<form id="update-email-form">
+						<div class="form-group">
+							<label for="current-email">Email Attuale</label>
+							<input type="email" id="current-email" name="currentEmail" readonly>
+						</div>
+						<div class="form-group">
+							<label for="new-email">Nuova Email *</label>
+							<input type="email" id="new-email" name="newEmail" required>
+						</div>
+						<div class="form-group">
+							<label for="confirm-new-email">Conferma Nuova Email *</label>
+							<input type="email" id="confirm-new-email" name="confirmNewEmail" required>
+						</div>
+						<div class="form-actions">
+						<button type="submit" class="btn btn-primary">✉️ Cambia Email</button>
+						<button type="button" id="cancel-email-btn" class="btn btn-secondary">❌ Annulla</button>
+					</div>
 					</form>
 				</div>
 			</div>
@@ -583,46 +603,61 @@ const {
 				}
 			});
 			// Profile Management Functions
-			function showEditProfile() {
+
+			function hideAllForms() {
 				const editForm = document.getElementById('profile-edit-form');
 				const passwordForm = document.getElementById('password-change-form');
-				
-				// Hide password form if open
+				const emailForm = document.getElementById('email-change-form');
+				if (editForm) editForm.style.display = 'none';
 				if (passwordForm) passwordForm.style.display = 'none';
-				
-				// Show profile edit form
+				if (emailForm) emailForm.style.display = 'none';
+				// Rimuovi stato attivo da tutti i pulsanti
+				document.getElementById('edit-profile-btn')?.classList.remove('btn-active');
+				document.getElementById('change-password-btn')?.classList.remove('btn-active');
+				document.getElementById('change-email-btn')?.classList.remove('btn-active');
+			}
+
+			function showEditProfile() {
+				hideAllForms();
+				const editForm = document.getElementById('profile-edit-form');
+				const btn = document.getElementById('edit-profile-btn');
 				if (editForm) {
 					editForm.style.display = 'block';
 					populateEditForm();
 				}
+				if (btn) btn.classList.add('btn-active');
 			}
-			
+
 			function hideEditProfile() {
 				const editForm = document.getElementById('profile-edit-form');
 				if (editForm) editForm.style.display = 'none';
 			}
-			
+
 			function showChangePassword() {
-				const editForm = document.getElementById('profile-edit-form');
+				hideAllForms();
 				const passwordForm = document.getElementById('password-change-form');
-				
-				// Hide profile edit form if open
-				if (editForm) editForm.style.display = 'none';
-				
-				// Show password change form
+				const btn = document.getElementById('change-password-btn');
 				if (passwordForm) passwordForm.style.display = 'block';
+				if (btn) btn.classList.add('btn-active');
 			}
-			
+
 			function hideChangePassword() {
 				const passwordForm = document.getElementById('password-change-form');
 				if (passwordForm) passwordForm.style.display = 'none';
 			}
+
+			function showChangeEmail() {
+				hideAllForms();
+				const emailForm = document.getElementById('email-change-form');
+				const btn = document.getElementById('change-email-btn');
+				if (emailForm) emailForm.style.display = 'block';
+				if (btn) btn.classList.add('btn-active');
+			}
 			
 			function populateEditForm() {
 				if (!currentUser) return;
-				
+				// Usa user_metadata già merge-ato con i dati del profilo (come fatto in checkAuthentication)
 				const metadata = currentUser.user_metadata || {};
-				
 				// Informazioni Personali
 				document.getElementById('edit-firstName').value = metadata.first_name || '';
 				document.getElementById('edit-lastName').value = metadata.last_name || '';
@@ -630,17 +665,13 @@ const {
 				document.getElementById('edit-placeOfBirth').value = metadata.place_of_birth || '';
 				document.getElementById('edit-gender').value = metadata.gender || '';
 				document.getElementById('edit-fiscalCode').value = metadata.fiscal_code || '';
-				
 				// Contatti
 				document.getElementById('edit-phone').value = metadata.phone_number || metadata.phone || '';
-				document.getElementById('edit-email').value = currentUser.email || '';
-				
 				// Indirizzo
 				document.getElementById('edit-address').value = metadata.address || '';
 				document.getElementById('edit-city').value = metadata.city || '';
 				document.getElementById('edit-zipCode').value = metadata.zip_code || '';
 				document.getElementById('edit-province').value = metadata.province || '';
-				
 			}
 			
 			async function handleProfileUpdate(event) {
@@ -827,6 +858,10 @@ const {
 				}
 				if (changePasswordBtn) {
 					changePasswordBtn.addEventListener('click', showChangePassword);
+				}
+				const changeEmailBtn = document.getElementById('change-email-btn');
+				if (changeEmailBtn) {
+					changeEmailBtn.addEventListener('click', showChangeEmail);
 				}
 				if (cancelEditBtn) {
 					cancelEditBtn.addEventListener('click', hideEditProfile);

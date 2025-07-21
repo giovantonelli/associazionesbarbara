@@ -1,3 +1,9 @@
+/* Pulsante attivo per gestione form area soci */
+.btn-outline.btn-active, .btn.btn-active {
+  background-color: var(--primary-color) !important;
+  color: #fff !important;
+  border-color: var(--primary-color) !important;
+}
 /* CSS Reset e Base Styles */
 * {
   margin: 0;
