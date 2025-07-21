@@ -552,7 +552,20 @@
 							data: {
 								first_name: firstName,
 								last_name: lastName,
-								full_name: `${firstName} ${lastName}`
+								full_name: `${firstName} ${lastName}`,
+								date_of_birth: dateOfBirth,
+								place_of_birth: placeOfBirth,
+								gender: gender,
+								fiscal_code: fiscalCode,
+								phone_number: phoneNumber,
+								address: address,
+								city: city,
+								zip_code: zipCode,
+								province: province,
+								profession: profession,
+								privacy_accepted: true,
+								registration_completed: true,
+								role: 'utente'
 							},
 							emailRedirectTo: undefined // Disable email confirmation redirect
 						}
@@ -573,7 +586,7 @@
 						// Add optional fields that exist in the database
 						if (firstName) profileData.first_name = firstName;
 						if (lastName) profileData.last_name = lastName;
-						if (firstName && lastName) profileData.full_name = `${firstName} ${lastName}`;
+						// full_name is a generated column in the database, don't set it manually
 						if (dateOfBirth) profileData.date_of_birth = formatDateForDB(dateOfBirth);
 						if (placeOfBirth) profileData.place_of_birth = placeOfBirth;
 						if (gender) profileData.gender = gender; // Now exists in database
@@ -591,31 +604,15 @@
 						// Note: created_at and updated_at have default values (now()) so we don't set them
 						// Note: role, membership_type, membership_status have defaults so we don't override them
 
-						// Insert into profiles table using the same simple approach
-						console.log('Inserting profile data:', JSON.stringify(profileData, null, 2));
-						const { error: profileError } = await supabaseClient
-							.from('profiles')
-							.insert([profileData]);
-
-						if (profileError) {
-							console.error('Profile creation error:', profileError);
-							console.error('Profile data that failed:', JSON.stringify(profileData, null, 2));
-							showStatus(`
-								<strong>Account creato!</strong><br>
-								L'account è stato creato con successo. Ti abbiamo inviato un'email di conferma all'indirizzo <strong>${email}</strong>.<br>
-								Controlla la tua casella di posta e clicca sul link di conferma per attivare il tuo account.<br>
-								<small style="color: #dc3545;">Errore salvataggio profilo: ${profileError.message}. Contatta l'amministrazione per completare la registrazione.</small>
-							`, 'warning');
-						} else {
-							// Both auth and profile creation successful
-							console.log('Profile created successfully with all data!');
-							showStatus(`
-								<strong>Registrazione completata!</strong><br>
-								Ti abbiamo inviato un'email di conferma all'indirizzo <strong>${email}</strong>.<br>
-								Controlla la tua casella di posta e clicca sul link di conferma per attivare il tuo account.<br>
-								<small>Una volta confermato, la tua richiesta di iscrizione sarà esaminata dall'amministrazione.</small>
-							`, 'success');
-						}
+						// Registration data is now saved in user_metadata
+						// The profile table entry will be created after email confirmation
+						console.log('Registration successful! User data saved in metadata.');
+						showStatus(`
+							<strong>Registrazione completata!</strong><br>
+							Ti abbiamo inviato un'email di conferma all'indirizzo <strong>${email}</strong>.<br>
+							Controlla la tua casella di posta e clicca sul link di conferma per attivare il tuo account.<br>
+							<small>Una volta confermato, potrai accedere all'area soci se approvato dall'amministrazione.</small>
+						`, 'success');
 
 						// Reset form and clear all fields
 						registerForm.reset();

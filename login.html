@@ -104,6 +104,16 @@
 						</form>
 						<!-- Status Messages -->
 						<div id="statusMessage" class="status-message" style="display: none;"></div>
+						
+						<!-- Resend Verification Email -->
+						<div id="resendEmailSection" class="resend-email-section" style="display: none; margin: 15px 0;">
+							<p class="text-center" style="color: #666; margin-bottom: 10px;">Non hai ricevuto l'email di conferma?</p>
+							<button type="button" id="resendEmailBtn" class="btn btn-secondary btn-full">
+								<span class="btn-text">Invia di nuovo email di conferma</span>
+								<div class="loading-spinner" style="display: none;"></div>
+							</button>
+						</div>
+						
 						<!-- Auth Links -->
 						<div class="auth-links">
 							<p>Non hai un account? <a href="register.html">Registrati qui</a>
@@ -268,6 +278,8 @@
 						errorMessage = 'Email o password non corretti.';
 					} else if (error.message.includes('Email not confirmed')) {
 						errorMessage = 'Email non confermata. Controlla la tua casella di posta.';
+						// Show resend email section when email is not confirmed
+						document.getElementById('resendEmailSection').style.display = 'block';
 					} else if (error.message.includes('Too many requests')) {
 						errorMessage = 'Troppi tentativi di login. Riprova tra qualche minuto.';
 					} else {
@@ -278,8 +290,70 @@
 					setLoading(false);
 				}
 			}
+			// Resend verification email function
+			async function resendVerificationEmail() {
+				const email = emailInput.value.trim();
+				
+				if (!email) {
+					showStatus('Inserisci il tuo indirizzo email prima di richiedere una nuova email di conferma.', 'error');
+					return;
+				}
+
+				const resendBtn = document.getElementById('resendEmailBtn');
+				const btnText = resendBtn.querySelector('.btn-text');
+				const spinner = resendBtn.querySelector('.loading-spinner');
+				
+				// Set loading state
+				btnText.textContent = 'Invio in corso...';
+				spinner.style.display = 'inline-block';
+				resendBtn.disabled = true;
+
+				try {
+					const { error } = await supabaseClient.auth.resend({
+						type: 'signup',
+						email: email
+					});
+
+					if (error) {
+						throw error;
+					}
+
+					showStatus('Email di conferma inviata! Controlla la tua casella di posta.', 'success');
+					
+				} catch (error) {
+					console.error('Resend email error:', error);
+					let errorMessage = 'Errore durante l\'invio dell\'email. ';
+					
+					if (error.message.includes('User not found')) {
+						errorMessage = 'Email non trovata. Verifica di aver inserito l\'email corretta.';
+					} else if (error.message.includes('Email rate limit')) {
+						errorMessage = 'Limite di invio raggiunto. Riprova tra qualche minuto.';
+					} else {
+						errorMessage += error.message;
+					}
+					
+					showStatus(errorMessage, 'error');
+				} finally {
+					// Reset button state
+					btnText.textContent = 'Invia di nuovo email di conferma';
+					spinner.style.display = 'none';
+					resendBtn.disabled = false;
+				}
+			}
+
+			// Hide resend section when form is focused again
+			function hideResendSection() {
+				document.getElementById('resendEmailSection').style.display = 'none';
+			}
+
 			// Event Listeners
 			loginForm.addEventListener('submit', handleLogin);
+			document.getElementById('resendEmailBtn').addEventListener('click', resendVerificationEmail);
+			
+			// Hide resend section when user starts typing again
+			emailInput.addEventListener('focus', hideResendSection);
+			passwordInput.addEventListener('focus', hideResendSection);
+			
 			// Check for existing session on page load
 			document.addEventListener('DOMContentLoaded', checkExistingSession);
 			// Auto-focus email field
