@@ -292,15 +292,13 @@
 			   }
 		   }
 
-		   // Carica i video dalla cartella locale video/
-		   function loadVideosFromLocal() {
+		   // Carica i video da archive.org
+		   function loadVideosFromArchive() {
 			   const loadingElement = document.getElementById('loadingVideos');
 			   const videoSwiper = document.getElementById('videoSwiper');
 			   const swiperWrapper = document.getElementById('videoSwiperWrapper');
-			   // Elenco statico dei video (aggiorna se necessario)
-			   const videoFiles = [
-				   '1.mp4','2.mp4','3.mp4','4.mp4','5.mp4','6.mp4','7.mp4','8.mp4','9.mp4','10.mp4','11.mp4','12.mp4','13.mp4','14.mp4','15.mp4','16.mp4','17.mp4','18.mp4'
-			   ];
+			   // Elenco statico dei video (1.mp4 ... 18.mp4)
+			   const videoFiles = Array.from({length: 18}, (_, i) => `${i+1}.mp4`);
 			   // Clear existing content and hide loading
 			   swiperWrapper.innerHTML = '';
 			   loadingElement.style.display = 'none';
@@ -308,14 +306,13 @@
 			   let videoCount = 0;
 			   for (let i = 0; i < videoFiles.length; i++) {
 				   const file = videoFiles[i];
-				   const videoSrc = `video/${file}`;
+				   const videoSrc = `https://archive.org/download/17_20250722/${file}`;
 				   const videoBaseName = file.replace(/\.[^/.]+$/, "");
 				   // Thumbnail locale se esiste
 				   const thumbExtensions = ['.png','.jpg','.jpeg','.webp'];
 				   let thumbnailUrl = null;
 				   for (const ext of thumbExtensions) {
 					   const thumbPath = `video/thumbnail/${videoBaseName}${ext}`;
-					   // Verifica esistenza thumbnail (immagine pre-caricata dal browser, fallback se errore)
 					   thumbnailUrl = thumbPath;
 					   break;
 				   }
@@ -340,7 +337,7 @@
 				   swiperWrapper.appendChild(slide);
 			   }
 			   if (videoCount === 0) {
-				   loadingElement.innerHTML = '<p>Nessun video valido trovato nella cartella video/</p>';
+				   loadingElement.innerHTML = '<p>Nessun video valido trovato su archive.org</p>';
 				   return;
 			   }
 			   initializeVideoSwiper();
@@ -677,7 +674,7 @@
 			   testSupabaseStorage();
 			   setTimeout(() => {
 				   loadPhotosFromSupabase();
-				   loadVideosFromLocal();
+				   loadVideosFromArchive();
 			   }, 1000);
 		   });
 	   </script>
