@@ -44,6 +44,8 @@
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6525955502269152"
 	 crossorigin="anonymous"></script>
+<!-- Supabase for Storage -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 	<body>
 		<!-- Navigation -->
@@ -94,57 +96,20 @@
 		<!-- Intestazione pagina -->
 		<section class="page-header">
 			<div class="container">
-		<!-- Swiper JS -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
+				<h1>Galleria Foto e Video</h1>
+				<p>Scopri i momenti più belli delle nostre attività</p>
 			</div>
 		</section>
 	   <!-- Galleria Foto -->
 	   <section class="photo-gallery">
 		   <div class="container">
 			   <h2 class="section-title">Foto</h2>
-			   <div class="swiper photo-swiper">
-				   <div class="swiper-wrapper">
-					   <!-- Per aggiungere altre foto, inserire i file in galleria/foto/ e aggiornare qui -->
-					   <div class="swiper-slide photo-slide" data-image="galleria/foto/1.png">
-						   <div class="photo-thumbnail">
-							   <img src="galleria/foto/1.png" alt="Foto 1">
-						   </div>
-					   </div>
-					   <div class="swiper-slide photo-slide" data-image="galleria/foto/2.png">
-						   <div class="photo-thumbnail">
-							   <img src="galleria/foto/2.png" alt="Foto 2">
-						   </div>
-					   </div>
-					   <div class="swiper-slide photo-slide" data-image="galleria/foto/3.png">
-						   <div class="photo-thumbnail">
-							   <img src="galleria/foto/3.png" alt="Foto 3">
-						   </div>
-					   </div>
-					   <div class="swiper-slide photo-slide" data-image="galleria/foto/4.png">
-						   <div class="photo-thumbnail">
-							   <img src="galleria/foto/4.png" alt="Foto 4">
-						   </div>
-					   </div>
-					   <div class="swiper-slide photo-slide" data-image="galleria/foto/5.png">
-						   <div class="photo-thumbnail">
-							   <img src="galleria/foto/5.png" alt="Foto 5">
-						   </div>
-					   </div>
-					   <div class="swiper-slide photo-slide" data-image="galleria/foto/6.png">
-						   <div class="photo-thumbnail">
-							   <img src="galleria/foto/6.png" alt="Foto 6">
-						   </div>
-					   </div>
-					   <div class="swiper-slide photo-slide" data-image="galleria/foto/7.png">
-						   <div class="photo-thumbnail">
-							   <img src="galleria/foto/7.png" alt="Foto 7">
-						   </div>
-					   </div>
-					   <div class="swiper-slide photo-slide" data-image="galleria/foto/8.png">
-						   <div class="photo-thumbnail">
-							   <img src="galleria/foto/8.png" alt="Foto 8">
-						   </div>
-					   </div>
+			   <div class="loading-photos" id="loadingPhotos">
+				   <p>Caricamento foto...</p>
+			   </div>
+			   <div class="swiper photo-swiper" id="photoSwiper" style="display: none;">
+				   <div class="swiper-wrapper" id="photoSwiperWrapper">
+					   <!-- Le foto saranno caricate dinamicamente da Supabase Storage -->
 				   </div>
 				   <!-- Navigazione Swiper -->
 				   <div class="swiper-button-next"></div>
@@ -522,8 +487,177 @@
 				</div>
 			</div>
 		</footer>
-	   <script src="assets/js/swiper-bundle.min.js"></script>
+	   <!-- Swiper JS -->
+	   <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
 	   <script src="assets/js/notifications.js"></script>
 	   <script src="assets/js/script.js"></script>
+	   
+	   <!-- Supabase Photo Gallery Script -->
+	   <script>
+		   // Initialize Supabase client
+		   const { createClient } = supabase;
+		   const supabaseClient = createClient('https://ciezrbsolxpjxswdkkpo.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpZXpyYnNvbHhwanhzd2Rra3BvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5MjM1NjAsImV4cCI6MjA2ODQ5OTU2MH0.V-U8KhO8byObUW5kJ8XbLBkp9O9Efh98MdbKYFfbQJk');
+
+		   // Load photos from Supabase Storage
+		   async function loadPhotosFromSupabase() {
+			   try {
+				   const loadingElement = document.getElementById('loadingPhotos');
+				   const photoSwiper = document.getElementById('photoSwiper');
+				   const swiperWrapper = document.getElementById('photoSwiperWrapper');
+				   
+				   // Get list of files from the 'galleria' bucket
+				   const { data: files, error } = await supabaseClient.storage
+					   .from('galleria')
+					   .list('foto', {
+						   limit: 100,
+						   offset: 0,
+						   sortBy: { column: 'name', order: 'asc' }
+					   });
+
+				   if (error) {
+					   console.error('Errore caricamento foto:', error);
+					   loadingElement.innerHTML = '<p>Errore nel caricamento delle foto</p>';
+					   return;
+				   }
+
+				   if (!files || files.length === 0) {
+					   loadingElement.innerHTML = '<p>Nessuna foto trovata</p>';
+					   return;
+				   }
+
+				   // Clear existing content and hide loading
+				   swiperWrapper.innerHTML = '';
+				   loadingElement.style.display = 'none';
+				   photoSwiper.style.display = 'block';
+
+				   // Create slides for each photo
+				   for (let i = 0; i < files.length; i++) {
+					   const file = files[i];
+					   
+					   // Get public URL for the image
+					   const { data } = supabaseClient.storage
+						   .from('galleria')
+						   .getPublicUrl(`foto/${file.name}`);
+					   
+					   if (data && data.publicUrl) {
+						   const slide = document.createElement('div');
+						   slide.className = 'swiper-slide photo-slide';
+						   slide.setAttribute('data-image', data.publicUrl);
+						   
+						   slide.innerHTML = `
+							   <div class="photo-thumbnail">
+								   <img src="${data.publicUrl}" alt="Foto ${i + 1}" loading="lazy">
+							   </div>
+						   `;
+						   
+						   swiperWrapper.appendChild(slide);
+					   }
+				   }
+
+				   // Initialize Swiper after photos are loaded
+				   initializePhotoSwiper();
+				   
+				   // Initialize lightbox functionality
+				   initializePhotoLightbox();
+
+			   } catch (error) {
+				   console.error('Errore generale:', error);
+				   document.getElementById('loadingPhotos').innerHTML = '<p>Errore nel caricamento delle foto</p>';
+			   }
+		   }
+
+		   // Initialize Photo Swiper
+		   function initializePhotoSwiper() {
+			   new Swiper('.photo-swiper', {
+				   effect: 'coverflow',
+				   grabCursor: true,
+				   centeredSlides: true,
+				   slidesPerView: 3,
+				   spaceBetween: 30,
+				   loop: true,
+				   speed: 600,
+				   coverflowEffect: {
+					   rotate: 30,
+					   stretch: 0,
+					   depth: 200,
+					   modifier: 1,
+					   slideShadows: true,
+				   },
+				   navigation: {
+					   nextEl: '.photo-swiper .swiper-button-next',
+					   prevEl: '.photo-swiper .swiper-button-prev',
+				   },
+				   pagination: {
+					   el: '.photo-swiper .swiper-pagination',
+					   clickable: true,
+				   },
+				   breakpoints: {
+					   0: { slidesPerView: 1 },
+					   768: { slidesPerView: 2 },
+					   1200: { slidesPerView: 3 }
+				   }
+			   });
+		   }
+
+		   // Initialize Photo Lightbox
+		   function initializePhotoLightbox() {
+			   const slides = document.querySelectorAll('.photo-slide');
+			   let current = 0;
+			   let images = Array.from(slides).map(slide => slide.getAttribute('data-image'));
+			   const lightbox = document.getElementById('photo-lightbox');
+			   const lightboxImage = lightbox.querySelector('.lightbox-image');
+			   const closeBtn = lightbox.querySelector('.lightbox-close');
+			   const prevBtn = lightbox.querySelector('.photo-lightbox-prev');
+			   const nextBtn = lightbox.querySelector('.photo-lightbox-next');
+
+			   function show(idx) {
+				   if (!images[idx]) return;
+				   current = idx;
+				   lightboxImage.src = images[idx];
+				   lightbox.classList.add('active');
+				   document.body.style.overflow = 'hidden';
+			   }
+
+			   function hide() {
+				   lightbox.classList.remove('active');
+				   document.body.style.overflow = '';
+			   }
+
+			   function next() {
+				   current = (current + 1) % images.length;
+				   lightboxImage.src = images[current];
+			   }
+
+			   function prev() {
+				   current = (current - 1 + images.length) % images.length;
+				   lightboxImage.src = images[current];
+			   }
+
+			   // Event listeners
+			   slides.forEach((slide, idx) => {
+				   slide.addEventListener('click', () => show(idx));
+			   });
+
+			   closeBtn.addEventListener('click', hide);
+			   nextBtn.addEventListener('click', next);
+			   prevBtn.addEventListener('click', prev);
+
+			   // Keyboard navigation
+			   document.addEventListener('keydown', (e) => {
+				   if (!lightbox.classList.contains('active')) return;
+				   if (e.key === 'Escape') hide();
+				   if (e.key === 'ArrowRight') next();
+				   if (e.key === 'ArrowLeft') prev();
+			   });
+
+			   // Click outside to close
+			   lightbox.addEventListener('click', (e) => {
+				   if (e.target === lightbox) hide();
+			   });
+		   }
+
+		   // Load photos when page loads
+		   document.addEventListener('DOMContentLoaded', loadPhotosFromSupabase);
+	   </script>
 	</body>
 </html>
