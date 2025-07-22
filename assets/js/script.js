@@ -1,5 +1,7 @@
-// Photo Gallery Swiper e Lightbox
+// Photo Gallery Swiper e Lightbox - DISABLED: Using inline version in galleria.html
 function initPhotoCarousel() {
+	// Disabled to prevent conflicts with galleria.html inline carousel
+	return;
 	const photoSwiper = document.querySelector('.photo-swiper');
 	if (!photoSwiper || typeof Swiper === 'undefined') return;
 	new Swiper('.photo-swiper', {
@@ -1128,8 +1130,10 @@ function createFAQElement(question, answer) {
 	return faqItem;
 }
 
-// Video Carousel 3D Coverflow - Basato sull'esempio fornito
+// Video Carousel 3D Coverflow - DISABLED: Using inline version in galleria.html
 function initVideoCarousel() {
+	// Disabled to prevent conflicts with galleria.html inline carousel
+	return;
 	// Check if video carousel exists on current page
 	const videoSwiper = document.querySelector('.video-swiper');
 	if (!videoSwiper) return;

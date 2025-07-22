@@ -13,13 +13,14 @@
 		<meta property="og:url" content="https://associazionesbarbara.it/galleria.html">
 		<!-- Security Headers -->
 		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; 
-		    script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://cdn.jsdelivr.net https://archive.org;
+		    script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://archive.org https://*.adtrafficquality.google;
 		    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
 		    img-src 'self' data: https: blob:;
-		    font-src 'self' https://fonts.gstatic.com;
-		    connect-src 'self' https://ciezrbsolxpjxswdkkpo.supabase.co https://archive.org;
-		    frame-src 'self' https://www.google.com;">
-		<link rel="stylesheet" href="assets/css/style.css">
+		    media-src 'self' https: https://archive.org https://*.archive.org;
+		    font-src 'self' https://fonts.gstatic.com data:;
+		    connect-src 'self' https://ciezrbsolxpjxswdkkpo.supabase.co https://archive.org https://*.archive.org https://region1.analytics.google.com https://*.adtrafficquality.google;
+		    frame-src 'self' https://www.google.com https://pagead2.googlesyndication.com https://*.adtrafficquality.google;">
+		<link rel="stylesheet" href="assets/css/style.css?v=1.9">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css">
 		<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
 		<!-- Google tag (gtag.js) with Consent Mode -->
@@ -483,13 +484,14 @@
 
 		   // Initialize Video Swiper
 		   function initializeVideoSwiper() {
+			   const videoSlides = document.querySelectorAll('.video-slide').length;
 			   const swiper = new Swiper('.video-swiper', {
 				   effect: 'coverflow',
 				   grabCursor: true,
 				   centeredSlides: true,
 				   slidesPerView: 3,
 				   spaceBetween: 30,
-				   loop: true,
+				   loop: videoSlides >= 6, // Only enable loop if we have enough slides
 				   speed: 600,
 				   coverflowEffect: {
 					   rotate: 30,
@@ -703,13 +705,14 @@
 
 		   // Initialize Photo Swiper
 		   function initializePhotoSwiper() {
+			   const photoSlides = document.querySelectorAll('.photo-slide').length;
 			   new Swiper('.photo-swiper', {
 				   effect: 'coverflow',
 				   grabCursor: true,
 				   centeredSlides: true,
 				   slidesPerView: 3,
 				   spaceBetween: 30,
-				   loop: true,
+				   loop: photoSlides >= 6, // Only enable loop if we have enough slides
 				   speed: 600,
 				   coverflowEffect: {
 					   rotate: 30,
