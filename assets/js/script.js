@@ -195,7 +195,6 @@ function initCookieBanner() {
 			});
 		}
 
-		console.log('Cookies accepted - Analytics consent granted');
 	});
 
 	declineBtn?.addEventListener('click', function() {
@@ -203,7 +202,6 @@ function initCookieBanner() {
 		cookieBanner.classList.remove('show');
 
 		// Keep Google Analytics consent denied (already set as default)
-		console.log('Cookies declined - Analytics consent remains denied');
 	});
 }
 
@@ -692,12 +690,6 @@ function handleRegistrationForm(formData) {
 
 	// Registration successful
 	showNotification('Registrazione completata! Controlla la tua email per verificare l\'account.', 'success');
-	console.log('Registration data:', {
-		email,
-		name,
-		surname,
-		phone
-	});
 
 	// Optional: redirect to login page after a delay
 	setTimeout(() => {
@@ -708,7 +700,6 @@ function handleRegistrationForm(formData) {
 function handleNewsletterForm(formData) {
 	const email = formData.get('email');
 	showNotification('Iscrizione alla newsletter completata!', 'success');
-	console.log('Newsletter subscription:', email);
 }
 
 function showMembersContent() {
@@ -995,14 +986,12 @@ function getMonthName(monthIndex) {
 
 function loadEvents() {
 	// Mock function to load events from server
-	console.log('Caricando eventi per membri...');
 }
 
 // Social Media Integration
 function initSocialFeeds() {
 	// Mock social media integration
 	// In a real implementation, you would use Facebook and Instagram APIs
-	console.log('Inizializzando notizie dai social...');
 }
 
 // Utility Functions
@@ -1121,7 +1110,6 @@ function loadFAQ() {
 			}
 		})
 		.catch(error => {
-			console.log('FAQ JSON not found, using HTML version');
 		});
 }
 
@@ -1152,10 +1140,8 @@ function initVideoCarousel() {
 		return;
 	}
 
-	// Debug: verifica che le frecce esistano
 	const nextButton = document.querySelector('.swiper-button-next');
 	const prevButton = document.querySelector('.swiper-button-prev');
-	console.log('Frecce trovate:', {next: !!nextButton, prev: !!prevButton});
 	
 	// Ensure arrows are properly set up
 	if (nextButton) {
@@ -1267,7 +1253,6 @@ function initVideoCarousel() {
 				});
 			},
 			init: function() {
-				console.log('Swiper inizializzato con', this.slides.length, 'slide');
 				// Animazione iniziale
 				setTimeout(() => {
 					this.autoplay.start();
@@ -1301,7 +1286,6 @@ function initVideoCarousel() {
 				// Auto-play del video
 				setTimeout(() => {
 					overlayVideo.play().catch(e => {
-						console.log('Autoplay prevented:', e);
 					});
 				}, 300);
 			}
@@ -1374,7 +1358,6 @@ function initVideoCarousel() {
 	if (overlayVideo) {
 		overlayVideo.addEventListener('loadedmetadata', function() {
 			// Video caricato, possibili controlli aggiuntivi
-			console.log('Video caricato:', this.duration);
 		});
 	}
 

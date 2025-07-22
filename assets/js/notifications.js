@@ -123,9 +123,7 @@ function createNotificationSystem() {
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() {
         window.notify = createNotificationSystem();
-        console.log('✅ Notifications loaded');
     });
 } else {
     window.notify = createNotificationSystem();
-    console.log('✅ Notifications loaded');
 }
