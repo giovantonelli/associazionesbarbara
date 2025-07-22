@@ -292,135 +292,58 @@
 			   }
 		   }
 
-		   // Load videos from Supabase Storage
-		   async function loadVideosFromSupabase() {
-			   try {
-				   console.log('Iniziando caricamento video da Supabase...');
-				   const loadingElement = document.getElementById('loadingVideos');
-				   const videoSwiper = document.getElementById('videoSwiper');
-				   const swiperWrapper = document.getElementById('videoSwiperWrapper');
-				   
-				   // Get list of video files from the 'gallery' bucket
-				   console.log('Cercando video nel bucket "gallery", cartella "video"...');
-				   const { data: videoFiles, error: videoError } = await supabaseClient.storage
-					   .from('gallery')
-					   .list('video', {
-						   limit: 100,
-						   offset: 0,
-						   sortBy: { column: 'name', order: 'asc' }
-					   });
-
-				   console.log('Video trovati:', { videoFiles, videoError });
-
-				   if (videoError || !videoFiles || videoFiles.length === 0) {
-					   console.log('Nessun video trovato o errore:', videoError);
-					   loadingElement.innerHTML = '<p>Nessun video trovato nella cartella video/</p>';
-					   return;
+		   // Carica i video dalla cartella locale video/
+		   function loadVideosFromLocal() {
+			   const loadingElement = document.getElementById('loadingVideos');
+			   const videoSwiper = document.getElementById('videoSwiper');
+			   const swiperWrapper = document.getElementById('videoSwiperWrapper');
+			   // Elenco statico dei video (aggiorna se necessario)
+			   const videoFiles = [
+				   '1.mp4','2.mp4','3.mp4','4.mp4','5.mp4','6.mp4','7.mp4','8.mp4','9.mp4','10.mp4','11.mp4','12.mp4','13.mp4','14.mp4','15.mp4','16.mp4','17.mp4','18.mp4'
+			   ];
+			   // Clear existing content and hide loading
+			   swiperWrapper.innerHTML = '';
+			   loadingElement.style.display = 'none';
+			   videoSwiper.style.display = 'block';
+			   let videoCount = 0;
+			   for (let i = 0; i < videoFiles.length; i++) {
+				   const file = videoFiles[i];
+				   const videoSrc = `video/${file}`;
+				   const videoBaseName = file.replace(/\.[^/.]+$/, "");
+				   // Thumbnail locale se esiste
+				   const thumbExtensions = ['.png','.jpg','.jpeg','.webp'];
+				   let thumbnailUrl = null;
+				   for (const ext of thumbExtensions) {
+					   const thumbPath = `video/thumbnail/${videoBaseName}${ext}`;
+					   // Verifica esistenza thumbnail (immagine pre-caricata dal browser, fallback se errore)
+					   thumbnailUrl = thumbPath;
+					   break;
 				   }
-
-				   // Get list of thumbnail files
-				   const { data: thumbnailFiles, error: thumbnailError } = await supabaseClient.storage
-					   .from('gallery')
-					   .list('video/thumbnail', {
-						   limit: 100,
-						   offset: 0
-					   });
-
-				   console.log('Thumbnail trovate:', { thumbnailFiles, thumbnailError });
-
-				   // Clear existing content and hide loading
-				   swiperWrapper.innerHTML = '';
-				   loadingElement.style.display = 'none';
-				   videoSwiper.style.display = 'block';
-
-				   // Create slides for each video
-				   let videoCount = 0;
-				   const videoExtensions = ['.mp4', '.webm', '.ogv', '.avi', '.mov'];
-				   
-				   for (let i = 0; i < videoFiles.length; i++) {
-					   const file = videoFiles[i];
-					   
-					   // Filter only video files
-					   const isVideo = videoExtensions.some(ext => 
-						   file.name.toLowerCase().endsWith(ext)
-					   );
-					   
-					   if (!isVideo) continue;
-					   
-					   // Get video URL
-					   const { data: videoData } = supabaseClient.storage
-						   .from('gallery')
-						   .getPublicUrl(`video/${file.name}`);
-					   
-					   if (!videoData || !videoData.publicUrl) continue;
-
-					   // Look for matching thumbnail
-					   const videoBaseName = file.name.replace(/\.[^/.]+$/, "");
-					   const thumbnailExtensions = ['.png', '.jpg', '.jpeg', '.webp'];
-					   let thumbnailUrl = null;
-
-					   if (thumbnailFiles) {
-						   for (const ext of thumbnailExtensions) {
-							   const thumbnailName = videoBaseName + ext;
-							   const matchingThumbnail = thumbnailFiles.find(thumb => 
-								   thumb.name === thumbnailName
-							   );
-							   
-							   if (matchingThumbnail) {
-								   const { data: thumbData } = supabaseClient.storage
-									   .from('gallery')
-									   .getPublicUrl(`video/thumbnail/${thumbnailName}`);
-								   
-								   if (thumbData && thumbData.publicUrl) {
-									   thumbnailUrl = thumbData.publicUrl;
-									   break;
-								   }
-							   }
-						   }
-					   }
-
-					   videoCount++;
-					   const slide = document.createElement('div');
-					   slide.className = 'swiper-slide video-slide';
-					   slide.setAttribute('data-video', videoData.publicUrl);
-					   
-					   // Extract name without extension for title
-					   const videoTitle = videoBaseName.replace(/[_-]/g, ' ');
-					   
-					   slide.innerHTML = `
-						   <div class="video-thumbnail">
-							   ${thumbnailUrl ? 
-								   `<img src="${thumbnailUrl}" alt="${videoTitle}" loading="lazy" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 width%3D%22300%22 height%3D%22200%22%3E%3Crect width%3D%22100%25%22 height%3D%22100%25%22 fill%3D%22%23333%22/%3E%3Ctext x%3D%2250%25%22 y%3D%2250%25%22 text-anchor%3D%22middle%22 dy%3D%22.3em%22 fill%3D%22white%22%3EVideo%3C/text%3E%3C/svg%3E'">` :
-								   `<div class="video-placeholder" style="width:100%;height:200px;background:#333;display:flex;align-items:center;justify-content:center;color:white;">Video</div>`
-							   }
-							   <div class="play-button">▶</div>
+				   videoCount++;
+				   const slide = document.createElement('div');
+				   slide.className = 'swiper-slide video-slide';
+				   slide.setAttribute('data-video', videoSrc);
+				   const videoTitle = videoBaseName.replace(/[_-]/g, ' ');
+				   slide.innerHTML = `
+					   <div class="video-thumbnail">
+						   <img src="${thumbnailUrl}" alt="${videoTitle}" loading="lazy" onerror="this.style.display='none'">
+						   <div class="play-button">▶</div>
+					   </div>
+					   <div class="video-content">
+						   <h3 class="video-title">${videoTitle}</h3>
+						   <p class="video-description">Video ${videoCount}</p>
+						   <div class="video-meta">
+							   <span class="duration"></span>
 						   </div>
-						   <div class="video-content">
-							   <h3 class="video-title">${videoTitle}</h3>
-							   <p class="video-description">Video ${videoCount}</p>
-							   <div class="video-meta">
-								   <span class="duration"></span>
-							   </div>
-						   </div>
-					   `;
-					   
-					   swiperWrapper.appendChild(slide);
-				   }
-
-				   if (videoCount === 0) {
-					   loadingElement.innerHTML = '<p>Nessun video valido trovato nella cartella</p>';
-					   return;
-				   }
-
-				   console.log(`Caricati ${videoCount} video da Supabase Storage`);
-
-				   // Initialize Swiper after videos are loaded
-				   initializeVideoSwiper();
-
-			   } catch (error) {
-				   console.error('Errore caricamento video:', error);
-				   document.getElementById('loadingVideos').innerHTML = '<p>Errore nel caricamento dei video</p>';
+					   </div>
+				   `;
+				   swiperWrapper.appendChild(slide);
 			   }
+			   if (videoCount === 0) {
+				   loadingElement.innerHTML = '<p>Nessun video valido trovato nella cartella video/</p>';
+				   return;
+			   }
+			   initializeVideoSwiper();
 		   }
 
 		   // Initialize Video Swiper
@@ -751,12 +674,10 @@
 
 		   // Load photos and videos when page loads
 		   document.addEventListener('DOMContentLoaded', () => {
-			   // First run tests
 			   testSupabaseStorage();
-			   // Then try to load photos and videos
 			   setTimeout(() => {
 				   loadPhotosFromSupabase();
-				   loadVideosFromSupabase();
+				   loadVideosFromLocal();
 			   }, 1000);
 		   });
 	   </script>
