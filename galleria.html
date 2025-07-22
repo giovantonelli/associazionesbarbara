@@ -498,32 +498,85 @@
 		   const { createClient } = supabase;
 		   const supabaseClient = createClient('https://ciezrbsolxpjxswdkkpo.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpZXpyYnNvbHhwanhzd2Rra3BvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5MjM1NjAsImV4cCI6MjA2ODQ5OTU2MH0.V-U8KhO8byObUW5kJ8XbLBkp9O9Efh98MdbKYFfbQJk');
 
+		   // Test function to check bucket structure
+		   async function testSupabaseStorage() {
+			   console.log('=== TEST SUPABASE STORAGE ===');
+			   
+			   // Test 1: List all buckets
+			   try {
+				   const { data: buckets, error: bucketsError } = await supabaseClient.storage.listBuckets();
+				   console.log('Bucket disponibili:', buckets, bucketsError);
+			   } catch (e) {
+				   console.log('Errore listing buckets:', e);
+			   }
+			   
+			   // Test 2: Try different paths
+			   const pathsToTry = ['', 'foto', 'photos', 'images'];
+			   
+			   for (const path of pathsToTry) {
+				   try {
+					   console.log(`Testando path: "${path}"`);
+					   const { data, error } = await supabaseClient.storage
+						   .from('gallery')
+						   .list(path, { limit: 10 });
+					   console.log(`Path "${path}":`, { data, error });
+				   } catch (e) {
+					   console.log(`Errore path "${path}":`, e);
+				   }
+			   }
+		   }
+
 		   // Load photos from Supabase Storage
 		   async function loadPhotosFromSupabase() {
 			   try {
+				   console.log('Iniziando caricamento foto da Supabase...');
 				   const loadingElement = document.getElementById('loadingPhotos');
 				   const photoSwiper = document.getElementById('photoSwiper');
 				   const swiperWrapper = document.getElementById('photoSwiperWrapper');
 				   
-				   // Get list of files from the 'galleria' bucket
+				   // Test connection to Supabase
+				   console.log('Client Supabase inizializzato:', !!supabaseClient);
+				   
+				   // Get list of files from the 'gallery' bucket
+				   console.log('Cercando file nel bucket "gallery", cartella "foto"...');
 				   const { data: files, error } = await supabaseClient.storage
-					   .from('galleria')
+					   .from('gallery')
 					   .list('foto', {
 						   limit: 100,
 						   offset: 0,
 						   sortBy: { column: 'name', order: 'asc' }
 					   });
 
+				   console.log('Risposta Supabase:', { files, error });
+
 				   if (error) {
 					   console.error('Errore caricamento foto:', error);
-					   loadingElement.innerHTML = '<p>Errore nel caricamento delle foto</p>';
+					   loadingElement.innerHTML = `<p>Errore nel caricamento delle foto: ${error.message}</p>`;
 					   return;
 				   }
 
 				   if (!files || files.length === 0) {
-					   loadingElement.innerHTML = '<p>Nessuna foto trovata</p>';
+					   console.log('Nessun file trovato nella cartella foto/');
+					   loadingElement.innerHTML = '<p>Nessuna foto trovata nella cartella foto/</p>';
+					   
+					   // Prova a cercare nella root del bucket
+					   console.log('Cercando nella root del bucket...');
+					   const { data: rootFiles, error: rootError } = await supabaseClient.storage
+						   .from('gallery')
+						   .list('', {
+							   limit: 100,
+							   offset: 0
+						   });
+					   
+					   if (rootFiles && rootFiles.length > 0) {
+						   console.log('File trovati nella root:', rootFiles);
+						   loadingElement.innerHTML = `<p>Trovati ${rootFiles.length} file nella root del bucket. Controlla la struttura delle cartelle.</p>`;
+					   }
 					   return;
 				   }
+
+				   console.log(`Trovati ${files.length} file nella cartella foto/`);
+				   console.log('Lista file:', files.map(f => f.name));
 
 				   // Clear existing content and hide loading
 				   swiperWrapper.innerHTML = '';
@@ -531,28 +584,48 @@
 				   photoSwiper.style.display = 'block';
 
 				   // Create slides for each photo
+				   let photoCount = 0;
 				   for (let i = 0; i < files.length; i++) {
 					   const file = files[i];
 					   
+					   // Filter only image files
+					   const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+					   const isImage = imageExtensions.some(ext => 
+						   file.name.toLowerCase().endsWith(ext)
+					   );
+					   
+					   if (!isImage) continue;
+					   
 					   // Get public URL for the image
 					   const { data } = supabaseClient.storage
-						   .from('galleria')
+						   .from('gallery')
 						   .getPublicUrl(`foto/${file.name}`);
 					   
 					   if (data && data.publicUrl) {
+						   photoCount++;
 						   const slide = document.createElement('div');
 						   slide.className = 'swiper-slide photo-slide';
 						   slide.setAttribute('data-image', data.publicUrl);
 						   
+						   // Extract name without extension for alt text
+						   const altText = file.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g, ' ');
+						   
 						   slide.innerHTML = `
 							   <div class="photo-thumbnail">
-								   <img src="${data.publicUrl}" alt="Foto ${i + 1}" loading="lazy">
+								   <img src="${data.publicUrl}" alt="${altText}" loading="lazy" onerror="this.parentElement.parentElement.style.display='none'">
 							   </div>
 						   `;
 						   
 						   swiperWrapper.appendChild(slide);
 					   }
 				   }
+
+				   if (photoCount === 0) {
+					   loadingElement.innerHTML = '<p>Nessuna foto valida trovata nella cartella</p>';
+					   return;
+				   }
+
+				   console.log(`Caricate ${photoCount} foto da Supabase Storage`);
 
 				   // Initialize Swiper after photos are loaded
 				   initializePhotoSwiper();
@@ -657,7 +730,12 @@
 		   }
 
 		   // Load photos when page loads
-		   document.addEventListener('DOMContentLoaded', loadPhotosFromSupabase);
+		   document.addEventListener('DOMContentLoaded', () => {
+			   // First run tests
+			   testSupabaseStorage();
+			   // Then try to load photos
+			   setTimeout(loadPhotosFromSupabase, 1000);
+		   });
 	   </script>
 	</body>
 </html>
