@@ -1,3 +1,81 @@
+// Photo Gallery Swiper e Lightbox
+function initPhotoCarousel() {
+	const photoSwiper = document.querySelector('.photo-swiper');
+	if (!photoSwiper || typeof Swiper === 'undefined') return;
+	new Swiper('.photo-swiper', {
+		effect: 'coverflow',
+		grabCursor: true,
+		centeredSlides: true,
+		slidesPerView: 3,
+		spaceBetween: 30,
+		loop: true,
+		speed: 600,
+		coverflowEffect: {
+			rotate: 30,
+			stretch: 0,
+			depth: 200,
+			modifier: 1,
+			slideShadows: true,
+		},
+		navigation: {
+			nextEl: '.photo-swiper .swiper-button-next',
+			prevEl: '.photo-swiper .swiper-button-prev',
+		},
+		pagination: {
+			el: '.photo-swiper .swiper-pagination',
+			clickable: true,
+		},
+		breakpoints: {
+			0: { slidesPerView: 1 },
+			768: { slidesPerView: 2 },
+			1200: { slidesPerView: 3 }
+		}
+	});
+
+	// Lightbox per immagini
+	const slides = document.querySelectorAll('.photo-slide');
+	let current = 0;
+	let images = Array.from(slides).map(slide => slide.getAttribute('data-image'));
+	const lightbox = document.getElementById('photo-lightbox');
+	const lightboxImage = lightbox.querySelector('.lightbox-image');
+	const closeBtn = lightbox.querySelector('.lightbox-close');
+	const prevBtn = lightbox.querySelector('.photo-lightbox-prev');
+	const nextBtn = lightbox.querySelector('.photo-lightbox-next');
+	function show(idx) {
+		if (!images[idx]) return;
+		current = idx;
+		lightboxImage.src = images[idx];
+		lightbox.classList.add('active');
+		document.body.style.overflow = 'hidden';
+	}
+	slides.forEach((slide, idx) => {
+		slide.addEventListener('click', () => show(idx));
+	});
+	closeBtn.addEventListener('click', () => {
+		lightbox.classList.remove('active');
+		document.body.style.overflow = '';
+	});
+	prevBtn.addEventListener('click', e => {
+		e.stopPropagation();
+		show((current - 1 + images.length) % images.length);
+	});
+	nextBtn.addEventListener('click', e => {
+		e.stopPropagation();
+		show((current + 1) % images.length);
+	});
+	lightbox.addEventListener('click', e => {
+		if (e.target === lightbox) {
+			lightbox.classList.remove('active');
+			document.body.style.overflow = '';
+		}
+	});
+	document.addEventListener('keydown', function(e) {
+		if (!lightbox.classList.contains('active')) return;
+		if (e.key === 'Escape') closeBtn.click();
+		if (e.key === 'ArrowLeft') prevBtn.click();
+		if (e.key === 'ArrowRight') nextBtn.click();
+	});
+}
 // Global Variables
 let currentUser = null;
 let currentLightboxImage = 0;
@@ -13,15 +91,17 @@ document.addEventListener('DOMContentLoaded', function() {
 	// Check and apply existing consent choice
 	checkExistingConsent();
 
-	// Initialize all components
-	initNavigation();
-	initCookieBanner();
-	initFAQ();
-	initGallery();
-	initForms();
-	initCalendar();
-	initSocialFeeds();
-	initMemberArea();
+	   // Initialize all components
+	   initNavigation();
+	   initCookieBanner();
+	   initFAQ();
+	   initGallery();
+	   initPhotoCarousel();
+	   initVideoCarousel();
+	   initForms();
+	   initCalendar();
+	   initSocialFeeds();
+	   initMemberArea();
 
 	// Check if user is logged in
 	checkUserSession();
@@ -158,77 +238,128 @@ function initGallery() {
 	const lightboxPrev = document.querySelector('.lightbox-prev');
 	const lightboxNext = document.querySelector('.lightbox-next');
 
-	if (!lightbox) return;
+	if (lightbox) {
+		// Collect all gallery images
+		lightboxImages = Array.from(galleryItems).map(item => {
+			const img = item.querySelector('img');
+			return {
+				src: img.src,
+				alt: img.alt
+			};
+		});
 
-	// Collect all gallery images
-	lightboxImages = Array.from(galleryItems).map(item => {
-		const img = item.querySelector('img');
-		return {
-			src: img.src,
-			alt: img.alt
-		};
-	});
+		// Gallery item click handlers
+		galleryItems.forEach((item, index) => {
+			item.addEventListener('click', function() {
+				currentLightboxImage = index;
+				showLightbox();
+			});
+		});
 
-	// Gallery item click handlers
-	galleryItems.forEach((item, index) => {
-		item.addEventListener('click', function() {
-			currentLightboxImage = index;
+		// Lightbox controls
+		lightboxClose?.addEventListener('click', closeLightbox);
+		lightboxPrev?.addEventListener('click', prevLightboxImage);
+		lightboxNext?.addEventListener('click', nextLightboxImage);
+
+		// Close lightbox on background click
+		lightbox.addEventListener('click', function(e) {
+			if (e.target === lightbox) {
+				closeLightbox();
+			}
+		});
+
+		// Keyboard navigation
+		document.addEventListener('keydown', function(e) {
+			if (!lightbox.classList.contains('active')) return;
+			switch (e.key) {
+				case 'Escape':
+					closeLightbox();
+					break;
+				case 'ArrowLeft':
+					prevLightboxImage();
+					break;
+				case 'ArrowRight':
+					nextLightboxImage();
+					break;
+			}
+		});
+
+		function showLightbox() {
+			if (lightboxImages.length === 0) return;
+			const image = lightboxImages[currentLightboxImage];
+			lightboxImage.src = image.src;
+			lightboxImage.alt = image.alt;
+			lightbox.classList.add('active');
+			document.body.style.overflow = 'hidden';
+		}
+
+		function closeLightbox() {
+			lightbox.classList.remove('active');
+			document.body.style.overflow = '';
+		}
+
+		function prevLightboxImage() {
+			currentLightboxImage = (currentLightboxImage - 1 + lightboxImages.length) % lightboxImages.length;
 			showLightbox();
+		}
+
+		function nextLightboxImage() {
+			currentLightboxImage = (currentLightboxImage + 1) % lightboxImages.length;
+			showLightbox();
+		}
+	}
+
+	// Video lightbox reale
+	const videoItems = document.querySelectorAll('.video-item');
+	const videoLightbox = document.getElementById('video-lightbox');
+	const videoPlayer = document.getElementById('video-player');
+	const videoLightboxClose = document.querySelector('.video-lightbox-close');
+	const videoLightboxTitle = document.getElementById('video-lightbox-title');
+	const videoLightboxDesc = document.getElementById('video-lightbox-desc');
+
+	// Mappa video: ogni video-item deve avere data-video, data-title, data-desc
+	videoItems.forEach(item => {
+		item.setAttribute('tabindex', '0');
+		item.addEventListener('click', function(e) {
+			e.preventDefault();
+			const videoSrc = item.getAttribute('data-video');
+			const title = item.querySelector('.video-info h3')?.textContent || '';
+			const desc = item.querySelector('.video-info p')?.textContent || '';
+			if (videoSrc) {
+				videoPlayer.src = videoSrc;
+				videoPlayer.currentTime = 0;
+				videoPlayer.play();
+			} else {
+				videoPlayer.src = '';
+			}
+			videoLightboxTitle.textContent = title;
+			videoLightboxDesc.textContent = desc;
+			videoLightbox.classList.add('active');
+			videoLightbox.focus();
+			document.body.style.overflow = 'hidden';
+		});
+		item.addEventListener('keydown', function(e) {
+			if (e.key === 'Enter' || e.key === ' ') {
+				e.preventDefault();
+				item.click();
+			}
 		});
 	});
-
-	// Lightbox controls
-	lightboxClose?.addEventListener('click', closeLightbox);
-	lightboxPrev?.addEventListener('click', prevLightboxImage);
-	lightboxNext?.addEventListener('click', nextLightboxImage);
-
-	// Close lightbox on background click
-	lightbox.addEventListener('click', function(e) {
-		if (e.target === lightbox) {
-			closeLightbox();
-		}
+	if (videoLightboxClose) {
+		videoLightboxClose.addEventListener('click', closeVideoLightbox);
+	}
+	videoLightbox?.addEventListener('click', function(e) {
+		if (e.target === videoLightbox) closeVideoLightbox();
 	});
-
-	// Keyboard navigation
 	document.addEventListener('keydown', function(e) {
-		if (!lightbox.classList.contains('active')) return;
-
-		switch (e.key) {
-			case 'Escape':
-				closeLightbox();
-				break;
-			case 'ArrowLeft':
-				prevLightboxImage();
-				break;
-			case 'ArrowRight':
-				nextLightboxImage();
-				break;
-		}
+		if (!videoLightbox.classList.contains('active')) return;
+		if (e.key === 'Escape') closeVideoLightbox();
 	});
-
-	function showLightbox() {
-		if (lightboxImages.length === 0) return;
-
-		const image = lightboxImages[currentLightboxImage];
-		lightboxImage.src = image.src;
-		lightboxImage.alt = image.alt;
-		lightbox.classList.add('active');
-		document.body.style.overflow = 'hidden';
-	}
-
-	function closeLightbox() {
-		lightbox.classList.remove('active');
+	function closeVideoLightbox() {
+		videoLightbox.classList.remove('active');
+		videoPlayer.pause();
+		videoPlayer.src = '';
 		document.body.style.overflow = '';
-	}
-
-	function prevLightboxImage() {
-		currentLightboxImage = (currentLightboxImage - 1 + lightboxImages.length) % lightboxImages.length;
-		showLightbox();
-	}
-
-	function nextLightboxImage() {
-		currentLightboxImage = (currentLightboxImage + 1) % lightboxImages.length;
-		showLightbox();
 	}
 }
 
@@ -1007,6 +1138,281 @@ function createFAQElement(question, answer) {
 		</div>
 	`;
 	return faqItem;
+}
+
+// Video Carousel 3D Coverflow - Basato sull'esempio fornito
+function initVideoCarousel() {
+	// Check if video carousel exists on current page
+	const videoSwiper = document.querySelector('.video-swiper');
+	if (!videoSwiper) return;
+
+	// Ensure Swiper CSS is loaded
+	if (typeof Swiper === 'undefined') {
+		console.error('Swiper library not loaded');
+		return;
+	}
+
+	// Debug: verifica che le frecce esistano
+	const nextButton = document.querySelector('.swiper-button-next');
+	const prevButton = document.querySelector('.swiper-button-prev');
+	console.log('Frecce trovate:', {next: !!nextButton, prev: !!prevButton});
+	
+	// Ensure arrows are properly set up
+	if (nextButton) {
+		nextButton.style.pointerEvents = 'auto';
+		nextButton.style.cursor = 'pointer';
+	}
+	if (prevButton) {
+		prevButton.style.pointerEvents = 'auto';
+		prevButton.style.cursor = 'pointer';
+	}
+
+	// Inizializzazione Swiper con effetto Coverflow
+	const swiper = new Swiper('.video-swiper', {
+		effect: 'coverflow',
+		grabCursor: true,
+		centeredSlides: true,
+		slidesPerView: 3,
+		spaceBetween: 30,
+		loop: true,
+		speed: 600,
+		initialSlide: 2, // Inizia dalla terza slide (indice 2) per avere una slide centrale
+		// Configurazione Coverflow
+		coverflowEffect: {
+			rotate: 30,
+			stretch: 0,
+			depth: 100,
+			modifier: 1,
+			slideShadows: true,
+		},
+		// Breakpoints responsive
+		breakpoints: {
+			320: {
+				slidesPerView: 1,
+				spaceBetween: 20,
+				coverflowEffect: {
+					rotate: 45,
+					stretch: 0,
+					depth: 100,
+					modifier: 1,
+				},
+			},
+			640: {
+				slidesPerView: 2,
+				spaceBetween: 20,
+				coverflowEffect: {
+					rotate: 35,
+					stretch: 0,
+					depth: 100,
+					modifier: 1,
+				},
+			},
+			768: {
+				slidesPerView: 2.5,
+				spaceBetween: 30,
+				coverflowEffect: {
+					rotate: 30,
+					stretch: 0,
+					depth: 100,
+					modifier: 1,
+				},
+			},
+			1024: {
+				slidesPerView: 3,
+				spaceBetween: 30,
+				coverflowEffect: {
+					rotate: 30,
+					stretch: 0,
+					depth: 100,
+					modifier: 1,
+				},
+			},
+			1200: {
+				slidesPerView: 4,
+				spaceBetween: 30,
+			},
+			1400: {
+				slidesPerView: 5,
+				spaceBetween: 30,
+			}
+		},
+		// Navigazione
+		navigation: {
+			nextEl: '.swiper-button-next',
+			prevEl: '.swiper-button-prev',
+			disabledClass: 'swiper-button-disabled',
+		},
+		// Paginazione
+		pagination: {
+			el: '.swiper-pagination',
+			clickable: true,
+			dynamicBullets: true,
+		},
+		// Controlli touch
+		touchRatio: 1,
+		touchAngle: 45,
+		simulateTouch: true,
+		allowTouchMove: true,
+		// Autoplay opzionale
+		autoplay: {
+			delay: 5000,
+			disableOnInteraction: false,
+			pauseOnMouseEnter: true,
+		},
+		// Transizioni fluide
+		on: {
+			slideChange: function () {
+				document.querySelectorAll('.swiper-slide').forEach(slide => {
+					slide.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+				});
+			},
+			init: function() {
+				console.log('Swiper inizializzato con', this.slides.length, 'slide');
+				// Animazione iniziale
+				setTimeout(() => {
+					this.autoplay.start();
+				}, 1000);
+				// Assicura che la slide iniziale sia centrata
+				setTimeout(() => {
+					this.slideTo(2, 0);
+				}, 100);
+			}
+		}
+	});
+
+	// Gestione Video Overlay/Lightbox
+	const videoOverlay = document.getElementById('videoOverlay');
+	const overlayVideo = document.getElementById('overlayVideo');
+	const closeButton = document.getElementById('closeButton');
+	const slides = document.querySelectorAll('.video-slide');
+	let currentVideoIndex = 0;
+	const videoList = Array.from(slides).map(slide => slide.getAttribute('data-video'));
+	// Apertura video overlay
+	slides.forEach((slide, idx) => {
+		slide.addEventListener('click', (e) => {
+			const videoSrc = slide.getAttribute('data-video');
+			if (videoSrc) {
+				currentVideoIndex = idx;
+				overlayVideo.src = videoSrc;
+				videoOverlay.classList.add('active');
+				document.body.style.overflow = 'hidden';
+				// Pausa autoplay dello swiper
+				swiper.autoplay.stop();
+				// Auto-play del video
+				setTimeout(() => {
+					overlayVideo.play().catch(e => {
+						console.log('Autoplay prevented:', e);
+					});
+				}, 300);
+			}
+		});
+	});
+
+	// Navigazione prev/next nella video lightbox
+	const prevBtn = document.querySelector('.video-lightbox-prev');
+	const nextBtn = document.querySelector('.video-lightbox-next');
+	function showVideo(idx) {
+		if (idx < 0) idx = videoList.length - 1;
+		if (idx >= videoList.length) idx = 0;
+		currentVideoIndex = idx;
+		overlayVideo.src = videoList[currentVideoIndex];
+		overlayVideo.currentTime = 0;
+		overlayVideo.play().catch(e => {});
+	}
+	if (prevBtn && nextBtn) {
+		prevBtn.addEventListener('click', function(e) {
+			e.stopPropagation();
+			showVideo(currentVideoIndex - 1);
+		});
+		nextBtn.addEventListener('click', function(e) {
+			e.stopPropagation();
+			showVideo(currentVideoIndex + 1);
+		});
+	}
+	// Navigazione con frecce tastiera
+	document.addEventListener('keydown', function(e) {
+		if (!videoOverlay.classList.contains('active')) return;
+		if (e.key === 'ArrowLeft') {
+			showVideo(currentVideoIndex - 1);
+		} else if (e.key === 'ArrowRight') {
+			showVideo(currentVideoIndex + 1);
+		}
+	});
+
+	// Chiusura video overlay
+	function closeVideoOverlay() {
+		videoOverlay.classList.remove('active');
+		overlayVideo.pause();
+		overlayVideo.src = '';
+		document.body.style.overflow = 'auto';
+		
+		// Riprende autoplay dello swiper
+		swiper.autoplay.start();
+	}
+
+	if (closeButton) {
+		closeButton.addEventListener('click', closeVideoOverlay);
+	}
+
+	// Chiusura con click sull'overlay
+	if (videoOverlay) {
+		videoOverlay.addEventListener('click', (e) => {
+			if (e.target === videoOverlay) {
+				closeVideoOverlay();
+			}
+		});
+	}
+
+	// Chiusura con tasto ESC
+	document.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape' && videoOverlay && videoOverlay.classList.contains('active')) {
+			closeVideoOverlay();
+		}
+	});
+
+	// Gestione controlli video avanzati
+	if (overlayVideo) {
+		overlayVideo.addEventListener('loadedmetadata', function() {
+			// Video caricato, possibili controlli aggiuntivi
+			console.log('Video caricato:', this.duration);
+		});
+	}
+
+	// Effetti hover aggiuntivi
+	slides.forEach(slide => {
+		const playButton = slide.querySelector('.play-button');
+		
+		slide.addEventListener('mouseenter', () => {
+			if (playButton && !slide.classList.contains('swiper-slide-active')) {
+				playButton.style.transform = 'translate(-50%, -50%) scale(1.1)';
+			}
+		});
+		
+		slide.addEventListener('mouseleave', () => {
+			if (playButton && !slide.classList.contains('swiper-slide-active')) {
+				playButton.style.transform = 'translate(-50%, -50%) scale(1)';
+			}
+		});
+	});
+
+	// Ottimizzazione performance per mobile
+	if (window.innerWidth <= 768) {
+		// Disabilita alcune animazioni pesanti su mobile
+		swiper.autoplay.delay = 7000;
+	}
+
+	// Gestione resize finestra
+	window.addEventListener('resize', () => {
+		swiper.update();
+	});
+
+	// Preload delle immagini per performance migliori
+	const images = document.querySelectorAll('.video-thumbnail img');
+	images.forEach(img => {
+		const imageUrl = img.src;
+		const preloadImage = new Image();
+		preloadImage.src = imageUrl;
+	});
 }
 
 // Initialize FAQ loading
