@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo AdBlock Detector - Associazione Santa Barbara</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Stili specifici per la demo */
+        .demo-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #f9f9f9;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .demo-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #E10600;
+        }
+        
+        .demo-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #E10600;
+        }
+        
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        
+        .demo-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            background: #E10600;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .demo-btn:hover {
+            background: #c50500;
+            transform: translateY(-1px);
+        }
+        
+        .demo-btn.secondary {
+            background: #6c757d;
+        }
+        
+        .demo-btn.secondary:hover {
+            background: #545b62;
+        }
+        
+        .demo-status {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .demo-status h3 {
+            margin: 0 0 0.5rem 0;
+            color: #1976d2;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .status-value {
+            font-weight: 600;
+            color: #1976d2;
+        }
+        
+        .demo-ad-simulation {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 6px;
+            padding: 1rem;
+            text-align: center;
+            color: #856404;
+            margin-bottom: 2rem;
+        }
+        
+        /* Esempio di contenuto che verrà nascosto */
+        .protected-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .protected-content h2 {
+            margin: 0 0 1rem 0;
+        }
+        
+        .protected-content p {
+            margin: 0;
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            .demo-container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+            
+            .demo-controls {
+                flex-direction: column;
+            }
+            
+            .demo-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header con navigazione -->
+    <header style="background: #E10600; color: white; padding: 1rem 0; text-align: center;">
+        <h1>🏛️ Associazione Santa Barbara APS</h1>
+        <p>Demo Sistema Rilevamento AdBlock</p>
+    </header>
+
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>📊 AdBlock Detector Demo</h1>
+            <p>Testa il sistema di rilevamento AdBlocker in tempo reale</p>
+        </div>
+
+        <!-- Pannello di controllo -->
+        <div class="demo-controls">
+            <button class="demo-btn" onclick="checkAdBlockNow()">🔍 Controlla AdBlock</button>
+            <button class="demo-btn secondary" onclick="forceShowPopup()">💬 Mostra Popup</button>
+            <button class="demo-btn secondary" onclick="toggleContent()">👁️ Toggle Contenuto</button>
+            <button class="demo-btn secondary" onclick="updateStatus()">🔄 Aggiorna Status</button>
+        </div>
+
+        <!-- Status in tempo reale -->
+        <div class="demo-status" id="statusPanel">
+            <h3>📈 Status Detector</h3>
+            <div class="status-item">
+                <span>AdBlock Rilevato:</span>
+                <span class="status-value" id="statusAdBlock">Controllo...</span>
+            </div>
+            <div class="status-item">
+                <span>Popup Mostrato:</span>
+                <span class="status-value" id="statusPopup">No</span>
+            </div>
+            <div class="status-item">
+                <span>Controllo Periodico:</span>
+                <span class="status-value" id="statusPeriodic">Attivo</span>
+            </div>
+            <div class="status-item">
+                <span>Ultimo Controllo:</span>
+                <span class="status-value" id="statusLastCheck">-</span>
+            </div>
+        </div>
+
+        <!-- Simulazione annuncio (per test) -->
+        <div class="demo-ad-simulation">
+            <h3>📢 Zona Pubblicitaria Simulata</h3>
+            <p>Questo elemento simula un annuncio per testare il detector.</p>
+            <p><small>Se hai AdBlock attivo, questa sezione potrebbe essere nascosta</small></p>
+        </div>
+
+        <!-- Contenuto protetto che verrà nascosto -->
+        <div class="protected-content">
+            <h2>🔒 Contenuto Protetto</h2>
+            <p>Questo contenuto viene nascosto quando AdBlock è attivo.</p>
+            <p>Rappresenta il contenuto principale del tuo sito web.</p>
+        </div>
+
+        <!-- Contenuto sempre visibile -->
+        <div class="demo-content">
+            <h2>✅ Contenuto Sempre Visibile</h2>
+            <p>Questo contenuto rimane sempre visibile, anche con AdBlock attivo.</p>
+            <p>Può essere utilizzato per informazioni essenziali o per il messaggio AdBlock.</p>
+        </div>
+
+        <!-- Istruzioni di implementazione -->
+        <div class="demo-content">
+            <h2>🛠️ Come Implementare</h2>
+            <h3>1. Integrazione Semplice (Auto-init)</h3>
+            <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;!-- Aggiungi prima della chiusura del &lt;/body&gt; --&gt;
+&lt;script src="assets/js/adblock-detector.js"&gt;&lt;/script&gt;</code></pre>
+
+            <h3>2. Integrazione Personalizzata</h3>
+            <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;script src="assets/js/adblock-detector.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+// Disabilita auto-init
+window.addEventListener('load', () => {
+    window.adBlockDetectorInstance = new AdBlockDetector({
+        // Personalizza messaggi
+        title: 'Il tuo titolo personalizzato',
+        subtitle: 'Il tuo sottotitolo',
+        description: 'Il tuo messaggio personalizzato...',
+        
+        // Personalizza colori
+        primaryColor: '#E10600',
+        overlayColor: 'rgba(0, 0, 0, 0.9)',
+        
+        // Comportamento
+        blockContent: true,
+        recheckInterval: 5000,
+        
+        // Selettori contenuto da nascondere
+        contentSelectors: ['.protected-content', 'main', 'article']
+    });
+});
+&lt;/script&gt;</code></pre>
+
+            <h3>3. Controllo Programmatico</h3>
+            <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>// Controlla manualmente
+const isBlocked = await window.adBlockDetectorInstance.checkNow();
+
+// Ottieni status
+const status = window.adBlockDetectorInstance.getStatus();
+
+// Mostra popup manualmente
+window.adBlockDetectorInstance.forceShowPopup();
+
+// Distruggi detector
+window.adBlockDetectorInstance.destroy();</code></pre>
+        </div>
+
+        <!-- Best Practices -->
+        <div class="demo-content">
+            <h2>💡 Best Practices</h2>
+            <ul>
+                <li><strong>Messaggio Educativo:</strong> Spiega perché la pubblicità è importante per il tuo sito</li>
+                <li><strong>Istruzioni Chiare:</strong> Fornisci step-by-step per disabilitare AdBlock</li>
+                <li><strong>Design Coerente:</strong> Mantieni lo stile del tuo sito nel popup</li>
+                <li><strong>Contenuto Alternativo:</strong> Offri contenuti alternativi se possibile</li>
+                <li><strong>Non Essere Aggressivo:</strong> Permetti agli utenti di chiudere il popup</li>
+                <li><strong>Test Multipli:</strong> Il sistema usa 5 metodi diversi per massima accuratezza</li>
+                <li><strong>Performance:</strong> I controlli sono ottimizzati per non rallentare il sito</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Script AdBlock Detector -->
+    <script src="assets/js/adblock-detector.js"></script>
+    
+    <!-- Script demo personalizzato -->
+    <script>
+        // Personalizza l'istanza AdBlock Detector per la demo
+        window.addEventListener('load', () => {
+            // Sovrascrivi l'istanza di default con configurazione personalizzata
+            if (window.adBlockDetectorInstance) {
+                window.adBlockDetectorInstance.destroy();
+            }
+            
+            window.adBlockDetectorInstance = new AdBlockDetector({
+                title: 'AdBlock Rilevato 🚫',
+                subtitle: 'Supporta Associazione Santa Barbara APS',
+                description: 'Per continuare a supportare le nostre attività sociali e culturali, ti chiediamo di disabilitare il tuo AdBlocker su questo sito. La pubblicità ci aiuta a mantenere il sito gratuito.',
+                primaryColor: '#E10600',
+                contentSelectors: ['.protected-content'], // Solo contenuto protetto
+                recheckInterval: 2000, // Controllo più frequente per demo
+                autoCheck: true
+            });
+            
+            // Aggiorna status iniziale
+            setTimeout(updateStatus, 1000);
+        });
+        
+        // Funzioni demo
+        async function checkAdBlockNow() {
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '🔄 Controllo...';
+            btn.disabled = true;
+            
+            try {
+                const isBlocked = await window.adBlockDetectorInstance.checkNow();
+                console.log('Risultato controllo manuale:', isBlocked);
+                updateStatus();
+                
+                // Mostra risultato temporaneo
+                showTempNotification(
+                    isBlocked ? '🚫 AdBlock ATTIVO' : '✅ AdBlock NON RILEVATO',
+                    isBlocked ? '#ff4444' : '#4CAF50'
+                );
+            } catch (error) {
+                console.error('Errore controllo:', error);
+                showTempNotification('❌ Errore durante il controllo', '#ff4444');
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        }
+        
+        function forceShowPopup() {
+            window.adBlockDetectorInstance.forceShowPopup();
+            updateStatus();
+        }
+        
+        function toggleContent() {
+            const content = document.querySelector('.protected-content');
+            if (content.style.display === 'none') {
+                content.style.display = '';
+                event.target.textContent = '👁️ Nascondi Contenuto';
+            } else {
+                content.style.display = 'none';
+                event.target.textContent = '👁️ Mostra Contenuto';
+            }
+        }
+        
+        function updateStatus() {
+            const status = window.adBlockDetectorInstance.getStatus();
+            
+            document.getElementById('statusAdBlock').textContent = 
+                status.isAdBlockActive ? '🚫 SÌ' : '✅ NO';
+            document.getElementById('statusPopup').textContent = 
+                status.hasShownPopup ? '✅ SÌ' : '❌ NO';
+            document.getElementById('statusPeriodic').textContent = 
+                status.isCheckingPeriodically ? '🔄 ATTIVO' : '⏸️ FERMO';
+            document.getElementById('statusLastCheck').textContent = 
+                new Date().toLocaleTimeString();
+        }
+        
+        function showTempNotification(message, color) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${color};
+                color: white;
+                padding: 12px 20px;
+                border-radius: 6px;
+                z-index: 1000000;
+                font-weight: 600;
+                font-size: 14px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                transform: translateX(400px);
+                transition: transform 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Animazione entrata
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 10);
+            
+            // Rimozione automatica
+            setTimeout(() => {
+                notification.style.transform = 'translateX(400px)';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // Aggiorna status ogni 5 secondi
+        setInterval(updateStatus, 5000);
+    </script>
+</body>
+</html>

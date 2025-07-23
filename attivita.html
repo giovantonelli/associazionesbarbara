@@ -43,13 +43,7 @@
 		<meta property="og:type" content="website">
 		<meta property="og:url" content="https://associazionesbarbara.it/attivita.html">
 		<!-- Security Headers -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self';
-  script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://cdn.jsdelivr.net https://archive.org;
-  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
-  img-src 'self' data: https: blob:;
-  font-src 'self' https://fonts.gstatic.com;
-  connect-src 'self' https://ciezrbsolxpjxswdkkpo.supabase.co https://archive.org;
-  frame-src 'self' https://www.google.com https://pagead2.googlesyndication.com;">
+
 		<link rel="stylesheet" href="assets/css/style.css">
 
 		<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
@@ -288,5 +282,54 @@
 		</footer>
 		<script src="assets/js/notifications.js"></script>
 		<script src="assets/js/script.js"></script>
+		
+		<!-- AdBlock Detector -->
+		<script src="assets/js/adblock-detector.js"></script>
+		<script>
+			// Configurazione AdBlock Detector per pagina Attività
+			window.addEventListener('load', () => {
+				// Sovrascrivi istanza default con configurazione personalizzata
+				if (window.adBlockDetectorInstance) {
+					window.adBlockDetectorInstance.destroy();
+				}
+				
+				window.adBlockDetectorInstance = new AdBlockDetector({
+					// Messaggi personalizzati per la pagina Attività
+					title: 'AdBlock Rilevato 🎭',
+					subtitle: 'Sostieni le nostre attività culturali',
+					description: 'Le attività come il Corteo Storico di Santa Barbara e i progetti sociali sono sostenute anche attraverso la pubblicità. Ti chiediamo di disabilitare il tuo AdBlocker per supportare il nostro lavoro nella comunità.',
+					instructions: 'Come disabilitare AdBlock su questo sito:',
+					steps: [
+						'1. 🖱️ Clicca sull\'icona del tuo AdBlocker nella barra del browser',
+						'2. ⚙️ Seleziona "Disabilita su associazionesbarbara.it" o "Metti in pausa"',
+						'3. 🔄 Ricarica questa pagina per visualizzare tutti i contenuti',
+						'4. 💝 Grazie per il supporto alle nostre attività!'
+					],
+					buttonText: 'Ho disabilitato AdBlock',
+					closeText: 'Continua comunque',
+					
+					// Colori tema Associazione Santa Barbara
+					styles: {
+						overlayColor: 'rgba(225, 6, 0, 0.15)',
+						popupBackground: '#ffffff',
+						primaryColor: '#E10600',
+						textColor: '#333333'
+					},
+					
+					// Comportamento specifico per pagina attività
+					blockContent: true,
+					showPopup: true,
+					recheckInterval: 4000,
+					
+					// Proteggi contenuto principale delle attività
+					contentSelectors: [
+						'main',
+						'.activities-grid',
+						'.activity-details',
+						'.content-section'
+					]
+				});
+			});
+		</script>
 	</body>
 </html>
