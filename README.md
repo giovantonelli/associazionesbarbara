@@ -2,7 +2,7 @@
 
 # 🏛️ Associazione Santa Barbara APS – Sito Ufficiale
 
-[![Website Status](https://img.shields.io/uptimerobot/status/m782345678-abcdef)](https://stats.uptimerobot.com/zSca2dOph9)
+[![Status](https://img.shields.io/badge/Status-Live-brightgreen)](https://stats.uptimerobot.com/zSca2dOph9)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-2.0-orange)](CHANGELOG.md)
 
