@@ -581,122 +581,6 @@ Segui le istruzioni di deploy e il tuo sito sarà online in pochi minuti su GitH
 
 ---
 
-# 🚫 AdBlock Detector - Guida Completa
-
-Sistema avanzato di rilevamento AdBlocker integrato nel sito dell'Associazione Santa Barbara APS.
-
-## 📋 Caratteristiche AdBlock Detector
-
-### ✅ **Rilevamento Affidabile**
-- **5 metodi di test diversi** per massima accuratezza
-- **Compatibilità estesa** con tutti i principali AdBlocker (uBlock Origin, AdBlock Plus, AdGuard, etc.)
-- **Controllo periodico** automatico in background ogni 2 secondi
-- **Zero dipendenze esterne** - funziona ovunque
-
-### 🎨 **Interfaccia Professionale**
-- **Popup responsive** con design moderno matching del sito
-- **Colori Associazione Santa Barbara** (#E10600 rosso istituzionale)
-- **Animazioni fluide** CSS3 per migliore UX
-- **Mobile-first** - ottimizzato per tutti i dispositivi
-
-### ⚡ **Modalità Obbligatoria Attiva**
-- **Blocco totale del sito** se AdBlock è attivo
-- **Popup non dismissibile** fino alla disattivazione
-- **Nessun bypass possibile** - tutto il contenuto nascosto
-- **Messaggi personalizzati** per ogni sezione del sito
-
-## 🔧 Implementazione Tecnica
-
-### File JavaScript
-```
-assets/js/
-├── adblock-detector.js          # Sistema principale di rilevamento
-├── adblock-integration-strict.js   # Configurazione modalità obbligatoria
-├── script.js                   # JavaScript principale del sito
-└── notifications.js             # Sistema notifiche
-```
-
-### Integrazione nelle Pagine
-Tutte le pagine HTML includono il sistema AdBlock:
-
-```html
-<!-- AdBlock Detector - Modalità Obbligatoria -->
-<script src="assets/js/adblock-detector.js"></script>
-<script src="assets/js/adblock-integration-strict.js"></script>
-```
-
-### Configurazione per Pagina
-Il sistema include messaggi personalizzati per ogni sezione:
-
-- **Homepage**: "Homepage bloccata - Disattiva AdBlock"
-- **Chi Siamo**: "Chi Siamo - Accesso Bloccato"
-- **Attività**: "Attività Culturali - Accesso Negato"
-- **Eventi**: "Eventi - Calendario Bloccato"
-- **Galleria**: "Galleria Foto/Video - Accesso Negato"
-- **Contatti**: "Contatti - Informazioni Bloccate"
-- **FAQ**: "FAQ - Risposte Bloccate"
-- **Partner**: "Partner e Sponsor - Lista Bloccata"
-- **Area Soci**: "Area Soci - Accesso Riservato Bloccato"
-- **Login/Register**: "Sistema di accesso non disponibile"
-- **Privacy**: "Privacy Policy - Documento Bloccato"
-
-## 🎯 Metodi di Rilevamento
-
-Il sistema utilizza **5 metodi diversi** per garantire massima accuratezza:
-
-### 1. **Elementi Esca (Bait Elements)**
-Crea elementi con classi tipicamente bloccate (`adsbox`, `advertisement`)
-- **Rileva**: uBlock Origin, AdBlock Plus, AdGuard
-
-### 2. **Google Ads Script**
-Tenta di caricare lo script Google Ads
-- **Rileva**: Tutti i principali AdBlocker
-
-### 3. **Domini Pubblicitari**
-Testa l'accesso a domini pubblicitari noti (doubleclick.net, etc.)
-- **Rileva**: Ghostery, Privacy Badger, liste di filtraggio
-
-### 4. **Immagini Pubblicitarie**
-Verifica se immagini con classi "ad" vengono bloccate
-- **Rileva**: Filter specifici per immagini
-
-### 5. **Frame Pubblicitari**
-Controlla se iframe pubblicitari vengono nascosti
-- **Rileva**: Blocco frame e contenuti incorporati
-
-**Algoritmo**: Se almeno 2 test su 5 sono positivi → AdBlock rilevato
-
-## 💡 Messaggio agli Utenti
-
-Il popup spiega chiaramente agli utenti il motivo del blocco:
-
-> **"ATTENZIONE: Per accedere al sito dell'Associazione Santa Barbara APS è obbligatorio disattivare AdBlock.**
-> 
-> La pubblicità ci permette di:
-> • 🎭 Finanziare il Corteo Storico di Santa Barbara
-> • 🤝 Sostenere i progetti sociali per la comunità
-> • 📚 Mantenere attivo questo sito web gratuito
-> • 🏛️ Promuovere la cultura locale di Grumo Appula
-> 
-> **Il sito rimarrà bloccato fino alla disattivazione di AdBlock.**"
-
-## 🔒 Sicurezza e Protezioni
-
-### Protezioni Implementate
-- **Impossibilità di chiudere il popup** senza disattivare AdBlock
-- **Controllo continuo** ogni 2 secondi per tentati bypass
-- **Protezione console** in production per impedire manomissioni
-- **Blocco totale** di tutti gli elementi della pagina
-
-### Browser Supportati
-| Browser | Versione | Supporto | Accuratezza |
-|---------|----------|----------|-------------|
-| **Chrome** | 70+ | ✅ Completo | 95%+ |
-| **Firefox** | 65+ | ✅ Completo | 90%+ |
-| **Safari** | 12+ | ✅ Buono | 85%+ |
-| **Edge** | 80+ | ✅ Completo | 95%+ |
-| **Opera** | 60+ | ✅ Completo | 90%+ |
-| **Mobile** | Tutti | ✅ Responsive | 85%+ |
 
 ### AdBlocker Rilevati
 - ✅ **uBlock Origin** (95%+ accuratezza)
@@ -1050,27 +934,77 @@ La pubblicità ci permette di:
 - **Area Soci**: Messaggio dedicato per area riservata
 - **Eventi**: Focus su calendar e prenotazioni
 
-### 🔄 Migrazione da v1.0
 
-#### Passi di Migrazione
+---
 
-1. **Backup**: Salva configurazione esistente
-2. **Sostituzione File**: 
-   - `adblock-detector.js` → `adblock-detector-v2.js`
-   - `adblock-integration-strict.js` → `adblock-integration-v2.js`
-3. **Aggiornamento HTML**: Cambia riferimenti script
-4. **Test**: Verifica funzionamento su tutti browser
+# AdBlock Detection System v2.0
+## Sistema Avanzato di Rilevamento AdBlock per Associazione Santa Barbara APS
 
-#### Differenze Principali
+### 📋 Panoramica
 
-| Feature | v1.0 | v2.0 |
-|---------|------|------|
-| Test | 3 generici | 4 specifici |
-| Soglia | 2/3 | 3/4 |
-| UI | Popup base | Modal responsive con tab |
-| Guide | Generiche | Multi-dispositivo |
-| Debug | Limitato | Avanzato |
-| Performance | Buona | Ottimizzata |
+Il sistema AdBlock Detection v2.0 è una implementazione completa e avanzata per il rilevamento di AdBlocker (AdBlock Plus, uBlock Origin, AdGuard, Brave Shield, etc.) con popup modale responsive e blocco totale del contenuto.
+
+### 🎯 Caratteristiche Principali
+
+- **Rilevamento Accurato**: Soglia di 3/4 test positivi per evitare falsi positivi
+- **Popup Modale Responsive**: Design mobile-first con tab interattive
+- **Guide Multi-Dispositivo**: Istruzioni specifiche per Desktop, Safari Mac/iOS, Samsung Internet
+- **Blocco Totale**: Nessun accesso al contenuto fino alla disattivazione AdBlock
+- **Zero Polling**: Controllo solo al caricamento, nessun controllo continuo
+- **Debug Avanzato**: Sistema di logging dettagliato per sviluppo
+- **Configurazione Flessibile**: Personalizzazione per pagina e messaggio
+
+### 🛠️ Componenti del Sistema
+
+#### File Principali
+
+1. **`adblock-detector-v2.js`** - Classe principale di rilevamento
+2. **`adblock-integration-v2.js`** - Configurazione e integrazione automatica
+
+#### Architettura
+
+```
+AdBlockDetectorV2 (classe principale)
+├── runDetectionTests() // 4 test di rilevamento
+├── showModal() // popup responsive
+├── generateModalHTML() // interfaccia con tab
+├── setupModalEvents() // gestione interazioni
+└── injectStyles() // CSS inline
+```
+
+### 🔍 Metodi di Rilevamento
+
+Il sistema implementa 4 test principali con soglia 3/4:
+
+#### 1. Bait Elements Test
+```javascript
+// Elementi esca con classi tipicamente bloccate
+elements: ['.ads', '.advertisement', '.google-ads', '.adsbygoogle']
+// Test: se elementi non sono visibili = AdBlock attivo
+```
+
+#### 2. Google Ads Script Test
+```javascript
+// Tentativo caricamento script Google Ads
+src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
+// Test: se script non carica = AdBlock attivo
+```
+
+#### 3. Image Blocking Test
+```javascript
+// Caricamento immagini da domini pubblicitari
+domains: ['googleads.g.doubleclick.net', 'pagead2.googlesyndication.com']
+// Test: se immagini non caricano = AdBlock attivo
+```
+
+#### 4. Network Request Test
+```javascript
+// Richieste a endpoint pubblicitari noti
+urls: ['https://googleads.g.doubleclick.net/pagead/id']
+// Test: se richieste falliscono = AdBlock attivo
+```
+
+### ⚙️ Configurazione
 
 ### 📚 Esempi Pratici
 
