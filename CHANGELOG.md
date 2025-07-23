@@ -4,13 +4,10 @@ Tutte le modifiche rilevanti al sito dell'Associazione Santa Barbara APS sono do
 
 ---
 
-## [2.0.0] - 2025-07-24
+## [2.0.1] - 2025-07-24
 ### Added
-- Sistema AdBlock Detection v2 avanzato con 4 test e popup responsive
-- Header di sicurezza: Strict-Transport-Security, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy
-- Redirect automatico da HTTP a HTTPS
-- Aggiornamento README: rimozione AdBlock v1, documentazione v2
-- Miglioramenti accessibilità e SEO
+- Creazione LICENSE personalizzata per uso interno, citazione obbligatoria e divieto di distribuzione/modifica/uso commerciale
+- Aggiornamento README con nuova sezione licenza e versione
 
 ### Changed
 - Ottimizzazione CSS per nascondere pubblicità vuote
