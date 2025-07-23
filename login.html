@@ -6,11 +6,11 @@
 		<title>Login - Associazione Santa Barbara APS</title>
 		<meta name="description" content="Accedi al tuo account dell'Associazione Santa Barbara APS">
 		<meta name="keywords" content="login, accesso, associazione santa barbara">
-		<!-- Security Headers -->
+		
 
 		<link rel="stylesheet" href="assets/css/style.css">
 		<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
-		<!-- Google tag (gtag.js) with Consent Mode -->
+		
 		<script>
 			window.dataLayer = window.dataLayer || [];
 
@@ -34,7 +34,7 @@
 	 crossorigin="anonymous"></script>
 </head>
 	<body>
-		<!-- Navigation -->
+		
 		<nav class="navbar">
 			<div class="container">
 				<div class="nav-brand">
@@ -80,7 +80,7 @@
 			</div>
 		</nav>
 		<div id="user-bar"></div>
-		<!-- Login Section -->
+		
 		<section class="auth-section">
 			<div class="container">
 				<div class="auth-container">
@@ -88,7 +88,7 @@
 						<h1>Accedi al tuo Account</h1>
 						<p>Inserisci le tue credenziali per accedere all'area riservata</p>
 					</div>
-					<!-- Login Form -->
+					
 					<div class="auth-form-container">
 						<form id="loginForm" class="auth-form" data-type="login">
 							<div class="form-group">
@@ -104,10 +104,10 @@
 								<div class="loading-spinner" style="display: none;"></div>
 							</button>
 						</form>
-						<!-- Status Messages -->
+						
 						<div id="statusMessage" class="status-message" style="display: none;"></div>
 						
-						<!-- Resend Verification Email -->
+						
 						<div id="resendEmailSection" class="resend-email-section" style="display: none; margin: 15px 0;">
 							<p class="text-center" style="color: #666; margin-bottom: 10px;">Non hai ricevuto l'email di conferma?</p>
 							<button type="button" id="resendEmailBtn" class="btn btn-secondary btn-full">
@@ -116,7 +116,7 @@
 							</button>
 						</div>
 						
-						<!-- Auth Links -->
+						
 						<div class="auth-links">
 							<p>Non hai un account? <a href="register.html">Registrati qui</a>
 							</p>
@@ -128,7 +128,7 @@
 				</div>
 			</div>
 		</section>
-		<!-- Footer -->
+		
 		<footer class="footer">
 			<div class="container">
 				<div class="footer-content">
@@ -158,7 +158,7 @@
 				</div>
 			</div>
 		</footer>
-		<!-- Cookie Banner -->
+		
 		<div id="cookieBanner" class="cookie-banner" style="display: none;">
 			<div class="cookie-content">
 				<p>Questo sito utilizza cookie per migliorare l'esperienza di navigazione. Continuando a navigare accetti l'uso dei cookie.</p>
@@ -169,11 +169,11 @@
 				</div>
 			</div>
 		</div>
-		<!-- Scripts -->
+		
 		<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 		<script src="assets/js/notifications.js"></script>
 		<script src="assets/js/script.js"></script>
-		<!-- Supabase Authentication Script -->
+		
 		<script>
 			// Initialize Supabase
 			const {
@@ -367,8 +367,8 @@
 				emailInput.focus();
 			});
 		</script>
-		<!-- AdBlock Detector - Modalità Obbligatoria -->
-		<script src="assets/js/adblock-detector.js"></script>
-		<script src="assets/js/adblock-integration-strict.js"></script>
+		
+		<script src="assets/js/adblock-detector-v2.js"></script>
+		<script src="assets/js/adblock-integration-v2.js"></script>
 	</body>
 </html>

@@ -355,10 +355,11 @@ function initGallery() {
 		if (e.target === videoLightbox) closeVideoLightbox();
 	});
 	document.addEventListener('keydown', function(e) {
-		if (!videoLightbox.classList.contains('active')) return;
+		if (!videoLightbox || !videoLightbox.classList.contains('active')) return;
 		if (e.key === 'Escape') closeVideoLightbox();
 	});
 	function closeVideoLightbox() {
+		if (!videoLightbox || !videoPlayer) return;
 		videoLightbox.classList.remove('active');
 		videoPlayer.pause();
 		videoPlayer.src = '';

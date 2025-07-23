@@ -37,17 +37,17 @@
 		<title>Attività e Progetti - Associazione Santa Barbara APS</title>
 		<meta name="description" content="Scopri tutte le attività e i progetti dell'Associazione Santa Barbara APS">
 		<meta name="keywords" content="attività, progetti, volontariato, eventi culturali, associazione">
-		<!-- Open Graph Meta Tags -->
+		
 		<meta property="og:title" content="Attività e Progetti - Associazione Santa Barbara APS">
 		<meta property="og:description" content="Scopri tutte le attività e i progetti dell'Associazione Santa Barbara APS">
 		<meta property="og:type" content="website">
 		<meta property="og:url" content="https://associazionesbarbara.it/attivita.html">
-		<!-- Security Headers -->
+		
 
 		<link rel="stylesheet" href="assets/css/style.css">
 
 		<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
-		<!-- Google tag (gtag.js) with Consent Mode -->
+		<!-- Google tag (gtag.js) with Consent Mode 
 		<script>
 			// Define dataLayer and the gtag function
 			window.dataLayer = window.dataLayer || [];
@@ -73,7 +73,7 @@
 	 crossorigin="anonymous"></script>
 </head>
 	<body>
-		<!-- Navigation -->
+		
 		<nav class="navbar">
 			<div class="container">
 				<div class="nav-brand">
@@ -119,14 +119,14 @@
 			</div>
 		</nav>
 		<div id="user-bar"></div>
-				<!-- Page Header -->
+		
 		<section class="page-header">
 			<div class="container">
 				<h1>Attività e Progetti</h1>
 				<p>Scopri tutte le nostre iniziative per la comunità</p>
 			</div>
 		</section>
-	   <!-- Attività Principali (allineate a index.html) -->
+	   <!-- Attività Principali (allineate a index.html) 
 	   <section class="attivita-principali">
 		   <div class="container">
 			   <h2 class="section-title">Le nostre attività principali</h2>
@@ -151,14 +151,14 @@
 				   </div>
 				   <div class="col-md-4">
 					   <div class="card" onclick="showActivityDetails('dettagli-inarrivo')" style="cursor:pointer;">
-						   <img src="assets/images/activity3.jpg" alt="Coming soon..." class="card-img">
+						   <img src="assets/images/tamburini.jpg" alt="Progetti in arrivo..." class="card-img">
 						   <div class="card-content">
 							   <h3>In arrivo...</h3>
 							   <p>Una nuova iniziativa sociale e culturale è in fase di sviluppo: sarà un progetto innovativo pensato per coinvolgere la cittadinanza, promuovere inclusione e offrire nuove opportunità di partecipazione. Segui i nostri canali per scoprire tutte le novità!</p>
 						   </div>
 					   </div>
 				   </div>
-		   <!-- Sezioni dettagliate attività -->
+		   <!-- Sezioni dettagliate attività 
 		   <div id="dettagli-corteo" class="activity-details">
 			   <h3>Corteo Storico</h3>
 			   <div style="display:flex;align-items:flex-start;flex-wrap:wrap;">
@@ -193,7 +193,7 @@
 		   <div id="dettagli-inarrivo" class="activity-details">
 			   <h3>Nuovo Progetto in Arrivo</h3>
 			   <div style="display:flex;align-items:flex-start;flex-wrap:wrap;">
-				   <img src="assets/images/activity3.jpg" alt="Nuovo progetto">
+				   <img src="assets/images/tamburini.jpg" alt="Nuovo progetto">
 				   <img src="assets/images/about-preview.jpg" alt="Progetto sociale">
 				   <div>
 					   <p>Il prossimo progetto dell’associazione sarà dedicato all’innovazione sociale e alla partecipazione attiva: attività, laboratori e incontri pensati per favorire l’inclusione, la creatività e il dialogo tra generazioni. Presto tutte le informazioni su come aderire!</p>
@@ -208,7 +208,7 @@
 			   </div>
 		   </div>
 	   </section>
-		<!-- Footer -->
+		<!-- Footer 
 		<footer class="footer">
 			<div class="container">
 				<div class="footer-content">
@@ -283,53 +283,11 @@
 		<script src="assets/js/notifications.js"></script>
 		<script src="assets/js/script.js"></script>
 		
-		<!-- AdBlock Detector -->
-		<script src="assets/js/adblock-detector.js"></script>
+		
+		<script src="assets/js/adblock-detector-v2.js"></script>
 		<script>
-			// Configurazione AdBlock Detector per pagina Attività
-			window.addEventListener('load', () => {
-				// Sovrascrivi istanza default con configurazione personalizzata
-				if (window.adBlockDetectorInstance) {
-					window.adBlockDetectorInstance.destroy();
-				}
-				
-				window.adBlockDetectorInstance = new AdBlockDetector({
-					// Messaggi personalizzati per la pagina Attività
-					title: 'AdBlock Rilevato 🎭',
-					subtitle: 'Sostieni le nostre attività culturali',
-					description: 'Le attività come il Corteo Storico di Santa Barbara e i progetti sociali sono sostenute anche attraverso la pubblicità. Ti chiediamo di disabilitare il tuo AdBlocker per supportare il nostro lavoro nella comunità.',
-					instructions: 'Come disabilitare AdBlock su questo sito:',
-					steps: [
-						'1. 🖱️ Clicca sull\'icona del tuo AdBlocker nella barra del browser',
-						'2. ⚙️ Seleziona "Disabilita su associazionesbarbara.it" o "Metti in pausa"',
-						'3. 🔄 Ricarica questa pagina per visualizzare tutti i contenuti',
-						'4. 💝 Grazie per il supporto alle nostre attività!'
-					],
-					buttonText: 'Ho disabilitato AdBlock',
-					closeText: 'Continua comunque',
-					
-					// Colori tema Associazione Santa Barbara
-					styles: {
-						overlayColor: 'rgba(225, 6, 0, 0.15)',
-						popupBackground: '#ffffff',
-						primaryColor: '#E10600',
-						textColor: '#333333'
-					},
-					
-					// Comportamento specifico per pagina attività
-					blockContent: true,
-					showPopup: true,
-					recheckInterval: 4000,
-					
-					// Proteggi contenuto principale delle attività
-					contentSelectors: [
-						'main',
-						'.activities-grid',
-						'.activity-details',
-						'.content-section'
-					]
-				});
-			});
+			// Configurazione AdBlock Detector per pagina Attività - DISABILITATO
 		</script>
+		
 	</body>
 </html>

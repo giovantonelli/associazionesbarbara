@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo AdBlock Detector - Associazione Santa Barbara</title>
+    <title>Demo AdBlock Detector v2.0 - Sistema Avanzato</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <style>
         /* Stili specifici per la demo */
@@ -131,7 +131,7 @@
     </style>
 </head>
 <body>
-    <!-- Header con navigazione -->
+    
     <header style="background: #E10600; color: white; padding: 1rem 0; text-align: center;">
         <h1>🏛️ Associazione Santa Barbara APS</h1>
         <p>Demo Sistema Rilevamento AdBlock</p>
@@ -143,7 +143,7 @@
             <p>Testa il sistema di rilevamento AdBlocker in tempo reale</p>
         </div>
 
-        <!-- Pannello di controllo -->
+        
         <div class="demo-controls">
             <button class="demo-btn" onclick="checkAdBlockNow()">🔍 Controlla AdBlock</button>
             <button class="demo-btn secondary" onclick="forceShowPopup()">💬 Mostra Popup</button>
@@ -151,7 +151,7 @@
             <button class="demo-btn secondary" onclick="updateStatus()">🔄 Aggiorna Status</button>
         </div>
 
-        <!-- Status in tempo reale -->
+        
         <div class="demo-status" id="statusPanel">
             <h3>📈 Status Detector</h3>
             <div class="status-item">
@@ -172,28 +172,28 @@
             </div>
         </div>
 
-        <!-- Simulazione annuncio (per test) -->
+        
         <div class="demo-ad-simulation">
             <h3>📢 Zona Pubblicitaria Simulata</h3>
             <p>Questo elemento simula un annuncio per testare il detector.</p>
             <p><small>Se hai AdBlock attivo, questa sezione potrebbe essere nascosta</small></p>
         </div>
 
-        <!-- Contenuto protetto che verrà nascosto -->
+        
         <div class="protected-content">
             <h2>🔒 Contenuto Protetto</h2>
             <p>Questo contenuto viene nascosto quando AdBlock è attivo.</p>
             <p>Rappresenta il contenuto principale del tuo sito web.</p>
         </div>
 
-        <!-- Contenuto sempre visibile -->
+        
         <div class="demo-content">
             <h2>✅ Contenuto Sempre Visibile</h2>
             <p>Questo contenuto rimane sempre visibile, anche con AdBlock attivo.</p>
             <p>Può essere utilizzato per informazioni essenziali o per il messaggio AdBlock.</p>
         </div>
 
-        <!-- Istruzioni di implementazione -->
+        
         <div class="demo-content">
             <h2>🛠️ Come Implementare</h2>
             <h3>1. Integrazione Semplice (Auto-init)</h3>
@@ -239,7 +239,7 @@ window.adBlockDetectorInstance.forceShowPopup();
 window.adBlockDetectorInstance.destroy();</code></pre>
         </div>
 
-        <!-- Best Practices -->
+        
         <div class="demo-content">
             <h2>💡 Best Practices</h2>
             <ul>
@@ -254,10 +254,11 @@ window.adBlockDetectorInstance.destroy();</code></pre>
         </div>
     </div>
 
-    <!-- Script AdBlock Detector -->
-    <script src="assets/js/adblock-detector.js"></script>
     
-    <!-- Script demo personalizzato -->
+    <script src="assets/js/adblock-detector-v2.js"></script>
+    <script src="assets/js/adblock-integration-v2.js"></script>
+    
+    
     <script>
         // Personalizza l'istanza AdBlock Detector per la demo
         window.addEventListener('load', () => {

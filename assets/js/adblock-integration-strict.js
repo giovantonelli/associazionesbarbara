@@ -13,7 +13,8 @@ window.ADBLOCK_STRICT_CONFIG = {
     preventClose: true,         // Non permette chiusura popup
     blockContent: true,         // Nasconde contenuto
     showPopup: true,           // Mostra sempre popup
-    recheckInterval: 2000,     // Controllo ogni 2 secondi
+    recheckInterval: 0,        // Disabilita controlli periodici - non servono
+    disableDetection: true,    // TEMPORANEO: disabilita tutto il sistema per falsi positivi
     
     // Messaggi personalizzati Associazione Santa Barbara
     title: 'AdBlock Deve Essere Disattivato ⚠️',
@@ -144,7 +145,7 @@ window.ADBLOCK_PAGE_CONFIGS = {
             L'area soci è gratuita grazie alla pubblicità. Come socio dell'Associazione 
             Santa Barbara APS, il tuo supporto è importante: disattiva AdBlock.
         `,
-        recheckInterval: 1500  // Controllo più frequente per area riservata
+        recheckInterval: 0     // Disabilita controlli periodici
     },
     
     'login.html': {
@@ -198,31 +199,33 @@ window.initStrictAdBlockDetector = function() {
     // Crea nuova istanza con configurazione stringente
     window.adBlockDetectorInstance = new AdBlockDetector(finalConfig);
     
-    // Log per debug (solo in development)
-    if (window.location.hostname === 'localhost' || window.location.hostname.includes('127.0.0.1')) {
-        console.log('🚫 AdBlock Detector Strict Mode attivato:', {
-            page: currentPage,
-            config: finalConfig
-        });
-    }
-    
     // Forza controllo immediato più aggressivo
     setTimeout(() => {
         window.adBlockDetectorInstance.checkNow().then(detected => {
             if (detected) {
                 console.warn('⚠️ AdBlock rilevato - Sito bloccato completamente');
+            } else {
+                console.log('✅ AdBlock non rilevato - Sito libero');
             }
         });
-    }, 500);
+    }, 100); // Ridotto da 500ms a 100ms per check più rapido
 };
 
+// DISABILITAZIONE TOTALE IMMEDIATA - NO ADBLOCK DETECTION
+console.log('🚫 ADBLOCK DETECTOR COMPLETAMENTE DISABILITATO - FALSI POSITIVI');
+
+// Commento tutto per disabilitare
+/*
 // Auto-inizializzazione quando il DOM è pronto
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', window.initStrictAdBlockDetector);
 } else {
     window.initStrictAdBlockDetector();
 }
+*/
 
+// PROTEZIONE DISABILITATA - SISTEMA OFFLINE
+/*
 // Protezione aggiuntiva: controlla se qualcuno tenta di disabilitare il detector
 Object.defineProperty(window, 'adBlockDetectorInstance', {
     configurable: false,
@@ -237,7 +240,10 @@ Object.defineProperty(window, 'adBlockDetectorInstance', {
         return this._adBlockDetectorInstance;
     }
 });
+*/
 
+// CONSOLE MANIPULATION DISABILITATA - SISTEMA OFFLINE
+/*
 // Impedisce manipolazione della console in production
 if (window.location.hostname !== 'localhost' && !window.location.hostname.includes('127.0.0.1')) {
     // Sovrascrivi console.log per impedire debug non autorizzato
@@ -253,3 +259,4 @@ if (window.location.hostname !== 'localhost' && !window.location.hostname.includ
         }
     });
 }
+*//* CACHE BUSTER 1753287657 */

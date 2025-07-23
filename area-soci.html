@@ -6,11 +6,11 @@
 		<title>Area Soci - Associazione Santa Barbara APS</title>
 		<meta name="description" content="Accesso riservato ai soci dell'Associazione Santa Barbara APS">
 		<meta name="keywords" content="area soci, login, accesso riservato, associazione">
-		<!-- Security Headers -->
+		
 
 		<link rel="stylesheet" href="assets/css/style.css">
 		<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
-		<!-- Google tag (gtag.js) with Consent Mode -->
+		
 		<script>
 			// Define dataLayer and the gtag function
 			window.dataLayer = window.dataLayer || [];
@@ -34,7 +34,7 @@
 		</script>
 </head>
 	<body>
-		<!-- Navigation -->
+		
 		<nav class="navbar">
 			<div class="container">
 				<div class="nav-brand">
@@ -79,14 +79,14 @@
 				</ul>
 			</div>
 		</nav>
-		<!-- Page Header -->
+		
 		<section class="page-header">
 			<div class="container">
 				<h1>Area Soci</h1>
 				<p>Accesso riservato ai soci dell'associazione</p>
 			</div>
 		</section>
-		<!-- Loading screen base -->
+		
 		<div id="loading-screen" class="loading-screen">
 			<div class="loading-content">
 				<div class="loading-spinner"></div>
@@ -95,13 +95,13 @@
 				<p>Attendere prego</p>
 			</div>
 		</div>
-		<!-- Login Prompt Section -->
+		
 		<div id="login-prompt" style="display: none; padding: 60px 0; text-align: center;">
 			<div class="container">
-				<!-- Content will be dynamically inserted by JavaScript -->
+				
 			</div>
 		</div>
-		<!-- Cookie Banner: sempre visibile -->
+		
 		<div id="cookieBanner" class="cookie-banner">
 			<div class="cookie-content">
 				<p>Questo sito utilizza cookie per migliorare l'esperienza di navigazione. Continuando a navigare accetti l'uso dei cookie.</p>
@@ -113,15 +113,15 @@
 			</div>
 		</div>
 
-		<!-- Members Content (solo per soci) -->
+		
 		<section id="members-content" class="members-content" style="display:none;">
 			<div class="container">
-				<!-- User Info Section -->
+				
 				<div id="user-info" class="user-info">
-					<!-- User info will be populated by JavaScript -->
+					
 				</div>
 				
-				<!-- Gestione Profilo -->
+				
 				<div class="content-section" style="margin-top: 30px;">
 					<h3>⚙️ Gestione Profilo</h3>
 					<p>Gestisci i tuoi dati e le preferenze dell'account</p>
@@ -134,12 +134,12 @@
 					</div>
 				</div>
 				
-				<!-- Profile Edit Form (initially hidden) -->
+				
 				<div id="profile-edit-form" class="content-section" style="display: none; margin-top: 20px;">
 					<h3>✏️ Modifica Profilo</h3>
 					<form id="update-profile-form">
 						<div class="form-grid">
-							<!-- Informazioni Personali -->
+							
 							<div class="form-group">
 								<label for="edit-firstName">Nome *</label>
 								<input type="text" id="edit-firstName" name="firstName" required>
@@ -169,13 +169,13 @@
 								<input type="text" id="edit-fiscalCode" name="fiscalCode" pattern="[A-Z0-9]{16}" title="16 caratteri alfanumerici" style="text-transform: uppercase;">
 							</div>
 							
-							<!-- Contatti -->
+							
 							<div class="form-group">
 								<label for="edit-phone">Telefono</label>
 								<input type="tel" id="edit-phone" name="phone">
 							</div>
 							
-							<!-- Indirizzo -->
+							
 							<div class="form-group">
 								<label for="edit-address">Indirizzo</label>
 								<input type="text" id="edit-address" name="address">
@@ -201,7 +201,7 @@
 					</form>
 				</div>
 				
-				<!-- Change Password Form (initially hidden) -->
+				
 				<div id="password-change-form" class="content-section" style="display: none; margin-top: 20px;">
 					<h3>🔑 Cambia Password</h3>
 					<form id="update-password-form">
@@ -224,7 +224,7 @@
 					</form>
 				</div>
 
-				<!-- Change Email Form (initially hidden) -->
+				
 				<div id="email-change-form" class="content-section" style="display: none; margin-top: 20px;">
 					<h3>✉️ Cambia Email</h3>
 					<form id="update-email-form">
@@ -322,7 +322,7 @@
 		<script src="assets/js/notifications.js"></script>
 		<script src="assets/js/script.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-		<!-- Supabase Authentication Protection Script -->
+		
 		<script>
 			// Initialize Supabase
 			const {
@@ -886,8 +886,8 @@ const {
 			window.resendConfirmation = resendConfirmation;
 			window.handleLogout = handleLogout;
 		</script>
-		<!-- AdBlock Detector - Modalità Obbligatoria -->
-		<script src="assets/js/adblock-detector.js"></script>
-		<script src="assets/js/adblock-integration-strict.js"></script>
+		
+		<script src="assets/js/adblock-detector-v2.js"></script>
+		<script src="assets/js/adblock-integration-v2.js"></script>
 	</body>
 </html>
