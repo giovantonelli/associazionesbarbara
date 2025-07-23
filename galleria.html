@@ -12,14 +12,14 @@
 		<meta property="og:type" content="website">
 		<meta property="og:url" content="https://associazionesbarbara.it/galleria.html">
 		<!-- Security Headers -->
-		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; 
-		    script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://archive.org https://*.adtrafficquality.google;
-		    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
-		    img-src 'self' data: https: blob:;
-		    media-src 'self' https: https://archive.org https://*.archive.org;
-		    font-src 'self' https://fonts.gstatic.com data:;
-		    connect-src 'self' https://ciezrbsolxpjxswdkkpo.supabase.co https://archive.org https://*.archive.org https://region1.analytics.google.com https://*.adtrafficquality.google;
-		    frame-src 'self' https://www.google.com https://pagead2.googlesyndication.com https://*.adtrafficquality.google;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self';
+  script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://archive.org;
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+  img-src 'self' data: https: blob:;
+  media-src 'self' https: https://archive.org https://*.archive.org;
+  font-src 'self' https://fonts.gstatic.com data:;
+  connect-src 'self' https://ciezrbsolxpjxswdkkpo.supabase.co https://archive.org https://*.archive.org https://region1.analytics.google.com;
+  frame-src 'self' https://www.google.com https://pagead2.googlesyndication.com;">
 		<link rel="stylesheet" href="assets/css/style.css?v=1.9">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css">
 		<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
@@ -281,6 +281,7 @@
 				</ul>
 			</div>
 		</nav>
+		<div id="user-bar"></div>
 		<!-- Intestazione pagina -->
 		<section class="page-header">
 			<div class="container">
@@ -351,8 +352,8 @@
 <div class="lightbox" id="photo-lightbox">
   <button class="photo-lightbox-nav photo-lightbox-prev" aria-label="Precedente">‹</button>
   <div class="lightbox-content">
-    <button class="lightbox-close" aria-label="Chiudi">&times;</button>
-    <img class="lightbox-image" src="" alt="Foto" />
+	<button class="lightbox-close" aria-label="Chiudi">&times;</button>
+	<img class="lightbox-image" src="" alt="Foto" />
   </div>
   <button class="photo-lightbox-nav photo-lightbox-next" aria-label="Successivo">›</button>
 </div>
