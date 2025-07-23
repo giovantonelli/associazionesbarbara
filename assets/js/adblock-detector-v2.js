@@ -240,6 +240,8 @@ class AdBlockDetectorV2 {
                     if (script.parentNode) {
                         script.parentNode.removeChild(script);
                     }
+                    // Rimuovi eventuali <ins class="adsbygoogle"> creati
+                    document.querySelectorAll('ins.adsbygoogle').forEach(el => el.remove());
                     resolve(true); // Script probabilmente bloccato
                 }
             }, 5000);
@@ -253,6 +255,8 @@ class AdBlockDetectorV2 {
                     if (script.parentNode) {
                         script.parentNode.removeChild(script);
                     }
+                    // Rimuovi eventuali <ins class="adsbygoogle"> creati
+                    document.querySelectorAll('ins.adsbygoogle').forEach(el => el.remove());
                     resolve(!adsbyGoogleExists); // Se l'oggetto non esiste, potrebbe essere bloccato
                 }
             };
@@ -264,6 +268,8 @@ class AdBlockDetectorV2 {
                     if (script.parentNode) {
                         script.parentNode.removeChild(script);
                     }
+                    // Rimuovi eventuali <ins class="adsbygoogle"> creati
+                    document.querySelectorAll('ins.adsbygoogle').forEach(el => el.remove());
                     resolve(true); // Script sicuramente bloccato
                 }
             };

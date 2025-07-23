@@ -1,3 +1,9 @@
+/* Nasconde pubblicità AdSense vuote o non riempite */
+.adsbygoogle:empty,
+.adsbygoogle[style*="height: 0px"],
+.adsbygoogle[style*="display: inline-block;"][style*="height: 0px"] {
+    display: none !important;
+}
 .photo-lightbox-nav {
     position: fixed;
     top: 50%;
