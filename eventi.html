@@ -92,11 +92,11 @@
 }
 .public-events-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2em;
   margin-bottom: 2em;
 }
-@media (max-width: 900px) {
+@media (max-width: 600px) {
   .public-events-grid {
     grid-template-columns: 1fr;
     gap: 1.2em;
@@ -174,7 +174,12 @@
   </section>
   <main class="eventi-main" style="max-width:900px;margin:40px auto 0 auto;padding:0 1rem;">
     <h1 style="text-align:center;color:#E10600;font-size:2.2em;margin-bottom:1.2em;letter-spacing:1px;">Eventi Pubblici</h1>
-    <div id="public-events-list" class="public-events-grid"></div>
+    <h2 style="color:#E10600;font-size:1.5em;margin-bottom:0.7em;">Prossimi Eventi</h2>
+    <div id="future-events-list" class="public-events-grid"></div>
+    <h2 style="color:#888;font-size:1.2em;margin:2.5em 0 0.7em 0;letter-spacing:1px;">Eventi Passati</h2>
+    <div id="past-events-section" style="background:#f7f7f7;border-radius:18px;padding:1.5em 1em 1.5em 1em;margin-bottom:2em;border:1px solid #e0e0e0;">
+      <div id="past-events-list" class="public-events-grid"></div>
+    </div>
     <!-- Popup Modale Evento -->
     <div id="event-modal" class="event-modal">
       <div class="modal-content">
@@ -297,38 +302,56 @@
 
   async function loadPublicEvents() {
     const eventsList = document.getElementById('public-events-list');
-    eventsList.innerHTML = '<div style="text-align:center;color:#E10600;font-size:1.1em;">Caricamento eventi...</div>';
+    document.getElementById('future-events-list').innerHTML = '<div style="text-align:center;color:#E10600;font-size:1.1em;">Caricamento eventi...</div>';
+    document.getElementById('past-events-list').innerHTML = '';
     const { data, error } = await supabaseClient.from('events').select('*').eq('is_public', true).order('event_date', { ascending: true });
     if (error) {
-      eventsList.innerHTML = `<div style="color:red;text-align:center;">Errore nel caricamento eventi: ${error.message}</div>`;
+      document.getElementById('future-events-list').innerHTML = `<div style="color:red;text-align:center;">Errore nel caricamento eventi: ${error.message}</div>`;
       return;
     }
     if (!data || data.length === 0) {
-      eventsList.innerHTML = '<div style="text-align:center;color:#444;">Nessun evento pubblico disponibile al momento.</div>';
+      document.getElementById('future-events-list').innerHTML = '<div style="text-align:center;color:#444;">Nessun evento pubblico disponibile al momento.</div>';
       return;
     }
-    eventsList.innerHTML = '';
+    // Dividi eventi futuri e passati
+    const now = new Date();
+    const futureEvents = [];
+    const pastEvents = [];
     data.forEach(ev => {
-      const img = ev.image_url ? `<img src="${ev.image_url}" alt="Locandina evento" style="max-width:340px;border-radius:12px;box-shadow:0 2px 16px rgba(225,6,0,0.10);margin-bottom:1.2em;">` : '';
+      const eventDate = ev.event_date ? new Date(ev.event_date) : null;
+      if (eventDate && eventDate.setHours(0,0,0,0) >= now.setHours(0,0,0,0)) {
+        futureEvents.push(ev);
+      } else {
+        pastEvents.push(ev);
+      }
+    });
+    // Ordina futuri per data crescente, passati per data decrescente
+    futureEvents.sort((a, b) => new Date(a.event_date) - new Date(b.event_date));
+    pastEvents.sort((a, b) => new Date(b.event_date) - new Date(a.event_date));
+    // Renderizza eventi futuri
+    const renderCard = (ev, isPast = false) => {
+      const img = ev.image_url ? `<img src="${ev.image_url}" alt="Locandina evento" style="max-width:340px;border-radius:12px;box-shadow:0 2px 16px rgba(225,6,0,0.10);margin-bottom:1.2em;${isPast ? 'filter:grayscale(0.7) contrast(0.95);opacity:0.85;' : ''}">` : '';
       const date = ev.event_date ? new Date(ev.event_date).toLocaleDateString('it-IT') : '';
       const time = ev.event_time ? `Ore ${ev.event_time}` : '';
       const location = ev.location ? `<span style="font-size:1.05em;">${ev.location}</span>` : '';
-      eventsList.innerHTML += `
-        <section class="evento-card" style="background:#fff;border-radius:18px;box-shadow:0 4px 32px rgba(225,6,0,0.08);padding:2.5em 2em 2em 2em;display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:box-shadow 0.2s;" data-event-id="${ev.id}">
+      return `
+        <section class="evento-card" style="background:${isPast ? '#f3f3f3' : '#fff'};border-radius:18px;box-shadow:0 4px 32px rgba(225,6,0,0.06);padding:2.5em 2em 2em 2em;display:flex;flex-direction:column;align-items:center;cursor:${isPast ? 'default' : 'pointer'};transition:box-shadow 0.2s;${isPast ? 'opacity:0.85;' : ''}" data-event-id="${ev.id}">
           <div style="width:100%;text-align:center;">
-            <h2 style="color:#E10600;font-size:1.5em;margin-bottom:0.5em;">${ev.title || 'Evento'}</h2>
-            <p style="font-size:1.15em;color:#222;margin-bottom:1.2em;">
+            <h2 style="color:${isPast ? '#b0b0b0' : '#E10600'};font-size:1.5em;margin-bottom:0.5em;">${ev.title || 'Evento'}</h2>
+            <p style="font-size:1.15em;color:${isPast ? '#888' : '#222'};margin-bottom:1.2em;">
               <strong>${date}</strong><br>
-              <span style="font-size:1.1em;color:#E10600;">${time}</span><br>
+              <span style="font-size:1.1em;color:${isPast ? '#b0b0b0' : '#E10600'};">${time}</span><br>
               ${location}
             </p>
             ${img}
-            <p style="font-size:1.08em;color:#444;line-height:1.6;margin-bottom:1.2em;">${ev.description || ''}</p>
-            ${ev.external_link ? `<a href="${ev.external_link}" target="_blank" style="display:inline-block;background:#E10600;color:#fff;padding:0.7em 1.6em;border-radius:8px;font-size:1.08em;text-decoration:none;box-shadow:0 2px 8px rgba(225,6,0,0.10);transition:background 0.2s;">Info evento</a>` : ''}
+            <p style="font-size:1.08em;color:${isPast ? '#aaa' : '#444'};line-height:1.6;margin-bottom:1.2em;">${ev.description || ''}</p>
+            ${ev.external_link && !isPast ? `<a href="${ev.external_link}" target="_blank" style="display:inline-block;background:#E10600;color:#fff;padding:0.7em 1.6em;border-radius:8px;font-size:1.08em;text-decoration:none;box-shadow:0 2px 8px rgba(225,6,0,0.10);transition:background 0.2s;">Info evento</a>` : ''}
           </div>
         </section>
       `;
-    });
+    };
+    document.getElementById('future-events-list').innerHTML = futureEvents.length ? futureEvents.map(ev => renderCard(ev, false)).join('') : '<div style="text-align:center;color:#444;">Nessun evento futuro.</div>';
+    document.getElementById('past-events-list').innerHTML = pastEvents.length ? pastEvents.map(ev => renderCard(ev, true)).join('') : '<div style="text-align:center;color:#888;">Nessun evento passato.</div>';
     // Event listener per popup
     setTimeout(() => {
       document.querySelectorAll('.evento-card[data-event-id]').forEach(card => {
