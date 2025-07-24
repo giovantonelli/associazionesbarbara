@@ -1,283 +1,251 @@
-	   <style>
-		   .activity-details { display: none; margin-top: 30px; }
-		   .activity-details.active { display: block; animation: fadeIn 0.5s; }
-		   .activity-details img { max-width: 220px; margin: 10px 15px 10px 0; border-radius: 8px; }
-		   .card { transition: transform 0.25s cubic-bezier(.4,1.5,.5,1); min-height: 410px; display: flex; flex-direction: column; justify-content: stretch; }
-		   .card.card-active { transform: scale(1.06); box-shadow: 0 8px 32px rgba(80,60,20,0.13); z-index:2; }
-		   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-	   </style>
-	   <style>
-		   .activity-details { display: none; margin-top: 30px; }
-		   .activity-details.active { display: block; animation: fadeIn 0.5s; }
-		   .activity-details img { max-width: 220px; margin: 10px 15px 10px 0; border-radius: 8px; }
-		   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-	   </style>
-	   <script>
-		   function showActivityDetails(id) {
-			   document.querySelectorAll('.activity-details').forEach(function(sec) { sec.classList.remove('active'); });
-			   var el = document.getElementById(id);
-			   if (el) el.classList.add('active');
-			   // Gestione effetto card
-			   document.querySelectorAll('.card[onclick]').forEach(function(card) { card.classList.remove('card-active'); });
-			   if (id === 'dettagli-corteo') {
-				   document.querySelector('.card[onclick*="dettagli-corteo"]').classList.add('card-active');
-			   } else if (id === 'dettagli-tamburi') {
-				   document.querySelector('.card[onclick*="dettagli-tamburi"]').classList.add('card-active');
-			   } else if (id === 'dettagli-inarrivo') {
-				   document.querySelector('.card[onclick*="dettagli-inarrivo"]').classList.add('card-active');
-			   }
-			   window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });
-		   }
-	   </script>
 <!DOCTYPE html>
-<html lang="it">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Attività e Progetti - Associazione Santa Barbara APS</title>
-		<meta name="description" content="Scopri tutte le attività e i progetti dell'Associazione Santa Barbara APS">
-		<meta name="keywords" content="attività, progetti, volontariato, eventi culturali, associazione">
-		
-		<meta property="og:title" content="Attività e Progetti - Associazione Santa Barbara APS">
-		<meta property="og:description" content="Scopri tutte le attività e i progetti dell'Associazione Santa Barbara APS">
-		<meta property="og:type" content="website">
-		<meta property="og:url" content="https://associazionesbarbara.it/attivita.html">
-		
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.8.0">
+  <meta charset="UTF-8">
+  <style>
+                   .activity-details { display: none; margin-top: 30px; }
+                   .activity-details.active { display: block; animation: fadeIn 0.5s; }
+                   .activity-details img { max-width: 220px; margin: 10px 15px 10px 0; border-radius: 8px; }
+                   .card { transition: transform 0.25s cubic-bezier(.4,1.5,.5,1); min-height: 410px; display: flex; flex-direction: column; justify-content: stretch; }
+                   .card.card-active { transform: scale(1.06); box-shadow: 0 8px 32px rgba(80,60,20,0.13); z-index:2; }
+                   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  </style>
+  <style>
+                   .activity-details { display: none; margin-top: 30px; }
+                   .activity-details.active { display: block; animation: fadeIn 0.5s; }
+                   .activity-details img { max-width: 220px; margin: 10px 15px 10px 0; border-radius: 8px; }
+                   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  </style>
+  <script>
+                   function showActivityDetails(id) {
+                           document.querySelectorAll('.activity-details').forEach(function(sec) { sec.classList.remove('active'); });
+                           var el = document.getElementById(id);
+                           if (el) el.classList.add('active');
+                           // Gestione effetto card
+                           document.querySelectorAll('.card[onclick]').forEach(function(card) { card.classList.remove('card-active'); });
+                           if (id === 'dettagli-corteo') {
+                                   document.querySelector('.card[onclick*="dettagli-corteo"]').classList.add('card-active');
+                           } else if (id === 'dettagli-tamburi') {
+                                   document.querySelector('.card[onclick*="dettagli-tamburi"]').classList.add('card-active');
+                           } else if (id === 'dettagli-inarrivo') {
+                                   document.querySelector('.card[onclick*="dettagli-inarrivo"]').classList.add('card-active');
+                           }
+                           window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });
+                   }
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attività e Progetti - Associazione Santa Barbara APS</title>
+  <meta name="description" content="Scopri tutte le attività e i progetti dell'Associazione Santa Barbara APS">
+  <meta name="keywords" content="attività, progetti, volontariato, eventi culturali, associazione">
+  <meta property="og:title" content="Attività e Progetti - Associazione Santa Barbara APS">
+  <meta property="og:description" content="Scopri tutte le attività e i progetti dell'Associazione Santa Barbara APS">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://associazionesbarbara.it/attivita.html">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+  <script>
+                        // Define dataLayer and the gtag function
+                        window.dataLayer = window.dataLayer || [];
 
-		<link rel="stylesheet" href="assets/css/style.css">
-
-		<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
-		<script>
-			// Define dataLayer and the gtag function
-			window.dataLayer = window.dataLayer || [];
-
-			function gtag() {
-				dataLayer.push(arguments);
-			}
-			// Set default consent to 'denied' as a placeholder for EU users
-			gtag('consent', 'default', {
-				'ad_storage': 'denied',
-				'ad_user_data': 'denied',
-				'ad_personalization': 'denied',
-				'analytics_storage': 'denied',
-				'wait_for_update': 500
-			});
-		</script>
-	   <script async src="https://www.googletagmanager.com/gtag/js?id=G-F465WJF33T"></script>
-	   <script>
-		   gtag('js', new Date());
-		   gtag('config', 'G-F465WJF33T');
-	   </script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6525955502269152"
-	 crossorigin="anonymous"></script>
+                        function gtag() {
+                                dataLayer.push(arguments);
+                        }
+                        // Set default consent to 'denied' as a placeholder for EU users
+                        gtag('consent', 'default', {
+                                'ad_storage': 'denied',
+                                'ad_user_data': 'denied',
+                                'ad_personalization': 'denied',
+                                'analytics_storage': 'denied',
+                                'wait_for_update': 500
+                        });
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-F465WJF33T"></script>
+  <script>
+                   gtag('js', new Date());
+                   gtag('config', 'G-F465WJF33T');
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6525955502269152" crossorigin="anonymous"></script>
 </head>
-	<body>
-		
-		<nav class="navbar">
-			<div class="container">
-				<div class="nav-brand">
-					<a href="index.html" class="nav-brand-link">
-						<img src="assets/images/logo.svg" alt="Logo Associazione Santa Barbara APS" class="logo">
-						<span class="brand-text">Associazione Santa Barbara APS</span>
-					</a>
-				</div>
-				<button class="nav-toggle" aria-label="Toggle navigation">
-					<span></span>
-					<span></span>
-					<span></span>
-				</button>
-				<ul class="nav-menu">
-					<li>
-						<a href="index.html" class="nav-link">Home</a>
-					</li>
-					<li>
-						<a href="chi-siamo.html" class="nav-link">Chi siamo</a>
-					</li>
-					<li>
-						<a href="attivita.html" class="nav-link active">Attività</a>
-					</li>
-					<li>
-						<a href="eventi.html" class="nav-link">Eventi</a>
-					</li>
-					<li>
-						<a href="galleria.html" class="nav-link">Galleria</a>
-					</li>
-					<li>
-						<a href="faq.html" class="nav-link">FAQ</a>
-					</li>
-					<li>
-						<a href="contatti.html" class="nav-link">Contatti</a>
-					</li>
-					<li>
-						<a href="partner.html" class="nav-link">Partner</a>
-					</li>
-					<li>
-						<a href="area-soci.html" class="nav-link btn btn-primary">Area Soci</a>
-					</li>
-				</ul>
-			</div>
-		</nav>
-		<div id="user-bar"></div>
-		
-		<section class="page-header">
-			<div class="container">
-				<h1>Attività e Progetti</h1>
-				<p>Scopri tutte le nostre iniziative per la comunità</p>
-			</div>
-		</section>
-	   <section class="attivita-principali">
-		   <div class="container">
-			   <h2 class="section-title">Le nostre attività principali</h2>
-			   <div class="row">
-				   <div class="col-md-4">
-					   <div class="card" onclick="showActivityDetails('dettagli-corteo')" style="cursor:pointer;">
-						   <img src="assets/images/corteostorico.jpg" alt="Corteo Storico" class="card-img">
-						   <div class="card-content">
-							   <h3>Corteo storico</h3>
-							   <p>Un viaggio nel tempo tra costumi d’epoca, figuranti, tamburini e sbandieratori: il Corteo Storico anima le strade del paese, rievocando la storia locale e coinvolgendo grandi e piccoli in un’esperienza unica di comunità e tradizione.</p>
-						   </div>
-					   </div>
-				   </div>
-				   <div class="col-md-4">
-					   <div class="card" onclick="showActivityDetails('dettagli-tamburi')" style="cursor:pointer;">
-						   <img src="assets/images/tamburini.jpg" alt="Tamburi medievali" class="card-img">
-						   <div class="card-content">
-							   <h3>Tamburi medievali</h3>
-							   <p>Il gruppo di tamburi medievali porta energia e ritmo agli eventi: giovani e adulti si esibiscono in parate e spettacoli, trasmettendo passione per la musica tradizionale e coinvolgendo il pubblico con performance spettacolari.</p>
-						   </div>
-					   </div>
-				   </div>
-				   <div class="col-md-4">
-					   <div class="card" onclick="showActivityDetails('dettagli-inarrivo')" style="cursor:pointer;">
-						   <img src="assets/images/band.jpg" alt="Progetti in arrivo..." class="card-img">
-						   <div class="card-content">
-							   <h3>In arrivo...</h3>
-							   <p>Una nuova iniziativa sociale e culturale è in fase di sviluppo: sarà un progetto innovativo pensato per coinvolgere la cittadinanza, promuovere inclusione e offrire nuove opportunità di partecipazione. Segui i nostri canali per scoprire tutte le novità!</p>
-						   </div>
-					   </div>
-				   </div>
-		   <div id="dettagli-corteo" class="activity-details">
-			   <h3>Corteo Storico</h3>
-			   <div style="display:flex;align-items:flex-start;flex-wrap:wrap;">
-				   <img src="assets/images/corteostorico.jpg" alt="Corteo Storico">
-				   <img src="assets/images/banner.jpg" alt="Sfilata storica">
-				   <div>
-					   <p>Il Corteo Storico è l’evento simbolo dell’associazione: una rievocazione che coinvolge decine di figuranti in abiti d’epoca, cavalli, tamburini e sbandieratori. Il corteo attraversa le vie principali del paese, rievocando momenti salienti della storia locale e promuovendo la partecipazione di tutta la comunità.</p>
-					   <p>Il Corteo Storico rappresenta il cuore pulsante della nostra associazione: una grande festa popolare che unisce storia, arte e senso di appartenenza. Ogni anno, centinaia di persone partecipano come figuranti, artigiani, musicisti e spettatori, rendendo l’evento un’occasione di crescita e condivisione per tutto il territorio.</p>
-					   <ul>
-						   <li>Costumi realizzati artigianalmente</li>
-						   <li>Collaborazione con scuole e associazioni</li>
-						   <li>Spettacoli e animazione durante il percorso</li>
-					   </ul>
-				   </div>
-			   </div>
-		   </div>
-		   <div id="dettagli-tamburi" class="activity-details">
-			   <h3>Tamburi Medievali</h3>
-			   <div style="display:flex;align-items:flex-start;flex-wrap:wrap;">
-				   <img src="assets/images/tamburini.jpg" alt="Tamburi Medievali">
-				   <img src="assets/images/testimonials/tamburi1.jpg" alt="Esibizione tamburini">
-				   <div>
-					   <p>I Tamburi Medievali sono il battito della nostra associazione: con prove settimanali e tanta passione, il gruppo anima cortei, rievocazioni e festival, trasmettendo energia e tradizione. Le loro esibizioni sono un momento di aggregazione e spettacolo che coinvolge giovani e famiglie.</p>
-					   <ul>
-						   <li>Prove settimanali aperte ai giovani</li>
-						   <li>Partecipazione a festival storici</li>
-						   <li>Collaborazioni con altri gruppi folkloristici</li>
-					   </ul>
-				   </div>
-			   </div>
-		   </div>
-		   <div id="dettagli-inarrivo" class="activity-details">
-			   <h3>Nuovo Progetto in Arrivo</h3>
-			   <div style="display:flex;align-items:flex-start;flex-wrap:wrap;">
-				   <img src="assets/images/tamburini.jpg" alt="Nuovo progetto">
-				   <img src="assets/images/about-preview.jpg" alt="Progetto sociale">
-				   <div>
-					   <p>Il prossimo progetto dell’associazione sarà dedicato all’innovazione sociale e alla partecipazione attiva: attività, laboratori e incontri pensati per favorire l’inclusione, la creatività e il dialogo tra generazioni. Presto tutte le informazioni su come aderire!</p>
-					   <ul>
-						   <li>Attività innovative per tutte le età</li>
-						   <li>Collaborazione con enti e associazioni del territorio</li>
-						   <li>Opportunità di volontariato e formazione</li>
-					   </ul>
-				   </div>
-			   </div>
-		   </div>
-			   </div>
-		   </div>
-	   </section>
-		<footer class="footer">
-			<div class="container">
-				<div class="footer-content">
-					<div class="footer-section">
-						<img src="assets/images/logo.svg" alt="Logo Associazione Santa Barbara APS" class="footer-logo">
-						<p>Associazione Santa Barbara APS</p>
-						<p>Promuoviamo la cultura e il volontariato nel nostro territorio</p>
-					</div>
-					<div class="footer-section">
-						<h4>Link utili</h4>
-						<ul>
-							<li>
-								<a href="chi-siamo.html">Chi siamo</a>
-							</li>
-							<li>
-								<a href="attivita.html">Attività</a>
-							</li>
-							<li>
-								<a href="eventi.html">Eventi</a>
-							</li>
-							<li>
-								<a href="contatti.html">Contatti</a>
-							</li>
-						</ul>
-					</div>
-					<div class="footer-section">
-						<h4>Informazioni</h4>
-						<ul>
-							<li>
-								<a href="privacy.html">Privacy Policy</a>
-							</li>
-							<li>
-								<a href="faq.html">FAQ</a>
-							</li>
-							<li>
-								<a href="area-soci.html">Area Soci</a>
-							</li>
-						</ul>
-					</div>
-					<div class="footer-section">
-						<h4>Seguici</h4>
-						<div class="social-links">
-							<a href="https://www.facebook.com/santabarbara.grumoappula" class="social-link" aria-label="Facebook">
-								<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-									<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-								</svg>
-							</a>
-							<a href="https://www.instagram.com/corteostoricosantabarbara/" class="social-link" aria-label="Instagram">
-								<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-									<path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-								</svg>
-							</a>
-							<a href="https://t.me/associazionesbarbara" class="social-link" aria-label="Telegram">
-								<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-									<path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
-								</svg>
-							</a>
-						</div>
-					</div>
-				</div>
-				<div class="footer-bottom">
-					<p>&copy; 2008- <span id="current-year"></span> Associazione Santa Barbara APS. Tutti i diritti riservati.<br>
-						<span style="letter-spacing:2px; font-size:0.95em; color:#222;">
-							<a href="privacy.html" style="color:#e67e22; text-decoration:underline;">PRIVACY POLICY</a>
-							<span style="margin:0 10px;">|</span>
-							<a href="#" style="color:#e67e22; text-decoration:underline;" onclick="window.cookieConsent && window.cookieConsent.open(); return false;">GESTISCI COOKIE</a>
-						</span>
-					</p>
-				</div>
-			</div>
-		</footer>
-		<script src="assets/js/notifications.js"></script>
-		<script src="assets/js/script.js"></script>
-		<script src="assets/js/adblock-detector-v2.js"></script>
-	</body>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-brand">
+        <a href="index.html" class="nav-brand-link"><img src="assets/images/logo.svg" alt="Logo Associazione Santa Barbara APS" class="logo"> <span class="brand-text">Associazione Santa Barbara APS</span></a>
+      </div><button class="nav-toggle" aria-label="Toggle navigation"></button>
+      <ul class="nav-menu">
+        <li>
+          <a href="index.html" class="nav-link">Home</a>
+        </li>
+        <li>
+          <a href="chi-siamo.html" class="nav-link">Chi siamo</a>
+        </li>
+        <li>
+          <a href="attivita.html" class="nav-link active">Attività</a>
+        </li>
+        <li>
+          <a href="eventi.html" class="nav-link">Eventi</a>
+        </li>
+        <li>
+          <a href="galleria.html" class="nav-link">Galleria</a>
+        </li>
+        <li>
+          <a href="faq.html" class="nav-link">FAQ</a>
+        </li>
+        <li>
+          <a href="contatti.html" class="nav-link">Contatti</a>
+        </li>
+        <li>
+          <a href="partner.html" class="nav-link">Partner</a>
+        </li>
+        <li>
+          <a href="area-soci.html" class="nav-link btn btn-primary">Area Soci</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div id="user-bar"></div>
+  <section class="page-header">
+    <div class="container">
+      <h1>Attività e Progetti</h1>
+      <p>Scopri tutte le nostre iniziative per la comunità</p>
+    </div>
+  </section>
+  <section class="attivita-principali">
+    <div class="container">
+      <h2 class="section-title">Le nostre attività principali</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card" onclick="showActivityDetails('dettagli-corteo')" style="cursor:pointer;">
+            <img src="assets/images/corteostorico.jpg" alt="Corteo Storico" class="card-img">
+            <div class="card-content">
+              <h3>Corteo storico</h3>
+              <p>Un viaggio nel tempo tra costumi d’epoca, figuranti, tamburini e sbandieratori: il Corteo Storico anima le strade del paese, rievocando la storia locale e coinvolgendo grandi e piccoli in un’esperienza unica di comunità e tradizione.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card" onclick="showActivityDetails('dettagli-tamburi')" style="cursor:pointer;">
+            <img src="assets/images/tamburini.jpg" alt="Tamburi medievali" class="card-img">
+            <div class="card-content">
+              <h3>Tamburi medievali</h3>
+              <p>Il gruppo di tamburi medievali porta energia e ritmo agli eventi: giovani e adulti si esibiscono in parate e spettacoli, trasmettendo passione per la musica tradizionale e coinvolgendo il pubblico con performance spettacolari.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card" onclick="showActivityDetails('dettagli-inarrivo')" style="cursor:pointer;">
+            <img src="assets/images/band.jpg" alt="Progetti in arrivo..." class="card-img">
+            <div class="card-content">
+              <h3>In arrivo...</h3>
+              <p>Una nuova iniziativa sociale e culturale è in fase di sviluppo: sarà un progetto innovativo pensato per coinvolgere la cittadinanza, promuovere inclusione e offrire nuove opportunità di partecipazione. Segui i nostri canali per scoprire tutte le novità!</p>
+            </div>
+          </div>
+        </div>
+        <div id="dettagli-corteo" class="activity-details">
+          <h3>Corteo Storico</h3>
+          <div style="display:flex;align-items:flex-start;flex-wrap:wrap;">
+            <img src="assets/images/corteostorico.jpg" alt="Corteo Storico"> <img src="assets/images/banner.jpg" alt="Sfilata storica">
+            <div>
+              <p>Il Corteo Storico è l’evento simbolo dell’associazione: una rievocazione che coinvolge decine di figuranti in abiti d’epoca, cavalli, tamburini e sbandieratori. Il corteo attraversa le vie principali del paese, rievocando momenti salienti della storia locale e promuovendo la partecipazione di tutta la comunità.</p>
+              <p>Il Corteo Storico rappresenta il cuore pulsante della nostra associazione: una grande festa popolare che unisce storia, arte e senso di appartenenza. Ogni anno, centinaia di persone partecipano come figuranti, artigiani, musicisti e spettatori, rendendo l’evento un’occasione di crescita e condivisione per tutto il territorio.</p>
+              <ul>
+                <li>Costumi realizzati artigianalmente</li>
+                <li>Collaborazione con scuole e associazioni</li>
+                <li>Spettacoli e animazione durante il percorso</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div id="dettagli-tamburi" class="activity-details">
+          <h3>Tamburi Medievali</h3>
+          <div style="display:flex;align-items:flex-start;flex-wrap:wrap;">
+            <img src="assets/images/tamburini.jpg" alt="Tamburi Medievali"> <img src="assets/images/testimonials/tamburi1.jpg" alt="Esibizione tamburini">
+            <div>
+              <p>I Tamburi Medievali sono il battito della nostra associazione: con prove settimanali e tanta passione, il gruppo anima cortei, rievocazioni e festival, trasmettendo energia e tradizione. Le loro esibizioni sono un momento di aggregazione e spettacolo che coinvolge giovani e famiglie.</p>
+              <ul>
+                <li>Prove settimanali aperte ai giovani</li>
+                <li>Partecipazione a festival storici</li>
+                <li>Collaborazioni con altri gruppi folkloristici</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div id="dettagli-inarrivo" class="activity-details">
+          <h3>Nuovo Progetto in Arrivo</h3>
+          <div style="display:flex;align-items:flex-start;flex-wrap:wrap;">
+            <img src="assets/images/tamburini.jpg" alt="Nuovo progetto"> <img src="assets/images/about-preview.jpg" alt="Progetto sociale">
+            <div>
+              <p>Il prossimo progetto dell’associazione sarà dedicato all’innovazione sociale e alla partecipazione attiva: attività, laboratori e incontri pensati per favorire l’inclusione, la creatività e il dialogo tra generazioni. Presto tutte le informazioni su come aderire!</p>
+              <ul>
+                <li>Attività innovative per tutte le età</li>
+                <li>Collaborazione con enti e associazioni del territorio</li>
+                <li>Opportunità di volontariato e formazione</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <img src="assets/images/logo.svg" alt="Logo Associazione Santa Barbara APS" class="footer-logo">
+          <p>Associazione Santa Barbara APS</p>
+          <p>Promuoviamo la cultura e il volontariato nel nostro territorio</p>
+        </div>
+        <div class="footer-section">
+          <h4>Link utili</h4>
+          <ul>
+            <li>
+              <a href="chi-siamo.html">Chi siamo</a>
+            </li>
+            <li>
+              <a href="attivita.html">Attività</a>
+            </li>
+            <li>
+              <a href="eventi.html">Eventi</a>
+            </li>
+            <li>
+              <a href="contatti.html">Contatti</a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Informazioni</h4>
+          <ul>
+            <li>
+              <a href="privacy.html">Privacy Policy</a>
+            </li>
+            <li>
+              <a href="faq.html">FAQ</a>
+            </li>
+            <li>
+              <a href="area-soci.html">Area Soci</a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Seguici</h4>
+          <div class="social-links">
+            <a href="https://www.facebook.com/santabarbara.grumoappula" class="social-link" aria-label="Facebook"><svg width="24" height="24" viewbox="0 0 24 24" fill="currentcolor">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg></a> <a href="https://www.instagram.com/corteostoricosantabarbara/" class="social-link" aria-label="Instagram"><svg width="24" height="24" viewbox="0 0 24 24" fill="currentcolor">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg></a> <a href="https://t.me/associazionesbarbara" class="social-link" aria-label="Telegram"><svg width="24" height="24" viewbox="0 0 24 24" fill="currentcolor">
+            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"></path></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2008- <span id="current-year"></span> Associazione Santa Barbara APS. Tutti i diritti riservati.<br>
+        <span style="letter-spacing:2px; font-size:0.95em; color:#222;"><a href="privacy.html" style="color:#e67e22; text-decoration:underline;">PRIVACY POLICY</a> <span style="margin:0 10px;">|</span> <a href="#" style="color:#e67e22; text-decoration:underline;" onclick="window.cookieConsent &amp;&amp; window.cookieConsent.open(); return false;">GESTISCI COOKIE</a></span></p>
+      </div>
+    </div>
+  </footer>
+  <script src="assets/js/notifications.js"></script> 
+  <script src="assets/js/script.js"></script> 
+  <script src="assets/js/adblock-detector-v2.js"></script>
+  <script src="assets/js/adblock-integration-v2.js"></script>
+</body>
 </html>

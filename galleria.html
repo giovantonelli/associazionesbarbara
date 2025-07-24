@@ -1,738 +1,680 @@
 <!DOCTYPE html>
 <html lang="it">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Galleria - Associazione Santa Barbara APS</title>
-		<meta name="description" content="Foto e video delle attività dell'Associazione Santa Barbara APS">
-		<meta name="keywords" content="galleria, foto, video, eventi, associazione">
-		
-		<meta property="og:title" content="Galleria - Associazione Santa Barbara APS">
-		<meta property="og:description" content="Foto e video delle attività dell'Associazione Santa Barbara APS">
-		<meta property="og:type" content="website">
-		<meta property="og:url" content="https://associazionesbarbara.it/galleria.html">
-		
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.8.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galleria - Associazione Santa Barbara APS</title>
+  <meta name="description" content="Foto e video delle attività dell'Associazione Santa Barbara APS">
+  <meta name="keywords" content="galleria, foto, video, eventi, associazione">
+  <meta property="og:title" content="Galleria - Associazione Santa Barbara APS">
+  <meta property="og:description" content="Foto e video delle attività dell'Associazione Santa Barbara APS">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://associazionesbarbara.it/galleria.html">
+  <link rel="stylesheet" href="assets/css/style.css?v=1.9">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css">
+  <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+  <style>
+           /* Gallery Headers */
+           .gallery-header {
+                   text-align: center;
+                   margin-bottom: 3rem;
+                   position: relative;
+           }
+           .gallery-header::after {
+                   content: '';
+                   position: absolute;
+                   bottom: -1rem;
+                   left: 50%;
+                   transform: translateX(-50%);
+                   width: 60px;
+                   height: 3px;
+                   background: linear-gradient(90deg, #e10600, #ffd700);
+                   border-radius: 2px;
+           }
+           .section-title {
+                   font-size: 2.5rem;
+                   font-weight: 700;
+                   color: #fff;
+                   margin-bottom: 1rem;
+                   text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+           }
+           .gallery-subtitle {
+                   font-size: 1.1rem;
+                   color: rgba(255,255,255,0.9);
+                   max-width: 600px;
+                   margin: 0 auto;
+                   line-height: 1.6;
+           }
+           
+           /* Loading Animations */
+           .loading-photos, .loading-videos {
+                   text-align: center;
+                   padding: 80px 20px;
+                   background: rgba(255, 255, 255, 0.05);
+                   backdrop-filter: blur(15px);
+                   border: 1px solid rgba(255, 255, 255, 0.1);
+                   border-radius: 20px;
+                   margin: 20px 0;
+                   position: relative;
+                   overflow: hidden;
+           }
+           .loading-photos::before, .loading-videos::before {
+                   content: '';
+                   position: absolute;
+                   top: 0;
+                   left: -100%;
+                   width: 100%;
+                   height: 100%;
+                   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+                   animation: shimmer 2s infinite;
+           }
+           .loading-spinner {
+                   width: 40px;
+                   height: 40px;
+                   border: 3px solid rgba(255,255,255,0.3);
+                   border-top: 3px solid #e10600;
+                   border-radius: 50%;
+                   animation: spin 1s linear infinite;
+                   margin: 0 auto 1rem;
+           }
+           @keyframes shimmer {
+                   0% { left: -100%; }
+                   100% { left: 100%; }
+           }
+           @keyframes spin {
+                   0% { transform: rotate(0deg); }
+                   100% { transform: rotate(360deg); }
+           }
+           
+           .photo-gallery, .photo-gallery .container, .photo-swiper {
+                   padding-bottom: 0 !important;
+                   margin-bottom: 0 !important;
+           }
+           .photo-gallery {
+                   margin-bottom: 0 !important;
+           }
+           .lightbox {
+                   position: fixed;
+                   top: 0; left: 0; right: 0; bottom: 0;
+                   width: 100vw; height: 100vh;
+                   background: rgba(0,0,0,0.92);
+                   z-index: 9999;
+                   display: flex;
+                   align-items: center;
+                   justify-content: center;
+                   opacity: 0;
+                   pointer-events: none;
+                   transition: opacity 0.25s;
+           }
+           .lightbox.active {
+                   opacity: 1;
+                   pointer-events: auto;
+           }
+           .lightbox-content {
+                   position: relative;
+                   max-width: 96vw;
+                   max-height: 96vh;
+                   display: flex;
+                   align-items: center;
+                   justify-content: center;
+                   background: none;
+                   box-shadow: none;
+                   border-radius: 0;
+                   padding: 0;
+           }
+           .lightbox-image {
+                   max-width: 96vw;
+                   max-height: 96vh;
+                   width: auto;
+                   height: auto;
+                   margin: 0 auto;
+                   display: block;
+                   border-radius: 8px;
+                   box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+                   background: #222;
+                   cursor: zoom-in;
+                   transition: box-shadow 0.2s;
+           }
+           .lightbox-close {
+                   position: absolute;
+                   top: 18px;
+                   right: 24px;
+                   font-size: 2.5rem;
+                   color: #fff;
+                   background: rgba(0,0,0,0.5);
+                   border: none;
+                   border-radius: 50%;
+                   width: 48px;
+                   height: 48px;
+                   display: flex;
+                   align-items: center;
+                   justify-content: center;
+                   cursor: pointer;
+                   z-index: 10001;
+                   transition: background 0.2s;
+                   outline: none;
+           }
+           .lightbox-close:focus {
+                   box-shadow: 0 0 0 2px #e74c3c;
+           }
+           .lightbox-close:hover {
+                   background: #e74c3c;
+                   color: #fff;
+           }
+           .photo-lightbox-nav {
+                   position: absolute;
+                   top: 50%;
+                   transform: translateY(-50%);
+                   z-index: 10001;
+                   width: 48px;
+                   height: 48px;
+                   background: rgba(0,0,0,0.5);
+                   border: none;
+                   border-radius: 50%;
+                   color: #fff;
+                   font-size: 2.2rem;
+                   display: flex;
+                   align-items: center;
+                   justify-content: center;
+                   cursor: pointer;
+                   transition: background 0.2s;
+                   outline: none;
+           }
+           .photo-lightbox-prev { left: 10px; }
+           .photo-lightbox-next { right: 10px; }
+           .photo-lightbox-nav:focus {
+                   box-shadow: 0 0 0 2px #e67e22;
+           }
+           .photo-lightbox-nav:hover {
+                   background: #e67e22;
+                   color: #fff;
+           }
+           @media (max-width: 900px) {
+                   .lightbox-image { max-width: 98vw; max-height: 80vh; }
+           }
+           @media (max-width: 600px) {
+                   .lightbox-image { max-width: 100vw; max-height: 60vh; }
+                   .lightbox-close, .photo-lightbox-nav { width: 38px; height: 38px; font-size: 1.5rem; }
+           }
+  </style>
+  <script>
+                        // Define dataLayer and the gtag function
+                        window.dataLayer = window.dataLayer || [];
 
-		<link rel="stylesheet" href="assets/css/style.css?v=1.9">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css">
-		<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
-		
-	   <style>
-	   /* Gallery Headers */
-	   .gallery-header {
-		   text-align: center;
-		   margin-bottom: 3rem;
-		   position: relative;
-	   }
-	   .gallery-header::after {
-		   content: '';
-		   position: absolute;
-		   bottom: -1rem;
-		   left: 50%;
-		   transform: translateX(-50%);
-		   width: 60px;
-		   height: 3px;
-		   background: linear-gradient(90deg, #e10600, #ffd700);
-		   border-radius: 2px;
-	   }
-	   .section-title {
-		   font-size: 2.5rem;
-		   font-weight: 700;
-		   color: #fff;
-		   margin-bottom: 1rem;
-		   text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-	   }
-	   .gallery-subtitle {
-		   font-size: 1.1rem;
-		   color: rgba(255,255,255,0.9);
-		   max-width: 600px;
-		   margin: 0 auto;
-		   line-height: 1.6;
-	   }
-	   
-	   /* Loading Animations */
-	   .loading-photos, .loading-videos {
-		   text-align: center;
-		   padding: 80px 20px;
-		   background: rgba(255, 255, 255, 0.05);
-		   backdrop-filter: blur(15px);
-		   border: 1px solid rgba(255, 255, 255, 0.1);
-		   border-radius: 20px;
-		   margin: 20px 0;
-		   position: relative;
-		   overflow: hidden;
-	   }
-	   .loading-photos::before, .loading-videos::before {
-		   content: '';
-		   position: absolute;
-		   top: 0;
-		   left: -100%;
-		   width: 100%;
-		   height: 100%;
-		   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-		   animation: shimmer 2s infinite;
-	   }
-	   .loading-spinner {
-		   width: 40px;
-		   height: 40px;
-		   border: 3px solid rgba(255,255,255,0.3);
-		   border-top: 3px solid #e10600;
-		   border-radius: 50%;
-		   animation: spin 1s linear infinite;
-		   margin: 0 auto 1rem;
-	   }
-	   @keyframes shimmer {
-		   0% { left: -100%; }
-		   100% { left: 100%; }
-	   }
-	   @keyframes spin {
-		   0% { transform: rotate(0deg); }
-		   100% { transform: rotate(360deg); }
-	   }
-	   
-	   .photo-gallery, .photo-gallery .container, .photo-swiper {
-		   padding-bottom: 0 !important;
-		   margin-bottom: 0 !important;
-	   }
-	   .photo-gallery {
-		   margin-bottom: 0 !important;
-	   }
-	   .lightbox {
-		   position: fixed;
-		   top: 0; left: 0; right: 0; bottom: 0;
-		   width: 100vw; height: 100vh;
-		   background: rgba(0,0,0,0.92);
-		   z-index: 9999;
-		   display: flex;
-		   align-items: center;
-		   justify-content: center;
-		   opacity: 0;
-		   pointer-events: none;
-		   transition: opacity 0.25s;
-	   }
-	   .lightbox.active {
-		   opacity: 1;
-		   pointer-events: auto;
-	   }
-	   .lightbox-content {
-		   position: relative;
-		   max-width: 96vw;
-		   max-height: 96vh;
-		   display: flex;
-		   align-items: center;
-		   justify-content: center;
-		   background: none;
-		   box-shadow: none;
-		   border-radius: 0;
-		   padding: 0;
-	   }
-	   .lightbox-image {
-		   max-width: 96vw;
-		   max-height: 96vh;
-		   width: auto;
-		   height: auto;
-		   margin: 0 auto;
-		   display: block;
-		   border-radius: 8px;
-		   box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-		   background: #222;
-		   cursor: zoom-in;
-		   transition: box-shadow 0.2s;
-	   }
-	   .lightbox-close {
-		   position: absolute;
-		   top: 18px;
-		   right: 24px;
-		   font-size: 2.5rem;
-		   color: #fff;
-		   background: rgba(0,0,0,0.5);
-		   border: none;
-		   border-radius: 50%;
-		   width: 48px;
-		   height: 48px;
-		   display: flex;
-		   align-items: center;
-		   justify-content: center;
-		   cursor: pointer;
-		   z-index: 10001;
-		   transition: background 0.2s;
-		   outline: none;
-	   }
-	   .lightbox-close:focus {
-		   box-shadow: 0 0 0 2px #e74c3c;
-	   }
-	   .lightbox-close:hover {
-		   background: #e74c3c;
-		   color: #fff;
-	   }
-	   .photo-lightbox-nav {
-		   position: absolute;
-		   top: 50%;
-		   transform: translateY(-50%);
-		   z-index: 10001;
-		   width: 48px;
-		   height: 48px;
-		   background: rgba(0,0,0,0.5);
-		   border: none;
-		   border-radius: 50%;
-		   color: #fff;
-		   font-size: 2.2rem;
-		   display: flex;
-		   align-items: center;
-		   justify-content: center;
-		   cursor: pointer;
-		   transition: background 0.2s;
-		   outline: none;
-	   }
-	   .photo-lightbox-prev { left: 10px; }
-	   .photo-lightbox-next { right: 10px; }
-	   .photo-lightbox-nav:focus {
-		   box-shadow: 0 0 0 2px #e67e22;
-	   }
-	   .photo-lightbox-nav:hover {
-		   background: #e67e22;
-		   color: #fff;
-	   }
-	   @media (max-width: 900px) {
-		   .lightbox-image { max-width: 98vw; max-height: 80vh; }
-	   }
-	   @media (max-width: 600px) {
-		   .lightbox-image { max-width: 100vw; max-height: 60vh; }
-		   .lightbox-close, .photo-lightbox-nav { width: 38px; height: 38px; font-size: 1.5rem; }
-	   }
-	   </style>
-		<script>
-			// Define dataLayer and the gtag function
-			window.dataLayer = window.dataLayer || [];
-
-			function gtag() {
-				dataLayer.push(arguments);
-			}
-			// Set default consent to 'denied' as a placeholder for EU users
-			gtag('consent', 'default', {
-				'ad_storage': 'denied',
-				'ad_user_data': 'denied',
-				'ad_personalization': 'denied',
-				'analytics_storage': 'denied',
-				'wait_for_update': 500
-			});
-		</script>
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-F465WJF33T"></script>
-		<script>
-			gtag('js', new Date());
-			gtag('config', 'G-F465WJF33T');
-		</script>
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6525955502269152"
-	 crossorigin="anonymous"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+                        function gtag() {
+                                dataLayer.push(arguments);
+                        }
+                        // Set default consent to 'denied' as a placeholder for EU users
+                        gtag('consent', 'default', {
+                                'ad_storage': 'denied',
+                                'ad_user_data': 'denied',
+                                'ad_personalization': 'denied',
+                                'analytics_storage': 'denied',
+                                'wait_for_update': 500
+                        });
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-F465WJF33T"></script>
+  <script>
+                        gtag('js', new Date());
+                        gtag('config', 'G-F465WJF33T');
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6525955502269152" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-	<body>
-		
-		<nav class="navbar">
-			<div class="container">
-				<div class="nav-brand">
-					<a href="index.html" class="nav-brand-link">
-						<img src="assets/images/logo.svg" alt="Logo Associazione Santa Barbara APS" class="logo">
-						<span class="brand-text">Associazione Santa Barbara APS</span>
-					</a>
-				</div>
-				<button class="nav-toggle" aria-label="Toggle navigation">
-					<span></span>
-					<span></span>
-					<span></span>
-				</button>
-				<ul class="nav-menu">
-					<li>
-						<a href="index.html" class="nav-link">Home</a>
-					</li>
-					<li>
-						<a href="chi-siamo.html" class="nav-link">Chi siamo</a>
-					</li>
-					<li>
-						<a href="attivita.html" class="nav-link">Attività</a>
-					</li>
-					<li>
-						<a href="eventi.html" class="nav-link">Eventi</a>
-					</li>
-					<li>
-						<a href="galleria.html" class="nav-link active">Galleria</a>
-					</li>
-					<li>
-						<a href="faq.html" class="nav-link">FAQ</a>
-					</li>
-					<li>
-						<a href="contatti.html" class="nav-link">Contatti</a>
-					</li>
-					<li>
-						<a href="partner.html" class="nav-link">Partner</a>
-					</li>
-					<li>
-						<a href="area-soci.html" class="nav-link btn btn-primary">Area Soci</a>
-					</li>
-				</ul>
-			</div>
-		</nav>
-		<div id="user-bar"></div>
-		
-		<section class="page-header">
-			<div class="container">
-				<h1>Galleria Foto e Video</h1>
-				<p>Scopri i momenti più belli delle nostre attività</p>
-			</div>
-		</section>
-	   
-	   <section class="photo-gallery">
-		   <div class="container">
-			   <div class="gallery-header">
-				   <h2 class="section-title">📸 Galleria Foto</h2>
-				   <p class="gallery-subtitle">Esplora i momenti più belli delle nostre attività attraverso immagini che raccontano la nostra storia</p>
-			   </div>
-			   <div class="loading-photos" id="loadingPhotos">
-				   <div class="loading-spinner"></div>
-				   <p>Caricamento foto in corso...</p>
-			   </div>
-			   <div class="swiper photo-swiper" id="photoSwiper" style="display: none;">
-				   <div class="swiper-wrapper" id="photoSwiperWrapper" style="padding-bottom:0; margin-bottom:0;">
-				   </div>
-				   
-				   <div class="swiper-button-next"></div>
-				   <div class="swiper-button-prev"></div>
-				   <div class="swiper-pagination"></div>
-			   </div>
-		   </div>
-	   </section>
-		
-		<section class="video-carousel-3d">
-			<div class="container">
-				<div class="gallery-header">
-					<h2 class="section-title">🎬 Galleria Video</h2>
-					<p class="gallery-subtitle">I momenti più emozionanti delle nostre attività e dei nostri eventi catturati in video</p>
-				</div>				<div class="loading-videos" id="loadingVideos">
-					<div class="loading-spinner"></div>
-					<p>Caricamento video in corso...</p>
-				</div>
-
-				<div class="swiper video-swiper" id="videoSwiper" style="display: none;">
-					<div class="swiper-wrapper" id="videoSwiperWrapper">
-						
-					</div>
-
-					
-					<div class="swiper-button-next"></div>
-					<div class="swiper-button-prev"></div>
-					
-					
-					<div class="swiper-pagination"></div>
-				</div>
-			</div>
-		</section>
-
-	   
-	   <div class="video-overlay" id="videoOverlay">
-		   <div class="video-player">
-			   <button class="close-button" id="closeButton">×</button>
-			   <button class="video-lightbox-nav video-lightbox-prev" aria-label="Precedente">‹</button>
-			   <video id="overlayVideo" controls>
-				   <source src="" type="video/mp4">
-				   Il tuo browser non supporta i video HTML5.
-			   </video>
-			   <button class="video-lightbox-nav video-lightbox-next" aria-label="Successivo">›</button>
-		   </div>
-	   </div>
-	   
-<div class="lightbox" id="photo-lightbox">
-  <button class="photo-lightbox-nav photo-lightbox-prev" aria-label="Precedente">‹</button>
-  <div class="lightbox-content">
-	<button class="lightbox-close" aria-label="Chiudi">&times;</button>
-	<img class="lightbox-image" src="" alt="Foto" />
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-brand">
+        <a href="index.html" class="nav-brand-link"><img src="assets/images/logo.svg" alt="Logo Associazione Santa Barbara APS" class="logo"> <span class="brand-text">Associazione Santa Barbara APS</span></a>
+      </div><button class="nav-toggle" aria-label="Toggle navigation"></button>
+      <ul class="nav-menu">
+        <li>
+          <a href="index.html" class="nav-link">Home</a>
+        </li>
+        <li>
+          <a href="chi-siamo.html" class="nav-link">Chi siamo</a>
+        </li>
+        <li>
+          <a href="attivita.html" class="nav-link">Attività</a>
+        </li>
+        <li>
+          <a href="eventi.html" class="nav-link">Eventi</a>
+        </li>
+        <li>
+          <a href="galleria.html" class="nav-link active">Galleria</a>
+        </li>
+        <li>
+          <a href="faq.html" class="nav-link">FAQ</a>
+        </li>
+        <li>
+          <a href="contatti.html" class="nav-link">Contatti</a>
+        </li>
+        <li>
+          <a href="partner.html" class="nav-link">Partner</a>
+        </li>
+        <li>
+          <a href="area-soci.html" class="nav-link btn btn-primary">Area Soci</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div id="user-bar"></div>
+  <section class="page-header">
+    <div class="container">
+      <h1>Galleria Foto e Video</h1>
+      <p>Scopri i momenti più belli delle nostre attività</p>
+    </div>
+  </section>
+  <section class="photo-gallery">
+    <div class="container">
+      <div class="gallery-header">
+        <h2 class="section-title">📸 Galleria Foto</h2>
+        <p class="gallery-subtitle">Esplora i momenti più belli delle nostre attività attraverso immagini che raccontano la nostra storia</p>
+      </div>
+      <div class="loading-photos" id="loadingPhotos">
+        <div class="loading-spinner"></div>
+        <p>Caricamento foto in corso...</p>
+      </div>
+      <div class="swiper photo-swiper" id="photoSwiper" style="display: none;">
+        <div class="swiper-wrapper" id="photoSwiperWrapper" style="padding-bottom:0; margin-bottom:0;"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </section>
+  <section class="video-carousel-3d">
+    <div class="container">
+      <div class="gallery-header">
+        <h2 class="section-title">🎬 Galleria Video</h2>
+        <p class="gallery-subtitle">I momenti più emozionanti delle nostre attività e dei nostri eventi catturati in video</p>
+      </div>
+      <div class="loading-videos" id="loadingVideos">
+        <div class="loading-spinner"></div>
+        <p>Caricamento video in corso...</p>
+      </div>
+      <div class="swiper video-swiper" id="videoSwiper" style="display: none;">
+        <div class="swiper-wrapper" id="videoSwiperWrapper"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </section>
+  <div class="video-overlay" id="videoOverlay">
+    <div class="video-player">
+      <button class="close-button" id="closeButton">×</button> <button class="video-lightbox-nav video-lightbox-prev" aria-label="Precedente">‹</button> <video id="overlayVideo" controls=""><source src="" type="video/mp4"> Il tuo browser non supporta i video HTML5.</video> <button class="video-lightbox-nav video-lightbox-next" aria-label="Successivo">›</button>
+    </div>
   </div>
-  <button class="photo-lightbox-nav photo-lightbox-next" aria-label="Successivo">›</button>
-</div>
-		
-		<footer class="footer">
-			<div class="container">
-				<div class="footer-content">
-					<div class="footer-section">
-						<img src="assets/images/logo.svg" alt="Logo Associazione Santa Barbara APS" class="footer-logo">
-						<p>Associazione Santa Barbara APS</p>
-						<p>Promuoviamo la cultura e il volontariato nel nostro territorio</p>
-					</div>
-					<div class="footer-section">
-						<h4>Link utili</h4>
-						<ul>
-							<li>
-								<a href="chi-siamo.html">Chi siamo</a>
-							</li>
-							<li>
-								<a href="attivita.html">Attività</a>
-							</li>
-							<li>
-								<a href="eventi.html">Eventi</a>
-							</li>
-							<li>
-								<a href="contatti.html">Contatti</a>
-							</li>
-						</ul>
-					</div>
-					<div class="footer-section">
-						<h4>Informazioni</h4>
-						<ul>
-							<li>
-								<a href="privacy.html">Privacy Policy</a>
-							</li>
-							<li>
-								<a href="faq.html">FAQ</a>
-							</li>
-							<li>
-								<a href="area-soci.html">Area Soci</a>
-							</li>
-						</ul>
-					</div>
-					<div class="footer-section">
-						<h4>Seguici</h4>
-						<div class="social-links">
-							<a href="https://www.facebook.com/santabarbara.grumoappula" class="social-link" aria-label="Facebook">
-								<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-									<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-								</svg>
-							</a>
-							<a href="https://www.instagram.com/corteostoricosantabarbara/" class="social-link" aria-label="Instagram">
-								<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-									<path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-								</svg>
-							</a>
-							<a href="https://t.me/associazionesbarbara" class="social-link" aria-label="Telegram">
-								<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-									<path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
-								</svg>
-							</a>
-						</div>
-					</div>
-				</div>
-				<div class="footer-bottom">
-					<p>&copy; 2008- <span id="current-year"></span> Associazione Santa Barbara APS. Tutti i diritti riservati.<br>
-						<span style="letter-spacing:2px; font-size:0.95em; color:#222;">
-							<a href="privacy.html" style="color:#e67e22; text-decoration:underline;">PRIVACY POLICY</a>
-							<span style="margin:0 10px;">|</span>
-							<a href="#" style="color:#e67e22; text-decoration:underline;" onclick="window.cookieConsent && window.cookieConsent.open(); return false;">GESTISCI COOKIE</a>
-						</span>
-					</p>
-				</div>
-			</div>
-		</footer>
-	   
-	   <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
-	   <script src="assets/js/notifications.js"></script>
-	   <script src="assets/js/script.js"></script>
-	   
-	   
-	   <script>
-		   // Initialize Supabase client
-		   const { createClient } = supabase;
-		   const supabaseClient = createClient('https://ciezrbsolxpjxswdkkpo.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpZXpyYnNvbHhwanhzd2Rra3BvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5MjM1NjAsImV4cCI6MjA2ODQ5OTU2MH0.V-U8KhO8byObUW5kJ8XbLBkp9O9Efh98MdbKYFfbQJk');
+  <div class="lightbox" id="photo-lightbox">
+    <button class="photo-lightbox-nav photo-lightbox-prev" aria-label="Precedente">‹</button>
+    <div class="lightbox-content"><button class="lightbox-close" aria-label="Chiudi">×</button> <img class="lightbox-image" src="" alt="Foto"></div><button class="photo-lightbox-nav photo-lightbox-next" aria-label="Successivo">›</button>
+  </div>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <img src="assets/images/logo.svg" alt="Logo Associazione Santa Barbara APS" class="footer-logo">
+          <p>Associazione Santa Barbara APS</p>
+          <p>Promuoviamo la cultura e il volontariato nel nostro territorio</p>
+        </div>
+        <div class="footer-section">
+          <h4>Link utili</h4>
+          <ul>
+            <li>
+              <a href="chi-siamo.html">Chi siamo</a>
+            </li>
+            <li>
+              <a href="attivita.html">Attività</a>
+            </li>
+            <li>
+              <a href="eventi.html">Eventi</a>
+            </li>
+            <li>
+              <a href="contatti.html">Contatti</a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Informazioni</h4>
+          <ul>
+            <li>
+              <a href="privacy.html">Privacy Policy</a>
+            </li>
+            <li>
+              <a href="faq.html">FAQ</a>
+            </li>
+            <li>
+              <a href="area-soci.html">Area Soci</a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Seguici</h4>
+          <div class="social-links">
+            <a href="https://www.facebook.com/santabarbara.grumoappula" class="social-link" aria-label="Facebook"><svg width="24" height="24" viewbox="0 0 24 24" fill="currentcolor">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg></a> <a href="https://www.instagram.com/corteostoricosantabarbara/" class="social-link" aria-label="Instagram"><svg width="24" height="24" viewbox="0 0 24 24" fill="currentcolor">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg></a> <a href="https://t.me/associazionesbarbara" class="social-link" aria-label="Telegram"><svg width="24" height="24" viewbox="0 0 24 24" fill="currentcolor">
+            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"></path></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2008- <span id="current-year"></span> Associazione Santa Barbara APS. Tutti i diritti riservati.<br>
+        <span style="letter-spacing:2px; font-size:0.95em; color:#222;"><a href="privacy.html" style="color:#e67e22; text-decoration:underline;">PRIVACY POLICY</a> <span style="margin:0 10px;">|</span> <a href="#" style="color:#e67e22; text-decoration:underline;" onclick="window.cookieConsent &amp;&amp; window.cookieConsent.open(); return false;">GESTISCI COOKIE</a></span></p>
+      </div>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script> 
+  <script src="assets/js/notifications.js"></script> 
+  <script src="assets/js/script.js"></script> 
+  <script>
+
+                   // Initialize Supabase client
+                   const { createClient } = supabase;
+                   const supabaseClient = createClient('https://ciezrbsolxpjxswdkkpo.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpZXpyYnNvbHhwanhzd2Rra3BvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5MjM1NjAsImV4cCI6MjA2ODQ5OTU2MH0.V-U8KhO8byObUW5kJ8XbLBkp9O9Efh98MdbKYFfbQJk');
 
 
-		   // Carica i video da archive.org
-		   function loadVideosFromArchive() {
-			   const loadingElement = document.getElementById('loadingVideos');
-			   const videoSwiper = document.getElementById('videoSwiper');
-			   const swiperWrapper = document.getElementById('videoSwiperWrapper');
-			   const videoFiles = Array.from({length: 18}, (_, i) => `${i+1}.mp4`);
-			   // Clear existing content and hide loading
-			   swiperWrapper.innerHTML = '';
-			   loadingElement.style.display = 'none';
-			   videoSwiper.style.display = 'block';
-			   let videoCount = 0;
-			   for (let i = 0; i < videoFiles.length; i++) {
-				   const file = videoFiles[i];
-				   const videoSrc = `https://archive.org/download/17_20250722/${file}`;
-				   const videoBaseName = file.replace(/\.[^/.]+$/, "");
-				   const thumbExtensions = ['.png','.jpg','.jpeg','.webp'];
-				   let thumbnailUrl = null;
-				   for (const ext of thumbExtensions) {
-					   const thumbPath = `video/thumbnail/${videoBaseName}${ext}`;
-					   thumbnailUrl = thumbPath;
-					   break;
-				   }
-				   videoCount++;
-				   const slide = document.createElement('div');
-				   slide.className = 'swiper-slide video-slide';
-				   slide.setAttribute('data-video', videoSrc);
-				   const videoTitle = videoBaseName.replace(/[_-]/g, ' ');
-				   slide.innerHTML = `
-					   <div class="video-thumbnail">
-						   <img src="${thumbnailUrl}" alt="${videoTitle}" loading="lazy" onerror="this.style.display='none'">
-						   <div class="play-button"></div>
-					   </div>
-				   `;
-				   swiperWrapper.appendChild(slide);
-			   }
-			   if (videoCount === 0) {
-				   loadingElement.innerHTML = '<p>Nessun video valido trovato su archive.org</p>';
-				   return;
-			   }
-			   initializeVideoSwiper();
-		   }
+                   // Carica i video da archive.org
+                   function loadVideosFromArchive() {
+                           const loadingElement = document.getElementById('loadingVideos');
+                           const videoSwiper = document.getElementById('videoSwiper');
+                           const swiperWrapper = document.getElementById('videoSwiperWrapper');
+                           const videoFiles = Array.from({length: 18}, (_, i) => `${i+1}.mp4`);
+                           // Clear existing content and hide loading
+                           swiperWrapper.innerHTML = '';
+                           loadingElement.style.display = 'none';
+                           videoSwiper.style.display = 'block';
+                           let videoCount = 0;
+                           for (let i = 0; i < videoFiles.length; i++) {
+                                   const file = videoFiles[i];
+                                   const videoSrc = `https://archive.org/download/17_20250722/${file}`;
+                                   const videoBaseName = file.replace(/\.[^/.]+$/, "");
+                                   const thumbExtensions = ['.png','.jpg','.jpeg','.webp'];
+                                   let thumbnailUrl = null;
+                                   for (const ext of thumbExtensions) {
+                                           const thumbPath = `video/thumbnail/${videoBaseName}${ext}`;
+                                           thumbnailUrl = thumbPath;
+                                           break;
+                                   }
+                                   videoCount++;
+                                   const slide = document.createElement('div');
+                                   slide.className = 'swiper-slide video-slide';
+                                   slide.setAttribute('data-video', videoSrc);
+                                   const videoTitle = videoBaseName.replace(/[_-]/g, ' ');
+                                   slide.innerHTML = `
+                                           <div class="video-thumbnail">
+                                                   <img src="${thumbnailUrl}" alt="${videoTitle}" loading="lazy" onerror="this.style.display='none'">
+                                                   <div class="play-button"></div>
+                                           </div>
+                                   `;
+                                   swiperWrapper.appendChild(slide);
+                           }
+                           if (videoCount === 0) {
+                                   loadingElement.innerHTML = '<p>Nessun video valido trovato su archive.org</p>';
+                                   return;
+                           }
+                           initializeVideoSwiper();
+                   }
 
-		   // Initialize Video Swiper
-		   function initializeVideoSwiper() {
-			   const videoSlides = document.querySelectorAll('.video-slide').length;
-			   const swiper = new Swiper('.video-swiper', {
-				   effect: 'coverflow',
-				   grabCursor: true,
-				   centeredSlides: true,
-				   slidesPerView: 3,
-				   spaceBetween: 30,
-				   loop: videoSlides >= 6, // Only enable loop if we have enough slides
-				   speed: 600,
-				   coverflowEffect: {
-					   rotate: 30,
-					   stretch: 0,
-					   depth: 200,
-					   modifier: 1,
-					   slideShadows: true,
-				   },
-				   navigation: {
-					   nextEl: '.video-swiper .swiper-button-next',
-					   prevEl: '.video-swiper .swiper-button-prev',
-				   },
-				   pagination: {
-					   el: '.video-swiper .swiper-pagination',
-					   clickable: true,
-				   },
-				   breakpoints: {
-					   0: { slidesPerView: 1 },
-					   768: { slidesPerView: 2 },
-					   1200: { slidesPerView: 3 }
-				   }
-			   });
+                   // Initialize Video Swiper
+                   function initializeVideoSwiper() {
+                           const videoSlides = document.querySelectorAll('.video-slide').length;
+                           const swiper = new Swiper('.video-swiper', {
+                                   effect: 'coverflow',
+                                   grabCursor: true,
+                                   centeredSlides: true,
+                                   slidesPerView: 3,
+                                   spaceBetween: 30,
+                                   loop: videoSlides >= 6, // Only enable loop if we have enough slides
+                                   speed: 600,
+                                   coverflowEffect: {
+                                           rotate: 30,
+                                           stretch: 0,
+                                           depth: 200,
+                                           modifier: 1,
+                                           slideShadows: true,
+                                   },
+                                   navigation: {
+                                           nextEl: '.video-swiper .swiper-button-next',
+                                           prevEl: '.video-swiper .swiper-button-prev',
+                                   },
+                                   pagination: {
+                                           el: '.video-swiper .swiper-pagination',
+                                           clickable: true,
+                                   },
+                                   breakpoints: {
+                                           0: { slidesPerView: 1 },
+                                           768: { slidesPerView: 2 },
+                                           1200: { slidesPerView: 3 }
+                                   }
+                           });
 
-			   // Initialize video lightbox after swiper is ready
-			   initializeVideoLightbox();
-		   }
+                           // Initialize video lightbox after swiper is ready
+                           initializeVideoLightbox();
+                   }
 
-		   // Initialize Video Lightbox
-		   function initializeVideoLightbox() {
-			   const videoOverlay = document.getElementById('videoOverlay');
-			   const overlayVideo = document.getElementById('overlayVideo');
-			   const closeButton = document.getElementById('closeButton');
-			   const slides = document.querySelectorAll('.video-slide');
-			   let currentVideoIndex = 0;
-			   const videoList = Array.from(slides).map(slide => slide.getAttribute('data-video'));
-
-
-			   // Apertura video overlay
-			   slides.forEach((slide, idx) => {
-				   slide.addEventListener('click', (e) => {
-					   const videoSrc = slide.getAttribute('data-video');
-					   if (videoSrc) {
-						   currentVideoIndex = idx;
-						   overlayVideo.src = videoSrc;
-						   videoOverlay.classList.add('active');
-						   document.body.style.overflow = 'hidden';
-						   
-						   // Auto-play del video
-						   setTimeout(() => {
-							   overlayVideo.play().catch(e => {
-							   });
-						   }, 300);
-					   }
-				   });
-			   });
-
-			   // Navigazione prev/next nella video lightbox
-			   const prevBtn = document.querySelector('.video-lightbox-prev');
-			   const nextBtn = document.querySelector('.video-lightbox-next');
-			   
-			   function showVideo(idx) {
-				   if (idx < 0) idx = videoList.length - 1;
-				   if (idx >= videoList.length) idx = 0;
-				   currentVideoIndex = idx;
-				   overlayVideo.src = videoList[currentVideoIndex];
-				   overlayVideo.currentTime = 0;
-				   overlayVideo.play().catch(e => {});
-			   }
-
-			   if (prevBtn && nextBtn) {
-				   prevBtn.addEventListener('click', function(e) {
-					   e.stopPropagation();
-					   showVideo(currentVideoIndex - 1);
-				   });
-				   nextBtn.addEventListener('click', function(e) {
-					   e.stopPropagation();
-					   showVideo(currentVideoIndex + 1);
-				   });
-			   }
-
-			   // Navigazione con frecce tastiera
-			   document.addEventListener('keydown', function(e) {
-				   if (!videoOverlay.classList.contains('active')) return;
-				   if (e.key === 'ArrowLeft') {
-					   showVideo(currentVideoIndex - 1);
-				   } else if (e.key === 'ArrowRight') {
-					   showVideo(currentVideoIndex + 1);
-				   } else if (e.key === 'Escape') {
-					   closeVideoOverlay();
-				   }
-			   });
-
-			   // Chiusura video overlay
-			   function closeVideoOverlay() {
-				   videoOverlay.classList.remove('active');
-				   overlayVideo.pause();
-				   overlayVideo.src = '';
-				   document.body.style.overflow = 'auto';
-			   }
-
-			   // Event listeners per chiusura
-			   if (closeButton) {
-				   closeButton.addEventListener('click', closeVideoOverlay);
-			   }
-
-			   if (videoOverlay) {
-				   videoOverlay.addEventListener('click', function(e) {
-					   if (e.target === videoOverlay) {
-						   closeVideoOverlay();
-					   }
-				   });
-			   }
-		   }
-		   async function loadPhotosFromSupabase() {
-			   try {
-				   const loadingElement = document.getElementById('loadingPhotos');
-				   const photoSwiper = document.getElementById('photoSwiper');
-				   const swiperWrapper = document.getElementById('photoSwiperWrapper');
-				   
-				   // Get list of files from the 'gallery' bucket
-				   const { data: files, error } = await supabaseClient.storage
-					   .from('gallery')
-					   .list('foto', {
-						   limit: 100,
-						   offset: 0,
-						   sortBy: { column: 'name', order: 'asc' }
-					   });
-
-				   if (error) {
-					   console.error('Errore caricamento foto:', error);
-					   loadingElement.innerHTML = `<p>Errore nel caricamento delle foto: ${error.message}</p>`;
-					   return;
-				   }
-
-				   if (!files || files.length === 0) {
-					   loadingElement.innerHTML = '<p>Nessuna foto trovata nella cartella foto/</p>';
-					   
-					   // Prova a cercare nella root del bucket
-					   const { data: rootFiles, error: rootError } = await supabaseClient.storage
-						   .from('gallery')
-						   .list('', {
-							   limit: 100,
-							   offset: 0
-						   });
-					   
-					   if (rootFiles && rootFiles.length > 0) {
-						   loadingElement.innerHTML = `<p>Trovati ${rootFiles.length} file nella root del bucket. Controlla la struttura delle cartelle.</p>`;
-					   }
-					   return;
-				   }
-
-				   // Clear existing content and hide loading
-				   swiperWrapper.innerHTML = '';
-				   loadingElement.style.display = 'none';
-				   photoSwiper.style.display = 'block';
-
-				   // Create slides for each photo
-				   let photoCount = 0;
-				   for (let i = 0; i < files.length; i++) {
-					   const file = files[i];
-					   
-					   // Filter only image files
-					   const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
-					   const isImage = imageExtensions.some(ext => 
-						   file.name.toLowerCase().endsWith(ext)
-					   );
-					   
-					   if (!isImage) continue;
-					   
-					   // Get public URL for the image
-					   const { data } = supabaseClient.storage
-						   .from('gallery')
-						   .getPublicUrl(`foto/${file.name}`);
-					   
-					   if (data && data.publicUrl) {
-						   photoCount++;
-						   const slide = document.createElement('div');
-						   slide.className = 'swiper-slide photo-slide';
-						   slide.setAttribute('data-image', data.publicUrl);
-						   
-						   // Extract name without extension for alt text
-						   const altText = file.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g, ' ');
-						   
-						   slide.innerHTML = `
-							   <div class="photo-thumbnail">
-								   <img src="${data.publicUrl}" alt="${altText}" loading="lazy" onerror="this.parentElement.parentElement.style.display='none'">
-							   </div>
-						   `;
-						   
-						   swiperWrapper.appendChild(slide);
-					   }
-				   }
-
-				   if (photoCount === 0) {
-					   loadingElement.innerHTML = '<p>Nessuna foto valida trovata nella cartella</p>';
-					   return;
-				   }
+                   // Initialize Video Lightbox
+                   function initializeVideoLightbox() {
+                           const videoOverlay = document.getElementById('videoOverlay');
+                           const overlayVideo = document.getElementById('overlayVideo');
+                           const closeButton = document.getElementById('closeButton');
+                           const slides = document.querySelectorAll('.video-slide');
+                           let currentVideoIndex = 0;
+                           const videoList = Array.from(slides).map(slide => slide.getAttribute('data-video'));
 
 
-				   // Initialize Swiper after photos are loaded
-				   initializePhotoSwiper();
-				   
-				   // Initialize lightbox functionality
-				   initializePhotoLightbox();
+                           // Apertura video overlay
+                           slides.forEach((slide, idx) => {
+                                   slide.addEventListener('click', (e) => {
+                                           const videoSrc = slide.getAttribute('data-video');
+                                           if (videoSrc) {
+                                                   currentVideoIndex = idx;
+                                                   overlayVideo.src = videoSrc;
+                                                   videoOverlay.classList.add('active');
+                                                   document.body.style.overflow = 'hidden';
+                                                   
+                                                   // Auto-play del video
+                                                   setTimeout(() => {
+                                                           overlayVideo.play().catch(e => {
+                                                           });
+                                                   }, 300);
+                                           }
+                                   });
+                           });
 
-			   } catch (error) {
-				   console.error('Errore generale:', error);
-				   document.getElementById('loadingPhotos').innerHTML = '<p>Errore nel caricamento delle foto</p>';
-			   }
-		   }
+                           // Navigazione prev/next nella video lightbox
+                           const prevBtn = document.querySelector('.video-lightbox-prev');
+                           const nextBtn = document.querySelector('.video-lightbox-next');
+                           
+                           function showVideo(idx) {
+                                   if (idx < 0) idx = videoList.length - 1;
+                                   if (idx >= videoList.length) idx = 0;
+                                   currentVideoIndex = idx;
+                                   overlayVideo.src = videoList[currentVideoIndex];
+                                   overlayVideo.currentTime = 0;
+                                   overlayVideo.play().catch(e => {});
+                           }
 
-		   // Initialize Photo Swiper
-		   function initializePhotoSwiper() {
-			   const photoSlides = document.querySelectorAll('.photo-slide').length;
-			   new Swiper('.photo-swiper', {
-				   effect: 'coverflow',
-				   grabCursor: true,
-				   centeredSlides: true,
-				   slidesPerView: 3,
-				   spaceBetween: 30,
-				   loop: photoSlides >= 6, // Only enable loop if we have enough slides
-				   speed: 600,
-				   coverflowEffect: {
-					   rotate: 30,
-					   stretch: 0,
-					   depth: 200,
-					   modifier: 1,
-					   slideShadows: true,
-				   },
-				   navigation: {
-					   nextEl: '.photo-swiper .swiper-button-next',
-					   prevEl: '.photo-swiper .swiper-button-prev',
-				   },
-				   pagination: {
-					   el: '.photo-swiper .swiper-pagination',
-					   clickable: true,
-				   },
-				   breakpoints: {
-					   0: { slidesPerView: 1 },
-					   768: { slidesPerView: 2 },
-					   1200: { slidesPerView: 3 }
-				   }
-			   });
-		   }
+                           if (prevBtn && nextBtn) {
+                                   prevBtn.addEventListener('click', function(e) {
+                                           e.stopPropagation();
+                                           showVideo(currentVideoIndex - 1);
+                                   });
+                                   nextBtn.addEventListener('click', function(e) {
+                                           e.stopPropagation();
+                                           showVideo(currentVideoIndex + 1);
+                                   });
+                           }
 
-		   // Initialize Photo Lightbox
-		   function initializePhotoLightbox() {
+                           // Navigazione con frecce tastiera
+                           document.addEventListener('keydown', function(e) {
+                                   if (!videoOverlay.classList.contains('active')) return;
+                                   if (e.key === 'ArrowLeft') {
+                                           showVideo(currentVideoIndex - 1);
+                                   } else if (e.key === 'ArrowRight') {
+                                           showVideo(currentVideoIndex + 1);
+                                   } else if (e.key === 'Escape') {
+                                           closeVideoOverlay();
+                                   }
+                           });
+
+                           // Chiusura video overlay
+                           function closeVideoOverlay() {
+                                   videoOverlay.classList.remove('active');
+                                   overlayVideo.pause();
+                                   overlayVideo.src = '';
+                                   document.body.style.overflow = 'auto';
+                           }
+
+                           // Event listeners per chiusura
+                           if (closeButton) {
+                                   closeButton.addEventListener('click', closeVideoOverlay);
+                           }
+
+                           if (videoOverlay) {
+                                   videoOverlay.addEventListener('click', function(e) {
+                                           if (e.target === videoOverlay) {
+                                                   closeVideoOverlay();
+                                           }
+                                   });
+                           }
+                   }
+                   async function loadPhotosFromSupabase() {
+                           try {
+                                   const loadingElement = document.getElementById('loadingPhotos');
+                                   const photoSwiper = document.getElementById('photoSwiper');
+                                   const swiperWrapper = document.getElementById('photoSwiperWrapper');
+                                   
+                                   // Get list of files from the 'gallery' bucket
+                                   const { data: files, error } = await supabaseClient.storage
+                                           .from('gallery')
+                                           .list('foto', {
+                                                   limit: 100,
+                                                   offset: 0,
+                                                   sortBy: { column: 'name', order: 'asc' }
+                                           });
+
+                                   if (error) {
+                                           console.error('Errore caricamento foto:', error);
+                                           loadingElement.innerHTML = `<p>Errore nel caricamento delle foto: ${error.message}</p>`;
+                                           return;
+                                   }
+
+                                   if (!files || files.length === 0) {
+                                           loadingElement.innerHTML = '<p>Nessuna foto trovata nella cartella foto/</p>';
+                                           
+                                           // Prova a cercare nella root del bucket
+                                           const { data: rootFiles, error: rootError } = await supabaseClient.storage
+                                                   .from('gallery')
+                                                   .list('', {
+                                                           limit: 100,
+                                                           offset: 0
+                                                   });
+                                           
+                                           if (rootFiles && rootFiles.length > 0) {
+                                                   loadingElement.innerHTML = `<p>Trovati ${rootFiles.length} file nella root del bucket. Controlla la struttura delle cartelle.</p>`;
+                                           }
+                                           return;
+                                   }
+
+                                   // Clear existing content and hide loading
+                                   swiperWrapper.innerHTML = '';
+                                   loadingElement.style.display = 'none';
+                                   photoSwiper.style.display = 'block';
+
+                                   // Create slides for each photo
+                                   let photoCount = 0;
+                                   for (let i = 0; i < files.length; i++) {
+                                           const file = files[i];
+                                           
+                                           // Filter only image files
+                                           const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+                                           const isImage = imageExtensions.some(ext => 
+                                                   file.name.toLowerCase().endsWith(ext)
+                                           );
+                                           
+                                           if (!isImage) continue;
+                                           
+                                           // Get public URL for the image
+                                           const { data } = supabaseClient.storage
+                                                   .from('gallery')
+                                                   .getPublicUrl(`foto/${file.name}`);
+                                           
+                                           if (data && data.publicUrl) {
+                                                   photoCount++;
+                                                   const slide = document.createElement('div');
+                                                   slide.className = 'swiper-slide photo-slide';
+                                                   slide.setAttribute('data-image', data.publicUrl);
+                                                   
+                                                   // Extract name without extension for alt text
+                                                   const altText = file.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g, ' ');
+                                                   
+                                                   slide.innerHTML = `
+                                                           <div class="photo-thumbnail">
+                                                                   <img src="${data.publicUrl}" alt="${altText}" loading="lazy" onerror="this.parentElement.parentElement.style.display='none'">
+                                                           </div>
+                                                   `;
+                                                   
+                                                   swiperWrapper.appendChild(slide);
+                                           }
+                                   }
+
+                                   if (photoCount === 0) {
+                                           loadingElement.innerHTML = '<p>Nessuna foto valida trovata nella cartella</p>';
+                                           return;
+                                   }
+
+
+                                   // Initialize Swiper after photos are loaded
+                                   initializePhotoSwiper();
+                                   
+                                   // Initialize lightbox functionality
+                                   initializePhotoLightbox();
+
+                           } catch (error) {
+                                   console.error('Errore generale:', error);
+                                   document.getElementById('loadingPhotos').innerHTML = '<p>Errore nel caricamento delle foto</p>';
+                           }
+                   }
+
+                   // Initialize Photo Swiper
+                   function initializePhotoSwiper() {
+                           const photoSlides = document.querySelectorAll('.photo-slide').length;
+                           new Swiper('.photo-swiper', {
+                                   effect: 'coverflow',
+                                   grabCursor: true,
+                                   centeredSlides: true,
+                                   slidesPerView: 3,
+                                   spaceBetween: 30,
+                                   loop: photoSlides >= 6, // Only enable loop if we have enough slides
+                                   speed: 600,
+                                   coverflowEffect: {
+                                           rotate: 30,
+                                           stretch: 0,
+                                           depth: 200,
+                                           modifier: 1,
+                                           slideShadows: true,
+                                   },
+                                   navigation: {
+                                           nextEl: '.photo-swiper .swiper-button-next',
+                                           prevEl: '.photo-swiper .swiper-button-prev',
+                                   },
+                                   pagination: {
+                                           el: '.photo-swiper .swiper-pagination',
+                                           clickable: true,
+                                   },
+                                   breakpoints: {
+                                           0: { slidesPerView: 1 },
+                                           768: { slidesPerView: 2 },
+                                           1200: { slidesPerView: 3 }
+                                   }
+                           });
+                   }
+
+                   // Initialize Photo Lightbox
+                   function initializePhotoLightbox() {
    const slides = document.querySelectorAll('.photo-slide');
    let current = 0;
    let images = Array.from(slides).map(slide => slide.getAttribute('data-image'));
@@ -744,54 +686,54 @@
    let touchStartY = null;
 
    function show(idx) {
-	   if (!images[idx]) return;
-	   current = idx;
-	   lightboxImage.src = images[idx];
-	   lightbox.classList.add('active');
-	   document.body.style.overflow = 'hidden';
-	   // Blocca scroll su iOS
-	   document.body.addEventListener('touchmove', preventScroll, { passive: false });
-	   // Focus sulla X
-	   setTimeout(() => closeBtn.focus(), 50);
-	   // Precarica immagini vicine
-	   preloadImage((current + 1) % images.length);
-	   preloadImage((current - 1 + images.length) % images.length);
+           if (!images[idx]) return;
+           current = idx;
+           lightboxImage.src = images[idx];
+           lightbox.classList.add('active');
+           document.body.style.overflow = 'hidden';
+           // Blocca scroll su iOS
+           document.body.addEventListener('touchmove', preventScroll, { passive: false });
+           // Focus sulla X
+           setTimeout(() => closeBtn.focus(), 50);
+           // Precarica immagini vicine
+           preloadImage((current + 1) % images.length);
+           preloadImage((current - 1 + images.length) % images.length);
    }
 
    function hide() {
-	   lightbox.classList.remove('active');
-	   document.body.style.overflow = '';
-	   lightboxImage.src = '';
-	   document.body.removeEventListener('touchmove', preventScroll);
+           lightbox.classList.remove('active');
+           document.body.style.overflow = '';
+           lightboxImage.src = '';
+           document.body.removeEventListener('touchmove', preventScroll);
    }
 
    function next() {
-	   current = (current + 1) % images.length;
-	   show(current);
+           current = (current + 1) % images.length;
+           show(current);
    }
 
    function prev() {
-	   current = (current - 1 + images.length) % images.length;
-	   show(current);
+           current = (current - 1 + images.length) % images.length;
+           show(current);
    }
 
    function preventScroll(e) {
-	   e.preventDefault();
+           e.preventDefault();
    }
 
    function preloadImage(idx) {
-	   const url = images[idx];
-	   if (!url) return;
-	   const img = new window.Image();
-	   img.src = url;
+           const url = images[idx];
+           if (!url) return;
+           const img = new window.Image();
+           img.src = url;
    }
 
    // Event listeners
    slides.forEach((slide, idx) => {
-	   slide.addEventListener('click', (e) => {
-		   e.preventDefault();
-		   show(idx);
-	   });
+           slide.addEventListener('click', (e) => {
+                   e.preventDefault();
+                   show(idx);
+           });
    });
 
    closeBtn.addEventListener('click', hide);
@@ -800,77 +742,76 @@
 
    // Navigazione con click su bordo destro/sinistro dell'immagine
    lightboxImage.addEventListener('click', (e) => {
-	   const rect = lightboxImage.getBoundingClientRect();
-	   const x = e.clientX - rect.left;
-	   if (x < rect.width * 0.3) prev();
-	   else if (x > rect.width * 0.7) next();
+           const rect = lightboxImage.getBoundingClientRect();
+           const x = e.clientX - rect.left;
+           if (x < rect.width * 0.3) prev();
+           else if (x > rect.width * 0.7) next();
    });
 
    // Keyboard navigation
    document.addEventListener('keydown', (e) => {
-	   if (!lightbox.classList.contains('active')) return;
-	   if (e.key === 'Escape') hide();
-	   if (e.key === 'ArrowRight') next();
-	   if (e.key === 'ArrowLeft') prev();
+           if (!lightbox.classList.contains('active')) return;
+           if (e.key === 'Escape') hide();
+           if (e.key === 'ArrowRight') next();
+           if (e.key === 'ArrowLeft') prev();
    });
 
    // Click outside per chiudere
    lightbox.addEventListener('click', (e) => {
-	   if (e.target === lightbox) hide();
+           if (e.target === lightbox) hide();
    });
 
    // Swipe verso il basso su mobile per chiudere
    lightboxImage.addEventListener('touchstart', (e) => {
-	   if (e.touches.length === 1) touchStartY = e.touches[0].clientY;
+           if (e.touches.length === 1) touchStartY = e.touches[0].clientY;
    });
    lightboxImage.addEventListener('touchmove', (e) => {
-	   if (touchStartY !== null && e.touches.length === 1) {
-		   const deltaY = e.touches[0].clientY - touchStartY;
-		   if (deltaY > 60) {
-			   hide();
-			   touchStartY = null;
-		   }
-	   }
+           if (touchStartY !== null && e.touches.length === 1) {
+                   const deltaY = e.touches[0].clientY - touchStartY;
+                   if (deltaY > 60) {
+                           hide();
+                           touchStartY = null;
+                   }
+           }
    });
    lightboxImage.addEventListener('touchend', () => { touchStartY = null; });
-}
+  }
 
-		   // Load photos and videos when page loads
-		   document.addEventListener('DOMContentLoaded', () => {
-			   setTimeout(() => {
-				   loadPhotosFromSupabase();
-				   loadVideosFromArchive();
-			   }, 1000);
-		   });
+                   // Load photos and videos when page loads
+                   document.addEventListener('DOMContentLoaded', () => {
+                           setTimeout(() => {
+                                   loadPhotosFromSupabase();
+                                   loadVideosFromArchive();
+                           }, 1000);
+                   });
 
-		   // Precarica i video dello slider dopo il caricamento
-		   function preloadSliderVideos() {
-			   // Attendi che le slide siano pronte
-			   setTimeout(() => {
-				   const slides = document.querySelectorAll('.video-slide');
-				   slides.forEach(slide => {
-					   const videoUrl = slide.getAttribute('data-video');
-					   if (videoUrl) {
-						   // Precarica il video in background (senza inserirlo nel DOM)
-						   fetch(videoUrl, { method: 'GET', mode: 'no-cors' })
-							   .then(() => {
-								   // Precaricato OK (nessuna azione visibile)
-							   })
-							   .catch(() => {
-								   // Ignora errori di CORS o fetch
-							   });
-					   }
-				   });
-			   }, 2500); // Attendi che lo slider sia popolato
-		   }
+                   // Precarica i video dello slider dopo il caricamento
+                   function preloadSliderVideos() {
+                           // Attendi che le slide siano pronte
+                           setTimeout(() => {
+                                   const slides = document.querySelectorAll('.video-slide');
+                                   slides.forEach(slide => {
+                                           const videoUrl = slide.getAttribute('data-video');
+                                           if (videoUrl) {
+                                                   // Precarica il video in background (senza inserirlo nel DOM)
+                                                   fetch(videoUrl, { method: 'GET', mode: 'no-cors' })
+                                                           .then(() => {
+                                                                   // Precaricato OK (nessuna azione visibile)
+                                                           })
+                                                           .catch(() => {
+                                                                   // Ignora errori di CORS o fetch
+                                                           });
+                                           }
+                                   });
+                           }, 2500); // Attendi che lo slider sia popolato
+                   }
 
-		   // Avvia il pre-caricamento dopo il caricamento dei video (ritardato per performance)
-		   document.addEventListener('DOMContentLoaded', () => {
-			   setTimeout(preloadSliderVideos, 5000);
-		   });
-	   </script>
-		
-		<script src="assets/js/adblock-detector-v2.js"></script>
-		<script src="assets/js/adblock-integration-v2.js"></script>
-	</body>
+                   // Avvia il pre-caricamento dopo il caricamento dei video (ritardato per performance)
+                   document.addEventListener('DOMContentLoaded', () => {
+                           setTimeout(preloadSliderVideos, 5000);
+                   });
+  </script> 
+  <script src="assets/js/adblock-detector-v2.js"></script> 
+  <script src="assets/js/adblock-integration-v2.js"></script>
+</body>
 </html>
