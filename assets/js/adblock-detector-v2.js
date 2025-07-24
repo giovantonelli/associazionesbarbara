@@ -72,15 +72,7 @@ class AdBlockDetectorV2 {
         this.detectedType = 'none';
         
         // Debug logger con gestione errori console
-        this.log = this.config.debugMode ? 
-            (msg, ...args) => {
-                try {
-                    console.log(`[AdBlock v2.0] ${msg}`, ...args);
-                } catch (e) {
-                    // Fallback silenzioso se console non disponibile
-                }
-            } : 
-            () => {};
+        this.log = () => {}; // Debug logging disabled in production
         
         // Auto-inizializzazione
         this.init();

@@ -74,16 +74,6 @@
       <p>Accesso riservato ai soci dell'associazione</p>
     </div>
   </section>
-  <div id="loading-screen" class="loading-screen">
-    <div class="loading-content">
-      <div class="loading-spinner"></div>
-      <h3>Caricamento in corso</h3>
-      <p>Attendere prego</p>
-    </div>
-  </div>
-  <div id="login-prompt" style="display: none; padding: 60px 0; text-align: center;">
-    <div class="container"></div>
-  </div>
   <div id="cookieBanner" class="cookie-banner">
     <div class="cookie-content">
       <p>Questo sito utilizza cookie per migliorare l'esperienza di navigazione. Continuando a navigare accetti l'uso dei cookie.</p>
@@ -160,14 +150,15 @@
       <div id="password-change-form" class="content-section" style="display: none; margin-top: 20px;">
         <h3>🔑 Cambia Password</h3>
         <form id="update-password-form" name="update-password-form">
+          <input type="text" id="username-for-password" name="username" autocomplete="username" value="" style="display:none;">
           <div class="form-group">
-            <label for="current-password">Password Attuale *</label> <input type="password" id="current-password" name="currentPassword" required="">
+            <label for="current-password">Password Attuale *</label> <input type="password" id="current-password" name="currentPassword" required="" autocomplete="current-password">
           </div>
           <div class="form-group">
-            <label for="new-password">Nuova Password *</label> <input type="password" id="new-password" name="newPassword" required="" minlength="6">
+            <label for="new-password">Nuova Password *</label> <input type="password" id="new-password" name="newPassword" required="" minlength="8" autocomplete="new-password">
           </div>
           <div class="form-group">
-            <label for="confirm-password">Conferma Nuova Password *</label> <input type="password" id="confirm-password" name="confirmPassword" required="" minlength="6">
+            <label for="confirm-password">Conferma Nuova Password *</label> <input type="password" id="confirm-password" name="confirmPassword" required="" minlength="8" autocomplete="new-password">
           </div>
           <div class="form-actions">
             <button type="submit" class="btn btn-primary">🔑 Cambia Password</button> <button type="button" id="cancel-password-btn" class="btn btn-secondary">❌ Annulla</button>
@@ -190,6 +181,120 @@
             <button type="submit" class="btn btn-primary">✉️ Cambia Email</button> <button type="button" id="cancel-email-btn" class="btn btn-secondary">❌ Annulla</button>
           </div>
         </form>
+      </div>
+      
+      <!-- Eventi Management Section -->
+      <div class="content-section" style="margin-top: 30px;">
+        <h3>📅 Gestione Eventi</h3>
+        <p>Crea, modifica o elimina eventi dell'associazione</p>
+        
+        <div class="events-management">
+          <div class="management-tabs">
+            <button id="show-events-list" class="btn btn-primary active-tab">📋 Lista Eventi</button>
+            <button id="show-create-event" class="btn btn-outline">➕ Nuovo Evento</button>
+          </div>
+          
+          <!-- Lista Eventi -->
+          <div id="events-list-section" class="management-section" style="margin-top: 20px;">
+            <div id="events-table-container">
+              <div class="table-responsive">
+                <table id="admin-events-table" class="admin-table" style="width: 100%; border-collapse: collapse; background: white; table-layout: auto;">
+                  <thead>
+                    <tr style="background: #f8f9fa;">
+                      <th style="padding: 12px; border: 1px solid #ddd; width: auto; min-width: 200px;">Titolo</th>
+                      <th style="padding: 12px; border: 1px solid #ddd; width: auto; min-width: 100px; white-space: nowrap; text-align: center;">Data</th>
+                      <th style="padding: 12px; border: 1px solid #ddd; width: auto; min-width: 120px; text-align: center;">Luogo</th>
+                      <th style="padding: 12px; border: 1px solid #ddd; width: auto; min-width: 80px; text-align: center;">Pubblico</th>
+                      <th style="padding: 12px; border: 1px solid #ddd; width: auto; min-width: 150px; text-align: center;">Azioni</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-events-tbody" style="border: 1px solid #ddd;">
+                    <!-- Eventi caricati dinamicamente -->
+                  </tbody>
+                </table>
+              </div>
+              <div id="no-events-message" style="display: none; text-align: center; padding: 20px; color: #666;">
+                Nessun evento trovato.
+              </div>
+            </div>
+          </div>
+          
+          <!-- Form Creazione/Modifica Evento -->
+          <div id="event-form-section" class="management-section" style="display: none; margin-top: 20px;">
+            <div class="form-container">
+              <h4 id="event-form-title">➕ Nuovo Evento</h4>
+              <form id="event-management-form" name="event-management-form">
+                <input type="hidden" id="event-id" name="eventId">
+                
+                <div class="form-grid" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+                  <div class="form-group">
+                    <label for="event-title">Titolo Evento *</label>
+                    <input type="text" id="event-title" name="title" required maxlength="255" class="form-input">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="event-date">Data Evento *</label>
+                    <input type="date" id="event-date" name="event_date" required class="form-input">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="event-time">Orario</label>
+                    <input type="text" id="event-time" name="event_time" placeholder="es. 18:00" class="form-input">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="event-location">Luogo</label>
+                    <input type="text" id="event-location" name="location" maxlength="255" class="form-input">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="event-address">Indirizzo</label>
+                    <input type="text" id="event-address" name="address" maxlength="500" class="form-input">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="event-image-url">URL Immagine</label>
+                    <input type="url" id="event-image-url" name="image_url" class="form-input" placeholder="https://...">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="event-created-by">Creato da</label>
+                    <select id="event-created-by" name="created_by" class="form-input">
+                      <option value="">Seleziona utente...</option>
+                      <!-- Opzioni caricate dinamicamente -->
+                    </select>
+                  </div>
+                </div>
+                
+                <div class="form-group" style="margin-top: 15px;">
+                  <label for="event-description">Descrizione Breve</label>
+                  <textarea id="event-description" name="description" rows="3" maxlength="500" class="form-input" placeholder="Descrizione breve dell'evento..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                  <label for="event-content">Contenuto Completo</label>
+                  <textarea id="event-content" name="content" rows="6" class="form-input" placeholder="Contenuto dettagliato dell'evento (supporta HTML)..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                  <div class="checkbox-group">
+                    <label class="checkbox-label">
+                      <input type="checkbox" id="event-is-public" name="is_public" checked>
+                      <span class="checkmark"></span>
+                      Evento pubblico
+                    </label>
+                  </div>
+                </div>
+                
+                <div class="form-actions" style="margin-top: 25px;">
+                  <button type="submit" id="save-event-btn" class="btn btn-primary">💾 Salva Evento</button>
+                  <button type="button" id="cancel-event-form" class="btn btn-secondary">❌ Annulla</button>
+                  <button type="button" id="delete-event-btn" class="btn btn-danger" style="display: none;">🗑️ Elimina Evento</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -244,7 +349,7 @@
       </div>
       <div class="footer-bottom">
         <p>© 2008- <span id="current-year"></span> Associazione Santa Barbara APS. Tutti i diritti riservati.<br>
-        <span style="letter-spacing:2px; font-size:0.95em; color:#222;"><a href="privacy.html" style="color:#e67e22; text-decoration:underline;">PRIVACY POLICY</a> <span style="margin:0 10px;">|</span> <a href="#" style="color:#e67e22; text-decoration:underline;" onclick="window.cookieConsent &amp;&amp; window.cookieConsent.open(); return false;">GESTISCI COOKIE</a></span></p>
+        <span style="letter-spacing:2px; font-size:0.95em; color:#222;"><a href="privacy.html" style="color:#e67e22; text-decoration:underline;">PRIVACY POLICY</a> <span style="margin:0 10px;">|</span> <a href="#" style="color:#e67e22; text-decoration:underline;" onclick="window.cookieConsent && window.cookieConsent.open(); return false;">GESTISCI COOKIE</a></span></p>
       </div>
     </div>
   </footer>
@@ -268,17 +373,12 @@
                         const logoutBtn = document.getElementById('logout-btn');
                         // Utility Functions
                         function showLoading() {
-                                if (loadingScreen) {
-                                        loadingScreen.style.display = 'flex';
-                                }
                                 if (loginPrompt) loginPrompt.style.display = 'none';
                                 if (membersContent) membersContent.style.display = 'none';
                         }
 
                         function hideLoading() {
-                                if (loadingScreen) {
-                                        loadingScreen.style.display = 'none';
-                                }
+                                // Loading screen removed
                         }
 
                         function showLoginPrompt() {
@@ -435,7 +535,6 @@
                                                         userRole = profileData.role || userMetadata?.role || 'utente';
                                                 }
                                         } catch (profileError) {
-                                                console.log('Profile table not found or no additional data:', profileError);
                                                 // Continue with just the metadata from auth
                                         }
                                         // Check if user has access (socio role)
@@ -525,7 +624,6 @@
                         }
                         // Auth state change listener
                         supabaseClient.auth.onAuthStateChange((event, session) => {
-                                console.log('Auth state changed:', event, session);
                                 if (event === 'SIGNED_OUT' || !session) {
                                         // User signed out or session expired
                                         window.location.href = 'login.html';
@@ -810,7 +908,406 @@
                                 
                                 // Check authentication on page load
                                 checkAuthentication();
+                                
+                                // Events management initialization
+                                initializeEventsManagement();
                         });
+                        
+                        // Events Management Functions
+                        let allUsers = [];
+                        let currentEditingEventId = null;
+                        
+                        async function initializeEventsManagement() {
+                                // Load users for the dropdown
+                                await loadUsers();
+                                
+                                // Setup event listeners for events management
+                                setupEventsEventListeners();
+                                
+                                // Load events list
+                                await loadEventsList();
+                        }
+                        
+                        async function loadUsers() {
+                                try {
+                                        // Try to load from profiles table first
+                                        let { data: profiles, error: profilesError } = await supabaseClient
+                                                .from('profiles')
+                                                .select('id, first_name, last_name, email');
+                                        
+                                        if (profilesError) {
+                                                console.warn('Cannot access profiles table:', profilesError);
+                                                // Fallback: use auth metadata if available
+                                                allUsers = [];
+                                                return;
+                                        }
+                                        
+                                        allUsers = profiles || [];
+                                        populateUsersDropdown();
+                                        
+                                } catch (error) {
+                                        console.error('Error loading users:', error);
+                                        allUsers = [];
+                                }
+                        }
+                        
+                        function populateUsersDropdown() {
+                                const dropdown = document.getElementById('event-created-by');
+                                if (!dropdown) return;
+                                
+                                // Clear existing options except the first one
+                                while (dropdown.children.length > 1) {
+                                        dropdown.removeChild(dropdown.lastChild);
+                                }
+                                
+                                // Add current user as default
+                                if (currentUser) {
+                                        const currentUserOption = document.createElement('option');
+                                        currentUserOption.value = currentUser.id;
+                                        currentUserOption.textContent = getUserDisplayName(currentUser);
+                                        currentUserOption.selected = true;
+                                        dropdown.appendChild(currentUserOption);
+                                }
+                                
+                                // Add other users
+                                allUsers.forEach(user => {
+                                        if (user.id !== currentUser?.id) {
+                                                const option = document.createElement('option');
+                                                option.value = user.id;
+                                                option.textContent = getUserDisplayName(user);
+                                                dropdown.appendChild(option);
+                                        }
+                                });
+                        }
+                        
+                        function getUserDisplayName(user) {
+                                if (user.first_name && user.last_name) {
+                                        return `${user.first_name} ${user.last_name}`;
+                                }
+                                if (user.first_name) return user.first_name;
+                                if (user.last_name) return user.last_name;
+                                return user.email || 'Utente senza nome';
+                        }
+                        
+                        function setupEventsEventListeners() {
+                                // Tab switching
+                                const showEventsListBtn = document.getElementById('show-events-list');
+                                const showCreateEventBtn = document.getElementById('show-create-event');
+                                
+                                if (showEventsListBtn) {
+                                        showEventsListBtn.addEventListener('click', () => switchToEventsTab('list'));
+                                }
+                                if (showCreateEventBtn) {
+                                        showCreateEventBtn.addEventListener('click', () => switchToEventsTab('form'));
+                                }
+                                
+                                // Form handling
+                                const eventForm = document.getElementById('event-management-form');
+                                const cancelFormBtn = document.getElementById('cancel-event-form');
+                                const deleteEventBtn = document.getElementById('delete-event-btn');
+                                
+                                if (eventForm) {
+                                        eventForm.addEventListener('submit', handleEventSubmit);
+                                }
+                                if (cancelFormBtn) {
+                                        cancelFormBtn.addEventListener('click', cancelEventForm);
+                                }
+                                if (deleteEventBtn) {
+                                        deleteEventBtn.addEventListener('click', handleEventDelete);
+                                }
+                        }
+                        
+                        function switchToEventsTab(tab) {
+                                const listSection = document.getElementById('events-list-section');
+                                const formSection = document.getElementById('event-form-section');
+                                const listBtn = document.getElementById('show-events-list');
+                                const formBtn = document.getElementById('show-create-event');
+                                
+                                if (tab === 'list') {
+                                        listSection.style.display = 'block';
+                                        formSection.style.display = 'none';
+                                        listBtn.classList.add('active-tab');
+                                        listBtn.classList.remove('btn-outline');
+                                        listBtn.classList.add('btn-primary');
+                                        formBtn.classList.remove('active-tab');
+                                        formBtn.classList.add('btn-outline');
+                                        formBtn.classList.remove('btn-primary');
+                                } else {
+                                        listSection.style.display = 'none';
+                                        formSection.style.display = 'block';
+                                        formBtn.classList.add('active-tab');
+                                        formBtn.classList.remove('btn-outline');
+                                        formBtn.classList.add('btn-primary');
+                                        listBtn.classList.remove('active-tab');
+                                        listBtn.classList.add('btn-outline');
+                                        listBtn.classList.remove('btn-primary');
+                                        
+                                        // Reset form for new event
+                                        if (!currentEditingEventId) {
+                                                resetEventForm();
+                                        }
+                                }
+                        }
+                        
+                        async function loadEventsList() {
+                                try {
+                                        const { data: events, error } = await supabaseClient
+                                                .from('events')
+                                                .select('*')
+                                                .order('event_date', { ascending: false });
+                                        
+                                        if (error) throw error;
+                                        
+                                        renderEventsTable(events || []);
+                                        
+                                } catch (error) {
+                                        console.error('Error loading events:', error);
+                                        notify.error('Errore nel caricamento degli eventi: ' + error.message);
+                                }
+                        }
+                        
+                        function renderEventsTable(events) {
+                                const tbody = document.getElementById('admin-events-tbody');
+                                const noEventsMessage = document.getElementById('no-events-message');
+                                
+                                if (!tbody) {
+                                        console.error('Table tbody not found!');
+                                        return;
+                                }
+                                
+                                if (events.length === 0) {
+                                        tbody.innerHTML = '';
+                                        if (noEventsMessage) noEventsMessage.style.display = 'block';
+                                        return;
+                                }
+                                
+                                if (noEventsMessage) noEventsMessage.style.display = 'none';
+                                
+                                tbody.innerHTML = events.map(event => `
+                                        <tr style="border-bottom: 1px solid #ddd;">
+                                                <td class="event-title" style="padding: 12px; border: 1px solid #ddd; font-weight: 600; color: #e10600; word-wrap: break-word; max-width: 250px;">${escapeHtml(event.title || '')}</td>
+                                                <td class="event-date" style="padding: 12px; border: 1px solid #ddd; white-space: nowrap; text-align: center; color: #333; font-weight: 500;">${formatDate(event.event_date)}</td>
+                                                <td style="padding: 12px; border: 1px solid #ddd; word-wrap: break-word; max-width: 200px; text-align: center;">${escapeHtml(event.location || '-')}</td>
+                                                <td class="event-public" style="padding: 12px; border: 1px solid #ddd; text-align: center; white-space: nowrap;">${event.is_public ? '✅ Sì' : '❌ No'}</td>
+                                                <td class="event-actions" style="padding: 8px; border: 1px solid #ddd; text-align: center; white-space: nowrap;">
+                                                        <button onclick="editEvent('${event.id}')" class="btn-sm btn-edit" style="padding: 6px 12px; margin-right: 8px; margin-bottom: 0; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; display: inline-block;">✏️ Modifica</button>
+                                                        <button onclick="deleteEvent('${event.id}')" class="btn-sm btn-delete" style="padding: 6px 12px; margin-bottom: 0; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; display: inline-block;">🗑️ Elimina</button>
+                                                </td>
+                                        </tr>
+                                `).join('');
+                        }
+                        
+                        function formatDate(dateString) {
+                                if (!dateString || dateString === null || dateString === undefined) {
+                                        return '-';
+                                }
+                                try {
+                                        // Gestione formato ISO (YYYY-MM-DD)
+                                        if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+                                                const [year, month, day] = dateString.split('-');
+                                                return `${day}/${month}/${year}`;
+                                        }
+                                        // Gestione formato con orario (YYYY-MM-DDTHH:mm:ss)
+                                        if (/^\d{4}-\d{2}-\d{2}T/.test(dateString)) {
+                                                const date = new Date(dateString);
+                                                if (!isNaN(date.getTime())) {
+                                                        return date.toLocaleDateString('it-IT');
+                                                }
+                                        }
+                                        // Fallback generico
+                                        const date = new Date(dateString);
+                                        if (!isNaN(date.getTime())) {
+                                                return date.toLocaleDateString('it-IT');
+                                        }
+                                        return dateString;
+                                } catch (error) {
+                                        return dateString || '-';
+                                }
+                        }
+                        
+                        function getStatusLabel(status) {
+                                return '';
+                        }
+                        
+                        function escapeHtml(text) {
+                                const div = document.createElement('div');
+                                div.textContent = text;
+                                return div.innerHTML;
+                        }
+                        
+                        function resetEventForm() {
+                                const form = document.getElementById('event-management-form');
+                                const title = document.getElementById('event-form-title');
+                                const deleteBtn = document.getElementById('delete-event-btn');
+                                
+                                if (form) form.reset();
+                                if (title) title.textContent = '➕ Nuovo Evento';
+                                if (deleteBtn) deleteBtn.style.display = 'none';
+                                
+                                currentEditingEventId = null;
+                                
+                                // Set default values
+                                const isPublicCheckbox = document.getElementById('event-is-public');
+                                const createdBySelect = document.getElementById('event-created-by');
+                                
+                                if (isPublicCheckbox) isPublicCheckbox.checked = true;
+                                if (createdBySelect && currentUser) createdBySelect.value = currentUser.id;
+                        }
+                        
+                        function cancelEventForm() {
+                                resetEventForm();
+                                switchToEventsTab('list');
+                        }
+                        
+                        async function handleEventSubmit(event) {
+                                event.preventDefault();
+                                
+                                const submitBtn = document.getElementById('save-event-btn');
+                                const originalText = submitBtn.innerHTML;
+                                
+                                // Show loading state
+                                submitBtn.disabled = true;
+                                submitBtn.innerHTML = '⏳ Salvando...';
+                                
+                                try {
+                                        const formData = new FormData(event.target);
+                                        
+                                        // Validation
+                                        if (!formData.get('title')?.trim()) {
+                                                throw new Error('Il titolo è obbligatorio');
+                                        }
+                                        if (!formData.get('event_date')) {
+                                                throw new Error('La data è obbligatoria');
+                                        }
+                                        
+                                        const eventData = {
+                                                title: formData.get('title').trim(),
+                                                description: formData.get('description')?.trim() || null,
+                                                content: formData.get('content')?.trim() || null,
+                                                event_date: formData.get('event_date'),
+                                                event_time: formData.get('event_time')?.trim() || null,
+                                                location: formData.get('location')?.trim() || null,
+                                                address: formData.get('address')?.trim() || null,
+                                                image_url: formData.get('image_url')?.trim() || null,
+                                                created_by: formData.get('created_by') || currentUser?.id,
+                                                is_public: formData.get('is_public') === 'on',
+                                                updated_at: new Date().toISOString()
+                                        };
+                                        
+                                        let result;
+                                        if (currentEditingEventId) {
+                                                // Update existing event
+                                                result = await supabaseClient
+                                                        .from('events')
+                                                        .update(eventData)
+                                                        .eq('id', currentEditingEventId);
+                                        } else {
+                                                // Create new event
+                                                eventData.created_at = new Date().toISOString();
+                                                result = await supabaseClient
+                                                        .from('events')
+                                                        .insert([eventData]);
+                                        }
+                                        
+                                        if (result.error) throw result.error;
+                                        
+                                        notify.success(currentEditingEventId ? 'Evento aggiornato con successo!' : 'Evento creato con successo!');
+                                        
+                                        // Refresh events list and switch to list view
+                                        await loadEventsList();
+                                        switchToEventsTab('list');
+                                        
+                                } catch (error) {
+                                        console.error('Error saving event:', error);
+                                        notify.error('Errore nel salvataggio: ' + error.message);
+                                } finally {
+                                        // Reset button state
+                                        submitBtn.disabled = false;
+                                        submitBtn.innerHTML = originalText;
+                                }
+                        }
+                        
+                        async function editEvent(eventId) {
+                                try {
+                                        const { data: event, error } = await supabaseClient
+                                                .from('events')
+                                                .select('*')
+                                                .eq('id', eventId)
+                                                .single();
+                                        
+                                        if (error) throw error;
+                                        
+                                        // Populate form with event data
+                                        currentEditingEventId = eventId;
+                                        populateEventForm(event);
+                                        
+                                        // Switch to form view
+                                        switchToEventsTab('form');
+                                        
+                                        // Update form title and show delete button
+                                        const title = document.getElementById('event-form-title');
+                                        const deleteBtn = document.getElementById('delete-event-btn');
+                                        
+                                        if (title) title.textContent = '✏️ Modifica Evento';
+                                        if (deleteBtn) deleteBtn.style.display = 'inline-block';
+                                        
+                                } catch (error) {
+                                        console.error('Error loading event for edit:', error);
+                                        notify.error('Errore nel caricamento dell\'evento: ' + error.message);
+                                }
+                        }
+                        
+                        function populateEventForm(event) {
+                                document.getElementById('event-id').value = event.id || '';
+                                document.getElementById('event-title').value = event.title || '';
+                                document.getElementById('event-description').value = event.description || '';
+                                document.getElementById('event-content').value = event.content || '';
+                                document.getElementById('event-date').value = event.event_date || '';
+                                document.getElementById('event-time').value = event.event_time || '';
+                                document.getElementById('event-location').value = event.location || '';
+                                document.getElementById('event-address').value = event.address || '';
+                                document.getElementById('event-image-url').value = event.image_url || '';
+                                document.getElementById('event-created-by').value = event.created_by || '';
+                                document.getElementById('event-is-public').checked = event.is_public !== false;
+                        }
+                        
+                        async function deleteEvent(eventId) {
+                                if (!confirm('Sei sicuro di voler eliminare questo evento? Questa azione non può essere annullata.')) {
+                                        return;
+                                }
+                                
+                                try {
+                                        const { error } = await supabaseClient
+                                                .from('events')
+                                                .delete()
+                                                .eq('id', eventId);
+                                        
+                                        if (error) throw error;
+                                        
+                                        notify.success('Evento eliminato con successo!');
+                                        await loadEventsList();
+                                        
+                                        // If we were editing this event, switch back to list
+                                        if (currentEditingEventId === eventId) {
+                                                switchToEventsTab('list');
+                                        }
+                                        
+                                } catch (error) {
+                                        console.error('Error deleting event:', error);
+                                        notify.error('Errore nell\'eliminazione: ' + error.message);
+                                }
+                        }
+                        
+                        async function handleEventDelete() {
+                                if (currentEditingEventId) {
+                                        await deleteEvent(currentEditingEventId);
+                                }
+                        }
+                        
+                        // Make functions globally available for onclick handlers
+                        window.editEvent = editEvent;
+                        window.deleteEvent = deleteEvent;
+                        
                         // Global functions for buttons
                         window.resendConfirmation = resendConfirmation;
                         window.handleLogout = handleLogout;

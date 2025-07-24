@@ -1980,19 +1980,6 @@ section {
   height: 100%;
 }
 
-.event-date {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background-color: var(--primary-color);
-  color: white;
-  padding: 10px;
-  border-radius: 10px;
-  text-align: center;
-  min-width: 60px;
-  box-shadow: var(--shadow);
-}
-
 .date-day {
   display: block;
   font-size: 1.5rem;
@@ -2045,7 +2032,7 @@ section {
   margin-bottom: 20px;
 }
 
-.event-summary .event-date {
+.event-summary{
   position: static;
   margin-right: 20px;
   min-width: 80px;
@@ -2217,6 +2204,252 @@ section {
 
 .document-info {
   flex: 1;
+}
+
+/* Events Management Styles */
+.events-management {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.management-tabs {
+  display: flex;
+  background: var(--light-bg);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.management-tabs .btn {
+  flex: 1;
+  border-radius: 0;
+  margin: 0;
+  border: none;
+  padding: 15px 20px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.management-tabs .btn.active-tab {
+  background: var(--primary-color);
+  color: white;
+}
+
+.management-tabs .btn:not(.active-tab) {
+  background: transparent;
+  color: var(--text-color);
+}
+
+.management-tabs .btn:not(.active-tab):hover {
+  background: rgba(225, 6, 0, 0.1);
+  color: var(--primary-color);
+}
+
+.management-section {
+  padding: 25px;
+}
+
+/* Admin Table Styles */
+.table-responsive {
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  font-size: 0.95rem;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+}
+
+.admin-table th {
+  background: var(--light-bg);
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.admin-table tr:hover {
+  background: rgba(225, 6, 0, 0.02);
+}
+
+.admin-table .event-title {
+  font-weight: 600;
+  color: var(--primary-color);
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-table .event-date {
+  color: #333 !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  white-space: nowrap !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  }
+
+.admin-table .event-status {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.admin-table .status-published {
+  background: #d4edda;
+  color: #155724;
+}
+
+.admin-table .status-draft {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.admin-table .status-cancelled {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.admin-table .event-public {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.admin-table .event-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px !important;
+}
+
+.admin-table .btn-sm {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  display: inline-block;
+  margin-bottom: 0 !important;
+  line-height: 1.2;
+}
+
+.admin-table .btn-edit {
+  background: #007bff;
+  color: white;
+}
+
+.admin-table .btn-edit:hover {
+  background: #0056b3;
+  transform: translateY(-1px);
+}
+
+.admin-table .btn-delete {
+  background: #dc3545;
+  color: white;
+}
+
+.admin-table .btn-delete:hover {
+  background: #c82333;
+  transform: translateY(-1px);
+}
+
+/* Form Container Styles */
+.form-container {
+  background: white;
+  border-radius: 8px;
+  padding: 0;
+}
+
+.form-container h4 {
+  background: var(--light-bg);
+  margin: 0;
+  padding: 20px 25px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.form-container form {
+  padding: 25px;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.checkbox-label input[type="checkbox"] {
+  margin-right: 10px;
+  transform: scale(1.2);
+  accent-color: var(--primary-color);
+}
+
+.checkmark {
+  margin-left: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .management-tabs {
+    flex-direction: column;
+  }
+  
+  .table-responsive {
+    font-size: 0.85rem;
+  }
+  
+  .admin-table th,
+  .admin-table td {
+    padding: 8px 10px;
+  }
+  
+  .admin-table .event-title {
+    max-width: 120px;
+  }
+  
+  .admin-table .event-actions {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .management-section {
+    padding: 15px;
+  }
+  
+  .form-container form {
+    padding: 15px;
+  }
 }
 
 .document-info h4 {
@@ -2442,7 +2675,7 @@ section {
     text-align: center;
   }
 
-  .event-summary .event-date {
+  .event-summary{
     margin-right: 0;
     margin-bottom: 15px;
   }

@@ -35,13 +35,14 @@ No automated test framework is configured. Manual testing workflow:
 ### Content Updates
 ```bash
 # Update FAQ content
-# Edit data/faq.json directly
+# Edit data/faq.json directly (JSON array with question/answer/category structure)
 
 # Add new gallery images  
-# Place in assets/images/ directory
+# Upload to Supabase Storage: gallery/foto/ bucket (optimize < 1MB)
 
 # Update video gallery
-# Videos served from Archive.org (1-18.mp4)
+# Videos served from Archive.org (https://archive.org/download/17_20250722/X.mp4)
+# Thumbnails from Supabase Storage: gallery/thumbnail/X.png
 ```
 
 ## Architecture & Key Files
@@ -51,8 +52,8 @@ No automated test framework is configured. Manual testing workflow:
 - **Authentication**: Supabase for user management and role-based access control
 - **Hosting**: GitHub Pages with Jekyll static site generation
 - **Domain**: Custom domain `associazionesbarbara.it` via CNAME
-- **Media**: Images in assets/images/, videos from Archive.org CDN
-- **Database**: Supabase handles user sessions, metadata, and RLS policies
+- **Media**: Static assets in assets/images/, gallery photos in Supabase Storage, videos from Archive.org CDN
+- **Database**: Supabase handles user sessions, metadata, events management, and RLS policies
 
 ### Page Architecture
 **Public Pages (12 total):**
@@ -69,7 +70,7 @@ No automated test framework is configured. Manual testing workflow:
 **Authentication Pages:**
 - `register.html` - User registration with email verification
 - `login.html` - Authentication with session management
-- `area-soci.html` - Protected members area (role-based access)
+- `area-soci.html` - Protected members area with profile management and events admin
 
 ### Authentication System
 The site uses **Supabase** for user authentication with role-based access:
@@ -100,16 +101,20 @@ const supabaseClient = createClient(
 - `login.html`, `register.html`: Authentication pages
 
 **Core Assets:**
-- `assets/css/style.css`: Main stylesheet (~2000 lines, mobile-first responsive)
+- `assets/css/style.css`: Main stylesheet (~4500 lines, mobile-first responsive)
 - `assets/js/script.js`: Main JavaScript with Supabase auth logic
 - `assets/js/notifications.js`: Toast notification system
+- `assets/js/adblock-detector-v2.js`: AdBlock detection system
+- `assets/js/adblock-integration-v2.js`: AdBlock modal integration
 - `assets/images/`: Static image assets (logo.svg, banners, activities)
-- `data/faq.json`: Dynamic FAQ content structure
+- `data/faq.json`: Dynamic FAQ content structure (question/answer/category format)
 
 **Media & Content:**
-- `video/`: 18 MP4 files (1-18.mp4) served from Archive.org
-- Gallery images organized by event/activity type
+- Gallery photos: Supabase Storage `gallery/foto/` bucket
+- Video thumbnails: Supabase Storage `gallery/thumbnail/` bucket  
+- Videos: Archive.org CDN (18 videos, 1-18.mp4 pattern)
 - Google Analytics 4 with GDPR consent management
+- AdBlock detection system with modal enforcement
 
 **Configuration Files:**
 - `_config.yml`: Jekyll config with SEO plugins, sitemap generation
@@ -143,6 +148,24 @@ async function checkAuthentication() {
 }
 ```
 
+### Members Area Features (area-soci.html)
+The protected members area includes:
+
+**Profile Management:**
+- Edit personal information (name, address, phone, etc.)
+- Change password functionality
+- Change email with verification
+
+**Events Management (Admin):**
+- Create, edit, and delete events
+- Set event visibility (public/private)
+- Full CRUD operations on events table
+- User assignment for event creation
+
+**Database Tables:**
+- `events`: Event data with public/private visibility
+- `profiles`: Extended user profile information
+
 ## Development Guidelines
 
 ### User Management
@@ -153,11 +176,13 @@ To promote a user to "socio" role:
 4. Session automatically updated on next page load
 
 ### File Organization & Conventions
-- **Images**: All static images in `assets/images/` (optimized < 1MB)
-- **Videos**: Served from Archive.org CDN (video/1-18.mp4 pattern)
+- **Static Images**: `assets/images/` for logos, banners, UI elements (optimized < 1MB)
+- **Gallery Photos**: Supabase Storage `gallery/foto/` bucket, loaded dynamically
+- **Video Thumbnails**: Supabase Storage `gallery/thumbnail/` bucket (PNG format)
+- **Videos**: Archive.org CDN (https://archive.org/download/17_20250722/X.mp4 pattern)
 - **CSS**: Mobile-first responsive design with CSS custom properties
 - **JavaScript**: Vanilla ES6+ only, no build process or transpilation
-- **Content**: FAQ managed via `data/faq.json`, events hardcoded in HTML
+- **Content**: FAQ managed via `data/faq.json`, events stored in Supabase database
 - **Security**: Content Security Policy headers implemented across all pages
 
 ### Code Style Guidelines

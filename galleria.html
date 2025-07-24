@@ -362,7 +362,7 @@
       </div>
       <div class="footer-bottom">
         <p>© 2008- <span id="current-year"></span> Associazione Santa Barbara APS. Tutti i diritti riservati.<br>
-        <span style="letter-spacing:2px; font-size:0.95em; color:#222;"><a href="privacy.html" style="color:#e67e22; text-decoration:underline;">PRIVACY POLICY</a> <span style="margin:0 10px;">|</span> <a href="#" style="color:#e67e22; text-decoration:underline;" onclick="window.cookieConsent &amp;&amp; window.cookieConsent.open(); return false;">GESTISCI COOKIE</a></span></p>
+        <span style="letter-spacing:2px; font-size:0.95em; color:#222;"><a href="privacy.html" style="color:#e67e22; text-decoration:underline;">PRIVACY POLICY</a> <span style="margin:0 10px;">|</span></span> <a href="#" style="color:#e67e22; text-decoration:underline;" onclick="window.cookieConsent && window.cookieConsent.open(); return false;">GESTISCI COOKIE</a></p>
       </div>
     </div>
   </footer>
@@ -391,13 +391,8 @@
                                    const file = videoFiles[i];
                                    const videoSrc = `https://archive.org/download/17_20250722/${file}`;
                                    const videoBaseName = file.replace(/\.[^/.]+$/, "");
-                                   const thumbExtensions = ['.png','.jpg','.jpeg','.webp'];
-                                   let thumbnailUrl = null;
-                                   for (const ext of thumbExtensions) {
-                                           const thumbPath = `video/thumbnail/${videoBaseName}${ext}`;
-                                           thumbnailUrl = thumbPath;
-                                           break;
-                                   }
+                                   // Use Supabase storage for thumbnails
+                                   const thumbnailUrl = `https://ciezrbsolxpjxswdkkpo.supabase.co/storage/v1/object/public/gallery/thumbnail/${videoBaseName}.png`;
                                    videoCount++;
                                    const slide = document.createElement('div');
                                    slide.className = 'swiper-slide video-slide';

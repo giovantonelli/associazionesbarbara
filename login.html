@@ -78,14 +78,12 @@
         <div class="auth-form-container">
           <form id="loginForm" class="auth-form" data-type="login" name="loginForm">
             <div class="form-group">
-              <label for="email">Email</label> <input type="email" id="email" name="email" required="">
+              <label for="email">Email</label> <input type="email" id="email" name="email" required autocomplete="username">
             </div>
             <div class="form-group">
-              <label for="password">Password</label> <input type="password" id="password" name="password" required="">
+              <label for="password">Password</label> <input type="password" id="password" name="password" required autocomplete="current-password">
             </div><button type="submit" class="btn btn-primary btn-full" id="loginButton"><span class="btn-text">Accedi</span></button>
-            <div class="loading-spinner" style="display: none;">
-              <button type="submit" class="btn btn-primary btn-full" id="loginButton"></button>
-            </div>
+            <div class="loading-spinner" style="display: none;"></div>
           </form>
           <div id="statusMessage" class="status-message" style="display: none;"></div>
           <div id="resendEmailSection" class="resend-email-section" style="display: none; margin: 15px 0;">
@@ -120,7 +118,7 @@
       </div>
       <div class="footer-bottom">
         <p>© <span id="current-year">2025</span> Associazione Santa Barbara APS. Tutti i diritti riservati.<br>
-        <span style="letter-spacing:2px; font-size:0.95em; color:#222;"><a href="privacy.html" style="color:#e67e22; text-decoration:underline;">PRIVACY POLICY</a> <span style="margin:0 10px;">|</span> <a href="#" style="color:#e67e22; text-decoration:underline;" onclick="window.cookieConsent &amp;&amp; window.cookieConsent.open(); return false;">GESTISCI COOKIE</a></span></p>
+        <span style="letter-spacing:2px; font-size:0.95em; color:#222;"><a href="privacy.html" style="color:#e67e22; text-decoration:underline;">PRIVACY POLICY</a> <span style="margin:0 10px;">|</span> <a href="#" style="color:#e67e22; text-decoration:underline;" onclick="window.cookieConsent && window.cookieConsent.open(); return false;">GESTISCI COOKIE</a></span></p>
       </div>
     </div>
   </footer>
@@ -149,7 +147,7 @@
                         const loginButton = document.getElementById('loginButton');
                         const statusMessage = document.getElementById('statusMessage');
                         const btnText = loginButton.querySelector('.btn-text');
-                        const loadingSpinner = loginButton.querySelector('.loading-spinner');
+                        const loadingSpinner = document.querySelector('.auth-form .loading-spinner');
                         // Utility Functions
                         function showStatus(message, type = 'info') {
                                 statusMessage.className = `status-message ${type}`;

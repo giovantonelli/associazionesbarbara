@@ -135,25 +135,12 @@ function initStrictAdBlockDetector() {
     const pageConfig = PAGE_CONFIGS[currentPage] || {};
     const finalConfig = Object.assign({}, ADBLOCK_CONFIG_V2, pageConfig);
     
-    // Debug info
-    if (finalConfig.debugMode) {
-        console.log('🔧 [AdBlock] Inizializzazione per pagina:', currentPage);
-        console.log('⚙️ [AdBlock] Configurazione finale:', finalConfig);
-    }
+    // Debug info disabled in production
     
     // Creazione istanza detector
     window.adBlockDetector = new AdBlockDetectorV2(finalConfig);
     
-    // Event listeners per debugging
-    if (finalConfig.debugMode) {
-        document.addEventListener('adblock-detected', (e) => {
-            console.log('🚫 [AdBlock] Evento: AdBlock rilevato', e.detail);
-        });
-        
-        document.addEventListener('adblock-not-detected', (e) => {
-            console.log('✅ [AdBlock] Evento: AdBlock non rilevato', e.detail);
-        });
-    }
+    // Event listeners disabled in production
 }
 
 /**
@@ -182,11 +169,8 @@ window.testAdBlockDetection = function() {
  */
 window.bypassAdBlockDetection = function(password) {
     if (password !== 'santabarbara2025' || !ADBLOCK_CONFIG_V2.debugMode) {
-        console.warn('🔒 Bypass non autorizzato');
         return false;
     }
-    
-    console.log('🔓 [AdBlock] Bypass temporaneo attivato');
     
     // Rimuovi overlay se presente
     const overlay = document.querySelector('.adblock-popup-overlay');

@@ -1416,21 +1416,21 @@ function renderUserBar() {
   const isAreaSoci = window.location.pathname.endsWith('area-soci.html');
 
   if (user && user.name) {
-    userBar.innerHTML = `
-      <span>Ciao, <strong>${user.name}</strong></span>
-      <button id="logout-btn" class="btn btn-outline btn-sm">\uD83D\uDEA9 Logout</button>
-    `;
-    document.getElementById('logout-btn').onclick = function() {
-      localStorage.removeItem('currentUser');
-      location.href = isAreaSoci ? 'login.html' : window.location.pathname;
-    };
+	userBar.innerHTML = `
+	  <span>Ciao, <strong>${user.name}</strong></span>
+	  <button id="logout-btn" class="btn btn-outline btn-sm">\uD83D\uDEA9 Logout</button>
+	`;
+	document.getElementById('logout-btn').onclick = function() {
+	  localStorage.removeItem('currentUser');
+	  location.href = isAreaSoci ? 'login.html' : window.location.pathname;
+	};
   } else {
-    if (!isAreaSoci) {
-      userBar.innerHTML = `<a href="area-soci.html" class="btn btn-outline btn-sm">Area Soci</a>`;
-    } else {
-      userBar.innerHTML = '';
-      // window.location.href = 'login.html';
-    }
+	if (!isAreaSoci) {
+	  userBar.innerHTML = `<a href="area-soci.html" class="btn btn-outline btn-sm">Area Soci</a>`;
+	} else {
+	  userBar.innerHTML = '';
+	  // window.location.href = 'login.html';
+	}
   }
 }
 

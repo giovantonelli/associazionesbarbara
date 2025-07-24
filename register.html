@@ -117,7 +117,7 @@
             <div class="form-section">
               <h3>📧 Contatti</h3>
               <div class="form-group">
-                <label for="email">Email *</label> <input type="email" id="email" name="email" required="">
+                <label for="email">Email *</label> <input type="email" id="email" name="email" required autocomplete="username">
               </div>
               <div class="form-group">
                 <label for="phoneNumber">Telefono</label> <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="+39 320 123 4567">
@@ -143,10 +143,10 @@
             <div class="form-section">
               <h3>🔐 Credenziali di Accesso</h3>
               <div class="form-group">
-                <label for="password">Password *</label> <input type="password" id="password" name="password" required=""> <small class="password-help">Minimo 8 caratteri con lettere maiuscole, minuscole, numeri e simboli</small>
+                  <label for="password">Password *</label> <input type="password" id="password" name="password" required autocomplete="new-password"> <small class="password-help">Minimo 8 caratteri con lettere maiuscole, minuscole, numeri e simboli</small>
               </div>
-              <div class="form-group">
-                <label for="confirmPassword">Conferma Password *</label> <input type="password" id="confirmPassword" name="confirmPassword" required="">
+                <div class="form-group">
+                  <label for="confirmPassword">Conferma Password *</label> <input type="password" id="confirmPassword" name="confirmPassword" required autocomplete="new-password">
               </div>
             </div>
             <div class="form-section">
@@ -156,8 +156,7 @@
               </div>
             </div><button type="submit" class="btn btn-primary btn-full" id="registerButton"><span class="btn-text">Registrati</span></button>
             <div class="loading-spinner" style="display: none;">
-              <button type="submit" class="btn btn-primary btn-full" id="registerButton"></button>
-            </div>
+              <div class="loading-spinner" style="display: none;"></div>
           </form>
           <div id="statusMessage" class="status-message" style="display: none;"></div>
           <div class="auth-links">
@@ -186,7 +185,7 @@
       </div>
       <div class="footer-bottom">
         <p>© <span id="current-year">2025</span> Associazione Santa Barbara APS. Tutti i diritti riservati.<br>
-        <span style="letter-spacing:2px; font-size:0.95em; color:#222;"><a href="privacy.html" style="color:#e67e22; text-decoration:underline;">PRIVACY POLICY</a> <span style="margin:0 10px;">|</span> <a href="#" style="color:#e67e22; text-decoration:underline;" onclick="window.cookieConsent &amp;&amp; window.cookieConsent.open(); return false;">GESTISCI COOKIE</a></span></p>
+        <span style="letter-spacing:2px; font-size:0.95em; color:#222;"><a href="privacy.html" style="color:#e67e22; text-decoration:underline;">PRIVACY POLICY</a> <span style="margin:0 10px;">|</span> <a href="#" style="color:#e67e22; text-decoration:underline;" onclick="window.cookieConsent && window.cookieConsent.open(); return false;">GESTISCI COOKIE</a></span></p>
       </div>
     </div>
   </footer>
@@ -554,7 +553,6 @@
 
                                                 // Registration data is now saved in user_metadata
                                                 // The profile table entry will be created after email confirmation
-                                                console.log('Registration successful! User data saved in metadata.');
                                                 showStatus(`
                                                         <strong>Registrazione completata!</strong><br>
                                                         Ti abbiamo inviato un'email di conferma all'indirizzo <strong>${email}</strong>.<br>
