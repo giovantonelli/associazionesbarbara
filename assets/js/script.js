@@ -1486,3 +1486,10 @@ function manageCookies() {
 
 // Make manageCookies globally available
 window.manageCookies = manageCookies;
+
+// Create global cookieConsent object for compatibility
+window.cookieConsent = {
+	open: function() {
+		manageCookies();
+	}
+};
