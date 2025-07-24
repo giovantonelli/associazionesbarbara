@@ -102,9 +102,9 @@ const supabaseClient = createClient(
 
 **Core Assets:**
 - `assets/css/style.css`: Main stylesheet (~4500 lines, mobile-first responsive)
-- `assets/js/script.js`: Main JavaScript with Supabase auth logic
+- `assets/js/script.js`: Main JavaScript with Supabase auth logic (~1490 lines)
 - `assets/js/notifications.js`: Toast notification system
-- `assets/js/adblock-detector-v2.js`: AdBlock detection system
+- `assets/js/adblock-detector-v2.js`: AdBlock detection system (4-test detection)
 - `assets/js/adblock-integration-v2.js`: AdBlock modal integration
 - `assets/images/`: Static image assets (logo.svg, banners, activities)
 - `data/faq.json`: Dynamic FAQ content structure (question/answer/category format)
@@ -157,10 +157,12 @@ The protected members area includes:
 - Change email with verification
 
 **Events Management (Admin):**
-- Create, edit, and delete events
+- Create, edit, and delete events via tabbed interface
 - Set event visibility (public/private)
-- Full CRUD operations on events table
-- User assignment for event creation
+- Full CRUD operations on events table with comprehensive form fields
+- User assignment for event creation from dropdown
+- Events table with sortable columns and action buttons
+- Real-time updates with Supabase integration
 
 **Database Tables:**
 - `events`: Event data with public/private visibility
@@ -235,3 +237,30 @@ The site auto-deploys to GitHub Pages when changes are pushed to the main branch
 - **Structured Data**: Schema markup for organization information
 - **Sitemap**: Auto-generated XML sitemap for search engines
 - **Custom Domain**: `associazionesbarbara.it` with SSL certificate
+
+## Important Development Notes
+
+### Working with script.js
+The main JavaScript file (`assets/js/script.js`) is a large (~1490 lines) monolithic file containing:
+- Photo and video lightbox functionality with keyboard navigation
+- Cookie consent management with Google Analytics integration
+- FAQ accordion functionality
+- Gallery initialization and carousel management
+- Authentication forms handling with advanced password validation
+- Member area profile and event management
+- Notification system integration
+
+When modifying this file, be aware that many functions are interdependent and changes may affect multiple page functionalities.
+
+### Lightbox and Gallery Systems
+The site has two main lightbox systems:
+1. **Photo Lightbox**: For gallery images with prev/next navigation
+2. **Video Lightbox**: For video content with play controls and navigation
+Both support keyboard navigation (ESC, arrow keys) and click-to-close functionality.
+
+### Authentication Flow Details
+The authentication system has multiple validation layers:
+- Email confirmation required before access
+- Role-based access control (`socio` vs `utente`)
+- Profile data merged from both auth metadata and profiles table
+- Real-time session monitoring with automatic logout on session expiry
