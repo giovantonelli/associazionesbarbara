@@ -296,6 +296,27 @@
           </div>
         </div>
       </div>
+      
+      <!-- User Management Section -->
+      <div class="content-section" style="margin-top: 30px;">
+        <h3>👥 Gestione Utenti</h3>
+        <p>Gestisci gli utenti registrati e i loro ruoli</p>
+        
+        <div class="users-management">
+          <div class="management-tabs">
+            <button id="show-users-list" class="btn btn-primary active-tab">👥 Lista Utenti</button>
+          </div>
+          
+          <!-- Users List Tab -->
+          <div id="users-list-tab" class="tab-content">
+            <div class="users-table-container" style="margin-top: 20px;">
+              <div id="users-table" class="table-container" style="overflow-x: auto;">
+                <p style="text-align: center; padding: 20px; color: #666;">Caricamento utenti...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
   <footer class="footer">
@@ -404,73 +425,114 @@
         if (membersDocuments) membersDocuments.style.display = 'block';
   }
 
-                        function updateUserInfo(user, metadata) {
-                                if (!userInfo) return;
-                                // Estrai informazioni dall'utente e metadata
-                                const role = metadata?.role || 'utente';
-                                const firstName = metadata?.first_name || '';
-                                const lastName = metadata?.last_name || '';
-                                const fullName = metadata?.full_name || (firstName && lastName ? `${firstName} ${lastName}` : firstName || lastName || 'Utente');
-                                const phoneNumber = metadata?.phone_number || metadata?.phone || '';
-                                const dateOfBirth = metadata?.date_of_birth || '';
-                                const address = metadata?.address || '';
-                                const membershipDate = metadata?.membership_date || '';
-                                const membershipNumber = metadata?.membership_number || '';
-                                // Calcola giorni dall'ultimo accesso
-                                const lastSignIn = new Date(user.last_sign_in_at || user.created_at);
-                                const today = new Date();
-                                const daysSinceLastAccess = Math.floor((today - lastSignIn) / (1000 * 60 * 60 * 24));
-                                // Formatta la data di ultimo accesso
-                                const lastAccessText = daysSinceLastAccess === 0 ? 'Oggi' : daysSinceLastAccess === 1 ? 'Ieri' : `${daysSinceLastAccess} giorni fa`;
-                                userInfo.innerHTML = `
-                                        
-                                                                        <div class="user-card">
-                                                                                <div class="user-details">
-                                                                                        <h3>${fullName}</h3>
-                                                                                        <p class="user-email">✉️ ${user.email}</p>
-                                                        ${phoneNumber ? `
-                                                                                        <p class="user-phone">📞 ${phoneNumber}</p>` : ''}
-                                                        
-                                                                                        <span class="user-role ${role}">${role === 'socio' ? 'Socio' : 'Utente'}</span>
-                                                                                </div>
-                                                                        </div>
-                                                                        <div class="user-stats">
-                                                                                <div class="stat">
-                                                                                        <span class="stat-label">Ultimo accesso</span>
-                                                                                        <span class="stat-value">${lastAccessText}</span>
-                                                                                </div>
-                                                                                <div class="stat">
-                                                                                        <span class="stat-label">Stato account</span>
-                                                                                        <span class="stat-value">✅ Attivo</span>
-                                                                                </div>
-                                                ${membershipNumber ? `
-                                                
-                                                                                <div class="stat">
-                                                                                        <span class="stat-label">N. Tessera</span>
-                                                                                        <span class="stat-value">#${membershipNumber}</span>
-                                                                                </div>` : ''}
-                                                ${membershipDate ? `
-                                                
-                                                                                <div class="stat">
-                                                                                        <span class="stat-label">Socio dal</span>
-                                                                                        <span class="stat-value">${new Date(membershipDate).toLocaleDateString('it-IT')}</span>
-                                                                                </div>` : ''}
-                                        
-                                                                        </div>
-                                        ${address || dateOfBirth ? `
-                                        
-                                                                        <div class="user-additional-info" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
-                                                ${address ? `
-                                                                                <p style="margin-bottom: 10px; opacity: 0.9;">
-                                                                                        <strong>📍 Indirizzo:</strong> ${address}
-                                                                                </p>` : ''}
-                                                ${dateOfBirth ? `
-                                                                                <p style="margin-bottom: 10px; opacity: 0.9;">
-                                                                                        <strong>🎂 Data di nascita:</strong> ${new Date(dateOfBirth).toLocaleDateString('it-IT')}
-                                                                                </p>` : ''}
-                                        
-                                                                        </div>` : ''}
-                                `;
+                function updateUserInfo(user, metadata) {
+                        if (!userInfo) return;
+                        
+                        // Estrai tutte le informazioni disponibili
+                        const role = metadata?.role || 'utente';
+                        const firstName = metadata?.first_name || '';
+                        const lastName = metadata?.last_name || '';
+                        const fullName = metadata?.full_name || (firstName && lastName ? `${firstName} ${lastName}` : firstName || lastName || 'Utente');
+                        const phoneNumber = metadata?.phone_number || metadata?.phone || '';
+                        const dateOfBirth = metadata?.date_of_birth || '';
+                        const placeOfBirth = metadata?.place_of_birth || '';
+                        const gender = metadata?.gender || '';
+                        const fiscalCode = metadata?.fiscal_code || '';
+                        const address = metadata?.address || '';
+                        const city = metadata?.city || '';
+                        const zipCode = metadata?.zip_code || '';
+                        const province = metadata?.province || '';
+                        const membershipType1 = metadata?.membership_type1 || '';
+                        const membershipType2 = metadata?.membership_type2 || '';
+                        const membershipStatus = metadata?.membership_status || 'attivo';
+                        const privacyAccepted = metadata?.privacy_accepted || false;
+                        const createdAt = metadata?.created_at || user.created_at;
+                        const membershipNumber = metadata?.membership_number || '';
+                        const membershipDate = metadata?.membership_date || createdAt;
+                        
+                        // Formatta lo stato dell'iscrizione per la visualizzazione
+                        const membershipStatusDisplay = membershipStatus.charAt(0).toUpperCase() + membershipStatus.slice(1);
+                        const membershipStatusIcon = {
+                                'attivo': '✅',
+                                'sospeso': '⏸️', 
+                                'scaduto': '⏰',
+                                'cancellato': '❌'
+                        }[membershipStatus] || '✅';
+                        
+                        // Calcola giorni dall'ultimo accesso
+                        const lastSignIn = new Date(user.last_sign_in_at || user.created_at);
+                        const today = new Date();
+                        const daysSinceLastAccess = Math.floor((today - lastSignIn) / (1000 * 60 * 60 * 24));
+                        const lastAccessText = daysSinceLastAccess === 0 ? 'Oggi' : daysSinceLastAccess === 1 ? 'Ieri' : `${daysSinceLastAccess} giorni fa`;
+                        
+                        // Costruisci l'indirizzo completo se disponibile
+                        const fullAddress = [address, city, zipCode, province].filter(Boolean).join(', ');
+                        
+                        userInfo.innerHTML = `
+                                <div class="user-card">
+                                        <div class="user-details">
+                                                <h3>${fullName}</h3>
+                                                <p class="user-email">✉️ ${user.email}</p>
+                                                ${phoneNumber ? `<p class="user-phone">📞 ${phoneNumber}</p>` : ''}
+                                                ${fiscalCode ? `<p class="user-fiscal">🏛️ CF: ${fiscalCode}</p>` : ''}
+                                                <span class="user-role ${role}">${role === 'socio' ? 'Socio' : role === 'admin' ? 'Amministratore' : 'Utente'}</span>
+                                        </div>
+                                </div>
+                                
+                                <div class="user-stats">
+                                        <div class="stat">
+                                                <span class="stat-label">Ultimo accesso</span>
+                                                <span class="stat-value">${lastAccessText}</span>
+                                        </div>
+                                        <div class="stat">
+                                                <span class="stat-label">Stato iscrizione</span>
+                                                <span class="stat-value">${membershipStatusIcon} ${membershipStatusDisplay}</span>
+                                        </div>
+                                        ${membershipDate ? `
+                                        <div class="stat">
+                                                <span class="stat-label">Socio dal</span>
+                                                <span class="stat-value">${new Date(membershipDate).toLocaleDateString('it-IT')}</span>
+                                        </div>` : ''}
+                                        ${membershipType1 || membershipType2 ? `
+                                        <div class="stat">
+                                                <span class="stat-label">Tipo socio</span>
+                                                <span class="stat-value">${[membershipType1, membershipType2].filter(Boolean).join(' + ')}</span>
+                                        </div>` : ''}
+                                        ${membershipNumber ? `
+                                        <div class="stat">
+                                                <span class="stat-label">N. Tessera</span>
+                                                <span class="stat-value">${membershipNumber}</span>
+                                        </div>` : ''}
+                                </div>
+                                
+                                ${dateOfBirth || placeOfBirth || gender || fullAddress ? `
+                                <div class="user-additional-info" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+                                        <h4 style="margin-bottom: 15px; color: rgba(255,255,255,0.9);">📋 Dati Personali</h4>
+                                        ${dateOfBirth ? `
+                                        <p style="margin-bottom: 10px; opacity: 0.9;">
+                                                <strong>🎂 Data di nascita:</strong> ${new Date(dateOfBirth).toLocaleDateString('it-IT')}
+                                        </p>` : ''}
+                                        ${placeOfBirth ? `
+                                        <p style="margin-bottom: 10px; opacity: 0.9;">
+                                                <strong>🏠 Luogo di nascita:</strong> ${placeOfBirth}
+                                        </p>` : ''}
+                                        ${gender ? `
+                                        <p style="margin-bottom: 10px; opacity: 0.9;">
+                                                <strong>👤 Genere:</strong> ${gender === 'M' ? 'Maschio' : gender === 'F' ? 'Femmina' : gender}
+                                        </p>` : ''}
+                                        ${fullAddress ? `
+                                        <p style="margin-bottom: 10px; opacity: 0.9;">
+                                                <strong>📍 Indirizzo:</strong> ${fullAddress}
+                                        </p>` : ''}
+                                        ${privacyAccepted ? `
+                                        <p style="margin-bottom: 10px; opacity: 0.9;">
+                                                <strong>🔒 Privacy:</strong> ✅ Accettata
+                                        </p>` : `
+                                        <p style="margin-bottom: 10px; opacity: 0.9; color: #ffeb3b;">
+                                                <strong>🔒 Privacy:</strong> ⚠️ Non accettata
+                                        </p>`}
+                                </div>` : ''}
+                        `;
                         }
                         // Authentication Functions
                         async function checkAuthentication() {
@@ -926,6 +988,9 @@
                                 
                                 // Load events list
                                 await loadEventsList();
+                                
+                                // Initialize users management
+                                await initializeUsersManagement();
                         }
                         
                         async function loadUsers() {
@@ -1090,8 +1155,8 @@
                                                 <td style="padding: 12px; border: 1px solid #ddd; word-wrap: break-word; max-width: 200px; text-align: center;">${escapeHtml(event.location || '-')}</td>
                                                 <td class="event-public" style="padding: 12px; border: 1px solid #ddd; text-align: center; white-space: nowrap;">${event.is_public ? '✅ Sì' : '❌ No'}</td>
                                                 <td class="event-actions" style="padding: 8px; border: 1px solid #ddd; text-align: center; white-space: nowrap;">
-                                                        <button onclick="editEvent('${event.id}')" class="btn-sm btn-edit" style="padding: 6px 12px; margin-right: 8px; margin-bottom: 0; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; display: inline-block;">✏️ Modifica</button>
-                                                        <button onclick="deleteEvent('${event.id}')" class="btn-sm btn-delete" style="padding: 6px 12px; margin-bottom: 0; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; display: inline-block;">🗑️ Elimina</button>
+                                                        <button onclick="editEvent('${event.id}')" class="btn-sm btn-edit" style="padding: 6px 12px; margin-right: 8px; margin-bottom: 0; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; display: inline-block; text-decoration: none; outline: none;">✏️ Modifica</button>
+                                                        <button onclick="deleteEvent('${event.id}')" class="btn-sm btn-delete" style="padding: 6px 12px; margin-bottom: 0; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; display: inline-block; text-decoration: none; outline: none;">🗑️ Elimina</button>
                                                 </td>
                                         </tr>
                                 `).join('');
@@ -1308,9 +1373,513 @@
                         window.editEvent = editEvent;
                         window.deleteEvent = deleteEvent;
                         
+                        // Users Management Functions
+                        async function loadUsersList() {
+                                try {
+                                        // Load users from profiles table
+                                        const { data: profiles, error: profilesError } = await supabaseClient
+                                                .from('profiles')
+                                                .select('*')
+                                                .order('created_at', { ascending: false });
+
+                                        if (profilesError) {
+                                                console.error('Error loading profiles:', profilesError);
+                                                throw profilesError;
+                                        }
+
+                                        console.log('Loaded profiles:', profiles);
+                                        displayUsersList(profiles || []);
+                                        
+                                } catch (error) {
+                                        console.error('Error loading users:', error);
+                                        document.getElementById('users-table').innerHTML = 
+                                                '<p style="text-align: center; padding: 20px; color: #e74c3c;">Errore nel caricamento degli utenti: ' + error.message + '</p>';
+                                }
+                        }
+
+                        function displayUsersList(users) {
+                                const usersTable = document.getElementById('users-table');
+                                
+                                if (!users || users.length === 0) {
+                                        usersTable.innerHTML = '<p style="text-align: center; padding: 20px; color: #666;">Nessun utente trovato.</p>';
+                                        return;
+                                }
+
+                                let tableHTML = `
+                                        <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                                                <thead style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                                                        <tr>
+                                                                <th style="padding: 15px; text-align: left; font-weight: 600;">Nome</th>
+                                                                <th style="padding: 15px; text-align: left; font-weight: 600;">Email</th>
+                                                                <th style="padding: 15px; text-align: center; font-weight: 600;">Telefono</th>
+                                                                <th style="padding: 15px; text-align: center; font-weight: 600;">Ruolo</th>
+                                                                <th style="padding: 15px; text-align: center; font-weight: 600;">Tipo Socio</th>
+                                                                <th style="padding: 15px; text-align: center; font-weight: 600;">Registrato</th>
+                                                                <th style="padding: 15px; text-align: center; font-weight: 600;">Azioni</th>
+                                                        </tr>
+                                                </thead>
+                                                <tbody>
+                                `;
+
+                                users.forEach((user, index) => {
+                                        const fullName = user.full_name || 
+                                                        (user.first_name && user.last_name ? 
+                                                         `${user.first_name} ${user.last_name}` : 
+                                                         user.first_name || user.last_name || 'Nome non disponibile');
+                                        
+                                        const email = user.email || 'Email non disponibile';
+                                        const phone = user.phone_number || '-';
+                                        const role = user.role || 'utente';
+                                        const membershipType = user.membership_type1 || user.membership_type2 || '-';
+                                        const membershipStatus = user.membership_status || 'attivo';
+                                        // Capitalize first letter for display
+                                        const membershipStatusDisplay = membershipStatus.charAt(0).toUpperCase() + membershipStatus.slice(1);
+                                        const privacyAccepted = user.privacy_accepted ? '✅' : '❌';
+                                        const createdAt = user.created_at ? new Date(user.created_at).toLocaleDateString('it-IT') : 'N/D';
+                                        const userId = user.id; // Use only id field
+                                        console.log(`User ${index}: ID=${user.id}, using=${userId}`);
+                                        
+                                        const rowStyle = index % 2 === 0 ? 'background-color: #f8f9fa;' : 'background-color: white;';
+                                        
+                                        tableHTML += `
+                                                <tr style="${rowStyle}">
+                                                        <td style="padding: 12px; border: 1px solid #ddd;">
+                                                                <strong>${escapeHtml(fullName)}</strong>
+                                                                ${user.date_of_birth ? `<br><small style="color: #666;">Nato il: ${new Date(user.date_of_birth).toLocaleDateString('it-IT')}</small>` : ''}
+                                                        </td>
+                                                        <td style="padding: 12px; border: 1px solid #ddd;">
+                                                                ${escapeHtml(email)}
+                                                                ${user.city ? `<br><small style="color: #666;">${escapeHtml(user.city)}</small>` : ''}
+                                                        </td>
+                                                        <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">
+                                                                ${escapeHtml(phone)}
+                                                        </td>
+                                                        <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">
+                                                                <select onchange="updateUserRole('${userId}', this.value)" 
+                                                                        style="padding: 4px 8px; border: 1px solid #ddd; border-radius: 4px; background: white;">
+                                                                        <option value="utente" ${role === 'utente' ? 'selected' : ''}>Utente</option>
+                                                                        <option value="socio" ${role === 'socio' ? 'selected' : ''}>Socio</option>
+                                                                        <option value="admin" ${role === 'admin' ? 'selected' : ''}>Admin</option>
+                                                                </select>
+                                                        </td>
+                                                        <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">
+                                                                ${escapeHtml(membershipType)}
+                                                        </td>
+                                                        <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">
+                                                                ${createdAt}
+                                                        </td>
+                                                        <td class="user-actions" style="padding: 8px; border: 1px solid #ddd; text-align: center; white-space: nowrap;">
+                                                                <button onclick="editUserProfile('${userId}')" 
+                                                                        class="btn-sm btn-edit" 
+                                                                        style="padding: 4px 8px; margin-right: 4px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px; text-decoration: none; outline: none;">
+                                                                        ✏️ Modifica
+                                                                </button>
+                                                                <button onclick="deleteUser('${userId}')" 
+                                                                        class="btn-sm btn-delete" 
+                                                                        style="padding: 4px 8px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px; text-decoration: none; outline: none;">
+                                                                        🗑️ Elimina
+                                                                </button>
+                                                        </td>
+                                                </tr>
+                                        `;
+                                });
+
+                                tableHTML += `
+                                                </tbody>
+                                        </table>
+                                `;
+
+                                usersTable.innerHTML = tableHTML;
+                        }
+
+                        async function updateUserRole(userId, newRole) {
+                                try {
+                                        // Update role in profiles table
+                                        const { error } = await supabaseClient
+                                                .from('profiles')
+                                                .update({ role: newRole, updated_at: new Date().toISOString() })
+                                                .eq('id', userId);
+
+                                        if (error) throw error;
+
+                                        notify.success(`Ruolo aggiornato a: ${newRole}`);
+                                        
+                                } catch (error) {
+                                        console.error('Error updating user role:', error);
+                                        notify.error('Errore nell\'aggiornamento del ruolo: ' + error.message);
+                                        // Reload the users list to reset the dropdown
+                                        await loadUsersList();
+                                }
+                        }
+
+                        async function resendConfirmationToUser(userId) {
+                                try {
+                                        const { error } = await supabaseClient.auth.admin.generateLink({
+                                                type: 'signup',
+                                                email: userId // This would need the actual email
+                                        });
+
+                                        if (error) throw error;
+
+                                        notify.success('Email di conferma inviata!');
+                                        
+                                } catch (error) {
+                                        console.error('Error resending confirmation:', error);
+                                        notify.error('Errore nell\'invio della conferma: ' + error.message);
+                                }
+                        }
+
+                        async function deleteUser(userId) {
+                                if (!confirm('Sei sicuro di voler eliminare questo profilo utente? Questa azione non può essere annullata.')) {
+                                        return;
+                                }
+
+                                try {
+                                        // Delete user profile from profiles table
+                                        const { error } = await supabaseClient
+                                                .from('profiles')
+                                                .delete()
+                                                .eq('id', userId);
+
+                                        if (error) throw error;
+
+                                        notify.success('Profilo utente eliminato con successo!');
+                                        await loadUsersList();
+                                        
+                                } catch (error) {
+                                        console.error('Error deleting user profile:', error);
+                                        notify.error('Errore nell\'eliminazione del profilo: ' + error.message);
+                                }
+                        }
+
+                        // Initialize users management when authentication is complete
+                        async function initializeUsersManagement() {
+                                // Load users list when the tab is shown
+                                const showUsersBtn = document.getElementById('show-users-list');
+                                if (showUsersBtn) {
+                                        showUsersBtn.addEventListener('click', () => {
+                                                loadUsersList();
+                                        });
+                                }
+
+                                // Load users list initially if user has admin privileges
+                                if (userRole === 'admin' || userRole === 'socio') {
+                                        await loadUsersList();
+                                }
+                        }
+
+                        // Function to edit user profile
+                        async function editUserProfile(userId) {
+                                try {
+                                        console.log('Loading profile for ID:', userId);
+                                        
+                                        // Get user data using id field only
+                                        let { data: profile, error } = await supabaseClient
+                                                .from('profiles')
+                                                .select('*')
+                                                .eq('id', userId)
+                                                .single();
+
+                                        if (error) throw error;
+                                        
+                                        console.log('Loaded profile:', profile);
+
+                                        // Create a modal or form for editing
+                                        const modalHTML = `
+                                                <div id="edit-user-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; align-items: center; justify-content: center;">
+                                                        <div style="background: white; padding: 30px; border-radius: 10px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
+                                                                <h3 style="margin-top: 0; color: #333;">Modifica Profilo Utente</h3>
+                                                                <form id="edit-user-form">
+                                                                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                                                                                <div>
+                                                                                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Nome *</label>
+                                                                                        <input type="text" id="edit-user-first-name" value="${profile.first_name || ''}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" required>
+                                                                                </div>
+                                                                                <div>
+                                                                                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Cognome *</label>
+                                                                                        <input type="text" id="edit-user-last-name" value="${profile.last_name || ''}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" required>
+                                                                                </div>
+                                                                                <div>
+                                                                                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Email *</label>
+                                                                                        <input type="email" id="edit-user-email" value="${profile.email || ''}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" required>
+                                                                                </div>
+                                                                                <div>
+                                                                                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Telefono</label>
+                                                                                        <input type="tel" id="edit-user-phone" value="${profile.phone_number || ''}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                                                                </div>
+                                                                                <div>
+                                                                                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Data di Nascita</label>
+                                                                                        <input type="date" id="edit-user-birth-date" value="${profile.date_of_birth || ''}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                                                                </div>
+                                                                                <div>
+                                                                                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Luogo di Nascita</label>
+                                                                                        <input type="text" id="edit-user-birth-place" value="${profile.place_of_birth || ''}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                                                                </div>
+                                                                                <div>
+                                                                                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Sesso</label>
+                                                                                        <select id="edit-user-gender" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                                                                                <option value="">Seleziona...</option>
+                                                                                                <option value="M" ${profile.gender === 'M' ? 'selected' : ''}>Maschio</option>
+                                                                                                <option value="F" ${profile.gender === 'F' ? 'selected' : ''}>Femmina</option>
+                                                                                        </select>
+                                                                                </div>
+                                                                                <div>
+                                                                                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Codice Fiscale</label>
+                                                                                        <input type="text" id="edit-user-fiscal-code" value="${profile.fiscal_code || ''}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; text-transform: uppercase;" maxlength="16">
+                                                                                </div>
+                                                                                <div>
+                                                                                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Indirizzo</label>
+                                                                                        <input type="text" id="edit-user-address" value="${profile.address || ''}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                                                                </div>
+                                                                                <div>
+                                                                                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Città</label>
+                                                                                        <input type="text" id="edit-user-city" value="${profile.city || ''}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                                                                </div>
+                                                                                <div>
+                                                                                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">CAP</label>
+                                                                                        <input type="text" id="edit-user-zip" value="${profile.zip_code || ''}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" pattern="[0-9]{5}" maxlength="5">
+                                                                                </div>
+                                                                                <div>
+                                                                                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Provincia</label>
+                                                                                        <input type="text" id="edit-user-province" value="${profile.province || ''}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; text-transform: uppercase;" maxlength="2">
+                                                                                </div>
+                                                                                <div>
+                                                                                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Ruolo</label>
+                                                                                        <select id="edit-user-role" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                                                                                <option value="utente" ${profile.role === 'utente' ? 'selected' : ''}>Utente</option>
+                                                                                                <option value="socio" ${profile.role === 'socio' ? 'selected' : ''}>Socio</option>
+                                                                                                <option value="admin" ${profile.role === 'admin' ? 'selected' : ''}>Admin</option>
+                                                                                        </select>
+                                                                                </div>
+                                                                                <div>
+                                                                                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Tipo Socio 1</label>
+                                                                                        <input type="text" id="edit-user-membership1" value="${profile.membership_type1 || ''}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                                                                </div>
+                                                                                <div>
+                                                                                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Tipo Socio 2</label>
+                                                                                        <input type="text" id="edit-user-membership2" value="${profile.membership_type2 || ''}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                                                                </div>
+                                                                                <div>
+                                                                                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Stato Iscrizione</label>
+                                                                                        <select id="edit-user-status" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                                                                                <option value="attivo" ${(profile.membership_status || '').toLowerCase() === 'attivo' ? 'selected' : ''}>Attivo</option>
+                                                                                                <option value="sospeso" ${(profile.membership_status || '').toLowerCase() === 'sospeso' ? 'selected' : ''}>Sospeso</option>
+                                                                                                <option value="scaduto" ${(profile.membership_status || '').toLowerCase() === 'scaduto' ? 'selected' : ''}>Scaduto</option>
+                                                                                                <option value="cancellato" ${(profile.membership_status || '').toLowerCase() === 'cancellato' ? 'selected' : ''}>Cancellato</option>
+                                                                                        </select>
+                                                                                </div>
+                                                                                <div style="grid-column: span 2;">
+                                                                                        <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
+                                                                                                <input type="checkbox" id="edit-user-privacy" ${profile.privacy_accepted ? 'checked' : ''}>
+                                                                                                <span style="font-weight: bold;">Privacy Accettata</span>
+                                                                                        </label>
+                                                                                </div>
+                                                                        </div>
+                                                                        <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                                                                                <button type="button" onclick="closeEditUserModal()" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">Annulla</button>
+                                                                                <button type="submit" style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">💾 Salva Modifiche</button>
+                                                                        </div>
+                                                                </form>
+                                                        </div>
+                                                </div>
+                                        `;
+
+                                        document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+                                        // Add form submit handler
+                                        document.getElementById('edit-user-form').addEventListener('submit', async (e) => {
+                                                e.preventDefault();
+                                                await saveUserProfile(userId);
+                                        });
+
+                                } catch (error) {
+                                        console.error('Error loading user profile:', error);
+                                        notify.error('Errore nel caricamento del profilo: ' + error.message);
+                                }
+                        }
+
+                        async function saveUserProfile(userId) {
+                                try {
+                                        console.log('Updating user profile for ID:', userId);
+                                        
+                        const updateData = {
+                                first_name: document.getElementById('edit-user-first-name').value,
+                                last_name: document.getElementById('edit-user-last-name').value,
+                                email: document.getElementById('edit-user-email').value,
+                                phone_number: document.getElementById('edit-user-phone').value || null,
+                                date_of_birth: document.getElementById('edit-user-birth-date').value || null,
+                                place_of_birth: document.getElementById('edit-user-birth-place').value,
+                                gender: document.getElementById('edit-user-gender').value,
+                                fiscal_code: document.getElementById('edit-user-fiscal-code').value.toUpperCase(),
+                                address: document.getElementById('edit-user-address').value,
+                                city: document.getElementById('edit-user-city').value,
+                                zip_code: document.getElementById('edit-user-zip').value,
+                                province: document.getElementById('edit-user-province').value.toUpperCase(),
+                                role: document.getElementById('edit-user-role').value,
+                                membership_type1: document.getElementById('edit-user-membership1').value,
+                                membership_type2: document.getElementById('edit-user-membership2').value,
+                                membership_status: document.getElementById('edit-user-status').value, // Values are already lowercase
+                                privacy_accepted: document.getElementById('edit-user-privacy').checked
+                        };                                        // Remove empty values and fields that don't exist in the table
+                                        Object.keys(updateData).forEach(key => {
+                                                if (updateData[key] === '' || updateData[key] === null) {
+                                                        if (key !== 'date_of_birth') { // Keep null for date_of_birth if empty
+                                                                updateData[key] = null;
+                                                        }
+                                                }
+                                        });
+
+                                        console.log('Update data:', updateData);
+                                        console.log('Current user session:', supabaseClient.auth.getSession());
+
+                                        // First verify the user exists and get current data
+                                        const { data: existingUser, error: checkError } = await supabaseClient
+                                                .from('profiles')
+                                                .select('*')
+                                                .eq('id', userId)
+                                                .single();
+
+                                        if (checkError || !existingUser) {
+                                                console.error('User not found:', checkError);
+                                                throw new Error('Utente non trovato nella tabella profiles');
+                                        }
+
+                                        console.log('Current user data:', existingUser);
+                                        console.log('User exists, proceeding with update...');
+
+                                        // Try update with explicit returning all fields
+                                        const { data, error, status, statusText } = await supabaseClient
+                                                .from('profiles')
+                                                .update(updateData)
+                                                .eq('id', userId)
+                                                .select('*');
+
+                                        console.log('Update result data:', data);
+                                        console.log('Update result error:', error);
+                                        console.log('Update result status:', status);
+                                        console.log('Update result statusText:', statusText);
+
+                                        if (error) {
+                                                console.error('Update error details:', error);
+                                                throw error;
+                                        }
+
+                                        // If no data returned but no error, try alternative approaches
+                                        if (!data || data.length === 0) {
+                                                console.log('No data returned from update, trying alternative approaches...');
+                                                
+                                                // Try using upsert instead
+                                                console.log('Attempting upsert...');
+
+                                                let upsertData = { ...updateData, id: userId };
+                                                const { data: upsertResult, error: upsertError } = await supabaseClient
+                                                        .from('profiles')
+                                                        .upsert(upsertData, { onConflict: 'id' })
+                                                        .select('*');
+
+                                                console.log('Upsert result:', upsertResult);
+                                                console.log('Upsert error:', upsertError);
+                                                // Logga warning se membership_type2 non coincide
+                                                if (upsertResult && upsertResult.length > 0 && upsertData.membership_type2) {
+                                                    const dbType2 = upsertResult[0].membership_type2;
+                                                    if (dbType2 && dbType2 !== upsertData.membership_type2) {
+                                                        console.warn(`ATTENZIONE: membership_type2 inviato='${upsertData.membership_type2}', restituito dal DB='${dbType2}'. Probabile normalizzazione lato database.`);
+                                                    }
+                                                }
+
+                                                if (upsertError) {
+                                                        console.error('Upsert failed, trying direct query approach...');
+                                                        
+                                                        // Last resort: verify if data actually changed
+                                                        const { data: verifyData, error: verifyError } = await supabaseClient
+                                                                .from('profiles')
+                                                                .select('*')
+                                                                .eq('id', userId)
+                                                                .single();
+
+                                                        if (verifyError) {
+                                                                throw new Error('Errore nella verifica dell\'aggiornamento: ' + verifyError.message);
+                                                        }
+
+                                                        console.log('Comparing data...');
+                                                        console.log('Original data:', existingUser);
+                                                        console.log('Current data:', verifyData);
+                                                        console.log('Expected updates:', updateData);
+
+                                                        // Check if data actually changed
+                                                        let hasChanges = false;
+                                                        let failedUpdates = [];
+                                                        
+                                                        for (const [key, value] of Object.entries(updateData)) {
+                                                                // Skip comparison for fields that might not exist in existingUser
+                                                                if (!(key in existingUser)) {
+                                                                        console.log(`Field ${key} not in original data, skipping comparison`);
+                                                                        continue;
+                                                                }
+                                                                
+                                                                let originalValue = existingUser[key];
+                                                                let currentValue = verifyData[key];
+                                                                let expectedValue = value;
+                                                                
+                                                                // Handle case sensitivity for string comparisons
+                                                                if (typeof originalValue === 'string' && typeof expectedValue === 'string') {
+                                                                        originalValue = originalValue.toLowerCase();
+                                                                        currentValue = currentValue ? currentValue.toLowerCase() : currentValue;
+                                                                        expectedValue = expectedValue.toLowerCase();
+                                                                }
+                                                                
+                                                                if (originalValue !== expectedValue) {
+                                                                        hasChanges = true;
+                                                                        if (currentValue === expectedValue || (expectedValue === null && currentValue === null)) {
+                                                                                console.log(`Field ${key} was updated successfully: ${existingUser[key]} -> ${verifyData[key]}`);
+                                                                        } else {
+                                                                                console.log(`Field ${key} was NOT updated: expected ${value}, got ${verifyData[key]}`);
+                                                                                failedUpdates.push(key);
+                                                                        }
+                                                                }
+                                                        }
+
+                                                        if (failedUpdates.length > 0) {
+                                                                throw new Error(`Campi non aggiornati: ${failedUpdates.join(', ')}. Possibile problema di permessi RLS.`);
+                                                        }
+
+                                                        if (!hasChanges) {
+                                                                console.log('No changes were needed - data was already up to date');
+                                                        }
+                                                } else if (upsertResult && upsertResult.length > 0) {
+                                                        console.log('Upsert successful');
+                                                } else {
+                                                        throw new Error('Nessun metodo di aggiornamento ha funzionato. Controlla i permessi RLS.');
+                                                }
+                                        } else {
+                                                console.log('Update successful with returned data:', data);
+                                        }
+
+                                        notify.success('Profilo aggiornato con successo!');
+                                        closeEditUserModal();
+                                        await loadUsersList();
+
+                                } catch (error) {
+                                        console.error('Error updating user profile:', error);
+                                        notify.error('Errore nell\'aggiornamento: ' + error.message);
+                                }
+                        }
+
+                        function closeEditUserModal() {
+                                const modal = document.getElementById('edit-user-modal');
+                                if (modal) {
+                                        modal.remove();
+                                }
+                        }
+
                         // Global functions for buttons
                         window.resendConfirmation = resendConfirmation;
                         window.handleLogout = handleLogout;
+                        window.updateUserRole = updateUserRole;
+                        window.resendConfirmationToUser = resendConfirmationToUser;
+                        window.deleteUser = deleteUser;
+                        window.editUserProfile = editUserProfile;
+                        window.closeEditUserModal = closeEditUserModal;
   </script> 
   <script src="assets/js/adblock-detector-v2.js"></script> 
   <script src="assets/js/adblock-integration-v2.js"></script>
