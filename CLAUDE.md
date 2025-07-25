@@ -6,19 +6,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a static website for "Associazione Santa Barbara APS", a non-profit organization based in Grumo Appula, Italy. The site combines vanilla HTML/CSS/JavaScript with modern authentication capabilities via Supabase. Hosted on GitHub Pages with Jekyll processing and custom domain `associazionesbarbara.it`.
 
-## Development Commands
-
-### Local Development
-```bash
-# Start local server (Python 3 - recommended)
-python3 -m http.server
-
-# Alternative with specific port
-python3 -m http.server 8000
-
-# Access at http://localhost:8000
-```
-
 ### Testing & Validation
 No automated test framework is configured. Manual testing workflow:
 ```bash
