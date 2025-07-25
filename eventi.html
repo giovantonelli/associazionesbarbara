@@ -40,75 +40,531 @@
                         gtag('config', 'G-F465WJF33T');
   </script>
   <style>
-.event-modal {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.45);
-  z-index: 9999;
-  align-items: center; justify-content: center;
-  transition: opacity 0.25s;
-  opacity: 0;
-}
-.event-modal.show {
-  display: flex;
-  opacity: 1;
-}
-.modal-content {
-  background: #fff;
-  border-radius: 20px;
-  max-width: 700px;
-  min-width: 320px;
-  width: 90vw;
-  min-height: 120px;
-  padding: 2.5em 2em 2em 2em;
-  box-shadow: 0 12px 48px rgba(0,0,0,0.18);
-  position: relative;
-  animation: modalIn 0.35s cubic-bezier(.42,1.2,.58,1) forwards;
-}
-@keyframes modalIn {
-  0% { transform: scale(0.85) translateY(40px); opacity: 0; }
-  100% { transform: scale(1) translateY(0); opacity: 1; }
-}
-#close-modal {
-  position: absolute;
-  top: 18px; right: 18px;
-  background: none;
-  border: none;
-  font-size: 2em;
-  color: #E10600;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-#close-modal:hover { color: #b30000; }
-#modal-html-content {
-  margin-top: 1.5em;
-  font-size: 1.13em;
-  color: #222;
-  line-height: 1.7;
-  word-break: break-word;
-}
-.public-events-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2em;
-  margin-bottom: 2em;
-}
-@media (max-width: 600px) {
-  .public-events-grid {
-    grid-template-columns: 1fr;
-    gap: 1.2em;
-  }
-}
-.evento-card {
-  transition: box-shadow 0.25s, transform 0.18s;
-}
-.evento-card:hover {
-  box-shadow: 0 8px 40px rgba(225,6,0,0.18), 0 2px 16px rgba(34,58,108,0.08);
-  transform: translateY(-4px) scale(1.025);
-  z-index: 2;
-}
+    /* Eventi UX Enhancements */
+    .eventi-header {
+      background: linear-gradient(135deg, rgba(225, 6, 0, 0.9), rgba(255, 215, 0, 0.8)), url('https://ciezrbsolxpjxswdkkpo.supabase.co/storage/v1/object/public/gallery/html/eventi-hero.jpg');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 40px 0;
+    }
+
+    .eventi-header .lead {
+      font-size: 1.4rem;
+      margin-bottom: 30px;
+      opacity: 0.95;
+    }
+
+    .header-divider {
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, #FFD700, #FFA500);
+      margin: 0 auto;
+      border-radius: 2px;
+    }
+
+    .section-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #E10600, #FF4500);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 15px rgba(225, 6, 0, 0.3);
+    }
+
+    .section-header {
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .section-subtitle {
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 0;
+    }
+
+    /* Enhanced Event Cards */
+    .evento-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2.5em 2em 2em 2em;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+      border: 1px solid rgba(225, 6, 0, 0.1);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .evento-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #E10600, #FFD700);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .evento-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .evento-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 60px rgba(225, 6, 0, 0.15);
+      border-color: rgba(225, 6, 0, 0.2);
+    }
+
+    .evento-card.past-event {
+      background: #f8f9fa;
+      opacity: 0.85;
+    }
+
+    .evento-card.past-event:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    }
+
+    /* Event Card Image Enhancements */
+    .event-image-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      margin-bottom: 1.2em;
+      box-shadow: 0 4px 20px rgba(225, 6, 0, 0.1);
+    }
+
+    .event-image-container img {
+      transition: transform 0.5s ease;
+      width: 100%;
+      height: auto;
+    }
+
+    .evento-card:hover .event-image-container img {
+      transform: scale(1.05);
+    }
+
+    .event-image-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.8));
+      padding: 20px 15px 15px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .event-image-container:hover .event-image-overlay {
+      opacity: 1;
+    }
+
+    .event-date-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: linear-gradient(135deg, #E10600, #FF4500);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 15px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(225, 6, 0, 0.3);
+    }
+
+    /* Event Type Badges */
+    .event-type-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      color: #333;
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .event-type-badge.cultura {
+      background: linear-gradient(135deg, #9C27B0, #E91E63);
+      color: white;
+    }
+
+    .event-type-badge.sociale {
+      background: linear-gradient(135deg, #4CAF50, #8BC34A);
+      color: white;
+    }
+
+    .event-type-badge.formazione {
+      background: linear-gradient(135deg, #2196F3, #03A9F4);
+      color: white;
+    }
+
+    /* Past Events Section Enhancement */
+    .past-events-section {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 25px;
+      padding: 2.5em 2em;
+      margin-bottom: 2em;
+      border: 2px solid rgba(225, 6, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .past-events-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.05), transparent);
+      transition: left 0.8s ease;
+    }
+
+    .past-events-section:hover::before {
+      left: 100%;
+    }
+
+    /* Modal Enhancements */
+    .event-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.6);
+      z-index: 9999;
+      align-items: center; justify-content: center;
+      transition: all 0.3s ease;
+      opacity: 0;
+      backdrop-filter: blur(5px);
+    }
+
+    .event-modal.show {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: #fff;
+      border-radius: 25px;
+      max-width: 800px;
+      min-width: 320px;
+      width: 90vw;
+      max-height: 85vh;
+      min-height: 120px;
+      padding: 3em 2.5em 2.5em 2.5em;
+      box-shadow: 0 20px 80px rgba(0,0,0,0.3);
+      position: relative;
+      animation: modalIn 0.4s cubic-bezier(.42,1.2,.58,1) forwards;
+      border: 2px solid rgba(225, 6, 0, 0.1);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #modal-html-content {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+
+    /* Custom scrollbar for modal content */
+    #modal-html-content::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #modal-html-content::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+
+    #modal-html-content::-webkit-scrollbar-thumb {
+      background: rgba(225, 6, 0, 0.3);
+      border-radius: 4px;
+    }
+
+    #modal-html-content::-webkit-scrollbar-thumb:hover {
+      background: rgba(225, 6, 0, 0.5);
+    }
+
+    @keyframes modalIn {
+      0% { transform: scale(0.8) translateY(60px); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    #close-modal {
+      position: absolute;
+      top: 20px; right: 20px;
+      background: rgba(225, 6, 0, 0.1);
+      border: none;
+      font-size: 1.8em;
+      color: #E10600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #close-modal:hover {
+      background: #E10600;
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    #modal-html-content {
+      margin-top: 1.5em;
+      font-size: 1.15em;
+      color: #333;
+      line-height: 1.8;
+      word-break: break-word;
+    }
+
+    /* Grid Layout */
+    .public-events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2.5em;
+      margin-bottom: 2em;
+    }
+
+    /* Main Content Enhancement */
+    .eventi-main {
+      max-width: 1000px;
+      margin: 40px auto 0 auto;
+      padding: 0 1rem;
+    }
+
+    .main-title {
+      text-align: center;
+      color: #E10600;
+      font-size: 2.5em;
+      margin-bottom: 1.5em;
+      letter-spacing: 1px;
+      font-weight: 700;
+      position: relative;
+    }
+
+    .main-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(90deg, #E10600, #FFD700);
+      border-radius: 2px;
+    }
+
+    .section-title {
+      color: #E10600;
+      font-size: 1.8em;
+      margin-bottom: 1em;
+      font-weight: 600;
+    }
+
+    .past-section-title {
+      color: #888;
+      font-size: 1.4em;
+      margin: 2.5em 0 1em 0;
+      letter-spacing: 1px;
+      font-weight: 500;
+    }
+
+    /* Loading Animation */
+    .loading-spinner {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border: 3px solid rgba(225, 6, 0, 0.3);
+      border-radius: 50%;
+      border-top-color: #E10600;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 10px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Animations */
+    .animate-fade-in {
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .animate-slide-up {
+      opacity: 0;
+      transform: translateY(50px);
+      animation: slideUp 0.8s ease forwards;
+    }
+
+    .animate-slide-left {
+      opacity: 0;
+      transform: translateX(50px);
+      animation: slideLeft 0.8s ease forwards;
+    }
+
+    .animate-slide-right {
+      opacity: 0;
+      transform: translateX(-50px);
+      animation: slideRight 0.8s ease forwards;
+    }
+
+    .animate-section {
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideLeft {
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slideRight {
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Pulse Animation for New Events */
+    .pulse-glow {
+      animation: pulseGlow 2s infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 5px 25px rgba(0,0,0,0.08); }
+      50% { box-shadow: 0 5px 25px rgba(225, 6, 0, 0.2), 0 0 0 2px rgba(225, 6, 0, 0.1); }
+    }
+
+    /* Responsive Improvements */
+    @media (max-width: 768px) {
+      .eventi-header .lead {
+        font-size: 1.2rem;
+      }
+      
+      .section-badge {
+        font-size: 0.8rem;
+        padding: 6px 16px;
+      }
+      
+      .public-events-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5em;
+      }
+      
+      .main-title {
+        font-size: 2rem;
+      }
+      
+      .section-title {
+        font-size: 1.5rem;
+      }
+      
+      .modal-content {
+        padding: 2.5em 1.5em 2em 1.5em;
+        margin: 20px;
+        max-height: 88vh;
+        overflow-y: auto;
+        width: 95vw;
+        max-width: none;
+      }
+
+      #close-modal {
+        top: 15px;
+        right: 15px;
+        font-size: 1.6em;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .eventi-main {
+        padding: 0 0.5rem;
+      }
+      
+      .evento-card {
+        padding: 2em 1.5em;
+      }
+
+      .modal-content {
+        padding: 2em 1em 1.5em 1em;
+        margin: 10px;
+        max-height: 92vh;
+        overflow-y: auto;
+        width: 98vw;
+        border-radius: 15px;
+        max-width: none;
+      }
+
+      #close-modal {
+        top: 10px;
+        right: 10px;
+        font-size: 1.4em;
+        width: 35px;
+        height: 35px;
+      }
+    }
+
+    /* Very small screens */
+    @media (max-width: 320px) {
+      .modal-content {
+        padding: 1.5em 0.8em 1em 0.8em;
+        margin: 5px;
+        max-height: 95vh;
+        width: 99vw;
+        border-radius: 10px;
+      }
+
+      #close-modal {
+        top: 8px;
+        right: 8px;
+        font-size: 1.2em;
+        width: 30px;
+        height: 30px;
+      }
+    }
+
+    /* Portrait tablets and small landscape tablets */
+    @media (min-width: 481px) and (max-width: 1024px) {
+      .modal-content {
+        max-height: 85vh;
+        width: 85vw;
+        max-width: 700px;
+      }
+    }
+
+    /* Very tall screens */
+    @media (min-height: 900px) {
+      .modal-content {
+        max-height: 80vh;
+      }
+    }
   </style>
 </head>
 <body>
@@ -149,19 +605,30 @@
     </div>
   </nav>
   <div id="user-bar"></div>
-  <section class="page-header">
+  <section class="page-header eventi-header">
     <div class="container">
-      <h1>Eventi</h1>
-      <p>Scopri tutti i nostri eventi e attività in programma</p>
+      <div class="header-content animate-fade-in">
+        <h1>Eventi</h1>
+        <p class="lead">Scopri tutti i nostri eventi e attività in programma</p>
+        <div class="header-divider"></div>
+      </div>
     </div>
   </section>
-  <main class="eventi-main" style="max-width:900px;margin:40px auto 0 auto;padding:0 1rem;">
-    <h1 style="text-align:center;color:#E10600;font-size:2.2em;margin-bottom:1.2em;letter-spacing:1px;">Eventi Pubblici</h1>
-    <h2 style="color:#E10600;font-size:1.5em;margin-bottom:0.7em;">Prossimi Eventi</h2>
-    <div id="future-events-list" class="public-events-grid"></div>
-    <h2 style="color:#888;font-size:1.2em;margin:2.5em 0 0.7em 0;letter-spacing:1px;">Eventi Passati</h2>
-    <div id="past-events-section" style="background:#f7f7f7;border-radius:18px;padding:1.5em 1em 1.5em 1em;margin-bottom:2em;border:1px solid #e0e0e0;">
-      <div id="past-events-list" class="public-events-grid"></div>
+  <main class="eventi-main animate-section">
+    <div class="section-header">
+      <span class="section-badge">Calendario</span>
+      <h1 class="main-title animate-slide-up">Eventi Pubblici</h1>
+      <p class="section-subtitle animate-slide-up">Partecipa alle nostre iniziative e scopri le attività della comunità</p>
+    </div>
+    <div class="animate-slide-right">
+      <h2 class="section-title">Prossimi Eventi</h2>
+      <div id="future-events-list" class="public-events-grid"></div>
+    </div>
+    <div class="animate-slide-left">
+      <h2 class="past-section-title">Eventi Passati</h2>
+      <div id="past-events-section" class="past-events-section">
+        <div id="past-events-list" class="public-events-grid"></div>
+      </div>
     </div>
     <!-- Popup Modale Evento -->
     <div id="event-modal" class="event-modal">
@@ -237,7 +704,7 @@
 
   async function loadPublicEvents() {
     const eventsList = document.getElementById('public-events-list');
-    document.getElementById('future-events-list').innerHTML = '<div style="text-align:center;color:#E10600;font-size:1.1em;">Caricamento eventi...</div>';
+    document.getElementById('future-events-list').innerHTML = '<div style="text-align:center;color:#E10600;font-size:1.1em;"><span class="loading-spinner"></span>Caricamento eventi...</div>';
     document.getElementById('past-events-list').innerHTML = '';
     const { data, error } = await supabaseClient.from('events').select('*').eq('is_public', true).order('event_date', { ascending: true });
     if (error) {
@@ -265,47 +732,378 @@
     pastEvents.sort((a, b) => new Date(b.event_date) - new Date(a.event_date));
     // Renderizza eventi futuri
     const renderCard = (ev, isPast = false) => {
-      const img = ev.image_url ? `<img src="${ev.image_url}" alt="Locandina evento" style="max-width:340px;border-radius:12px;box-shadow:0 2px 16px rgba(225,6,0,0.10);margin-bottom:1.2em;${isPast ? 'filter:grayscale(0.7) contrast(0.95);opacity:0.85;' : ''}">` : '';
+      const img = ev.image_url ? `
+        <div class="event-image-container" data-image-url="${ev.image_url}" onclick="event.stopPropagation(); openImageLightbox('${ev.image_url}');" style="cursor: pointer;">
+          <img src="${ev.image_url}" alt="Locandina evento" ${isPast ? 'style="filter:grayscale(0.7) contrast(0.95);"' : ''}>
+          <div class="event-image-overlay">
+            <span style="color: white; font-weight: 600;">🔍 Ingrandisci immagine</span>
+          </div>
+          ${!isPast ? '<div class="event-date-badge">' + (ev.event_date ? new Date(ev.event_date).getDate() + '/' + (new Date(ev.event_date).getMonth() + 1) : 'TBD') + '</div>' : ''}
+        </div>
+      ` : '';
+      
       const date = ev.event_date ? new Date(ev.event_date).toLocaleDateString('it-IT') : '';
       const time = ev.event_time ? `Ore ${ev.event_time}` : '';
       const location = ev.location ? `<span style="font-size:1.05em;">${ev.location}</span>` : '';
+      
+      // Determine event type for badge
+      const eventType = ev.category || 'generale';
+      const typeBadge = `<span class="event-type-badge ${eventType.toLowerCase()}">${eventType}</span>`;
+      
+      // Check if event is recent (within 7 days)
+      const isRecent = ev.created_at && new Date() - new Date(ev.created_at) < 7 * 24 * 60 * 60 * 1000;
+      
       return `
-        <section class="evento-card" style="background:${isPast ? '#f3f3f3' : '#fff'};border-radius:18px;box-shadow:0 4px 32px rgba(225,6,0,0.06);padding:2.5em 2em 2em 2em;display:flex;flex-direction:column;align-items:center;cursor:${isPast ? 'default' : 'pointer'};transition:box-shadow 0.2s;${isPast ? 'opacity:0.85;' : ''}" data-event-id="${ev.id}">
+        <article class="evento-card ${isPast ? 'past-event' : ''} ${isRecent && !isPast ? 'pulse-glow' : ''}" data-event-id="${ev.id}">
           <div style="width:100%;text-align:center;">
-            <h2 style="color:${isPast ? '#b0b0b0' : '#E10600'};font-size:1.5em;margin-bottom:0.5em;">${ev.title || 'Evento'}</h2>
-            <p style="font-size:1.15em;color:${isPast ? '#888' : '#222'};margin-bottom:1.2em;">
-              <strong>${date}</strong><br>
-              <span style="font-size:1.1em;color:${isPast ? '#b0b0b0' : '#E10600'};">${time}</span><br>
-              ${location}
-            </p>
+            <div onclick="openEventModal('${ev.id}')" style="cursor: pointer;">
+              ${!isPast ? typeBadge : ''}
+              <h2 style="color:${isPast ? '#b0b0b0' : '#E10600'};font-size:1.6em;margin-bottom:0.8em;font-weight:600;">${ev.title || 'Evento'}</h2>
+              <div style="font-size:1.15em;color:${isPast ? '#888' : '#333'};margin-bottom:1.5em;">
+                <div style="margin-bottom:0.5em;"><strong style="color:${isPast ? '#999' : '#E10600'};">${date}</strong></div>
+                ${time ? `<div style="font-size:1.1em;color:${isPast ? '#b0b0b0' : '#666'};margin-bottom:0.5em;">${time}</div>` : ''}
+                ${location ? `<div style="color:${isPast ? '#aaa' : '#555'};">${location}</div>` : ''}
+              </div>
+            </div>
             ${img}
-            <p style="font-size:1.08em;color:${isPast ? '#aaa' : '#444'};line-height:1.6;margin-bottom:1.2em;">${ev.description || ''}</p>
-            ${ev.external_link && !isPast ? `<a href="${ev.external_link}" target="_blank" style="display:inline-block;background:#E10600;color:#fff;padding:0.7em 1.6em;border-radius:8px;font-size:1.08em;text-decoration:none;box-shadow:0 2px 8px rgba(225,6,0,0.10);transition:background 0.2s;">Info evento</a>` : ''}
+            <div onclick="openEventModal('${ev.id}')" style="cursor: pointer;">
+              <p style="font-size:1.1em;color:${isPast ? '#aaa' : '#555'};line-height:1.7;margin-bottom:1.5em;">${ev.description || ''}</p>
+              ${ev.external_link && !isPast ? `<a href="${ev.external_link}" target="_blank" onclick="event.stopPropagation();" style="display:inline-block;background:linear-gradient(135deg, #E10600, #FF4500);color:#fff;padding:0.8em 2em;border-radius:25px;font-size:1.05em;text-decoration:none;box-shadow:0 4px 15px rgba(225,6,0,0.3);transition:all 0.3s ease;font-weight:600;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(225,6,0,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 15px rgba(225,6,0,0.3)'">🔗 Info evento</a>` : ''}
+            </div>
           </div>
-        </section>
+        </article>
       `;
     };
     document.getElementById('future-events-list').innerHTML = futureEvents.length ? futureEvents.map(ev => renderCard(ev, false)).join('') : '<div style="text-align:center;color:#444;">Nessun evento futuro.</div>';
     document.getElementById('past-events-list').innerHTML = pastEvents.length ? pastEvents.map(ev => renderCard(ev, true)).join('') : '<div style="text-align:center;color:#888;">Nessun evento passato.</div>';
-    // Event listener per popup
-    setTimeout(() => {
-      document.querySelectorAll('.evento-card[data-event-id]').forEach(card => {
-        card.addEventListener('click', async function(e) {
+    // Global functions for modal and lightbox
+    window.openEventModal = async function(eventId) {
+      const modal = document.getElementById('event-modal');
+      const modalContent = document.getElementById('modal-html-content');
+      modalContent.innerHTML = '<div style="text-align:center;color:#E10600;">Caricamento...</div>';
+      modal.classList.add('show');
+      // Recupera content HTML da Supabase
+      const { data: eventData, error: eventError } = await supabaseClient.from('events').select('content').eq('id', eventId).single();
+      if (eventError || !eventData) {
+        modalContent.innerHTML = `<div style="color:red;text-align:center;">Errore: ${eventError ? eventError.message : 'Evento non trovato'}</div>`;
+        return;
+      }
+      modalContent.innerHTML = `<div>${eventData.content}</div>`;
+    };
+    
+    window.openImageLightbox = function(imageUrl) {
+      // Create or get image lightbox
+      let lightbox = document.getElementById('image-lightbox');
+      if (!lightbox) {
+        lightbox = document.createElement('div');
+        lightbox.id = 'image-lightbox';
+        lightbox.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0,0,0,0.9);
+          z-index: 10000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          overflow: hidden;
+        `;
+        
+        lightbox.innerHTML = `
+          <div id="lightbox-container" style="position: relative; width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+            <img id="lightbox-img" src="" alt="Immagine evento" style="
+              max-width: 95vw;
+              max-height: 95vh;
+              width: auto;
+              height: auto;
+              object-fit: contain;
+              border-radius: 10px;
+              box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+              cursor: grab;
+              transition: transform 0.3s ease;
+              transform-origin: center center;
+            ">
+            
+            <!-- Close button -->
+            <button onclick="closeImageLightbox()" style="
+              position: absolute;
+              top: 20px;
+              right: 20px;
+              background: rgba(225, 6, 0, 0.8);
+              color: white;
+              border: none;
+              border-radius: 50%;
+              width: 50px;
+              height: 50px;
+              font-size: 28px;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              transition: all 0.3s ease;
+              z-index: 10001;
+            " onmouseover="this.style.transform='scale(1.1)';this.style.background='#E10600'" onmouseout="this.style.transform='scale(1)';this.style.background='rgba(225, 6, 0, 0.8)'">&times;</button>
+            
+            <!-- Zoom controls -->
+            <div id="zoom-controls" style="
+              position: absolute;
+              bottom: 30px;
+              left: 50%;
+              transform: translateX(-50%);
+              display: flex;
+              gap: 10px;
+              background: rgba(0,0,0,0.7);
+              padding: 10px 15px;
+              border-radius: 25px;
+              z-index: 10001;
+            ">
+              <button onclick="zoomImage(-0.2)" style="
+                background: rgba(225, 6, 0, 0.8);
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s ease;
+              " title="Riduci zoom">−</button>
+              
+              <button onclick="resetZoom()" style="
+                background: rgba(225, 6, 0, 0.8);
+                color: white;
+                border: none;
+                border-radius: 20px;
+                padding: 8px 12px;
+                font-size: 12px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-weight: 600;
+              " title="Reset zoom">RESET</button>
+              
+              <button onclick="zoomImage(0.2)" style="
+                background: rgba(225, 6, 0, 0.8);
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s ease;
+              " title="Aumenta zoom">+</button>
+            </div>
+            
+            <!-- Zoom info -->
+            <div id="zoom-info" style="
+              position: absolute;
+              top: 20px;
+              left: 20px;
+              background: rgba(0,0,0,0.7);
+              color: white;
+              padding: 8px 12px;
+              border-radius: 15px;
+              font-size: 14px;
+              font-weight: 600;
+              z-index: 10001;
+            ">100%</div>
+          </div>
+        `;
+        
+        document.body.appendChild(lightbox);
+        
+        // Initialize zoom variables
+        let currentZoom = 1;
+        let isDragging = false;
+        let dragStart = { x: 0, y: 0 };
+        let imgPosition = { x: 0, y: 0 };
+        
+        const img = document.getElementById('lightbox-img');
+        const container = document.getElementById('lightbox-container');
+        const zoomInfo = document.getElementById('zoom-info');
+        
+        // Zoom functions
+        window.zoomImage = function(delta) {
+          currentZoom = Math.max(0.5, Math.min(5, currentZoom + delta));
+          updateImageTransform();
+          updateZoomInfo();
+        };
+        
+        window.resetZoom = function() {
+          currentZoom = 1;
+          imgPosition = { x: 0, y: 0 };
+          updateImageTransform();
+          updateZoomInfo();
+        };
+        
+        function updateImageTransform() {
+          img.style.transform = `translate(${imgPosition.x}px, ${imgPosition.y}px) scale(${currentZoom})`;
+          img.style.cursor = currentZoom > 1 ? 'grab' : 'default';
+        }
+        
+        function updateZoomInfo() {
+          zoomInfo.textContent = Math.round(currentZoom * 100) + '%';
+        }
+        
+        // Mouse wheel zoom
+        container.addEventListener('wheel', function(e) {
           e.preventDefault();
-          const eventId = card.getAttribute('data-event-id');
-          const modal = document.getElementById('event-modal');
-          const modalContent = document.getElementById('modal-html-content');
-          modalContent.innerHTML = '<div style="text-align:center;color:#E10600;">Caricamento...</div>';
-          modal.classList.add('show');
-          // Recupera content HTML da Supabase
-          const { data: eventData, error: eventError } = await supabaseClient.from('events').select('content').eq('id', eventId).single();
-          if (eventError || !eventData) {
-            modalContent.innerHTML = `<div style="color:red;text-align:center;">Errore: ${eventError ? eventError.message : 'Evento non trovato'}</div>`;
+          const delta = e.deltaY > 0 ? -0.1 : 0.1;
+          zoomImage(delta);
+        });
+        
+        // Double click to zoom
+        img.addEventListener('dblclick', function(e) {
+          if (currentZoom === 1) {
+            currentZoom = 2;
+          } else {
+            resetZoom();
             return;
           }
-          modalContent.innerHTML = `<div>${eventData.content}</div>`;
+          updateImageTransform();
+          updateZoomInfo();
         });
-      });
+        
+        // Mouse drag functionality
+        img.addEventListener('mousedown', function(e) {
+          if (currentZoom > 1) {
+            isDragging = true;
+            img.style.cursor = 'grabbing';
+            dragStart.x = e.clientX - imgPosition.x;
+            dragStart.y = e.clientY - imgPosition.y;
+            e.preventDefault();
+          }
+        });
+        
+        document.addEventListener('mousemove', function(e) {
+          if (isDragging && currentZoom > 1) {
+            imgPosition.x = e.clientX - dragStart.x;
+            imgPosition.y = e.clientY - dragStart.y;
+            updateImageTransform();
+          }
+        });
+        
+        document.addEventListener('mouseup', function() {
+          if (isDragging) {
+            isDragging = false;
+            img.style.cursor = currentZoom > 1 ? 'grab' : 'default';
+          }
+        });
+        
+        // Touch support for mobile
+        let initialDistance = 0;
+        let initialZoom = 1;
+        
+        img.addEventListener('touchstart', function(e) {
+          if (e.touches.length === 2) {
+            // Pinch to zoom start
+            const touch1 = e.touches[0];
+            const touch2 = e.touches[1];
+            initialDistance = Math.hypot(
+              touch2.clientX - touch1.clientX,
+              touch2.clientY - touch1.clientY
+            );
+            initialZoom = currentZoom;
+          } else if (e.touches.length === 1 && currentZoom > 1) {
+            // Single touch drag start
+            isDragging = true;
+            const touch = e.touches[0];
+            dragStart.x = touch.clientX - imgPosition.x;
+            dragStart.y = touch.clientY - imgPosition.y;
+          }
+          e.preventDefault();
+        });
+        
+        img.addEventListener('touchmove', function(e) {
+          if (e.touches.length === 2) {
+            // Pinch to zoom
+            const touch1 = e.touches[0];
+            const touch2 = e.touches[1];
+            const currentDistance = Math.hypot(
+              touch2.clientX - touch1.clientX,
+              touch2.clientY - touch1.clientY
+            );
+            const scale = currentDistance / initialDistance;
+            currentZoom = Math.max(0.5, Math.min(5, initialZoom * scale));
+            updateImageTransform();
+            updateZoomInfo();
+          } else if (e.touches.length === 1 && isDragging && currentZoom > 1) {
+            // Single touch drag
+            const touch = e.touches[0];
+            imgPosition.x = touch.clientX - dragStart.x;
+            imgPosition.y = touch.clientY - dragStart.y;
+            updateImageTransform();
+          }
+          e.preventDefault();
+        });
+        
+        img.addEventListener('touchend', function(e) {
+          if (e.touches.length === 0) {
+            isDragging = false;
+          }
+        });
+        
+        // Close on background click
+        lightbox.addEventListener('click', function(e) {
+          if (e.target === lightbox) {
+            closeImageLightbox();
+          }
+        });
+        
+        // Close on ESC key
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && lightbox.style.display !== 'none') {
+            closeImageLightbox();
+          }
+        });
+      }
+      
+      // Reset zoom state when opening new image
+      currentZoom = 1;
+      imgPosition = { x: 0, y: 0 };
+      
+      // Show image
+      const img = document.getElementById('lightbox-img');
+      img.src = imageUrl;
+      img.style.transform = 'translate(0px, 0px) scale(1)';
+      document.getElementById('zoom-info').textContent = '100%';
+      
+      lightbox.style.display = 'flex';
+      setTimeout(() => {
+        lightbox.style.opacity = '1';
+      }, 10);
+      document.body.style.overflow = 'hidden';
+    };
+    
+    window.closeImageLightbox = function() {
+      const lightbox = document.getElementById('image-lightbox');
+      if (lightbox) {
+        // Reset zoom state
+        if (typeof currentZoom !== 'undefined') {
+          currentZoom = 1;
+          imgPosition = { x: 0, y: 0 };
+        }
+        
+        lightbox.style.opacity = '0';
+        setTimeout(() => {
+          lightbox.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        }, 300);
+      }
+    };
+    
+    // Setup modal close events
+    setTimeout(() => {
       document.getElementById('close-modal').addEventListener('click', function() {
         document.getElementById('event-modal').classList.remove('show');
       });
@@ -313,23 +1111,124 @@
         if (e.target === this) this.classList.remove('show');
       });
       document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') document.getElementById('event-modal').classList.remove('show');
+        if (e.key === 'Escape') {
+          document.getElementById('event-modal').classList.remove('show');
+          closeImageLightbox();
+        }
       });
     }, 500);
+    
+    // Initialize animations after DOM update
+    setTimeout(() => {
+      initializeAnimations();
+      setupHoverEffects();
+    }, 100);
   }
-  document.addEventListener('DOMContentLoaded', loadPublicEvents);
+  
+  // Initialize animations
+  function initializeAnimations() {
+    // Intersection Observer for animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const element = entry.target;
+          const delay = element.dataset.delay || 0;
+          
+          setTimeout(() => {
+            element.style.animationDelay = delay + 'ms';
+            element.classList.add('animate');
+          }, delay);
+          
+          observer.unobserve(element);
+        }
+      });
+    }, observerOptions);
+    
+    // Observe all animated elements
+    document.querySelectorAll('.animate-slide-up, .animate-slide-left, .animate-slide-right, .evento-card').forEach((el, index) => {
+      el.dataset.delay = index * 100;
+      observer.observe(el);
+    });
+  }
+  
+  // Enhanced hover effects for event cards
+  function setupHoverEffects() {
+    document.querySelectorAll('.evento-card').forEach((card, index) => {
+      // Staggered animation delay
+      card.style.animationDelay = (index * 150) + 'ms';
+      
+      card.addEventListener('mouseenter', function() {
+        // Add ripple effect
+        const ripple = document.createElement('div');
+        ripple.style.cssText = `
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background: radial-gradient(circle, rgba(225,6,0,0.1) 0%, transparent 70%);
+          pointer-events: none;
+          animation: ripple 0.6s ease-out;
+          border-radius: 20px;
+        `;
+        this.appendChild(ripple);
+        
+        setTimeout(() => {
+          if (ripple.parentNode) ripple.remove();
+        }, 600);
+      });
+    });
+  }
+  
+  // Parallax effect for hero section
+  function setupParallax() {
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const header = document.querySelector('.eventi-header');
+      if (header) {
+        header.style.transform = `translateY(${scrolled * 0.5}px)`;
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    loadPublicEvents();
+    setupParallax();
+    
+    // Add ripple animation keyframes
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes ripple {
+        0% { transform: scale(0); opacity: 1; }
+        100% { transform: scale(1); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    // Initialize page animations
+    setTimeout(() => {
+      document.querySelectorAll('.animate-fade-in, .animate-slide-up, .animate-slide-left, .animate-slide-right').forEach(el => {
+        el.classList.add('animate');
+      });
+    }, 100);
+  });
   </script>
   <script>
-
-                        // Check if user is logged in to show member events
-                        document.addEventListener('DOMContentLoaded', function() {
-                                const currentUser = localStorage.getItem('currentUser');
-                                if (currentUser) {
-                                        document.getElementById('login-required').style.display = 'none';
-                                        document.getElementById('members-calendar').style.display = 'block';
-                                        document.getElementById('members-events').style.display = 'block';
-                                }
-                        });
+    // Check if user is logged in to show member events
+    document.addEventListener('DOMContentLoaded', function() {
+      const currentUser = localStorage.getItem('currentUser');
+      if (currentUser) {
+        const loginRequired = document.getElementById('login-required');
+        const membersCalendar = document.getElementById('members-calendar');
+        const membersEvents = document.getElementById('members-events');
+        
+        if (loginRequired) loginRequired.style.display = 'none';
+        if (membersCalendar) membersCalendar.style.display = 'block';
+        if (membersEvents) membersEvents.style.display = 'block';
+      }
+    });
   </script> 
   <script src="assets/js/adblock-detector-v2.js"></script> 
   <script src="assets/js/adblock-integration-v2.js"></script>

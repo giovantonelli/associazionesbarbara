@@ -49,6 +49,387 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://associazionesbarbara.it/attivita.html">
   <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    /* Attivita UX Enhancements */
+    .page-header {
+      background: linear-gradient(135deg, rgba(230, 6, 0, 0.9), rgba(255, 215, 0, 0.8)), url('https://ciezrbsolxpjxswdkkpo.supabase.co/storage/v1/object/public/gallery/html/corteostorico.jpg');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 1;
+    }
+
+    .page-header .container {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 60px 0;
+    }
+
+    .page-header h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      color: white;
+    }
+
+    .page-header p {
+      font-size: 1.3rem;
+      color: rgba(255,255,255,0.95);
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+
+    .section-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #E10600, #FF4500);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 15px rgba(225, 6, 0, 0.3);
+    }
+
+    .section-header {
+      margin-bottom: 50px;
+      text-align: center;
+    }
+
+    .section-subtitle {
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 0;
+    }
+
+    /* Enhanced Cards */
+    .enhanced-card {
+      background: white;
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      border: 2px solid rgba(225, 6, 0, 0.1);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .enhanced-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #E10600, #FFD700);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .enhanced-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .enhanced-card:hover {
+      transform: translateY(-15px) scale(1.03);
+      box-shadow: 0 25px 70px rgba(225, 6, 0, 0.2);
+      border-color: rgba(225, 6, 0, 0.3);
+    }
+
+    .enhanced-card.card-active {
+      transform: translateY(-15px) scale(1.05);
+      box-shadow: 0 30px 80px rgba(225, 6, 0, 0.25);
+      border-color: #E10600;
+      z-index: 10;
+    }
+
+    .card-img-container {
+      position: relative;
+      overflow: hidden;
+      height: 250px;
+    }
+
+    .card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .enhanced-card:hover .card-img {
+      transform: scale(1.1);
+    }
+
+    .card-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(225, 6, 0, 0.8), rgba(255, 69, 0, 0.6));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .enhanced-card:hover .card-overlay {
+      opacity: 1;
+    }
+
+    .overlay-icon {
+      color: white;
+      font-size: 3rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .enhanced-card-content {
+      padding: 30px;
+    }
+
+    .enhanced-card-content h3 {
+      color: #E10600;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .enhanced-card-content p {
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 0;
+    }
+
+    /* Activity Details Enhanced */
+    .activity-details {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 20px;
+      padding: 40px;
+      margin: 40px 0;
+      box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+      border: 2px solid rgba(225, 6, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .activity-details::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, #E10600, #FFD700, #E10600);
+    }
+
+    .activity-details h3 {
+      color: #E10600;
+      font-size: 2.2rem;
+      margin-bottom: 30px;
+      font-weight: 700;
+    }
+
+    .activity-details img {
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease;
+      max-width: 250px;
+      margin: 15px 20px 15px 0;
+    }
+
+    .activity-details img:hover {
+      transform: scale(1.05);
+    }
+
+    .activity-details ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    .activity-details ul li {
+      background: white;
+      padding: 12px 20px;
+      margin: 8px 0;
+      border-radius: 10px;
+      border-left: 4px solid #E10600;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+
+    .activity-details ul li:hover {
+      transform: translateX(10px);
+      box-shadow: 0 5px 20px rgba(225, 6, 0, 0.15);
+    }
+
+    .activity-details ul li::before {
+      content: '✓';
+      color: #E10600;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    .activity-details-content {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .activity-details p {
+      color: #444;
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-size: 1.05rem;
+    }
+
+    /* Animations */
+    .animate-fade-in {
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .animate-fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 0.8s ease forwards;
+    }
+
+    .animate-section {
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Lightbox per foto */
+    .photo-lightbox {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .lightbox-content {
+      position: relative;
+      max-width: 95vw;
+      max-height: 95vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    #lightbox-image {
+      width: auto;
+      height: auto;
+      max-width: 95vw;
+      max-height: 95vh;
+      object-fit: contain;
+      border-radius: 10px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    
+    .lightbox-close {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      color: white;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.5);
+      border-radius: 50%;
+      transition: background 0.3s ease;
+    }
+    
+    .lightbox-close:hover {
+      background: rgba(225, 6, 0, 0.8);
+    }
+    
+    /* Responsive per immagini dettagli attività */
+    .activity-details img {
+      max-width: 220px;
+      width: 100%;
+      height: auto;
+      margin: 10px 15px 10px 0;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+    
+    @media (max-width: 768px) {
+      .activity-details img {
+        max-width: 100%;
+        margin: 10px 0;
+      }
+      
+      .lightbox-close {
+        top: -50px;
+        font-size: 30px;
+      }
+      
+      #lightbox-image {
+        max-width: 98vw;
+        max-height: 90vh;
+      }
+    }
+
+    /* Responsive Improvements */
+    @media (max-width: 768px) {
+      .page-header h1 {
+        font-size: 2.5rem;
+      }
+      
+      .enhanced-card {
+        margin-bottom: 30px;
+      }
+      
+      .activity-details {
+        padding: 25px;
+      }
+      
+      .activity-details h3 {
+        font-size: 1.8rem;
+      }
+      
+      .activity-details img {
+        max-width: 100%;
+        margin: 10px 0;
+      }
+    }
+  </style>
   <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
   <script>
                         // Define dataLayer and the gtag function
@@ -112,56 +493,25 @@
   <div id="user-bar"></div>
   <section class="page-header">
     <div class="container">
-      <h1>Attività e Progetti</h1>
-      <p>Scopri tutte le nostre iniziative per la comunità</p>
+      <div class="animate-fade-in">
+        <h1>Attività e Progetti</h1>
+        <p>Scopri tutte le nostre iniziative per la comunità</p>
+      </div>
     </div>
   </section>
-  <section class="attivita-principali">
+  <section class="attivita-principali animate-section">
     <div class="container">
-      <h2 class="section-title">Le nostre attività principali</h2>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card" onclick="showActivityDetails('dettagli-corteo')" style="cursor:pointer;">
-            <img src="assets/images/corteostorico.jpg" alt="Corteo Storico" class="card-img">
-            <div class="card-content">
-              <h3>Corteo storico</h3>
-              <p>Un viaggio nel tempo tra costumi d’epoca, figuranti, tamburini e sbandieratori: il Corteo Storico anima le strade del paese, rievocando la storia locale e coinvolgendo grandi e piccoli in un’esperienza unica di comunità e tradizione.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card" onclick="showActivityDetails('dettagli-tamburi')" style="cursor:pointer;">
-            <img src="assets/images/tamburini.jpg" alt="Tamburi medievali" class="card-img">
-            <div class="card-content">
-              <h3>Tamburi medievali</h3>
-              <p>Il gruppo di tamburi medievali porta energia e ritmo agli eventi: giovani e adulti si esibiscono in parate e spettacoli, trasmettendo passione per la musica tradizionale e coinvolgendo il pubblico con performance spettacolari.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card" onclick="showActivityDetails('dettagli-inarrivo')" style="cursor:pointer;">
-            <img src="assets/images/banner.jpg" alt="Progetti in arrivo..." class="card-img">
-            <div class="card-content">
-              <h3>In arrivo...</h3>
-              <p>Una nuova iniziativa sociale e culturale è in fase di sviluppo: sarà un progetto innovativo pensato per coinvolgere la cittadinanza, promuovere inclusione e offrire nuove opportunità di partecipazione. Segui i nostri canali per scoprire tutte le novità!</p>
-            </div>
-          </div>
-        </div>
-        <div id="dettagli-corteo" class="activity-details">
-          <h3>Corteo Storico</h3>
-          <div style="display:flex;align-items:flex-start;flex-wrap:wrap;">
-            <img src="assets/images/corteostorico.jpg" alt="Corteo Storico"> <img src="assets/images/banner.jpg" alt="Sfilata storica">
-            <div>
-              <p>Il Corteo Storico è l’evento simbolo dell’associazione: una rievocazione che coinvolge decine di figuranti in abiti d’epoca, cavalli, tamburini e sbandieratori. Il corteo attraversa le vie principali del paese, rievocando momenti salienti della storia locale e promuovendo la partecipazione di tutta la comunità.</p>
-              <p>Il Corteo Storico rappresenta il cuore pulsante della nostra associazione: una grande festa popolare che unisce storia, arte e senso di appartenenza. Ogni anno, centinaia di persone partecipano come figuranti, artigiani, musicisti e spettatori, rendendo l’evento un’occasione di crescita e condivisione per tutto il territorio.</p>
-              <ul>
-                <li>Costumi realizzati artigianalmente</li>
-                <li>Collaborazione con scuole e associazioni</li>
-                <li>Spettacoli e animazione durante il percorso</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+      <div class="section-header">
+        <span class="section-badge">Attività</span>
+        <h2 class="section-title">Le nostre attività principali</h2>
+        <p class="section-subtitle">Clicca su ogni attività per scoprire maggiori dettagli</p>
+      </div>
+      <div class="row" id="attivita-container">
+        <!-- Le attività verranno caricate dinamicamente da Supabase -->
+      </div>
+              <div id="activity-details-container">
+        <!-- I dettagli delle attività verranno caricati dinamicamente -->
+      </div>
         <div id="dettagli-tamburi" class="activity-details">
           <h3>Tamburi Medievali</h3>
           <div style="display:flex;align-items:flex-start;flex-wrap:wrap;">
@@ -253,6 +603,271 @@
   <script src="assets/js/script.js"></script> 
   <script src="assets/js/adblock-detector-v2.js"></script>
   <script src="assets/js/adblock-integration-v2.js"></script>
+  
+  <script>
+    // Configurazione Supabase
+    const SUPABASE_URL = 'https://ciezrbsolxpjxswdkkpo.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpZXpyYnNvbHhwanhzd2Rra3BvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5MjM1NjAsImV4cCI6MjA2ODQ5OTU2MH0.V-U8KhO8byObUW5kJ8XbLBkp9O9Efh98MdbKYFfbQJk';
+
+    // Carica attività da Supabase
+    async function loadAttivita() {
+      try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/attivita?select=*`, {
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (!response.ok) throw new Error('Errore nel caricamento delle attività');
+        
+        const attivita = await response.json();
+        renderAttivita(attivita);
+        renderActivityDetails(attivita);
+        
+      } catch (error) {
+        console.error('Errore:', error);
+        document.getElementById('attivita-container').innerHTML = '<p>Errore nel caricamento delle attività</p>';
+      }
+    }
+
+    // Rendering delle card attività
+    function renderAttivita(attivita) {
+      const container = document.getElementById('attivita-container');
+      container.innerHTML = '';
+      
+      attivita.forEach((activity, index) => {
+        const col = document.createElement('div');
+        col.className = 'col-md-4 animate-fade-up';
+        col.setAttribute('data-delay', index * 100);
+        
+        col.innerHTML = `
+          <div class="enhanced-card" onclick="showActivityDetails('dettagli-${activity.id}')">
+            <div class="card-img-container">
+              <img src="${activity.image_url}" alt="${activity.title}" class="card-img">
+              <div class="card-overlay">
+                <div class="overlay-icon">${activity.emoji}</div>
+              </div>
+            </div>
+            <div class="enhanced-card-content">
+              <h3>${activity.title}</h3>
+              <p>${activity.short_description}</p>
+            </div>
+          </div>
+        `;
+        
+        container.appendChild(col);
+      });
+    }
+
+    // Rendering dei dettagli attività
+    function renderActivityDetails(attivita) {
+      const container = document.getElementById('activity-details-container');
+      container.innerHTML = '';
+      
+      attivita.forEach(activity => {
+        const detailDiv = document.createElement('div');
+        detailDiv.id = `dettagli-${activity.id}`;
+        detailDiv.className = 'activity-details';
+        
+        let photosHtml = '';
+        if (activity.photo1_url) {
+          photosHtml += `<img src="${activity.photo1_url}" alt="${activity.title} foto 1" onclick="openLightbox('${activity.photo1_url}')" style="cursor: pointer;">`;
+        }
+        if (activity.photo2_url) {
+          photosHtml += `<img src="${activity.photo2_url}" alt="${activity.title} foto 2" onclick="openLightbox('${activity.photo2_url}')" style="cursor: pointer;">`;
+        }
+        
+        let cubitalList = '';
+        if (activity.cubital1 || activity.cubital2 || activity.cubital3) {
+          cubitalList = '<ul>';
+          if (activity.cubital1) cubitalList += `<li>${activity.cubital1}</li>`;
+          if (activity.cubital2) cubitalList += `<li>${activity.cubital2}</li>`;
+          if (activity.cubital3) cubitalList += `<li>${activity.cubital3}</li>`;
+          cubitalList += '</ul>';
+        }
+        
+        detailDiv.innerHTML = `
+          <h3>${activity.title}</h3>
+          <div style="display:flex;align-items:flex-start;flex-wrap:wrap;">
+            ${photosHtml}
+            <div>
+              <p>${activity.long_description}</p>
+              ${cubitalList}
+            </div>
+          </div>
+        `;
+        
+        container.appendChild(detailDiv);
+      });
+    }
+
+    // Carica attività al caricamento della pagina e inizializza UX
+    document.addEventListener('DOMContentLoaded', function() {
+      loadAttivita();
+      
+    // Funzione lightbox per ingrandire le immagini
+    function openLightbox(imageSrc) {
+      // Crea il lightbox se non esiste
+      let lightbox = document.getElementById('photo-lightbox');
+      if (!lightbox) {
+        lightbox = document.createElement('div');
+        lightbox.id = 'photo-lightbox';
+        lightbox.className = 'photo-lightbox';
+        lightbox.innerHTML = `
+          <div class="lightbox-content">
+            <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+            <img id="lightbox-image" src="" alt="Foto ingrandita">
+          </div>
+        `;
+        document.body.appendChild(lightbox);
+      }
+      
+      // Mostra l'immagine nel lightbox
+      document.getElementById('lightbox-image').src = imageSrc;
+      lightbox.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeLightbox() {
+      const lightbox = document.getElementById('photo-lightbox');
+      if (lightbox) {
+        lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    }
+    
+    // Chiudi lightbox cliccando fuori dall'immagine
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('photo-lightbox')) {
+        closeLightbox();
+      }
+    });
+    
+    // Chiudi lightbox con ESC
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeLightbox();
+      }
+    });
+    
+    // Rendi le funzioni globali
+    window.openLightbox = openLightbox;
+    window.closeLightbox = closeLightbox;
+      
+    // Enhanced UX JavaScript for Attivita
+      
+      // Intersection Observer for animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const element = entry.target;
+            const delay = element.dataset.delay || 0;
+            
+            setTimeout(() => {
+              element.style.animationDelay = delay + 'ms';
+              element.classList.add('animate');
+            }, delay);
+            
+            observer.unobserve(element);
+          }
+        });
+      }, observerOptions);
+      
+      // Observe all animated elements
+      document.querySelectorAll('.animate-fade-up').forEach(el => {
+        observer.observe(el);
+      });
+      
+      // Enhanced card interaction
+      document.querySelectorAll('.enhanced-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+          if (!this.classList.contains('card-active')) {
+            this.style.transform = 'translateY(-15px) scale(1.03)';
+          }
+        });
+        
+        card.addEventListener('mouseleave', function() {
+          if (!this.classList.contains('card-active')) {
+            this.style.transform = 'translateY(0) scale(1)';
+          }
+        });
+      });
+      
+      // Parallax effect for page header
+      window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const header = document.querySelector('.page-header');
+        if (header) {
+          header.style.transform = `translateY(${scrolled * 0.3}px)`;
+        }
+      });
+      
+      // Enhanced activity details visibility with better card management
+      const originalShowActivityDetails = window.showActivityDetails;
+      window.showActivityDetails = function(id) {
+        // Remove active state from all cards first
+        document.querySelectorAll('.enhanced-card').forEach(card => {
+          card.classList.remove('card-active');
+          card.style.transform = '';
+        });
+        
+        // Call original function
+        originalShowActivityDetails(id);
+        
+        // Add enhanced styling to clicked card
+        let activeCard = null;
+        if (id === 'dettagli-corteo') {
+          activeCard = document.querySelector('.enhanced-card[onclick*="dettagli-corteo"]');
+        } else if (id === 'dettagli-tamburi') {
+          activeCard = document.querySelector('.enhanced-card[onclick*="dettagli-tamburi"]');
+        } else if (id === 'dettagli-inarrivo') {
+          activeCard = document.querySelector('.enhanced-card[onclick*="dettagli-inarrivo"]');
+        }
+        
+        if (activeCard) {
+          activeCard.classList.add('card-active');
+          activeCard.style.transform = 'translateY(-15px) scale(1.05)';
+        }
+        
+        // Add enhanced animation to active details
+        setTimeout(() => {
+          const activeDetail = document.getElementById(id);
+          if (activeDetail && activeDetail.classList.contains('active')) {
+            activeDetail.style.animation = 'fadeIn 0.6s ease, slideUp 0.6s ease';
+            activeDetail.style.transform = 'translateY(0)';
+          }
+        }, 100);
+      };
+      
+      // Add staggered loading animation for cards
+      document.querySelectorAll('.enhanced-card').forEach((card, index) => {
+        card.style.animationDelay = (index * 100) + 'ms';
+      });
+      
+    });
+    
+    // Add slideUp keyframe
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
   
 </body>
 </html>

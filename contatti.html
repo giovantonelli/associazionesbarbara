@@ -12,6 +12,119 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://associazionesbarbara.it/contatti.html">
   <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    /* Contatti UX Enhancements */
+    .page-header {
+      background: linear-gradient(135deg, rgba(230, 6, 0, 0.9), rgba(255, 215, 0, 0.8)), url('https://ciezrbsolxpjxswdkkpo.supabase.co/storage/v1/object/public/gallery/html/contatti-hero.jpg');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 1;
+    }
+
+    .page-header .container {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 60px 0;
+    }
+
+    .page-header h1 {
+      font-size: 3.5rem;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .page-header p {
+      font-size: 1.3rem;
+      color: rgba(255,255,255,0.95);
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+
+    .contact-form {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+      border: 2px solid rgba(225, 6, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .contact-form:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 25px 70px rgba(225, 6, 0, 0.15);
+    }
+
+    .form-group input, .form-group textarea {
+      border: 2px solid rgba(225, 6, 0, 0.2);
+      border-radius: 10px;
+      padding: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus, .form-group textarea:focus {
+      border-color: #E10600;
+      box-shadow: 0 0 0 3px rgba(225, 6, 0, 0.1);
+      outline: none;
+    }
+
+    .contact-info {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+
+    .animate-fade-in {
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .animate-slide-left {
+      opacity: 0;
+      transform: translateX(50px);
+      animation: slideLeft 0.8s ease forwards;
+    }
+
+    .animate-slide-right {
+      opacity: 0;
+      transform: translateX(-50px);
+      animation: slideRight 0.8s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @keyframes slideLeft {
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slideRight {
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @media (max-width: 768px) {
+      .page-header h1 {
+        font-size: 2.5rem;
+      }
+      
+      .contact-form, .contact-info {
+        padding: 25px;
+      }
+    }
+  </style>
   <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
   <link rel="shortcut icon" href="/favicon/favicon.ico" />
@@ -78,86 +191,282 @@
     </div>
   </nav>
   <div id="user-bar"></div>
-  <section class="page-header">
+  <section class="page-header enhanced-header fade-in" data-parallax>
     <div class="container">
-      <h1>Contatti</h1>
-      <p>Siamo qui per rispondere alle tue domande e accogliere le tue proposte</p>
+      <div class="section-badge animate-badge">Contatti</div>
+      <h1 class="animate-title">Contatti</h1>
+      <p class="animate-subtitle">Siamo qui per rispondere alle tue domande e accogliere le tue proposte</p>
     </div>
+    <div class="header-decoration"></div>
   </section>
-  <section class="contact-info">
+  <section class="contact-info enhanced-contact-info">
     <div class="container">
+      <div class="section-badge animate-badge slide-up" data-animation-delay="0.2">Informazioni</div>
       <div class="row">
         <div class="col-md-4">
-          <div class="contact-card">
-            <div class="contact-icon">
+          <div class="contact-card enhanced-contact-card slide-up" data-animation-delay="0.3">
+            <div class="contact-icon enhanced-icon">
               <svg width="40" height="40" viewbox="0 0 24 24" fill="var(--primary-color)">
               <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>
             </div>
             <h3>Indirizzo</h3>
-            <p>Via N. Mastroserio 12<br>
-            Grumo Appula (BA)<br>
-            Italia</p>
+            <div class="contact-details">
+              <p>Via N. Mastroserio 12<br>
+              Grumo Appula (BA)<br>
+              Italia</p>
+              <div class="contact-actions">
+                <a href="https://maps.app.goo.gl/17mpxTbgqAVh5Tqv9" target="_blank" class="btn btn-outline btn-sm">
+                  <span class="btn-icon">🗺️</span>
+                  <span class="btn-text">Apri Mappa</span>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
         <div class="col-md-4">
-          <div class="contact-card">
-            <div class="contact-icon">
+          <div class="contact-card enhanced-contact-card slide-up" data-animation-delay="0.4">
+            <div class="contact-icon enhanced-icon">
               <svg width="40" height="40" viewbox="0 0 24 24" fill="var(--primary-color)">
               <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"></path></svg>
             </div>
             <h3>Telefono</h3>
-            <p><a href="tel:+39123456789">+39 123 456 789</a><br>
-            <a href="tel:+39123456790">+39 123 456 790</a> (Fax)</p>
+            <div class="contact-details">
+              <div class="phone-list">
+                <div class="phone-item">
+                  <span class="phone-label">Segreteria:</span>
+                  <a href="tel:+39123456789" class="phone-link">+39 123 456 789</a>
+                </div>
+                <div class="phone-item">
+                  <span class="phone-label">Fax:</span>
+                  <a href="tel:+39123456790" class="phone-link">+39 123 456 790</a>
+                </div>
+              </div>
+              <div class="contact-actions">
+                <a href="tel:+39123456789" class="btn btn-outline btn-sm">
+                  <span class="btn-icon">📞</span>
+                  <span class="btn-text">Chiama Ora</span>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
         <div class="col-md-4">
-          <div class="contact-card">
-            <div class="contact-icon">
+          <div class="contact-card enhanced-contact-card slide-up" data-animation-delay="0.5">
+            <div class="contact-icon enhanced-icon">
               <svg width="40" height="40" viewbox="0 0 24 24" fill="var(--primary-color)">
               <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg>
             </div>
             <h3>Email</h3>
-            <p><a href="mailto:info@associazionesbarbara.it">info@associazionesbarbara.it</a><br>
-            <span style="font-size:0.95em;color:#888;">Antonia Baccelliere (Presidente)</span> <a href="mailto:presidente@associazionesbarbara.it">presidente@associazionesbarbara.it</a></p>
+            <div class="contact-details">
+              <div class="email-list">
+                <div class="email-item">
+                  <span class="email-label">Generale:</span>
+                  <a href="mailto:info@associazionesbarbara.it" class="email-link">info@associazionesbarbara.it</a>
+                </div>
+                <div class="email-item">
+                  <span class="email-label">Presidente:</span>
+                  <a href="mailto:presidente@associazionesbarbara.it" class="email-link">presidente@associazionesbarbara.it</a>
+                  <small>Antonia Baccelliere</small>
+                </div>
+              </div>
+              <div class="contact-actions">
+                <a href="mailto:info@associazionesbarbara.it" class="btn btn-outline btn-sm">
+                  <span class="btn-icon">✉️</span>
+                  <span class="btn-text">Scrivi Email</span>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-  <div class="col-md-4">
-    <div class="contact-sidebar">
-      <h3>Orari di apertura</h3>
-      <div class="opening-hours">
-        <div class="opening-day">
-          <span class="day">Lunedì - Venerdì</span> <span class="hours">8:00 - 13:00<br>
-          15:00 - 20:00</span>
+  <section class="contact-details-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="contact-sidebar enhanced-sidebar slide-up" data-animation-delay="0.6">
+            <div class="sidebar-section">
+              <div class="section-header">
+                <span class="section-icon">🕒</span>
+                <h3>Orari di apertura</h3>
+              </div>
+              <div class="opening-hours enhanced-hours">
+                <div class="opening-day">
+                  <span class="day">Lunedì - Venerdì</span>
+                  <span class="hours">8:00 - 13:00<br>15:00 - 20:00</span>
+                </div>
+                <div class="opening-day">
+                  <span class="day">Sabato</span>
+                  <span class="hours">8:00 - 13:00</span>
+                </div>
+                <div class="opening-day closed">
+                  <span class="day">Domenica</span>
+                  <span class="hours">Chiuso</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="sidebar-section">
+              <div class="section-header">
+                <span class="section-icon">🚌</span>
+                <h3>Come raggiungerci</h3>
+              </div>
+              <div class="transport-info enhanced-transport">
+                <div class="transport-item">
+                  <span class="transport-icon">🚌</span>
+                  <div class="transport-details">
+                    <strong>Autobus STP/FAL</strong>
+                    <span class="transport-desc">Fermata: Via Vincenzo Rella 84<br>(5 min a piedi)</span>
+                  </div>
+                </div>
+                <div class="transport-item">
+                  <span class="transport-icon">🚗</span>
+                  <div class="transport-details">
+                    <strong>Auto</strong>
+                    <span class="transport-desc">Parcheggio disponibile nelle vicinanze</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="sidebar-section">
+              <div class="section-header">
+                <span class="section-icon">⚡</span>
+                <h3>Contatti rapidi</h3>
+              </div>
+              <div class="quick-contacts enhanced-quick">
+                <div class="quick-contact-item">
+                  <a href="https://wa.me/........" class="quick-link whatsapp">
+                    <span class="quick-icon">📱</span>
+                    <div class="quick-info">
+                      <span class="quick-label">WhatsApp</span>
+                      <span class="quick-value">+39 .......</span>
+                    </div>
+                  </a>
+                </div>
+                <div class="quick-contact-item">
+                  <a href="https://t.me/associazionesbarbara" class="quick-link telegram">
+                    <span class="quick-icon">✈️</span>
+                    <div class="quick-info">
+                      <span class="quick-label">Telegram</span>
+                      <span class="quick-value">@associazionesbarbara</span>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="opening-day">
-          <span class="day">Sabato</span> <span class="hours">8:00 - 13:00</span>
+        
+        <div class="col-md-8">
+          <div class="contact-form-section slide-up" data-animation-delay="0.7">
+            <div class="section-badge animate-badge">Contattaci</div>
+            <h2>Invia un messaggio</h2>
+            <p>Compila il modulo per inviarci una richiesta. Ti risponderemo il prima possibile!</p>
+            
+            <form class="contact-form enhanced-form" id="contactForm">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="nome">Nome *</label>
+                  <input type="text" id="nome" name="nome" required>
+                </div>
+                <div class="form-group">
+                  <label for="cognome">Cognome *</label>
+                  <input type="text" id="cognome" name="cognome" required>
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="email">Email *</label>
+                  <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                  <label for="telefono">Telefono</label>
+                  <input type="tel" id="telefono" name="telefono">
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="oggetto">Oggetto *</label>
+                <select id="oggetto" name="oggetto" required>
+                  <option value="">Seleziona l'oggetto...</option>
+                  <option value="iscrizione">Informazioni sull'iscrizione</option>
+                  <option value="volontariato">Opportunità di volontariato</option>
+                  <option value="eventi">Domande sugli eventi</option>
+                  <option value="partnership">Proposte di partnership</option>
+                  <option value="altro">Altro</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="messaggio">Messaggio *</label>
+                <textarea id="messaggio" name="messaggio" rows="5" required placeholder="Scrivi qui il tuo messaggio..."></textarea>
+              </div>
+              
+              <div class="form-group checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="privacy" name="privacy" required>
+                  <span class="checkmark"></span>
+                  Accetto l'<a href="privacy.html" target="_blank">Informativa sulla Privacy</a> *
+                </label>
+              </div>
+              
+              <button type="submit" class="btn btn-primary btn-full enhanced-submit">
+                <span class="btn-icon">📧</span>
+                <span class="btn-text">Invia Messaggio</span>
+                <div class="btn-loader" style="display: none;"></div>
+              </button>
+            </form>
+            
+            <div id="form-status" class="form-status" style="display: none;"></div>
+          </div>
         </div>
-        <div class="opening-day">
-          <span class="day">Domenica</span> <span class="hours">Chiuso</span>
-        </div>
-      </div>
-      <h3>Come raggiungerci</h3>
-      <div class="transport-info">
-        <p><strong>🚌 Autobus:</strong> STP/FAL<br>
-        Fermata: Via Vincenzo Rella 84 (5 min a piedi)</p>
-        <p><strong>🚗 Auto:</strong> Parcheggio nelle vicinanze</p>
-      </div>
-      <h3>Contatti rapidi</h3>
-      <div class="quick-contacts">
-        <p><strong>WhatsApp:</strong> <a href="https://wa.me/........">+39 .......</a></p>
-        <p><strong>Telegram:</strong> <a href="https://t.me/associazionesbarbara">@associazionesbarbara</a></p>
       </div>
     </div>
-  </div>
-  <section class="map-section">
+  </section>
+  <section class="map-section enhanced-map-section slide-up" data-animation-delay="0.8">
     <div class="container">
-      <h2 class="section-title">Dove siamo</h2>
-      <div class="map-container">
-        <div class="map-placeholder">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3673.114508777878!2d16.705670776505155!3d41.01166441921549!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1347f2b3a8470611%3A0xb07079213f3d2058!2sVia%20Nicola%20Mastroserio%2C%2012%2C%2070025%20Grumo%20Appula%20BA!5e1!3m2!1sit!2sit!4v1752937171378!5m2!1sit!2sit" width="100%" height="400" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="section-badge animate-badge">Posizione</div>
+      <h2 class="section-title animate-title">Dove siamo</h2>
+      <p class="section-subtitle animate-subtitle">Vieni a trovarci nella nostra sede di Grumo Appula</p>
+      
+      <div class="map-container enhanced-map-container">
+        <div class="map-overlay">
+          <div class="map-info">
+            <div class="map-address">
+              <span class="address-icon">📍</span>
+              <div class="address-details">
+                <strong>Via N. Mastroserio 12</strong>
+                <span>70025 Grumo Appula (BA)</span>
+              </div>
+            </div>
+            <div class="map-actions">
+              <a href="https://maps.app.goo.gl/17mpxTbgqAVh5Tqv9" target="_blank" class="btn btn-primary btn-sm">
+                <span class="btn-icon">🧭</span>
+                <span class="btn-text">Ottieni Indicazioni</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="map-placeholder enhanced-map">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3673.114508777878!2d16.705670776505155!3d41.01166441921549!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1347f2b3a8470611%3A0xb07079213f3d2058!2sVia%20Nicola%20Mastroserio%2C%2012%2C%2070025%20Grumo%20Appula%20BA!5e1!3m2!1sit!2sit!4v1752937171378!5m2!1sit!2sit" width="100%" height="450" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+      
+      <div class="location-features">
+        <div class="feature-item">
+          <span class="feature-icon">🅿️</span>
+          <span class="feature-text">Parcheggio disponibile</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">♿</span>
+          <span class="feature-text">Accesso facilitato</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🚌</span>
+          <span class="feature-text">Collegamento mezzi pubblici</span>
         </div>
       </div>
     </div>
@@ -222,6 +531,60 @@
   <script src="assets/js/script.js"></script> 
   <script src="assets/js/adblock-detector-v2.js"></script> 
   <script src="assets/js/adblock-integration-v2.js"></script>
+  
+  <script>
+    // Enhanced UX JavaScript for Contatti
+    document.addEventListener('DOMContentLoaded', function() {
+      
+      // Intersection Observer for animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const element = entry.target;
+            const delay = element.dataset.delay || 0;
+            
+            setTimeout(() => {
+              element.style.animationDelay = delay + 'ms';
+              element.classList.add('animate');
+            }, delay);
+            
+            observer.unobserve(element);
+          }
+        });
+      }, observerOptions);
+      
+      // Observe all animated elements
+      document.querySelectorAll('.animate-fade-in, .animate-slide-left, .animate-slide-right').forEach(el => {
+        observer.observe(el);
+      });
+      
+      // Enhanced form interactions
+      document.querySelectorAll('.form-group input, .form-group textarea').forEach(input => {
+        input.addEventListener('focus', function() {
+          this.parentElement.style.transform = 'translateY(-2px)';
+        });
+        
+        input.addEventListener('blur', function() {
+          this.parentElement.style.transform = 'translateY(0)';
+        });
+      });
+      
+      // Parallax effect for page header
+      window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const header = document.querySelector('.page-header');
+        if (header) {
+          header.style.transform = `translateY(${scrolled * 0.5}px)`;
+        }
+      });
+      
+    });
+  </script>
   
 </body>
 </html>
