@@ -1415,25 +1415,6 @@ function renderUserBar() {
   const user = JSON.parse(localStorage.getItem('currentUser'));
   const isAreaSoci = window.location.pathname.endsWith('area-soci.html');
 
-  if (user && user.name) {
-	userBar.innerHTML = `
-	  <span>Ciao, <strong>${user.name}</strong></span>
-	  <button id="logout-btn" class="btn btn-outline btn-sm">\uD83D\uDEA9 Logout</button>
-	`;
-	document.getElementById('logout-btn').onclick = function() {
-	  localStorage.removeItem('currentUser');
-	  location.href = isAreaSoci ? 'login.html' : window.location.pathname;
-	};
-  } else {
-	if (!isAreaSoci) {
-	  userBar.innerHTML = `<a href="area-soci.html" class="btn btn-outline btn-sm">Area Soci</a>`;
-	} else {
-	  userBar.innerHTML = '';
-	  // window.location.href = 'login.html';
-	}
-  }
-}
-
 document.addEventListener('DOMContentLoaded', renderUserBar);
 // --- Fine User Bar Centralizzata ---
 
