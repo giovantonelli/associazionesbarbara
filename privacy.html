@@ -4,11 +4,11 @@
   <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.8.0">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Privacy Policy - Associazione Santa Barbara APS</title>
-  <meta name="description" content="Privacy Policy dell'Associazione Santa Barbara APS - Trattamento dei dati personali secondo il GDPR">
+  <title>Privacy Policy - Associazione Santa Barbara</title>
+  <meta name="description" content="Privacy Policy dell'Associazione Santa Barbara - Trattamento dei dati personali secondo il GDPR">
   <meta name="robots" content="index, follow">
-  <meta property="og:title" content="Privacy Policy - Associazione Santa Barbara APS">
-  <meta property="og:description" content="Privacy Policy dell'Associazione Santa Barbara APS - Trattamento dei dati personali secondo il GDPR">
+  <meta property="og:title" content="Privacy Policy - Associazione Santa Barbara">
+  <meta property="og:description" content="Privacy Policy dell'Associazione Santa Barbara - Trattamento dei dati personali secondo il GDPR">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://associazionesbarbara.it/privacy.html">
   <link rel="stylesheet" href="assets/css/style.css">
@@ -119,13 +119,49 @@
                         gtag('js', new Date());
                         gtag('config', 'G-F465WJF33T');
   </script>
+  <style>
+    /* Fix hamburger menu visibility */
+    @media (max-width: 768px) {
+      .nav-toggle {
+        display: flex !important;
+        flex-direction: column;
+        gap: 4px;
+        padding: 10px;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+      .nav-toggle span {
+        width: 25px !important;
+        height: 3px !important;
+        background: #E10600 !important;
+        display: block !important;
+        border-radius: 1px;
+        transition: 0.3s;
+      }
+      .nav-toggle.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-6px, 6px);
+      }
+      .nav-toggle.active span:nth-child(2) {
+        opacity: 0;
+      }
+      .nav-toggle.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-6px, -6px);
+      }
+    }
+  </style>
 </head>
 <body>
   <nav class="navbar">
     <div class="container">
       <div class="nav-brand">
-        <a href="index.html" class="nav-brand-link"><img src="assets/images/logo.svg" alt="Logo Associazione Santa Barbara APS" class="logo"> <span class="brand-text">Associazione Santa Barbara APS</span></a>
-      </div><button class="nav-toggle" aria-label="Toggle navigation"></button>
+        <a href="index.html" class="nav-brand-link"><img src="assets/images/logo.svg" alt="Logo Associazione Santa Barbara" class="logo"> <span class="brand-text">Associazione Santa Barbara</span></a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
       <ul class="nav-menu">
         <li>
           <a href="index.html" class="nav-link">Home</a>
@@ -169,12 +205,12 @@
       <div class="privacy-document">
         <div class="privacy-intro">
           <p class="last-updated">Ultimo aggiornamento: 19 luglio 2025</p>
-          <p>L'Associazione Santa Barbara APS (di seguito "Associazione") rispetta la privacy dei propri utenti e si impegna a proteggere i dati personali in conformità al Regolamento Europeo per la Protezione dei Dati Personali (GDPR 2016/679) e alla normativa italiana vigente.</p>
+          <p>L'Associazione Santa Barbara (di seguito "Associazione") rispetta la privacy dei propri utenti e si impegna a proteggere i dati personali in conformità al Regolamento Europeo per la Protezione dei Dati Personali (GDPR 2016/679) e alla normativa italiana vigente.</p>
         </div>
         <div class="privacy-section">
           <h2>1. Titolare del Trattamento</h2>
           <div class="info-box">
-            <p><strong>Titolare del Trattamento:</strong> Associazione Santa Barbara APS</p>
+            <p><strong>Titolare del Trattamento:</strong> Associazione Santa Barbara</p>
             <p><strong>Sede legale:</strong> <a href="https://maps.app.goo.gl/17mpxTbgqAVh5Tqv9">Via N. Mastroserio 12, Grumo Appula (BA)</a></p>
             <p><strong>Codice Fiscale:</strong> 93544830727</p>
             <p><strong>Email:</strong> <a href="mailto:info@associazionesbarbara.it">info@associazionesbarbara.it</a></p>
@@ -393,8 +429,8 @@
     <div class="container">
       <div class="footer-content">
         <div class="footer-section">
-          <img src="assets/images/logo.svg" alt="Logo Associazione Santa Barbara APS" class="footer-logo">
-          <p>Associazione Santa Barbara APS</p>
+          <img src="assets/images/logo.svg" alt="Logo Associazione Santa Barbara" class="footer-logo">
+          <p>Associazione Santa Barbara</p>
           <p>Promuoviamo la cultura e il volontariato nel nostro territorio</p>
         </div>
         <div class="footer-section">
@@ -439,7 +475,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2008- <span id="current-year"></span> Associazione Santa Barbara APS. Tutti i diritti riservati.<br>
+        <p>© 2008- <span id="current-year"></span> Associazione Santa Barbara. Tutti i diritti riservati.<br>
         <span style="letter-spacing:2px; font-size:0.95em; color:#222;"><a href="privacy.html" style="color:#e67e22; text-decoration:underline;">PRIVACY POLICY</a> <span style="margin:0 10px;">|</span> <a href="#" style="color:#e67e22; text-decoration:underline;" onclick="window.cookieConsent && window.cookieConsent.open(); return false;">GESTISCI COOKIE</a></span></p>
       </div>
     </div>

@@ -38,13 +38,49 @@
                         gtag('js', new Date());
                         gtag('config', 'G-F465WJF33T');
   </script>
+  <style>
+    /* Fix hamburger menu visibility */
+    @media (max-width: 768px) {
+      .nav-toggle {
+        display: flex !important;
+        flex-direction: column;
+        gap: 4px;
+        padding: 10px;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+      .nav-toggle span {
+        width: 25px !important;
+        height: 3px !important;
+        background: #E10600 !important;
+        display: block !important;
+        border-radius: 1px;
+        transition: 0.3s;
+      }
+      .nav-toggle.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-6px, 6px);
+      }
+      .nav-toggle.active span:nth-child(2) {
+        opacity: 0;
+      }
+      .nav-toggle.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-6px, -6px);
+      }
+    }
+  </style>
 </head>
 <body>
   <nav class="navbar">
     <div class="container">
       <div class="nav-brand">
-        <a href="index.html" class="nav-brand-link"><img src="assets/images/logo.svg" alt="Logo Associazione Santa Barbara APS" class="logo"> <span class="brand-text">Associazione Santa Barbara APS</span></a>
-      </div><button class="nav-toggle" aria-label="Toggle navigation"></button>
+        <a href="index.html" class="nav-brand-link"><img src="assets/images/logo.svg" alt="Logo Associazione Santa Barbara" class="logo"> <span class="brand-text">Associazione Santa Barbara</span></a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
       <ul class="nav-menu">
         <li>
           <a href="index.html" class="nav-link">Home</a>
@@ -87,323 +123,136 @@
   </section>
   <section class="faq-section">
     <div class="container">
-      <div class="faq-categories slide-up" data-animation-delay="0.2">
-        <div class="section-badge animate-badge">Categorie</div>
-        <div class="category-filters enhanced-filters">
-          <button class="category-btn active enhanced-btn" data-category="all">
-            <span class="btn-icon">📋</span>
-            <span class="btn-text">Tutte</span>
-            <span class="btn-count" id="count-all">12</span>
-          </button>
-          <button class="category-btn enhanced-btn" data-category="iscrizione">
-            <span class="btn-icon">✍️</span>
-            <span class="btn-text">Iscrizione</span>
-            <span class="btn-count" id="count-iscrizione">3</span>
-          </button>
-          <button class="category-btn enhanced-btn" data-category="volontariato">
-            <span class="btn-icon">🤝</span>
-            <span class="btn-text">Volontariato</span>
-            <span class="btn-count" id="count-volontariato">3</span>
-          </button>
-          <button class="category-btn enhanced-btn" data-category="eventi">
-            <span class="btn-icon">📅</span>
-            <span class="btn-text">Eventi</span>
-            <span class="btn-count" id="count-eventi">3</span>
-          </button>
-          <button class="category-btn enhanced-btn" data-category="generale">
-            <span class="btn-icon">ℹ️</span>
-            <span class="btn-text">Generale</span>
-            <span class="btn-count" id="count-generale">3</span>
-          </button>
-        </div>
-      </div>
       <div id="faq-container" class="faq-container enhanced-faq-container slide-up" data-animation-delay="0.4">
-        <div class="faq-item enhanced-faq-item" data-category="iscrizione">
+        <div class="faq-item enhanced-faq-item">
           <button class="faq-question enhanced-faq-question">
-            <span class="faq-category-badge">Iscrizione</span>
             <span class="faq-title">Come posso diventare socio dell'associazione?</span>
             <span class="faq-icon">▼</span>
           </button>
           <div class="faq-answer enhanced-faq-answer">
             <div class="answer-content">
               <p>Per diventare socio puoi compilare il modulo di iscrizione disponibile presso la nostra sede o scaricare il modulo dal nostro sito web. È necessario versare la quota associativa annuale di €20 e fornire una copia del documento di identità. L'iscrizione è valida per l'anno solare in corso.</p>
-              <div class="answer-actions">
-                <a href="register.html" class="btn btn-primary btn-sm">Iscriviti Online</a>
-                <a href="contatti.html" class="btn btn-outline btn-sm">Contattaci</a>
-              </div>
             </div>
           </div>
         </div>
-        <div class="faq-item enhanced-faq-item" data-category="iscrizione">
+        <div class="faq-item enhanced-faq-item">
           <button class="faq-question enhanced-faq-question">
-            <span class="faq-category-badge">Iscrizione</span>
             <span class="faq-title">Quanto costa l'iscrizione?</span>
             <span class="faq-icon">▼</span>
           </button>
           <div class="faq-answer enhanced-faq-answer">
             <div class="answer-content">
-              <div class="pricing-table">
-                <div class="pricing-item">
-                  <span class="price">€20</span>
-                  <span class="price-label">Soci ordinari</span>
-                </div>
-                <div class="pricing-item">
-                  <span class="price">€10</span>
-                  <span class="price-label">Studenti under 25 e pensionati over 65</span>
-                </div>
-                <div class="pricing-item">
-                  <span class="price">Gratis</span>
-                  <span class="price-label">Minori di 18 anni (con autorizzazione genitori)</span>
-                </div>
-              </div>
-              <p>La tessera include l'accesso a tutti gli eventi riservati ai soci e la possibilità di partecipare alle assemblee.</p>
+              <p>La quota associativa annuale è di €20 per i soci ordinari, €10 per studenti under 25 e pensionati over 65. I minori di 18 anni possono iscriversi gratuitamente con l'autorizzazione dei genitori. La tessera include l'accesso a tutti gli eventi riservati ai soci e la possibilità di partecipare alle assemblee.</p>
             </div>
           </div>
         </div>
-        <div class="faq-item enhanced-faq-item" data-category="volontariato">
+        <div class="faq-item enhanced-faq-item">
           <button class="faq-question enhanced-faq-question">
-            <span class="faq-category-badge">Volontariato</span>
             <span class="faq-title">Posso fare volontariato senza essere socio?</span>
             <span class="faq-icon">▼</span>
           </button>
           <div class="faq-answer enhanced-faq-answer">
             <div class="answer-content">
-              <p>Sì, molte delle nostre attività di volontariato sono aperte a tutti i cittadini, indipendentemente dall'iscrizione. Tuttavia, per partecipare a progetti specifici o per avere accesso alla formazione specialistica, è necessario essere soci dell'associazione.</p>
-              <div class="answer-actions">
-                <a href="attivita.html" class="btn btn-primary btn-sm">Scopri le Attività</a>
-                <a href="contatti.html" class="btn btn-outline btn-sm">Contattaci</a>
-              </div>
+              <p>Sì, molte delle nostre attività di volontariato sono aperte a tutti i cittadini, indipendentemente dall'iscrizione. Tuttavia, per partecipare a progetti specifici o per avere accesso alla formazione specialistica, è necessario essere soci dell'associazione. Ti invitiamo a contattarci per sapere come contribuire alle nostre iniziative.</p>
             </div>
           </div>
         </div>
-        <div class="faq-item enhanced-faq-item" data-category="volontariato">
+        <div class="faq-item enhanced-faq-item">
           <button class="faq-question enhanced-faq-question">
-            <span class="faq-category-badge">Volontariato</span>
             <span class="faq-title">Che tipo di formazione offrite ai volontari?</span>
             <span class="faq-icon">▼</span>
           </button>
           <div class="faq-answer enhanced-faq-answer">
             <div class="answer-content">
-              <p>Offriamo corsi di formazione gratuiti ai nostri volontari:</p>
-              <ul class="training-list">
-                <li>🚑 Primo soccorso</li>
-                <li>💬 Tecniche di comunicazione</li>
-                <li>⚠️ Gestione delle emergenze</li>
-                <li>🎯 Formazione specifica per area di intervento</li>
-              </ul>
-              <p>I corsi sono tenuti da professionisti qualificati e al termine viene rilasciato un attestato di partecipazione.</p>
+              <p>Offriamo corsi di formazione gratuiti ai nostri volontari, tra cui: primo soccorso, tecniche di comunicazione, gestione delle emergenze, e formazione specifica per ogni area di intervento. I corsi sono tenuti da professionisti qualificati e vengono organizzati periodicamente. Al termine viene rilasciato un attestato di partecipazione.</p>
             </div>
           </div>
         </div>
-        <div class="faq-item enhanced-faq-item" data-category="eventi">
+        <div class="faq-item enhanced-faq-item">
           <button class="faq-question enhanced-faq-question">
-            <span class="faq-category-badge">Eventi</span>
             <span class="faq-title">Come posso partecipare agli eventi dell'associazione?</span>
             <span class="faq-icon">▼</span>
           </button>
           <div class="faq-answer enhanced-faq-answer">
             <div class="answer-content">
-              <p>Gli eventi pubblici sono aperti a tutti i cittadini e la partecipazione è gratuita salvo diversa indicazione. Gli eventi riservati ai soci richiedono l'accesso all'area riservata del sito web dove è possibile prenotarsi.</p>
-              <div class="answer-actions">
-                <a href="eventi.html" class="btn btn-primary btn-sm">Vedi Eventi</a>
-                <a href="area-soci.html" class="btn btn-outline btn-sm">Area Soci</a>
-              </div>
+              <p>Gli eventi pubblici sono aperti a tutti i cittadini e la partecipazione è gratuita salvo diversa indicazione. Gli eventi riservati ai soci richiedono l'accesso all'area riservata del sito web dove è possibile prenotarsi. Per alcuni eventi è richiesta la prenotazione anticipata a causa del numero limitato di posti disponibili.</p>
             </div>
           </div>
         </div>
-        <div class="faq-item enhanced-faq-item" data-category="eventi">
+        <div class="faq-item enhanced-faq-item">
           <button class="faq-question enhanced-faq-question">
-            <span class="faq-category-badge">Eventi</span>
             <span class="faq-title">Dove posso trovare il calendario degli eventi?</span>
             <span class="faq-icon">▼</span>
           </button>
           <div class="faq-answer enhanced-faq-answer">
             <div class="answer-content">
-              <p>Il calendario degli eventi è disponibile in diverse modalità:</p>
-              <div class="info-grid">
-                <div class="info-item">
-                  <span class="info-icon">🌐</span>
-                  <span class="info-text">Sezione "Eventi" del sito web</span>
-                </div>
-                <div class="info-item">
-                  <span class="info-icon">👥</span>
-                  <span class="info-text">Area riservata soci (eventi privati)</span>
-                </div>
-                <div class="info-item">
-                  <span class="info-icon">📱</span>
-                  <span class="info-text">Social media (@santabarbara.grumoappula)</span>
-                </div>
-              </div>
+              <p>Il calendario degli eventi pubblici è disponibile nella sezione "Eventi" del nostro sito web. I soci possono accedere al calendario completo, inclusi gli eventi riservati, attraverso l'area riservata del sito. Inoltre, pubblichiamo regolarmente aggiornamenti sui nostri canali social Facebook (@santabarbara.grumoappula) e Instagram (@corteostoricosantabarbara).</p>
             </div>
           </div>
         </div>
-        <div class="faq-item enhanced-faq-item" data-category="generale">
+        <div class="faq-item enhanced-faq-item">
           <button class="faq-question enhanced-faq-question">
-            <span class="faq-category-badge">Generale</span>
             <span class="faq-title">Dove si trova la sede dell'associazione?</span>
             <span class="faq-icon">▼</span>
           </button>
           <div class="faq-answer enhanced-faq-answer">
             <div class="answer-content">
-              <div class="contact-info-box">
-                <div class="contact-item">
-                  <span class="contact-icon">📍</span>
-                  <span class="contact-text">Via N. Mastroserio 12, Grumo Appula (BA)</span>
-                </div>
-                <div class="contact-item">
-                  <span class="contact-icon">🕒</span>
-                  <span class="contact-text">Lun-Ven: 9:00-12:00, 15:00-18:00<br>Sab: 9:00-12:00</span>
-                </div>
-                <div class="contact-item">
-                  <span class="contact-icon">📞</span>
-                  <span class="contact-text">123-456-7890</span>
-                </div>
-              </div>
-              <div class="answer-actions">
-                <a href="contatti.html" class="btn btn-primary btn-sm">Vedi Mappa</a>
-              </div>
+              <p>La nostra sede si trova in Via Roma 123, nel centro storico della città. Siamo aperti al pubblico dal lunedì al venerdì dalle 9:00 alle 12:00 e dalle 15:00 alle 18:00. Il sabato dalle 9:00 alle 12:00. È possibile raggiungerci anche telefonicamente al numero 123-456-7890 o via email a info@associazionesbarbara.it.</p>
             </div>
           </div>
         </div>
-        <div class="faq-item enhanced-faq-item" data-category="generale">
+        <div class="faq-item enhanced-faq-item">
           <button class="faq-question enhanced-faq-question">
-            <span class="faq-category-badge">Generale</span>
             <span class="faq-title">L'associazione ha una copertura assicurativa per i volontari?</span>
             <span class="faq-icon">▼</span>
           </button>
           <div class="faq-answer enhanced-faq-answer">
             <div class="answer-content">
-              <div class="highlight-box">
-                <span class="highlight-icon">✅</span>
-                <p><strong>Sì, tutti i volontari sono completamente coperti!</strong></p>
-              </div>
-              <p>La copertura include infortuni e responsabilità civile durante lo svolgimento delle attività. È automatica per i soci in regola con la quota associativa.</p>
-              <div class="important-note">
-                <span class="note-icon">⚠️</span>
-                <span class="note-text">È importante comunicare sempre la propria partecipazione per garantire la copertura</span>
-              </div>
+              <p>Sì, tutti i volontari dell'associazione sono coperti da assicurazione per infortuni e responsabilità civile durante lo svolgimento delle attività. La copertura è automatica per i soci in regola con la quota associativa. È importante comunicare sempre la propria partecipazione alle attività per garantire la copertura assicurativa.</p>
             </div>
           </div>
         </div>
-        <div class="faq-item enhanced-faq-item" data-category="iscrizione">
+        <div class="faq-item enhanced-faq-item">
           <button class="faq-question enhanced-faq-question">
-            <span class="faq-category-badge">Iscrizione</span>
             <span class="faq-title">Come posso rinnovare la mia iscrizione?</span>
             <span class="faq-icon">▼</span>
           </button>
           <div class="faq-answer enhanced-faq-answer">
             <div class="answer-content">
-              <p>Il rinnovo può essere effettuato in diverse modalità:</p>
-              <div class="renewal-options">
-                <div class="renewal-option">
-                  <span class="option-icon">🏢</span>
-                  <span class="option-text">Presso la sede</span>
-                </div>
-                <div class="renewal-option">
-                  <span class="option-icon">💳</span>
-                  <span class="option-text">Bonifico bancario</span>
-                </div>
-                <div class="renewal-option">
-                  <span class="option-icon">💻</span>
-                  <span class="option-text">Area riservata online</span>
-                </div>
-              </div>
-              <div class="deadline-info">
-                <span class="deadline-icon">📅</span>
-                <span class="deadline-text"><strong>Scadenza:</strong> 31 marzo per mantenere la continuità</span>
-              </div>
-              <div class="answer-actions">
-                <a href="area-soci.html" class="btn btn-primary btn-sm">Rinnova Online</a>
-              </div>
+              <p>Il rinnovo dell'iscrizione può essere effettuato presso la nostra sede, tramite bonifico bancario o attraverso l'area riservata del sito web. La tessera ha validità annuale (1 gennaio - 31 dicembre) e il rinnovo deve essere effettuato entro il 31 marzo per mantenere la continuità dei servizi. Invieremo un promemoria via email a tutti i soci in scadenza.</p>
             </div>
           </div>
         </div>
-        <div class="faq-item enhanced-faq-item" data-category="volontariato">
+        <div class="faq-item enhanced-faq-item">
           <button class="faq-question enhanced-faq-question">
-            <span class="faq-category-badge">Volontariato</span>
             <span class="faq-title">Quanto tempo devo dedicare al volontariato?</span>
             <span class="faq-icon">▼</span>
           </button>
           <div class="faq-answer enhanced-faq-answer">
             <div class="answer-content">
-              <div class="flexibility-info">
-                <span class="flex-icon">⏰</span>
-                <p><strong>Nessun impegno minimo obbligatorio!</strong></p>
-              </div>
-              <p>Ogni volontario può contribuire secondo le proprie disponibilità:</p>
-              <ul class="time-options">
-                <li>📅 Eventi occasionali</li>
-                <li>🔄 Progetti continuativi</li>
-                <li>🎯 Attività specialistiche</li>
-              </ul>
-              <p>L'importante è la costanza e l'affidabilità. Organizziamo tutto in modo flessibile!</p>
+              <p>Non c'è un impegno minimo obbligatorio. Ogni volontario può contribuire secondo le proprie disponibilità di tempo. Alcuni partecipano a eventi occasionali, altri si impegnano in progetti continuativi. L'importante è la costanza e l'affidabilità. Organizziamo le attività in modo flessibile per venire incontro alle esigenze di tutti.</p>
             </div>
           </div>
         </div>
-        <div class="faq-item enhanced-faq-item" data-category="generale">
+        <div class="faq-item enhanced-faq-item">
           <button class="faq-question enhanced-faq-question">
-            <span class="faq-category-badge">Generale</span>
             <span class="faq-title">Come vengono utilizzati i fondi dell'associazione?</span>
             <span class="faq-icon">▼</span>
           </button>
           <div class="faq-answer enhanced-faq-answer">
             <div class="answer-content">
-              <div class="transparency-badge">
-                <span class="transparency-icon">🔍</span>
-                <span class="transparency-text">Massima Trasparenza</span>
-              </div>
-              <p><strong>Fonti di finanziamento:</strong></p>
-              <ul class="funding-sources">
-                <li>💰 Quote associative</li>
-                <li>🎁 Donazioni private</li>
-                <li>🏛️ Contributi pubblici</li>
-              </ul>
-              <p><strong>Destinazione fondi:</strong></p>
-              <ul class="fund-usage">
-                <li>🎭 Organizzazione eventi</li>
-                <li>🤝 Progetti di volontariato</li>
-                <li>📚 Formazione</li>
-                <li>🏢 Gestione sede</li>
-                <li>🛡️ Assicurazioni</li>
-              </ul>
-              <div class="transparency-note">
-                <span class="note-icon">📊</span>
-                <span class="note-text">Il bilancio annuale è approvato dall'assemblea e pubblicato online</span>
-              </div>
+              <p>I fondi dell'associazione provengono dalle quote associative, donazioni e contributi pubblici. Vengono utilizzati esclusivamente per le attività statutarie: organizzazione eventi, progetti di volontariato, formazione, spese di gestione della sede e assicurazioni. Il bilancio annuale viene approvato dall'assemblea dei soci e pubblicato sul sito web per garantire la massima trasparenza.</p>
             </div>
           </div>
         </div>
-        <div class="faq-item enhanced-faq-item" data-category="eventi">
+        <div class="faq-item enhanced-faq-item">
           <button class="faq-question enhanced-faq-question">
-            <span class="faq-category-badge">Eventi</span>
             <span class="faq-title">Posso proporre un evento o un'attività?</span>
             <span class="faq-icon">▼</span>
           </button>
           <div class="faq-answer enhanced-faq-answer">
             <div class="answer-content">
-              <div class="welcome-message">
-                <span class="welcome-icon">💡</span>
-                <p><strong>Assolutamente sì! Siamo sempre aperti a nuove idee!</strong></p>
-              </div>
-              <p><strong>Come proporre:</strong></p>
-              <div class="proposal-steps">
-                <div class="step-item">
-                  <span class="step-number">1</span>
-                  <span class="step-text">Invia proposta via email</span>
-                </div>
-                <div class="step-item">
-                  <span class="step-number">2</span>
-                  <span class="step-text">Partecipa alle riunioni mensili</span>
-                </div>
-                <div class="step-item">
-                  <span class="step-number">3</span>
-                  <span class="step-text">Valutazione del direttivo</span>
-                </div>
-              </div>
-              <p>Ogni proposta viene valutata per coerenza statutaria, fattibilità e risorse disponibili.</p>
-              <div class="answer-actions">
-                <a href="contatti.html" class="btn btn-primary btn-sm">Proponi Idea</a>
-              </div>
+              <p>Assolutamente sì! Siamo sempre aperti a nuove idee e proposte dai nostri soci e dalla comunità. Puoi presentare la tua proposta al direttivo tramite email o durante le riunioni mensili. Ogni proposta viene valutata in base alla coerenza con i nostri obiettivi statutari, alla fattibilità e alle risorse disponibili. Molte delle nostre attività nascono proprio da proposte dei soci.</p>
             </div>
           </div>
         </div>
@@ -415,7 +264,7 @@
       <div class="contact-cta enhanced-cta">
         <div class="cta-icon">💬</div>
         <h2 class="animate-title">Non hai trovato la risposta che cercavi?</h2>
-        <p class="animate-subtitle">Il nostro team è sempre disponibile per rispondere alle tue domande e fornirti tutte le informazioni di cui hai bisogno.</p>
+        <p class="animate-subtitle">La nostra associazione è sempre disponibile per rispondere alle tue domande e fornirti tutte le informazioni di cui hai bisogno.</p>
         <div class="cta-buttons enhanced-cta-buttons">
           <a href="contatti.html" class="btn btn-primary enhanced-btn">
             <span class="btn-icon">📞</span>
@@ -430,10 +279,6 @@
           <div class="stat-item">
             <span class="stat-number">24h</span>
             <span class="stat-label">Tempo di risposta medio</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">98%</span>
-            <span class="stat-label">Soddisfazione utenti</span>
           </div>
         </div>
       </div>
