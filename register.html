@@ -206,9 +206,11 @@
               <div class="form-group checkbox-group">
                 <label class="checkbox-label"><input type="checkbox" id="acceptTerms" name="acceptTerms" required=""> Accetto i <a href="privacy.html" target="_blank">Termini e Condizioni</a> e l' <a href="privacy.html" target="_blank">Informativa sulla Privacy</a> *</label>
               </div>
-            </div><button type="submit" class="btn btn-primary btn-full" id="registerButton"><span class="btn-text">Registrati</span></button>
-            <div class="loading-spinner" style="display: none;">
+            </div>
+            <button type="submit" class="btn btn-primary btn-full" id="registerButton">
+              <span class="btn-text">Registrati</span>
               <div class="loading-spinner" style="display: none;"></div>
+            </button>
           </form>
           <div id="statusMessage" class="status-message" style="display: none;"></div>
           <div class="auth-links">
@@ -455,7 +457,6 @@
                                 const city = cityInput.value.trim() || 'Grumo Appula';
                                 const zipCode = zipCodeInput.value.trim() || null;
                                 const province = provinceInput.value.trim().toUpperCase() || 'BA';
-                                const profession = professionInput.value.trim() || null;
                                 // Validation - Required fields
                                 const missingFields = [{
                                         label: 'Nome',
@@ -561,7 +562,6 @@
                                                                 city: city,
                                                                 zip_code: zipCode,
                                                                 province: province,
-                                                                profession: profession,
                                                                 privacy_accepted: true,
                                                                 registration_completed: true,
                                                                 role: 'utente'
@@ -595,21 +595,22 @@
                                                 if (city) profileData.city = city; // Has default 'Grumo Appula'
                                                 if (zipCode) profileData.zip_code = zipCode;
                                                 if (province) profileData.province = province;
-                                                if (profession) profileData.profession = profession;
                                                 
                                                 // Set privacy accepted to true (user checked the checkbox)
                                                 profileData.privacy_accepted = true;
                                                 
                                                 // Note: created_at and updated_at have default values (now()) so we don't set them
                                                 // Note: role, membership_type, membership_status have defaults so we don't override them
-
-                                                // Registration data is now saved in user_metadata
-                                                // The profile table entry will be created after email confirmation
+                                                
+                                                // Profile data will be created automatically after email confirmation
+                                                // via Supabase trigger or in the auth verification process
+                                                console.log('User registered with metadata:', profileData);
+                                                
                                                 showStatus(`
                                                         <strong>Registrazione completata!</strong><br>
                                                         Ti abbiamo inviato un'email di conferma all'indirizzo <strong>${email}</strong>.<br>
                                                         Controlla la tua casella di posta e clicca sul link di conferma per attivare il tuo account.<br>
-                                                        <small>Una volta confermato, potrai accedere all'area soci se approvato dall'amministrazione.</small>
+                                                        <small>I tuoi dati sono stati salvati e saranno disponibili dopo la conferma email.</small>
                                                 `, 'success');
 
                                                 // Reset form and clear all fields
@@ -629,7 +630,6 @@
                                                 cityInput.value = '';
                                                 zipCodeInput.value = '';
                                                 provinceInput.value = '';
-                                                professionInput.value = '';
                                                 acceptTermsInput.checked = false;
                                                 // Reset fiscal code field
                                                 fiscalCodeInput.placeholder = 'Verrà calcolato automaticamente';
