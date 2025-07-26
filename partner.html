@@ -150,6 +150,49 @@
                         gtag('js', new Date());
                         gtag('config', 'G-F465WJF33T');
   </script>
+  <style>
+    /* Force hamburger menu visibility */
+    @media (max-width: 768px) {
+      .navbar .nav-toggle {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 4px !important;
+        padding: 10px !important;
+        background: rgba(225, 6, 0, 0.1) !important;
+        border: 2px solid #E10600 !important;
+        border-radius: 5px !important;
+        cursor: pointer !important;
+        width: 40px !important;
+        height: 40px !important;
+        position: relative !important;
+        z-index: 9999 !important;
+      }
+      .navbar .nav-toggle span {
+        width: 25px !important;
+        height: 4px !important;
+        background-color: #E10600 !important;
+        background: #E10600 !important;
+        display: block !important;
+        border-radius: 2px !important;
+        transition: all 0.3s ease !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        border: 1px solid #E10600 !important;
+        box-shadow: 0 0 0 1px #E10600 !important;
+      }
+      .navbar .nav-toggle.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-6px, 6px) !important;
+      }
+      .navbar .nav-toggle.active span:nth-child(2) {
+        opacity: 0 !important;
+      }
+      .navbar .nav-toggle.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-6px, -6px) !important;
+      }
+    }
+  </style>
 </head>
 <body>
   <nav class="navbar">
