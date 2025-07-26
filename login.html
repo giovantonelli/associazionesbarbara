@@ -139,10 +139,11 @@
           </form>
           <div id="statusMessage" class="status-message" style="display: none;"></div>
           <div id="resendEmailSection" class="resend-email-section" style="display: none; margin: 15px 0;">
-            <p class="text-center" style="color: #666; margin-bottom: 10px;">Non hai ricevuto l'email di conferma?</p><button type="button" id="resendEmailBtn" class="btn btn-secondary btn-full"><span class="btn-text">Invia di nuovo email di conferma</span></button>
-            <div class="loading-spinner" style="display: none;">
-              <button type="button" id="resendEmailBtn" class="btn btn-secondary btn-full"></button>
-            </div>
+            <p class="text-center" style="color: #666; margin-bottom: 10px;">Non hai ricevuto l'email di conferma?</p>
+            <button type="button" id="resendEmailBtn" class="btn btn-secondary btn-full">
+              <span class="btn-text">Invia di nuovo email di conferma</span>
+              <div class="loading-spinner" style="display: none;"></div>
+            </button>
           </div>
           <div class="auth-links">
             <p>Non hai un account? <a href="register.html">Registrati qui</a></p>
@@ -321,9 +322,14 @@
                                 const btnText = resendBtn.querySelector('.btn-text');
                                 const spinner = resendBtn.querySelector('.loading-spinner');
                                 
+                                console.log('Resending email for:', email);
+                                console.log('Button elements:', { resendBtn, btnText, spinner });
+                                
                                 // Set loading state
                                 btnText.textContent = 'Invio in corso...';
-                                spinner.style.display = 'inline-block';
+                                if (spinner) {
+                                    spinner.style.display = 'inline-block';
+                                }
                                 resendBtn.disabled = true;
 
                                 try {
@@ -333,9 +339,11 @@
                                         });
 
                                         if (error) {
+                                                console.error('Supabase resend error:', error);
                                                 throw error;
                                         }
 
+                                        console.log('Email resend successful');
                                         showStatus('Email di conferma inviata! Controlla la tua casella di posta.', 'success');
                                         
                                 } catch (error) {
@@ -354,8 +362,11 @@
                                 } finally {
                                         // Reset button state
                                         btnText.textContent = 'Invia di nuovo email di conferma';
-                                        spinner.style.display = 'none';
+                                        if (spinner) {
+                                            spinner.style.display = 'none';
+                                        }
                                         resendBtn.disabled = false;
+                                        console.log('Resend operation completed');
                                 }
                         }
 
