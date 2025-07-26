@@ -383,8 +383,19 @@
                         emailInput.addEventListener('focus', hideResendSection);
                         passwordInput.addEventListener('focus', hideResendSection);
                         
+                        // Check for email verification success
+                        function checkEmailVerification() {
+                                const urlParams = new URLSearchParams(window.location.search);
+                                if (urlParams.get('verified') === 'true') {
+                                        showStatus('✅ Email verificata con successo! Ora puoi effettuare il login.', 'success');
+                                        // Remove the parameter from URL
+                                        window.history.replaceState({}, document.title, window.location.pathname);
+                                }
+                        }
+
                         // Check for existing session on page load
                         document.addEventListener('DOMContentLoaded', checkExistingSession);
+                        document.addEventListener('DOMContentLoaded', checkEmailVerification);
                         // Auto-focus email field
                         document.addEventListener('DOMContentLoaded', () => {
                                 emailInput.focus();
