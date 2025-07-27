@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__ide__getDiagnostics",
+      "Bash(grep:*)",
+      "Bash(awk:*)",
+      "Bash(python3:*)",
+      "Bash(cp:*)",
+      "Bash(rm:*)",
+      "Bash(for file in contatti.html faq.html eventi.html chi-siamo.html attivita.html)",
+      "Bash(do echo \"Processing $file\")",
+      "Bash(done)",
+      "Bash(find:*)",
+      "Bash(ls:*)"
+    ],
+    "deny": []
+  }
+}

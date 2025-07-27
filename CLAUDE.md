@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a static website for "Associazione Santa Barbara APS", a non-profit organization based in Grumo Appula, Italy. The site combines vanilla HTML/CSS/JavaScript with modern authentication capabilities via Supabase. Hosted on GitHub Pages with Jekyll processing and custom domain `associazionesbarbara.it`.
+This is a static website for "Associazione Santa Barbara APS", a non-profit organization based in Grumo Appula, Italy. The site combines vanilla HTML/CSS/JavaScript with modern authentication capabilities via Supabase. Hosted on GitHub Pages with custom domain `associazionesbarbara.it`.
 
 ### Testing & Validation
 No automated test framework is configured. Manual testing workflow:
@@ -104,11 +104,9 @@ const supabaseClient = createClient(
 - AdBlock detection system with modal enforcement
 
 **Configuration Files:**
-- `_config.yml`: Jekyll config with SEO plugins, sitemap generation
 - `CNAME`: Custom domain `associazionesbarbara.it`
 - `sitemap.xml`: SEO sitemap for search engines
-- `ads.txt`: Google AdSense configuration
-- `.htaccess`: Server-side security headers and redirects
+- `copilot-instruction.md`: Development guidelines and conventions
 
 ### Authentication Implementation Details
 
@@ -157,6 +155,20 @@ The protected members area includes:
 
 ## Development Guidelines
 
+### Development Setup
+```bash
+# Local development (no build process required)
+# Option 1: Using Python
+python3 -m http.server 8000
+# Then visit: http://localhost:8000
+
+# Option 2: Using Live Server (VS Code extension)
+# Install Live Server extension and right-click index.html -> "Open with Live Server"
+
+# Option 3: Using Node.js http-server
+npx http-server -p 8000
+```
+
 ### User Management
 To promote a user to "socio" role:
 1. Access Supabase Dashboard → Authentication → Users  
@@ -192,6 +204,26 @@ To promote a user to "socio" role:
 - Tablet: 768px - 1024px  
 - Desktop: > 1024px
 
+## AdBlock Detection System
+
+The site implements a comprehensive AdBlock detection system:
+
+### Components
+- `assets/js/adblock-detector-v2.js`: Core detection logic with 4 test methods
+- `assets/js/adblock-integration-v2.js`: Configuration and automatic integration
+
+### Detection Methods
+1. **Bait Elements Test**: Hidden elements with ad-like classes
+2. **Google Ads Script Test**: Attempts to load Google Ads scripts
+3. **Image Blocking Test**: Tests loading of images from ad domains
+4. **Network Request Test**: Checks requests to known ad endpoints
+
+### Configuration
+- **Threshold**: 3/4 tests must be positive for detection
+- **Total Block**: Complete site access restriction when AdBlock detected
+- **Modal Interface**: Responsive popup with multi-device instructions
+- **Bypass Prevention**: Non-closeable modal until AdBlock is disabled
+
 ## Security Notes
 
 - Only public Supabase anon key is exposed in frontend
@@ -205,24 +237,23 @@ To promote a user to "socio" role:
 ### GitHub Pages Workflow
 The site auto-deploys to GitHub Pages when changes are pushed to the main branch:
 1. **Trigger**: Push to `main` branch activates GitHub Actions
-2. **Processing**: Jekyll processes files per `_config.yml` configuration  
-3. **Build**: Static files generated with plugins (sitemap, SEO-tag, feed)
-4. **Deploy**: Live site updated at `associazionesbarbara.it`
-5. **CDN**: GitHub's CDN serves assets globally
+2. **Processing**: Static files served directly (no Jekyll build process)
+3. **Deploy**: Live site updated at `associazionesbarbara.it`
+4. **CDN**: GitHub's CDN serves assets globally
 
 ### Performance Optimizations Implemented
 - **Images**: Optimized formats (WebP where supported, SVG for logos)
 - **JavaScript**: Vanilla JS (no framework overhead), async loading
 - **CSS**: Critical CSS inlined, non-critical loaded asynchronously  
 - **Videos**: External CDN (Archive.org) reduces hosting load
-- **Caching**: Browser caching headers via Jekyll configuration
+- **Caching**: Browser caching headers via meta tags
 - **Lazy Loading**: Images load on scroll to improve initial page speed
 
 ### SEO & Analytics Setup
-- **Google Analytics 4**: Integrated with GDPR consent management
+- **Google Analytics 4**: Integrated with GDPR consent management (ID: G-F465WJF33T)
 - **Meta Tags**: OpenGraph and Twitter Card for social sharing
 - **Structured Data**: Schema markup for organization information
-- **Sitemap**: Auto-generated XML sitemap for search engines
+- **Sitemap**: Manual XML sitemap for search engines
 - **Custom Domain**: `associazionesbarbara.it` with SSL certificate
 
 ## Important Development Notes
@@ -251,3 +282,66 @@ The authentication system has multiple validation layers:
 - Role-based access control (`socio` vs `utente`)
 - Profile data merged from both auth metadata and profiles table
 - Real-time session monitoring with automatic logout on session expiry
+
+### Gallery System Architecture
+- **Photo Gallery**: Swiper.js carousel with 3D coverflow effect
+- **Video Gallery**: 18 videos hosted on Archive.org with local thumbnails
+- **Lightbox Navigation**: Keyboard shortcuts and touch gestures supported
+- **Loading States**: Progressive loading with skeleton screens
+
+### Development Conventions (from copilot-instruction.md)
+
+#### Form Naming Conventions
+- Use consistent `id` and `name` attributes (e.g., `event-date`, `event-title`)
+- Event forms use standardized field names for JavaScript integration
+- Profile forms follow similar patterns for consistency
+
+#### Footer Standards
+- All pages must have uniform footer with privacy and cookie management links
+- Ensure proper HTML tag closure (especially `<span>` elements)
+- Include social media links and contact information
+
+#### Commit Message Standards
+- Use descriptive, clear commit messages
+- Example: "Correzione errori HTML nei footer" for HTML fixes
+- Reference specific areas changed (e.g., "Update authentication flow")
+
+#### Best Practices
+- Maintain consistency between HTML, CSS, and JS
+- Validate HTML and JS syntax after modifications
+- Test changes across all affected pages
+- Comment complex code sections for maintainability
+- Follow existing file organization patterns
+
+## Important Development Reminders
+
+1. **No Build Process**: This is a pure static site - no compilation or build steps required
+2. **No Package.json**: All dependencies loaded via CDN (Supabase, Swiper.js, etc.)
+3. **No Jekyll**: Despite GitHub Pages hosting, no Jekyll processing is used
+4. **Authentication-First**: Always test auth flows when making changes to protected areas
+5. **Mobile-First**: All CSS follows mobile-first responsive design principles
+6. **Performance**: Keep images under 1MB, use lazy loading for galleries
+7. **SEO**: Maintain proper meta tags and structured data on all pages
+8. **GDPR**: Ensure cookie consent and privacy compliance on new features
+
+## Troubleshooting Common Issues
+
+### Authentication Problems
+- Check Supabase console for user email confirmation status
+- Verify `role` in `user_metadata` is set to "socio" for member access
+- Clear browser cache/localStorage if login issues persist
+
+### Gallery Issues
+- Ensure Supabase Storage bucket permissions are correct
+- Check Archive.org CDN availability for video content
+- Verify thumbnail images exist in Supabase Storage
+
+### AdBlock Detection
+- Test with multiple browsers and AdBlock extensions
+- Check console for detection system errors
+- Verify all 4 detection methods are functioning
+
+### Performance Issues
+- Optimize images before uploading to Supabase Storage
+- Check Google Analytics for page load metrics
+- Use browser DevTools for performance profiling

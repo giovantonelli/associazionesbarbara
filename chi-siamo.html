@@ -17,7 +17,7 @@
   <style>
     /* Chi Siamo UX Enhancements */
     .chi-siamo-header {
-      background: linear-gradient(135deg, rgba(230, 6, 0, 0.9), rgba(255, 215, 0, 0.8)), url('https://ciezrbsolxpjxswdkkpo.supabase.co/storage/v1/object/public/gallery/html/storia.jpg');
+      background: linear-gradient(135deg, rgba(230, 6, 0, 0.9), rgba(255, 215, 0, 0.8)), url('https://ciezrbsolxpjxswdkkpo.supabase.co/storage/v1/object/public/gallery/html/corteostorico.jpg');
       background-size: cover;
       background-position: center;
       position: relative;
@@ -321,6 +321,19 @@
       .mission-items {
         gap: 15px;
       }
+      
+      /* Mobile layout for mission section */
+      .missione .row {
+        flex-direction: column;
+      }
+      
+      .missione .col-md-6:first-child {
+        order: 2;
+      }
+      
+      .missione .col-md-6:last-child {
+        order: 1;
+      }
     }
   </style>
   <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
@@ -486,7 +499,7 @@ Ogni evento è un'opportunità per educare, ispirare e unire le persone attraver
       <div class="row align-items-center">
         <div class="col-md-6 animate-slide-right">
           <div class="image-container">
-            <img src="assets/images/missione.jpg" alt="La nostra missione" class="img-responsive mission-image">
+            <img src="https://ciezrbsolxpjxswdkkpo.supabase.co/storage/v1/object/public/events//nataletamburi.jpg" alt="La nostra missione" class="img-responsive mission-image">
             <div class="image-overlay">
               <span class="image-caption">La nostra missione nel territorio</span>
             </div>
@@ -509,14 +522,14 @@ Ogni evento è un'opportunità per educare, ispirare e unire le persone attraver
               <p>Favoriamo lo sviluppo del volontariato attraverso la formazione, il coordinamento e la promozione di attività di solidarietà sociale e assistenza alle persone in difficoltà.</p>
             </div>
             <div class="mission-item enhanced-card">
-              <div class="mission-icon">🌱</div>
-              <h3>Tutelare l'ambiente</h3>
-              <p>Ci impegniamo nella tutela dell'ambiente e del territorio attraverso progetti di sensibilizzazione e azioni concrete per la sostenibilità ambientale.</p>
+              <div class="mission-icon">🎵</div>
+              <h3>Preservare le tradizioni</h3>
+              <p>Manteniamo vive le tradizioni musicali e storiche del nostro territorio attraverso costumi d'epoca, strumenti medievali e spettacoli che tramandano la nostra eredità culturale.</p>
             </div>
             <div class="mission-item enhanced-card">
-              <div class="mission-icon">🏛️</div>
-              <h3>Valorizzare la comunità</h3>
-              <p>Lavoriamo per creare legami sociali forti e duraturi, favorendo l'inclusione sociale e la partecipazione attiva di tutti i cittadini alla vita comunitaria.</p>
+              <div class="mission-icon">🥁</div>
+              <h3>Formare nuovi talenti</h3>
+              <p>Trasmettiamo le nostre competenze ai giovani attraverso corsi di tamburi medievali, laboratori di costume storico e workshop di rievocazione per garantire continuità alle nostre tradizioni.</p>
             </div>
           </div>
         </div>
@@ -527,8 +540,8 @@ Ogni evento è un'opportunità per educare, ispirare e unire le persone attraver
     <div class="container">
       <div class="section-header text-center">
         <span class="section-badge">Valori</span>
-        <h2 class="section-title">I nostri valori</h2>
-        <p class="section-subtitle">I principi che guidano ogni nostra azione</p>
+        <h2 class="section-title" style="color: #333 !important; margin-bottom: 10px !important;">I nostri valori</h2>
+        <p class="section-subtitle" style="margin-top: 0 !important;">I principi che guidano ogni nostra azione</p>
       </div>
       <div class="row values-grid">
         <div class="col-md-3 animate-fade-up" data-delay="0">
@@ -584,7 +597,10 @@ Ogni evento è un'opportunità per educare, ispirare e unire le persone attraver
   </section>
   <section class="direttivo">
     <div class="container">
-      <h2 class="section-title">Il nostro direttivo</h2>
+      <div class="section-header text-center">
+        <span class="section-badge">Soci</span>
+        <h2 class="section-title" style="color: #333 !important;">Il nostro direttivo</h2>
+      </div>
       <div class="row">
         <div class="col-md-4">
           <div class="team-member">
@@ -639,18 +655,19 @@ Ogni evento è un'opportunità per educare, ispirare e unire le persone attraver
       </div>
     </div>
   </section>
-  <section class="numeri animate-section stats-section">
+  <!-- Stats Section -->
+  <section class="stats-section animate-section">
     <div class="container">
-      <div class="section-header text-center">
-        <span class="section-badge">Risultati</span>
-        <h2 class="section-title">I nostri numeri</h2>
-        <p class="section-subtitle">I risultati concreti del nostro impegno</p>
+      <div class="section-header">
+        <span class="section-badge" style="background: rgba(255,255,255,0.2); color: white;">Risultati</span>
+        <h2 class="section-title" style="color: white;">I nostri numeri</h2>
+        <p class="section-subtitle" style="color: rgba(255,255,255,0.9);">I risultati concreti del nostro impegno</p>
       </div>
       <div class="row stats-row">
         <div class="col-md-3 animate-fade-up" data-delay="0">
-          <div class="stat-card enhanced-stat">
+          <div class="enhanced-stat">
             <div class="stat-icon">👥</div>
-            <div class="stat-number counter" data-target="500">
+            <div class="stat-number counter" data-target="35">
               0
             </div>
             <div class="stat-label">
@@ -659,20 +676,20 @@ Ogni evento è un'opportunità per educare, ispirare e unire le persone attraver
           </div>
         </div>
         <div class="col-md-3 animate-fade-up" data-delay="100">
-          <div class="stat-card enhanced-stat">
+          <div class="enhanced-stat">
             <div class="stat-icon">🎉</div>
-            <div class="stat-number counter" data-target="120">
+            <div class="stat-number counter" data-target="0" id="eventi-counter">
               0
             </div>
             <div class="stat-label">
-              Eventi organizzati
+              Eventi svolti
             </div>
           </div>
         </div>
         <div class="col-md-3 animate-fade-up" data-delay="200">
-          <div class="stat-card enhanced-stat">
+          <div class="enhanced-stat">
             <div class="stat-icon">📅</div>
-            <div class="stat-number counter" data-target="15">
+            <div class="stat-number counter" data-target="0" id="anni-counter">
               0
             </div>
             <div class="stat-label">
@@ -681,9 +698,9 @@ Ogni evento è un'opportunità per educare, ispirare e unire le persone attraver
           </div>
         </div>
         <div class="col-md-3 animate-fade-up" data-delay="300">
-          <div class="stat-card enhanced-stat">
+          <div class="enhanced-stat">
             <div class="stat-icon">🚀</div>
-            <div class="stat-number counter" data-target="25">
+            <div class="stat-number counter" data-target="0" id="progetti-counter">
               0
             </div>
             <div class="stat-label">
@@ -764,8 +781,87 @@ Ogni evento è un'opportunità per educare, ispirare e unire le persone attraver
   <script src="assets/js/adblock-integration-v2.js"></script>
   
   <script>
+    // Supabase configuration
+    const SUPABASE_URL = 'https://ciezrbsolxpjxswdkkpo.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpZXpyYnNvbHhwanhzd2Rra3BvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5MjM1NjAsImV4cCI6MjA2ODQ5OTU2MH0.V-U8KhO8byObUW5kJ8XbLBkp9O9Efh98MdbKYFfbQJk';
+
+    // Function to get events count from Supabase
+    async function getEventsCount() {
+      try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/events?select=count`, {
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'count=exact'
+          }
+        });
+        
+        if (response.ok) {
+          const countHeader = response.headers.get('content-range');
+          if (countHeader) {
+            const count = parseInt(countHeader.split('/')[1]);
+            return count || 0;
+          }
+        }
+        return 0;
+      } catch (error) {
+        console.error('Errore nel recupero del conteggio eventi:', error);
+        return 0;
+      }
+    }
+
+    // Function to get activities count from Supabase
+    async function getAttivitaCount() {
+      try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/attivita?select=count`, {
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'count=exact'
+          }
+        });
+        
+        if (response.ok) {
+          const countHeader = response.headers.get('content-range');
+          if (countHeader) {
+            const count = parseInt(countHeader.split('/')[1]);
+            return count || 0;
+          }
+        }
+        return 0;
+      } catch (error) {
+        console.error('Errore nel recupero del conteggio attività:', error);
+        return 0;
+      }
+    }
+
     // Enhanced UX JavaScript for Chi Siamo
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', async function() {
+      
+      // Load events count
+      const eventsCount = await getEventsCount();
+      const eventiCounter = document.getElementById('eventi-counter');
+      if (eventiCounter) {
+        eventiCounter.dataset.target = eventsCount;
+      }
+      
+      // Calculate years of activity (current year - 2008)
+      const currentYear = new Date().getFullYear();
+      const foundationYear = 2008;
+      const yearsOfActivity = currentYear - foundationYear;
+      const anniCounter = document.getElementById('anni-counter');
+      if (anniCounter) {
+        anniCounter.dataset.target = yearsOfActivity;
+      }
+      
+      // Load activities count
+      const attivitaCount = await getAttivitaCount();
+      const progettiCounter = document.getElementById('progetti-counter');
+      if (progettiCounter) {
+        progettiCounter.dataset.target = attivitaCount;
+      }
       
       // Intersection Observer for animations
       const observerOptions = {
@@ -860,8 +956,8 @@ Ogni evento è un'opportunità per educare, ispirare e unire le persone attraver
       window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
         const header = document.querySelector('.chi-siamo-header');
-        if (header) {
-          header.style.transform = `translateY(${scrolled * 0.5}px)`;
+        if (header && scrolled < header.offsetHeight) {
+          header.style.transform = `translateY(${scrolled * 0.25}px)`;
         }
       });
       
