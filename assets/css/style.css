@@ -6519,3 +6519,43 @@ section {
 .missione .image-container {
   margin-bottom: 30px;
 }
+
+/* ATTIVITA PAGE SPECIFIC STYLES */
+.activity-details { 
+  display: none; 
+  margin-top: 30px; 
+}
+
+.activity-details.active { 
+  display: block; 
+  animation: fadeIn 0.5s; 
+}
+
+.activity-details img { 
+  max-width: 220px; 
+  margin: 10px 15px 10px 0; 
+  border-radius: 8px; 
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.activity-details img:hover {
+  transform: scale(1.05);
+}
+
+.card.card-active { 
+  transform: scale(1.06); 
+  box-shadow: 0 8px 32px rgba(80,60,20,0.13); 
+  z-index: 2; 
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

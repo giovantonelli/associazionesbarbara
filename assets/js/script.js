@@ -1719,3 +1719,292 @@ async function initChiSiamoPage() {
 document.addEventListener('DOMContentLoaded', function() {
   initChiSiamoPage();
 });
+
+// ============= ATTIVITA PAGE SPECIFIC FUNCTIONALITY =============
+// Activity details function
+function showActivityDetails(id) {
+  document.querySelectorAll('.activity-details').forEach(function(sec) { 
+    sec.classList.remove('active'); 
+  });
+  
+  var el = document.getElementById(id);
+  if (el) el.classList.add('active');
+  
+  // Gestione effetto card
+  document.querySelectorAll('.card[onclick]').forEach(function(card) { 
+    card.classList.remove('card-active'); 
+  });
+  
+  if (id === 'dettagli-corteo') {
+    const card = document.querySelector('.card[onclick*="dettagli-corteo"]');
+    if (card) card.classList.add('card-active');
+  } else if (id === 'dettagli-tamburi') {
+    const card = document.querySelector('.card[onclick*="dettagli-tamburi"]');
+    if (card) card.classList.add('card-active');
+  } else if (id === 'dettagli-inarrivo') {
+    const card = document.querySelector('.card[onclick*="dettagli-inarrivo"]');
+    if (card) card.classList.add('card-active');
+  }
+  
+  if (el) {
+    window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });
+  }
+}
+
+// Supabase configuration for activities
+async function loadAttivita() {
+  try {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/attivita?select=*`, {
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    if (!response.ok) throw new Error('Errore nel caricamento delle attività');
+    
+    const attivita = await response.json();
+    renderAttivita(attivita);
+    renderActivityDetails(attivita);
+    
+  } catch (error) {
+    console.error('Errore:', error);
+    const container = document.getElementById('attivita-container');
+    if (container) {
+      container.innerHTML = '<p>Errore nel caricamento delle attività</p>';
+    }
+  }
+}
+
+// Render activity cards
+function renderAttivita(attivita) {
+  const container = document.getElementById('attivita-container');
+  if (!container) return;
+  
+  container.innerHTML = '';
+  
+  attivita.forEach((activity, index) => {
+    const col = document.createElement('div');
+    col.className = 'col-md-4 animate-fade-up';
+    col.setAttribute('data-delay', index * 100);
+    
+    col.innerHTML = `
+      <div class="enhanced-card" onclick="showActivityDetails('dettagli-${activity.id}')">
+        <div class="card-img-container">
+          <img src="${activity.image_url}" alt="${activity.title}" class="card-img">
+          <div class="card-overlay">
+            <div class="overlay-icon">${activity.emoji}</div>
+          </div>
+        </div>
+        <div class="enhanced-card-content">
+          <h3>${activity.title}</h3>
+          <p>${activity.short_description}</p>
+        </div>
+      </div>
+    `;
+    
+    container.appendChild(col);
+  });
+}
+
+// Render activity details
+function renderActivityDetails(attivita) {
+  const container = document.getElementById('activity-details-container');
+  if (!container) return;
+  
+  container.innerHTML = '';
+  
+  attivita.forEach(activity => {
+    const detailDiv = document.createElement('div');
+    detailDiv.id = `dettagli-${activity.id}`;
+    detailDiv.className = 'activity-details';
+    
+    let photosHtml = '';
+    if (activity.photo1_url) {
+      photosHtml += `<img src="${activity.photo1_url}" alt="${activity.title} foto 1" onclick="openLightbox('${activity.photo1_url}')" style="cursor: pointer;">`;
+    }
+    if (activity.photo2_url) {
+      photosHtml += `<img src="${activity.photo2_url}" alt="${activity.title} foto 2" onclick="openLightbox('${activity.photo2_url}')" style="cursor: pointer;">`;
+    }
+    
+    let cubitalList = '';
+    if (activity.cubital1 || activity.cubital2 || activity.cubital3) {
+      cubitalList = '<ul>';
+      if (activity.cubital1) cubitalList += `<li>${activity.cubital1}</li>`;
+      if (activity.cubital2) cubitalList += `<li>${activity.cubital2}</li>`;
+      if (activity.cubital3) cubitalList += `<li>${activity.cubital3}</li>`;
+      cubitalList += '</ul>';
+    }
+    
+    detailDiv.innerHTML = `
+      <h3>${activity.title}</h3>
+      <div style="display:flex;align-items:flex-start;flex-wrap:wrap;">
+        ${photosHtml}
+        <div>
+          <p>${activity.long_description}</p>
+          ${cubitalList}
+        </div>
+      </div>
+    `;
+    
+    container.appendChild(detailDiv);
+  });
+}
+
+// Lightbox functions
+function openLightbox(imageSrc) {
+  let lightbox = document.getElementById('photo-lightbox');
+  if (!lightbox) {
+    lightbox = document.createElement('div');
+    lightbox.id = 'photo-lightbox';
+    lightbox.className = 'photo-lightbox';
+    lightbox.innerHTML = `
+      <div class="lightbox-content">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <img id="lightbox-image" src="" alt="Foto ingrandita">
+      </div>
+    `;
+    document.body.appendChild(lightbox);
+  }
+  
+  document.getElementById('lightbox-image').src = imageSrc;
+  lightbox.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  const lightbox = document.getElementById('photo-lightbox');
+  if (lightbox) {
+    lightbox.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+}
+
+// Initialize Attivita page functionality
+async function initAttivitaPage() {
+  // Only run if attivita specific elements exist
+  const attivitaElements = document.getElementById('attivita-container') || document.querySelector('.activity-details');
+  if (!attivitaElements) {
+    return;
+  }
+  
+  // Load activities from Supabase
+  await loadAttivita();
+  
+  // Lightbox event listeners
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('photo-lightbox')) {
+      closeLightbox();
+    }
+  });
+  
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeLightbox();
+    }
+  });
+  
+  // Make functions global
+  window.openLightbox = openLightbox;
+  window.closeLightbox = closeLightbox;
+  window.showActivityDetails = showActivityDetails;
+  
+  // Enhanced UX for Attivita page
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const element = entry.target;
+        const delay = element.dataset.delay || 0;
+        
+        setTimeout(() => {
+          element.style.animationDelay = delay + 'ms';
+          element.classList.add('animate');
+        }, delay);
+        
+        observer.unobserve(element);
+      }
+    });
+  }, observerOptions);
+  
+  // Observe animated elements
+  document.querySelectorAll('.animate-fade-up').forEach(el => {
+    observer.observe(el);
+  });
+  
+  // Enhanced card interaction
+  document.querySelectorAll('.enhanced-card').forEach(card => {
+    card.addEventListener('mouseenter', function() {
+      if (!this.classList.contains('card-active')) {
+        this.style.transform = 'translateY(-15px) scale(1.03)';
+      }
+    });
+    
+    card.addEventListener('mouseleave', function() {
+      if (!this.classList.contains('card-active')) {
+        this.style.transform = 'translateY(0) scale(1)';
+      }
+    });
+  });
+  
+  // Parallax effect for page header
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const header = document.querySelector('.page-header');
+    if (header) {
+      header.style.transform = `translateY(${scrolled * 0.3}px)`;
+    }
+  });
+  
+  // Enhanced showActivityDetails override
+  const originalShowActivityDetails = window.showActivityDetails;
+  window.showActivityDetails = function(id) {
+    // Remove active state from all cards first
+    document.querySelectorAll('.enhanced-card').forEach(card => {
+      card.classList.remove('card-active');
+      card.style.transform = '';
+    });
+    
+    // Call original function
+    originalShowActivityDetails(id);
+    
+    // Add enhanced styling to clicked card
+    let activeCard = null;
+    if (id === 'dettagli-corteo') {
+      activeCard = document.querySelector('.enhanced-card[onclick*="dettagli-corteo"]');
+    } else if (id === 'dettagli-tamburi') {
+      activeCard = document.querySelector('.enhanced-card[onclick*="dettagli-tamburi"]');
+    } else if (id === 'dettagli-inarrivo') {
+      activeCard = document.querySelector('.enhanced-card[onclick*="dettagli-inarrivo"]');
+    }
+    
+    if (activeCard) {
+      activeCard.classList.add('card-active');
+      activeCard.style.transform = 'translateY(-15px) scale(1.05)';
+    }
+    
+    // Add enhanced animation to active details
+    setTimeout(() => {
+      const activeDetail = document.getElementById(id);
+      if (activeDetail && activeDetail.classList.contains('active')) {
+        activeDetail.style.animation = 'fadeIn 0.6s ease, slideUp 0.6s ease';
+        activeDetail.style.transform = 'translateY(0)';
+      }
+    }, 100);
+  };
+  
+  // Add staggered loading animation for cards
+  document.querySelectorAll('.enhanced-card').forEach((card, index) => {
+    card.style.animationDelay = (index * 100) + 'ms';
+  });
+}
+
+// Initialize both Chi Siamo and Attivita functionality when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  initChiSiamoPage();
+  initAttivitaPage();
+});
