@@ -2009,6 +2009,8 @@ document.addEventListener('DOMContentLoaded', function() {
   initAttivitaPage();
   initEventiPage();
   initGalleriaPage();
+  initFaqPage();
+  initPartnerPage();
 });
 
 // ============= EVENTI PAGE SPECIFIC FUNCTIONALITY =============
@@ -3060,5 +3062,274 @@ function initGalleriaScrollAnimations() {
   // Observe elements with scroll animations
   document.querySelectorAll('.galleria-animate-on-scroll').forEach(el => {
     observer.observe(el);
+  });
+}
+
+// =================================
+// FAQ PAGE FUNCTIONALITY
+// =================================
+function initFaqPage() {
+  if (!document.body.classList.contains('faq-page') && !window.location.pathname.includes('faq')) {
+    return;
+  }
+  
+  console.log('Initializing FAQ page...');
+  
+  // Initialize animations
+  initFaqAnimations();
+  
+  // Initialize category filtering
+  initFaqCategoryFiltering();
+  
+  // Initialize accordion functionality
+  initFaqAccordion();
+  
+  // Initialize parallax effects
+  initFaqParallax();
+}
+
+function initFaqAnimations() {
+  // Animation observer
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const delay = entry.target.dataset.animationDelay || 0;
+        setTimeout(() => {
+          entry.target.classList.add('animate');
+        }, delay * 1000);
+      }
+    });
+  }, observerOptions);
+
+  // Observe animated elements
+  document.querySelectorAll('.slide-up, .fade-in').forEach(el => {
+    observer.observe(el);
+  });
+  
+  // Badge animations
+  setTimeout(() => {
+    document.querySelectorAll('.animate-badge').forEach(badge => {
+      badge.classList.add('animate');
+    });
+  }, 500);
+  
+  setTimeout(() => {
+    document.querySelectorAll('.animate-title').forEach(title => {
+      title.classList.add('animate');
+    });
+  }, 700);
+  
+  setTimeout(() => {
+    document.querySelectorAll('.animate-subtitle').forEach(subtitle => {
+      subtitle.classList.add('animate');
+    });
+  }, 900);
+}
+
+function initFaqCategoryFiltering() {
+  const categoryButtons = document.querySelectorAll('.category-btn');
+  const faqItems = document.querySelectorAll('.faq-item');
+  
+  // Count FAQ items by category
+  function updateCategoryCounts() {
+    const counts = {
+      all: faqItems.length,
+      iscrizione: 0,
+      volontariato: 0,
+      eventi: 0,
+      generale: 0
+    };
+    
+    faqItems.forEach(item => {
+      const category = item.dataset.category;
+      if (counts[category] !== undefined) {
+        counts[category]++;
+      }
+    });
+    
+    Object.keys(counts).forEach(category => {
+      const countEl = document.getElementById(`count-${category}`);
+      if (countEl) {
+        countEl.textContent = counts[category];
+      }
+    });
+  }
+  
+  updateCategoryCounts();
+  
+  categoryButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const category = this.dataset.category;
+      
+      // Update active button with animation
+      categoryButtons.forEach(btn => {
+        btn.classList.remove('active');
+        btn.style.transform = 'scale(1)';
+      });
+      this.classList.add('active');
+      this.style.transform = 'scale(1.05)';
+      
+      // Animate FAQ items filtering
+      faqItems.forEach((item, index) => {
+        if (category === 'all' || item.dataset.category === category) {
+          setTimeout(() => {
+            item.style.display = 'block';
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+              item.style.opacity = '1';
+              item.style.transform = 'translateY(0)';
+              item.style.transition = 'all 0.3s ease';
+            }, 50);
+          }, index * 100);
+        } else {
+          item.style.opacity = '0';
+          item.style.transform = 'translateY(-20px)';
+          setTimeout(() => {
+            item.style.display = 'none';
+          }, 300);
+        }
+      });
+    });
+  });
+}
+
+function initFaqAccordion() {
+  const faqQuestions = document.querySelectorAll('.faq-question');
+  
+  faqQuestions.forEach(question => {
+    question.addEventListener('click', function() {
+      const faqItem = this.closest('.faq-item');
+      const answer = faqItem.querySelector('.faq-answer');
+      const icon = this.querySelector('.faq-icon');
+      const isOpen = faqItem.classList.contains('active');
+      
+      // Close all other FAQ items
+      faqQuestions.forEach(q => {
+        const item = q.closest('.faq-item');
+        const ans = item.querySelector('.faq-answer');
+        const ic = q.querySelector('.faq-icon');
+        
+        if (item !== faqItem) {
+          item.classList.remove('active');
+          ans.style.maxHeight = '0px';
+          ic.style.transform = 'rotate(0deg)';
+        }
+      });
+      
+      // Toggle current FAQ item
+      if (!isOpen) {
+        faqItem.classList.add('active');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        icon.style.transform = 'rotate(180deg)';
+        
+        // Smooth scroll to FAQ item
+        setTimeout(() => {
+          faqItem.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+          });
+        }, 300);
+      } else {
+        faqItem.classList.remove('active');
+        answer.style.maxHeight = '0px';
+        icon.style.transform = 'rotate(0deg)';
+      }
+    });
+  });
+}
+
+function initFaqParallax() {
+  // Parallax effect for header
+  const header = document.querySelector('[data-parallax]');
+  if (header) {
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const rate = scrolled * -0.5;
+      header.style.transform = `translateY(${rate}px)`;
+    });
+  }
+}
+
+// =================================
+// PARTNER PAGE FUNCTIONALITY
+// =================================
+function initPartnerPage() {
+  if (!document.body.classList.contains('partner-page') && !window.location.pathname.includes('partner')) {
+    return;
+  }
+  
+  console.log('Initializing Partner page...');
+  
+  // Initialize animations
+  initPartnerAnimations();
+  
+  // Initialize card interactions
+  initPartnerCardInteractions();
+  
+  // Initialize parallax effects
+  initPartnerParallax();
+}
+
+function initPartnerAnimations() {
+  // Intersection Observer for animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const element = entry.target;
+        const delay = element.dataset.delay || 0;
+        
+        setTimeout(() => {
+          element.style.animationDelay = delay + 'ms';
+          element.classList.add('animate');
+        }, delay);
+        
+        observer.unobserve(element);
+      }
+    });
+  }, observerOptions);
+  
+  // Observe all animated elements
+  document.querySelectorAll('.animate-fade-in, .animate-fade-up').forEach(el => {
+    observer.observe(el);
+  });
+}
+
+function initPartnerCardInteractions() {
+  // Enhanced partner card interactions
+  document.querySelectorAll('.partner-card').forEach((card, index) => {
+    card.style.animationDelay = (index * 100) + 'ms';
+    
+    card.addEventListener('mouseenter', function() {
+      // Add subtle glow effect
+      this.style.boxShadow = '0 20px 60px rgba(225, 6, 0, 0.2), 0 0 0 1px rgba(225, 6, 0, 0.1)';
+      this.style.transition = 'box-shadow 0.3s ease';
+    });
+    
+    card.addEventListener('mouseleave', function() {
+      this.style.boxShadow = '';
+    });
+  });
+}
+
+function initPartnerParallax() {
+  // Parallax effect for page header
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const header = document.querySelector('.page-header');
+    if (header) {
+      header.style.transform = `translateY(${scrolled * 0.5}px)`;
+    }
   });
 }
