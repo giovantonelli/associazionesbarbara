@@ -2008,6 +2008,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initChiSiamoPage();
   initAttivitaPage();
   initEventiPage();
+  initGalleriaPage();
 });
 
 // ============= EVENTI PAGE SPECIFIC FUNCTIONALITY =============
@@ -2850,4 +2851,214 @@ function setupEventiModal() {
       }
     });
   }, 500);
+}
+
+// =================================
+// GALLERIA PAGE FUNCTIONALITY
+// =================================
+function initGalleriaPage() {
+  if (!document.body.classList.contains('galleria-page') && !window.location.pathname.includes('galleria')) {
+    return;
+  }
+  
+  console.log('Initializing Galleria page...');
+  
+  // Initialize animations
+  initGalleriaAnimations();
+  
+  // Initialize photo carousel
+  initGalleriaPhotoCarousel();
+  
+  // Initialize video gallery
+  initGalleriaVideoGallery();
+  
+  // Initialize lightbox
+  initGalleriaLightbox();
+  
+  // Initialize scroll animations
+  initGalleriaScrollAnimations();
+}
+
+function initGalleriaAnimations() {
+  // Header particles animation
+  const particlesContainer = document.querySelector('.galleria-header-particles');
+  if (particlesContainer) {
+    for (let i = 0; i < 9; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'galleria-particle';
+      particle.style.left = `${10 + i * 10}%`;
+      particle.style.animationDelay = `-${i * 2}s`;
+      particlesContainer.appendChild(particle);
+    }
+  }
+  
+  // Stagger animations for gallery items
+  const galleryItems = document.querySelectorAll('.photo-thumbnail, .video-thumbnail');
+  galleryItems.forEach((item, index) => {
+    item.style.animationDelay = `${index * 0.1}s`;
+  });
+}
+
+function initGalleriaPhotoCarousel() {
+  if (typeof Swiper === 'undefined') return;
+  
+  const photoSwiper = new Swiper('.photo-swiper', {
+    effect: 'coverflow',
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: 'auto',
+    spaceBetween: 30,
+    loop: true,
+    speed: 800,
+    coverflowEffect: {
+      rotate: 20,
+      stretch: 0,
+      depth: 200,
+      modifier: 1,
+      slideShadows: true,
+    },
+    navigation: {
+      nextEl: '.photo-nav-next',
+      prevEl: '.photo-nav-prev',
+    },
+    pagination: {
+      el: '.photo-swiper .swiper-pagination',
+      type: 'progressbar',
+    },
+    breakpoints: {
+      320: { slidesPerView: 1, spaceBetween: 20 },
+      768: { slidesPerView: 2, spaceBetween: 25 },
+      1024: { slidesPerView: 3, spaceBetween: 30 }
+    }
+  });
+}
+
+function initGalleriaVideoGallery() {
+  if (typeof Swiper === 'undefined') return;
+  
+  const videoSwiper = new Swiper('.video-swiper', {
+    slidesPerView: 3,
+    spaceBetween: 30,
+    loop: true,
+    speed: 600,
+    navigation: {
+      nextEl: '.video-nav-next',
+      prevEl: '.video-nav-prev',
+    },
+    pagination: {
+      el: '.video-swiper .swiper-pagination',
+      clickable: true,
+    },
+    breakpoints: {
+      320: { slidesPerView: 1, spaceBetween: 15 },
+      768: { slidesPerView: 2, spaceBetween: 20 },
+      1024: { slidesPerView: 3, spaceBetween: 30 }
+    }
+  });
+}
+
+function initGalleriaLightbox() {
+  // Photo lightbox
+  const photoThumbnails = document.querySelectorAll('.photo-thumbnail');
+  photoThumbnails.forEach((thumbnail, index) => {
+    thumbnail.addEventListener('click', () => {
+      openPhotoLightbox(index);
+    });
+  });
+  
+  // Video lightbox
+  const videoThumbnails = document.querySelectorAll('.video-thumbnail');
+  videoThumbnails.forEach((thumbnail) => {
+    thumbnail.addEventListener('click', () => {
+      const videoUrl = thumbnail.dataset.video;
+      if (videoUrl) {
+        openVideoLightbox(videoUrl);
+      }
+    });
+  });
+}
+
+function openPhotoLightbox(startIndex = 0) {
+  const lightbox = document.getElementById('photo-lightbox');
+  const lightboxImg = document.getElementById('lightbox-image');
+  const photos = document.querySelectorAll('.photo-thumbnail img');
+  
+  if (!lightbox || !lightboxImg || photos.length === 0) return;
+  
+  let currentIndex = startIndex;
+  
+  function showPhoto(index) {
+    if (index < 0) index = photos.length - 1;
+    if (index >= photos.length) index = 0;
+    
+    currentIndex = index;
+    lightboxImg.src = photos[index].src;
+    lightboxImg.alt = photos[index].alt || 'Foto della galleria';
+  }
+  
+  // Show initial photo
+  showPhoto(currentIndex);
+  lightbox.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  
+  // Navigation
+  const prevBtn = lightbox.querySelector('.photo-prev');
+  const nextBtn = lightbox.querySelector('.photo-next');
+  
+  if (prevBtn) prevBtn.onclick = () => showPhoto(currentIndex - 1);
+  if (nextBtn) nextBtn.onclick = () => showPhoto(currentIndex + 1);
+  
+  // Keyboard navigation
+  const handleKeyboard = (e) => {
+    if (e.key === 'ArrowLeft') showPhoto(currentIndex - 1);
+    if (e.key === 'ArrowRight') showPhoto(currentIndex + 1);
+    if (e.key === 'Escape') closeLightbox();
+  };
+  
+  document.addEventListener('keydown', handleKeyboard);
+  
+  // Close function
+  window.closeLightbox = function() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+    document.removeEventListener('keydown', handleKeyboard);
+  };
+}
+
+function openVideoLightbox(videoUrl) {
+  const lightbox = document.getElementById('video-lightbox');
+  const videoPlayer = document.getElementById('lightbox-video');
+  
+  if (!lightbox || !videoPlayer) return;
+  
+  videoPlayer.src = videoUrl;
+  lightbox.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  
+  // Close function
+  window.closeVideoLightbox = function() {
+    lightbox.classList.remove('active');
+    videoPlayer.src = '';
+    document.body.style.overflow = '';
+  };
+}
+
+function initGalleriaScrollAnimations() {
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -100px 0px'
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+  
+  // Observe elements with scroll animations
+  document.querySelectorAll('.galleria-animate-on-scroll').forEach(el => {
+    observer.observe(el);
+  });
 }
