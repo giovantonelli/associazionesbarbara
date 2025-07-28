@@ -2163,20 +2163,65 @@ window.openEventModal = async function(eventId) {
   const modal = document.getElementById('event-modal');
   const modalContent = document.getElementById('modal-html-content');
   
-  if (!modal || !modalContent) return;
-  
-  modalContent.innerHTML = '<div style="text-align:center;color:#E10600;">Caricamento...</div>';
-  modal.classList.add('show');
-  
-  // Get HTML content from Supabase
-  const { data: eventData, error: eventError } = await supabaseEventiClient.from('events').select('content').eq('id', eventId).single();
-  
-  if (eventError || !eventData) {
-    modalContent.innerHTML = `<div style="color:red;text-align:center;">Errore: ${eventError ? eventError.message : 'Evento non trovato'}</div>`;
+  if (!modal || !modalContent) {
+    console.error('Modal elements not found');
     return;
   }
   
-  modalContent.innerHTML = `<div>${eventData.content}</div>`;
+  modalContent.innerHTML = '<div style="text-align:center;color:#E10600;padding:2rem;">Caricamento...</div>';
+  modal.style.display = 'flex';
+  modal.classList.add('active');
+  
+  try {
+    // Get event basic info first
+    const { data: eventData, error: eventError } = await supabaseEventiClient
+      .from('events')
+      .select('title, description')
+      .eq('id', eventId)
+      .single();
+    
+    if (eventError) {
+      throw new Error(`Errore recupero evento: ${eventError.message}`);
+    }
+    
+    // Get HTML content from content table using eventId as reference
+    const { data: contentData, error: contentError } = await supabaseEventiClient
+      .from('content')
+      .select('html_content')
+      .eq('event_id', eventId)
+      .single();
+    
+    if (contentError && contentError.code !== 'PGRST116') {
+      throw new Error(`Errore recupero contenuto: ${contentError.message}`);
+    }
+    
+    // Build modal content
+    let modalHtml = '';
+    
+    if (eventData) {
+      modalHtml += `<h2 style="color: #E10600; margin-bottom: 1rem;">${eventData.title || 'Evento'}</h2>`;
+      if (eventData.description) {
+        modalHtml += `<p style="color: #666; margin-bottom: 1.5rem; line-height: 1.6;">${eventData.description}</p>`;
+      }
+    }
+    
+    if (contentData && contentData.html_content) {
+      modalHtml += `<div style="margin-top: 1rem;">${contentData.html_content}</div>`;
+    } else {
+      modalHtml += `<div style="color: #999; font-style: italic; text-align: center; padding: 2rem;">Contenuto dettagliato non disponibile per questo evento.</div>`;
+    }
+    
+    modalContent.innerHTML = modalHtml;
+    
+  } catch (error) {
+    console.error('Error loading event modal:', error);
+    modalContent.innerHTML = `
+      <div style="color: #E10600; text-align: center; padding: 2rem;">
+        <h3>Errore di caricamento</h3>
+        <p style="color: #666; margin-top: 1rem;">${error.message}</p>
+      </div>
+    `;
+  }
 };
 
 // Image lightbox functionality
@@ -2564,23 +2609,32 @@ function setupEventiModal() {
     if (closeModal) {
       closeModal.addEventListener('click', function() {
         if (eventModal) {
-          eventModal.classList.remove('show');
+          eventModal.style.display = 'none';
+          eventModal.classList.remove('active');
         }
       });
     }
     
     if (eventModal) {
       eventModal.addEventListener('click', function(e) {
-        if (e.target === this) this.classList.remove('show');
+        if (e.target === this) {
+          this.style.display = 'none';
+          this.classList.remove('active');
+        }
       });
     }
     
+    // Close modal with ESC key
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        if (eventModal) {
-          eventModal.classList.remove('show');
+      if (e.key === 'Escape' && eventModal) {
+        if (eventModal.classList.contains('active')) {
+          eventModal.style.display = 'none';
+          eventModal.classList.remove('active');
         }
-        closeImageLightbox();
+        // Also close image lightbox if open
+        if (typeof closeImageLightbox === 'function') {
+          closeImageLightbox();
+        }
       }
     });
   }, 500);
