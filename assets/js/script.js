@@ -2173,10 +2173,10 @@ window.openEventModal = async function(eventId) {
   modal.classList.add('active');
   
   try {
-    // Get event basic info first
+    // Get event data including content from events table
     const { data: eventData, error: eventError } = await supabaseEventiClient
       .from('events')
-      .select('title, description')
+      .select('title, description, content')
       .eq('id', eventId)
       .single();
     
@@ -2184,29 +2184,24 @@ window.openEventModal = async function(eventId) {
       throw new Error(`Errore recupero evento: ${eventError.message}`);
     }
     
-    // Get HTML content from content table using eventId as reference
-    const { data: contentData, error: contentError } = await supabaseEventiClient
-      .from('content')
-      .select('html_content')
-      .eq('event_id', eventId)
-      .single();
-    
-    if (contentError && contentError.code !== 'PGRST116') {
-      throw new Error(`Errore recupero contenuto: ${contentError.message}`);
+    if (!eventData) {
+      throw new Error('Evento non trovato');
     }
     
     // Build modal content
     let modalHtml = '';
     
-    if (eventData) {
-      modalHtml += `<h2 style="color: #E10600; margin-bottom: 1rem;">${eventData.title || 'Evento'}</h2>`;
-      if (eventData.description) {
-        modalHtml += `<p style="color: #666; margin-bottom: 1.5rem; line-height: 1.6;">${eventData.description}</p>`;
-      }
+    // Add title
+    modalHtml += `<h2 style="color: #E10600; margin-bottom: 1rem;">${eventData.title || 'Evento'}</h2>`;
+    
+    // Add description if available
+    if (eventData.description) {
+      modalHtml += `<p style="color: #666; margin-bottom: 1.5rem; line-height: 1.6;">${eventData.description}</p>`;
     }
     
-    if (contentData && contentData.html_content) {
-      modalHtml += `<div style="margin-top: 1rem;">${contentData.html_content}</div>`;
+    // Add HTML content if available
+    if (eventData.content) {
+      modalHtml += `<div style="margin-top: 1rem;">${eventData.content}</div>`;
     } else {
       modalHtml += `<div style="color: #999; font-style: italic; text-align: center; padding: 2rem;">Contenuto dettagliato non disponibile per questo evento.</div>`;
     }
