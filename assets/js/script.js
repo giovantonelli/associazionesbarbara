@@ -1595,8 +1595,9 @@ async function getAttivitaCount() {
 
 // Enhanced UX JavaScript for Chi Siamo
 async function initChiSiamoPage() {
-  // Only run on chi-siamo.html page
-  if (!document.body.className.includes('chi-siamo') && !window.location.pathname.includes('chi-siamo')) {
+  // Only run if chi-siamo specific elements exist
+  const chiSiamoElements = document.querySelector('.team-member') || document.querySelector('#eventi-counter') || document.querySelector('.chi-siamo-header');
+  if (!chiSiamoElements) {
     return;
   }
   
@@ -1696,19 +1697,6 @@ async function initChiSiamoPage() {
           block: 'start'
         });
       }
-    });
-  });
-  
-  // Enhanced hover effects for team members
-  document.querySelectorAll('.team-member').forEach(member => {
-    member.addEventListener('mouseenter', function() {
-      this.style.transform = 'translateY(-10px)';
-      this.style.boxShadow = '0 20px 40px rgba(0,0,0,0.15)';
-    });
-    
-    member.addEventListener('mouseleave', function() {
-      this.style.transform = 'translateY(0)';
-      this.style.boxShadow = '';
     });
   });
   
