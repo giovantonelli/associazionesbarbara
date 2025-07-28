@@ -1475,3 +1475,63 @@ window.cookieConsent = {
 	}
 };
 }
+
+// BidVertiser Ad Scripts - Moved from inline in index.html
+function initBidVertiserAds() {
+  // Primary ad (desktop and tablet)
+  if (document.getElementById('ntv_2101043')) {
+    (function(d) {
+      var params = {
+        bvwidgetid: "ntv_2101043",
+        bvlinksownid: 2101043,
+        rows: 1,
+        cols: 2,
+        textpos: "below",
+        imagewidth: 225,
+        mobilecols: 2,
+        cb: (new Date()).getTime()
+      };
+      params.bvwidgetid = "ntv_2101043" + params.cb;
+      d.getElementById("ntv_2101043").id = params.bvwidgetid;
+      var qs = Object.keys(params).reduce(function(a, k) {
+        a.push(k + '=' + encodeURIComponent(params[k])); return a;
+      }, []).join(String.fromCharCode(38));
+      var s = d.createElement('script'); s.type='text/javascript';s.async=true;
+      var p = 'https:' == document.location.protocol ? 'https' : 'http';
+      s.src = p + "://cdn.hyperpromote.com/bidvertiser/tags/active/bdvws.js?" + qs;
+      d.getElementById(params.bvwidgetid).appendChild(s);
+    })(document);
+  }
+
+  // Mobile ad
+  if (document.getElementById('ntv_2101043_mobile')) {
+    (function(d) {
+      var params = {
+        bvwidgetid: "ntv_2101043_mobile",
+        bvlinksownid: 2101043,
+        rows: 1,
+        cols: 2,
+        textpos: "below",
+        imagewidth: 225,
+        mobilecols: 1,
+        cb: (new Date()).getTime()
+      };
+      params.bvwidgetid = "ntv_2101043_mobile" + params.cb;
+      d.getElementById("ntv_2101043_mobile").id = params.bvwidgetid;
+      var qs = Object.keys(params).reduce(function(a, k) {
+        a.push(k + '=' + encodeURIComponent(params[k])); return a;
+      }, []).join(String.fromCharCode(38));
+      var s = d.createElement('script'); s.type='text/javascript';s.async=true;
+      var p = 'https:' == document.location.protocol ? 'https' : 'http';
+      s.src = p + "://cdn.hyperpromote.com/bidvertiser/tags/active/bdvws.js?" + qs;
+      d.getElementById(params.bvwidgetid).appendChild(s);
+    })(document);
+  }
+
+}
+
+// Initialize BidVertiser ads when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  // Add small delay to ensure elements are ready
+  setTimeout(initBidVertiserAds, 100);
+});

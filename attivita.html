@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
   <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.8.0">
@@ -49,387 +49,6 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://associazionesbarbara.it/attivita.html">
   <link rel="stylesheet" href="assets/css/style.css">
-  <style>
-    /* Attivita UX Enhancements */
-    .page-header {
-      background: linear-gradient(135deg, rgba(230, 6, 0, 0.9), rgba(255, 215, 0, 0.8)), url('https://ciezrbsolxpjxswdkkpo.supabase.co/storage/v1/object/public/gallery/html/banner.jpg');
-      background-size: cover;
-      background-position: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .page-header::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.3);
-      z-index: 1;
-    }
-
-    .page-header .container {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      padding: 60px 0;
-    }
-
-    .page-header h1 {
-      font-size: 3.5rem;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-      color: white;
-    }
-
-    .page-header p {
-      font-size: 1.3rem;
-      color: rgba(255,255,255,0.95);
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-    }
-
-    .section-badge {
-      display: inline-block;
-      background: linear-gradient(135deg, #E10600, #FF4500);
-      color: white;
-      padding: 8px 20px;
-      border-radius: 25px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 15px;
-      box-shadow: 0 4px 15px rgba(225, 6, 0, 0.3);
-    }
-
-    .section-header {
-      margin-bottom: 50px;
-      text-align: center;
-    }
-
-    .section-subtitle {
-      font-size: 1.1rem;
-      color: #666;
-      margin-bottom: 0;
-    }
-
-    /* Enhanced Cards */
-    .enhanced-card {
-      background: white;
-      border-radius: 20px;
-      padding: 0;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-      border: 2px solid rgba(225, 6, 0, 0.1);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      position: relative;
-      overflow: hidden;
-      height: 100%;
-      cursor: pointer;
-    }
-
-    .enhanced-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, #E10600, #FFD700);
-      transform: scaleX(0);
-      transition: transform 0.3s ease;
-    }
-
-    .enhanced-card:hover::before {
-      transform: scaleX(1);
-    }
-
-    .enhanced-card:hover {
-      transform: translateY(-15px) scale(1.03);
-      box-shadow: 0 25px 70px rgba(225, 6, 0, 0.2);
-      border-color: rgba(225, 6, 0, 0.3);
-    }
-
-    .enhanced-card.card-active {
-      transform: translateY(-15px) scale(1.05);
-      box-shadow: 0 30px 80px rgba(225, 6, 0, 0.25);
-      border-color: #E10600;
-      z-index: 10;
-    }
-
-    .card-img-container {
-      position: relative;
-      overflow: hidden;
-      height: 250px;
-    }
-
-    .card-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-    }
-
-    .enhanced-card:hover .card-img {
-      transform: scale(1.1);
-    }
-
-    .card-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, rgba(225, 6, 0, 0.8), rgba(255, 69, 0, 0.6));
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .enhanced-card:hover .card-overlay {
-      opacity: 1;
-    }
-
-    .overlay-icon {
-      color: white;
-      font-size: 3rem;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    }
-
-    .enhanced-card-content {
-      padding: 30px;
-    }
-
-    .enhanced-card-content h3 {
-      color: #E10600;
-      margin-bottom: 15px;
-      font-size: 1.5rem;
-      font-weight: 700;
-    }
-
-    .enhanced-card-content p {
-      color: #555;
-      line-height: 1.6;
-      margin-bottom: 0;
-    }
-
-    /* Activity Details Enhanced */
-    .activity-details {
-      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-      border-radius: 20px;
-      padding: 40px;
-      margin: 40px 0;
-      box-shadow: 0 15px 50px rgba(0,0,0,0.1);
-      border: 2px solid rgba(225, 6, 0, 0.1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .activity-details::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 6px;
-      background: linear-gradient(90deg, #E10600, #FFD700, #E10600);
-    }
-
-    .activity-details h3 {
-      color: #E10600;
-      font-size: 2.2rem;
-      margin-bottom: 30px;
-      font-weight: 700;
-    }
-
-    .activity-details img {
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-      transition: transform 0.3s ease;
-      max-width: 250px;
-      margin: 15px 20px 15px 0;
-    }
-
-    .activity-details img:hover {
-      transform: scale(1.05);
-    }
-
-    .activity-details ul {
-      list-style: none;
-      padding: 0;
-      margin-top: 20px;
-    }
-
-    .activity-details ul li {
-      background: white;
-      padding: 12px 20px;
-      margin: 8px 0;
-      border-radius: 10px;
-      border-left: 4px solid #E10600;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      transition: all 0.3s ease;
-    }
-
-    .activity-details ul li:hover {
-      transform: translateX(10px);
-      box-shadow: 0 5px 20px rgba(225, 6, 0, 0.15);
-    }
-
-    .activity-details ul li::before {
-      content: '✓';
-      color: #E10600;
-      font-weight: bold;
-      margin-right: 10px;
-    }
-
-    .activity-details-content {
-      background: white;
-      border-radius: 15px;
-      padding: 30px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-    }
-
-    .activity-details p {
-      color: #444;
-      line-height: 1.7;
-      margin-bottom: 20px;
-      font-size: 1.05rem;
-    }
-
-    /* Animations */
-    .animate-fade-in {
-      opacity: 0;
-      animation: fadeIn 1s ease forwards;
-    }
-
-    .animate-fade-up {
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeUp 0.8s ease forwards;
-    }
-
-    .animate-section {
-      opacity: 0;
-      animation: fadeIn 1s ease forwards;
-    }
-
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Lightbox per foto */
-    .photo-lightbox {
-      display: none;
-      position: fixed;
-      z-index: 9999;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.9);
-      justify-content: center;
-      align-items: center;
-    }
-    
-    .lightbox-content {
-      position: relative;
-      max-width: 95vw;
-      max-height: 95vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    
-    #lightbox-image {
-      width: auto;
-      height: auto;
-      max-width: 95vw;
-      max-height: 95vh;
-      object-fit: contain;
-      border-radius: 10px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-    }
-    
-    .lightbox-close {
-      position: absolute;
-      top: -40px;
-      right: 0;
-      color: white;
-      font-size: 35px;
-      font-weight: bold;
-      cursor: pointer;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0,0,0,0.5);
-      border-radius: 50%;
-      transition: background 0.3s ease;
-    }
-    
-    .lightbox-close:hover {
-      background: rgba(225, 6, 0, 0.8);
-    }
-    
-    /* Responsive per immagini dettagli attività */
-    .activity-details img {
-      max-width: 220px;
-      width: 100%;
-      height: auto;
-      margin: 10px 15px 10px 0;
-      border-radius: 8px;
-      object-fit: cover;
-    }
-    
-    @media (max-width: 768px) {
-      .activity-details img {
-        max-width: 100%;
-        margin: 10px 0;
-      }
-      
-      .lightbox-close {
-        top: -50px;
-        font-size: 30px;
-      }
-      
-      #lightbox-image {
-        max-width: 98vw;
-        max-height: 90vh;
-      }
-    }
-
-    /* Responsive Improvements */
-    @media (max-width: 768px) {
-      .page-header h1 {
-        font-size: 2.5rem;
-      }
-      
-      .enhanced-card {
-        margin-bottom: 30px;
-      }
-      
-      .activity-details {
-        padding: 25px;
-      }
-      
-      .activity-details h3 {
-        font-size: 1.8rem;
-      }
-      
-      .activity-details img {
-        max-width: 100%;
-        margin: 10px 0;
-      }
-    }
-  </style>
   <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
   <script>
                         // Define dataLayer and the gtag function
@@ -452,49 +71,6 @@
                    gtag('js', new Date());
                    gtag('config', 'G-F465WJF33T');
   </script>
-  <style>
-    /* Force hamburger menu visibility */
-    @media (max-width: 768px) {
-      .navbar .nav-toggle {
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: center !important;
-        gap: 4px !important;
-        padding: 10px !important;
-        background: rgba(225, 6, 0, 0.1) !important;
-        border: 2px solid #E10600 !important;
-        border-radius: 5px !important;
-        cursor: pointer !important;
-        width: 40px !important;
-        height: 40px !important;
-        position: relative !important;
-        z-index: 9999 !important;
-      }
-      .navbar .nav-toggle span {
-        width: 25px !important;
-        height: 4px !important;
-        background-color: #E10600 !important;
-        background: #E10600 !important;
-        display: block !important;
-        border-radius: 2px !important;
-        transition: all 0.3s ease !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        border: 1px solid #E10600 !important;
-        box-shadow: 0 0 0 1px #E10600 !important;
-      }
-      .navbar .nav-toggle.active span:nth-child(1) {
-        transform: rotate(-45deg) translate(-6px, 6px) !important;
-      }
-      .navbar .nav-toggle.active span:nth-child(2) {
-        opacity: 0 !important;
-      }
-      .navbar .nav-toggle.active span:nth-child(3) {
-        transform: rotate(45deg) translate(-6px, -6px) !important;
-      }
-    }
-  </style>
 </head>
 <body>
   <nav class="navbar">
@@ -539,7 +115,7 @@
     </div>
   </nav>
   <div id="user-bar"></div>
-  <section class="page-header">
+  <section class="page-header attivita-header">
     <div class="container">
       <div class="animate-fade-in">
         <h1>Attività e Progetti</h1>
@@ -591,59 +167,112 @@
       </div>
     </div>
   </section>
-  <!-- Footer Banner Ad -->
-  <footer class="footer">
+    <footer class="footer enhanced-footer">
     <div class="container">
-      <div class="footer-content">
-        <div class="footer-section">
-          <img src="assets/images/logo.svg" alt="Logo Associazione Santa Barbara" class="footer-logo">
-          <p>Associazione Santa Barbara</p>
-          <p>Promuoviamo la cultura e il volontariato nel nostro territorio</p>
+      <!-- Sezione principale del footer -->
+      <div class="footer-main">
+        <div class="footer-brand brand-card">
+          <img src="assets/images/logo.svg" alt="Associazione Santa Barbara" class="footer-logo">
+          <h4>Associazione Santa Barbara APS</h4>
+          <p>
+            Preserviamo le tradizioni di Grumo Appula dal 2008 con il Corteo Storico e attivitÃ  culturali che valorizzano il nostro patrimonio.
+          </p>
+          
+          <div class="contact-info-footer">
+            <p>
+              <span>ðŸ“</span> Via N. Mastroserio 12 - Grumo Appula (BA)
+            </p>
+            <p>
+              <span>ðŸ“§</span> info@associazionesbarbara.it
+            </p>
+            <p>
+              <b>Contattaci per maggiori informazioni</b>
+            </p>
+          </div>
         </div>
-        <div class="footer-section">
-          <h4>Link utili</h4>
-          <ul>
-            <li>
-              <a href="chi-siamo.html">Chi siamo</a>
-            </li>
-            <li>
-              <a href="attivita.html">Attività</a>
-            </li>
-            <li>
-              <a href="eventi.html">Eventi</a>
-            </li>
-            <li>
-              <a href="contatti.html">Contatti</a>
-            </li>
-          </ul>
-        </div>
-        <div class="footer-section">
-          <h4>Informazioni</h4>
-          <ul>
-            <li>
-              <a href="privacy.html">Privacy Policy</a>
-            </li>
-            <li>
-              <a href="faq.html">FAQ</a>
-            </li>
-            <li>
-              <a href="area-soci.html">Area Soci</a>
-            </li>
-          </ul>
-        </div>
-        <div class="footer-section">
-          <h4>Seguici</h4>
-          <div class="social-links">
-            <a href="https://www.facebook.com/santabarbara.grumoappula" class="social-link" aria-label="Facebook"><svg width="24" height="24" viewbox="0 0 24 24" fill="currentcolor">
-            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg></a> <a href="https://www.instagram.com/corteostoricosantabarbara/" class="social-link" aria-label="Instagram"><svg width="24" height="24" viewbox="0 0 24 24" fill="currentcolor">
-            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg></a> <a href="https://t.me/associazionesbarbara" class="social-link" aria-label="Telegram"><svg width="24" height="24" viewbox="0 0 24 24" fill="currentcolor">
-            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"></path></svg></a>
+
+        <div class="footer-sections">
+          <div class="footer-section links-card">
+            <div>
+              <h4>ðŸ”— Link Utili</h4>
+              <ul>
+                <li>
+                  <a href="chi-siamo.html">
+                    <span>â–¶</span> Chi siamo
+                  </a>
+                </li>
+                <li>
+                  <a href="eventi.html">
+                    <span>â–¶</span> Eventi
+                  </a>
+                </li>
+                <li>
+                  <a href="galleria.html">
+                    <span>â–¶</span> Galleria
+                  </a>
+                </li>
+                <li>
+                  <a href="attivita.html">
+                    <span>â–¶</span> AttivitÃ 
+                  </a>
+                </li>
+                <li>
+                  <a href="faq.html">
+                    <span>â–¶</span> FAQ
+                  </a>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="social-section">
+              <p>ðŸŒ Seguici sui social:</p>
+              <div class="social-links">
+                <a href="https://www.facebook.com/santabarbara.grumoappula" class="enhanced-social" aria-label="Facebook">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentcolor">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+                  </svg>
+                </a>
+                <a href="https://www.instagram.com/corteostoricosantabarbara/" class="enhanced-social" aria-label="Instagram">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentcolor">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.40s-.644-1.44-1.439-1.40z"></path>
+                  </svg>
+                </a>
+                <a href="https://t.me/associazionesbarbara" class="enhanced-social" aria-label="Telegram">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentcolor">
+                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"></path>
+                  </svg>
+                </a>
+              </div>
+              <div class="secondary-links">
+                <a href="privacy.html">Privacy</a>
+                <a href="partner.html">Partner</a>
+                <a href="area-soci.html">Area Soci</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-section support-section">
+            <h4>ðŸ¤ Sostieni l'Associazione</h4>
+            <p>
+              Aiutaci a preservare le tradizioni e organizzare eventi per la comunitÃ 
+            </p>
+            <div class="sponsor-btn-container">
+              <a href="contatti.html" class="sponsor-btn">
+                â¤ï¸ Diventa Sponsor
+              </a>
+            </div>
+            <div class="sponsor-alternatives">
+              <p>ðŸ’¡ Altre modalitÃ  di supporto:</p>
+              <a href="area-soci.html">Diventa Socio</a>
+              <a href="eventi.html">Partecipa agli Eventi</a>
+            </div>
           </div>
         </div>
       </div>
+
       <div class="footer-bottom">
-        <p>© 2008- <span id="current-year"></span> Associazione Santa Barbara. Tutti i diritti riservati.<br>
-        <span style="letter-spacing:2px; font-size:0.95em; color:#222;"><a href="privacy.html" style="color:#e67e22; text-decoration:underline;">PRIVACY POLICY</a> <span style="margin:0 10px;">|</span> <a href="#" style="color:#e67e22; text-decoration:underline;" onclick="window.cookieConsent && window.cookieConsent.open(); return false;">GESTISCI COOKIE</a></span></p>
+        <p>Â© 2008- <span id="current-year"></span> Associazione Santa Barbara. Tutti i diritti riservati.<br>
+        <span class="privacy-links"><a href="privacy.html">PRIVACY POLICY</a> <span class="separator">|</span> <a href="#" onclick="window.cookieConsent && window.cookieConsent.open(); return false;">GESTISCI COOKIE</a></span></p>
       </div>
     </div>
   </footer>
@@ -919,3 +548,4 @@
   
 </body>
 </html>
+
