@@ -2011,6 +2011,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initGalleriaPage();
   initFaqPage();
   initPartnerPage();
+  initPrivacyPage();
 });
 
 // ============= EVENTI PAGE SPECIFIC FUNCTIONALITY =============
@@ -3324,6 +3325,78 @@ function initPartnerCardInteractions() {
 }
 
 function initPartnerParallax() {
+  // Parallax effect for page header
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const header = document.querySelector('.page-header');
+    if (header) {
+      header.style.transform = `translateY(${scrolled * 0.5}px)`;
+    }
+  });
+}
+
+// =================================
+// PRIVACY PAGE FUNCTIONALITY
+// =================================
+function initPrivacyPage() {
+  if (!document.body.classList.contains('privacy-page') && !window.location.pathname.includes('privacy')) {
+    return;
+  }
+  
+  console.log('Initializing Privacy page...');
+  
+  // Initialize animations
+  initPrivacyAnimations();
+  
+  // Initialize section interactions
+  initPrivacySectionInteractions();
+  
+  // Initialize parallax effects
+  initPrivacyParallax();
+}
+
+function initPrivacyAnimations() {
+  // Intersection Observer for animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+  
+  // Observe all animated elements
+  document.querySelectorAll('.animate-fade-in').forEach(el => {
+    observer.observe(el);
+  });
+}
+
+function initPrivacySectionInteractions() {
+  // Enhanced section interactions
+  document.querySelectorAll('.privacy-section').forEach((section, index) => {
+    section.style.animationDelay = (index * 200) + 'ms';
+    section.classList.add('animate-fade-in');
+    
+    section.addEventListener('mouseenter', function() {
+      this.style.transform = 'translateX(10px)';
+      this.style.borderLeftWidth = '6px';
+      this.style.transition = 'all 0.3s ease';
+    });
+    
+    section.addEventListener('mouseleave', function() {
+      this.style.transform = 'translateX(0)';
+      this.style.borderLeftWidth = '4px';
+    });
+  });
+}
+
+function initPrivacyParallax() {
   // Parallax effect for page header
   window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;

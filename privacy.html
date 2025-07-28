@@ -508,57 +508,6 @@
   <script src="assets/js/adblock-detector-v2.js"></script> 
   <script src="assets/js/adblock-integration-v2.js"></script>
   
-  <script>
-    // Enhanced UX JavaScript for Privacy
-    document.addEventListener('DOMContentLoaded', function() {
-      
-      // Intersection Observer for animations
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      };
-      
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, observerOptions);
-      
-      // Observe all animated elements
-      document.querySelectorAll('.animate-fade-in').forEach(el => {
-        observer.observe(el);
-      });
-      
-      // Enhanced section interactions
-      document.querySelectorAll('.privacy-section').forEach((section, index) => {
-        section.style.animationDelay = (index * 200) + 'ms';
-        section.classList.add('animate-fade-in');
-        
-        section.addEventListener('mouseenter', function() {
-          this.style.transform = 'translateX(10px)';
-          this.style.borderLeftWidth = '6px';
-        });
-        
-        section.addEventListener('mouseleave', function() {
-          this.style.transform = 'translateX(0)';
-          this.style.borderLeftWidth = '4px';
-        });
-      });
-      
-      // Parallax effect for page header
-      window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const header = document.querySelector('.page-header');
-        if (header) {
-          header.style.transform = `translateY(${scrolled * 0.5}px)`;
-        }
-      });
-      
-    });
-  </script>
 </body>
 </html>
 
