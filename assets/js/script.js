@@ -1535,3 +1535,199 @@ document.addEventListener('DOMContentLoaded', function() {
   // Add small delay to ensure elements are ready
   setTimeout(initBidVertiserAds, 100);
 });
+
+// ============= CHI SIAMO PAGE SPECIFIC FUNCTIONALITY =============
+// Supabase configuration
+const SUPABASE_URL = 'https://ciezrbsolxpjxswdkkpo.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpZXpyYnNvbHhwanhzd2Rra3BvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5MjM1NjAsImV4cCI6MjA2ODQ5OTU2MH0.V-U8KhO8byObUW5kJ8XbLBkp9O9Efh98MdbKYFfbQJk';
+
+// Function to get events count from Supabase
+async function getEventsCount() {
+  try {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/events?select=count`, {
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'count=exact'
+      }
+    });
+    
+    if (response.ok) {
+      const countHeader = response.headers.get('content-range');
+      if (countHeader) {
+        const count = parseInt(countHeader.split('/')[1]);
+        return count || 0;
+      }
+    }
+    return 0;
+  } catch (error) {
+    console.error('Errore nel recupero del conteggio eventi:', error);
+    return 0;
+  }
+}
+
+// Function to get activities count from Supabase
+async function getAttivitaCount() {
+  try {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/attivita?select=count`, {
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'count=exact'
+      }
+    });
+    
+    if (response.ok) {
+      const countHeader = response.headers.get('content-range');
+      if (countHeader) {
+        const count = parseInt(countHeader.split('/')[1]);
+        return count || 0;
+      }
+    }
+    return 0;
+  } catch (error) {
+    console.error('Errore nel recupero del conteggio attività:', error);
+    return 0;
+  }
+}
+
+// Enhanced UX JavaScript for Chi Siamo
+async function initChiSiamoPage() {
+  // Only run on chi-siamo.html page
+  if (!document.body.className.includes('chi-siamo') && !window.location.pathname.includes('chi-siamo')) {
+    return;
+  }
+  
+  // Load events count
+  const eventsCount = await getEventsCount();
+  const eventiCounter = document.getElementById('eventi-counter');
+  if (eventiCounter) {
+    eventiCounter.dataset.target = eventsCount;
+  }
+  
+  // Calculate years of activity (current year - 2008)
+  const currentYear = new Date().getFullYear();
+  const foundationYear = 2008;
+  const yearsOfActivity = currentYear - foundationYear;
+  const anniCounter = document.getElementById('anni-counter');
+  if (anniCounter) {
+    anniCounter.dataset.target = yearsOfActivity;
+  }
+  
+  // Load activities count
+  const attivitaCount = await getAttivitaCount();
+  const progettiCounter = document.getElementById('progetti-counter');
+  if (progettiCounter) {
+    progettiCounter.dataset.target = attivitaCount;
+  }
+  
+  // Intersection Observer for animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const element = entry.target;
+        const delay = element.dataset.delay || 0;
+        
+        setTimeout(() => {
+          element.style.animationDelay = delay + 'ms';
+          element.classList.add('animate');
+        }, delay);
+        
+        observer.unobserve(element);
+      }
+    });
+  }, observerOptions);
+  
+  // Observe all animated elements
+  document.querySelectorAll('.animate-fade-up, .animate-slide-left, .animate-slide-right').forEach(el => {
+    observer.observe(el);
+  });
+  
+  // Counter animation
+  function animateCounter(element, target, duration = 2000) {
+    let start = 0;
+    const increment = target / (duration / 16);
+    
+    const timer = setInterval(() => {
+      start += increment;
+      element.textContent = Math.floor(start);
+      
+      if (start >= target) {
+        element.textContent = target + (target >= 100 ? '+' : '');
+        clearInterval(timer);
+      }
+    }, 16);
+  }
+  
+  // Stats counter observer
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const counters = entry.target.querySelectorAll('.counter');
+        counters.forEach(counter => {
+          const target = parseInt(counter.dataset.target);
+          animateCounter(counter, target);
+        });
+        statsObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  
+  const statsSection = document.querySelector('.stats-section');
+  if (statsSection) {
+    statsObserver.observe(statsSection);
+  }
+  
+  // Smooth scroll for internal links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+  
+  // Enhanced hover effects for team members
+  document.querySelectorAll('.team-member').forEach(member => {
+    member.addEventListener('mouseenter', function() {
+      this.style.transform = 'translateY(-10px)';
+      this.style.boxShadow = '0 20px 40px rgba(0,0,0,0.15)';
+    });
+    
+    member.addEventListener('mouseleave', function() {
+      this.style.transform = 'translateY(0)';
+      this.style.boxShadow = '';
+    });
+  });
+  
+  // Parallax effect for hero section
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const header = document.querySelector('.chi-siamo-header');
+    if (header && scrolled < header.offsetHeight) {
+      header.style.transform = `translateY(${scrolled * 0.25}px)`;
+    }
+  });
+  
+  // Add loading animation
+  document.querySelectorAll('.enhanced-card, .value-card, .enhanced-stat').forEach((card, index) => {
+    card.style.animationDelay = (index * 100) + 'ms';
+  });
+}
+
+// Initialize Chi Siamo functionality when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  initChiSiamoPage();
+});
