@@ -2118,9 +2118,9 @@ async function loadPublicEvents() {
 // Render event card
 function renderEventCard(ev, isPast = false) {
   const img = ev.image_url ? `
-    <div class="event-image-container" data-image-url="${ev.image_url}" onclick="event.stopPropagation(); openImageLightbox('${ev.image_url}');" style="cursor: pointer;">
-      <img src="${ev.image_url}" alt="Locandina evento" ${isPast ? 'style="filter:grayscale(0.7) contrast(0.95);"' : ''}>
-      <div class="event-image-overlay">
+    <div class="card-img-container" onclick="event.stopPropagation(); openImageLightbox('${ev.image_url}');" style="cursor: pointer;">
+      <img src="${ev.image_url}" alt="Locandina evento" class="card-img" ${isPast ? 'style="filter:grayscale(0.7) contrast(0.95);"' : ''}>
+      <div class="card-overlay">
         <span style="color: white; font-weight: 600;">🔍 Ingrandisci immagine</span>
       </div>
       ${!isPast ? '<div class="event-date-badge">' + (ev.event_date ? new Date(ev.event_date).getDate() + '/' + (new Date(ev.event_date).getMonth() + 1) : 'TBD') + '</div>' : ''}
@@ -2139,22 +2139,18 @@ function renderEventCard(ev, isPast = false) {
   const isRecent = ev.created_at && new Date() - new Date(ev.created_at) < 7 * 24 * 60 * 60 * 1000;
   
   return `
-    <article class="evento-card ${isPast ? 'past-event' : ''} ${isRecent && !isPast ? 'pulse-glow' : ''}" data-event-id="${ev.id}">
-      <div style="width:100%;text-align:center;">
-        <div onclick="openEventModal('${ev.id}')" style="cursor: pointer;">
-          ${!isPast ? typeBadge : ''}
-          <h2 style="color:${isPast ? '#b0b0b0' : '#E10600'};font-size:1.6em;margin-bottom:0.8em;font-weight:600;">${ev.title || 'Evento'}</h2>
-          <div style="font-size:1.15em;color:${isPast ? '#888' : '#333'};margin-bottom:1.5em;">
-            <div style="margin-bottom:0.5em;"><strong style="color:${isPast ? '#999' : '#E10600'};">${date}</strong></div>
-            ${time ? `<div style="font-size:1.1em;color:${isPast ? '#b0b0b0' : '#666'};margin-bottom:0.5em;">${time}</div>` : ''}
-            ${location ? `<div style="color:${isPast ? '#aaa' : '#555'};">${location}</div>` : ''}
-          </div>
+    <article class="card enhanced-card event-card ${isPast ? 'past-event' : ''} ${isRecent && !isPast ? 'pulse-glow' : ''}" data-event-id="${ev.id}" onclick="openEventModal('${ev.id}')" style="cursor: pointer;">
+      ${img}
+      <div class="card-content">
+        ${!isPast ? typeBadge : ''}
+        <h3 style="color:${isPast ? '#b0b0b0' : '#E10600'};font-size:1.4em;margin-bottom:0.8em;font-weight:600;">${ev.title || 'Evento'}</h3>
+        <div style="font-size:1.1em;color:${isPast ? '#888' : '#333'};margin-bottom:1em;">
+          <div style="margin-bottom:0.5em;"><strong style="color:${isPast ? '#999' : '#E10600'};">${date}</strong></div>
+          ${time ? `<div style="font-size:1em;color:${isPast ? '#b0b0b0' : '#666'};margin-bottom:0.5em;">${time}</div>` : ''}
+          ${location ? `<div style="color:${isPast ? '#aaa' : '#555'};">${location}</div>` : ''}
         </div>
-        ${img}
-        <div onclick="openEventModal('${ev.id}')" style="cursor: pointer;">
-          <p style="font-size:1.1em;color:${isPast ? '#aaa' : '#555'};line-height:1.7;margin-bottom:1.5em;">${ev.description || ''}</p>
-          ${ev.external_link && !isPast ? `<a href="${ev.external_link}" target="_blank" onclick="event.stopPropagation();" style="display:inline-block;background:linear-gradient(135deg, #E10600, #FF4500);color:#fff;padding:0.8em 2em;border-radius:25px;font-size:1.05em;text-decoration:none;box-shadow:0 4px 15px rgba(225,6,0,0.3);transition:all 0.3s ease;font-weight:600;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(225,6,0,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 15px rgba(225,6,0,0.3)'">🔗 Info evento</a>` : ''}
-        </div>
+        <p style="font-size:1em;color:${isPast ? '#aaa' : '#555'};line-height:1.6;margin-bottom:1em;">${ev.description || ''}</p>
+        ${ev.external_link && !isPast ? `<a href="${ev.external_link}" target="_blank" onclick="event.stopPropagation();" style="display:inline-block;background:linear-gradient(135deg, #E10600, #FF4500);color:#fff;padding:0.6em 1.5em;border-radius:20px;font-size:1em;text-decoration:none;box-shadow:0 4px 15px rgba(225,6,0,0.3);transition:all 0.3s ease;font-weight:600;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(225,6,0,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 15px rgba(225,6,0,0.3)'">🔗 Info evento</a>` : ''}
       </div>
     </article>
   `;
@@ -2490,7 +2486,7 @@ function initializeEventiAnimations() {
   }, observerOptions);
   
   // Observe all animated elements
-  document.querySelectorAll('.animate-slide-up, .animate-slide-left, .animate-slide-right, .evento-card').forEach((el, index) => {
+  document.querySelectorAll('.animate-slide-up, .animate-slide-left, .animate-slide-right, .event-card').forEach((el, index) => {
     el.dataset.delay = index * 100;
     observer.observe(el);
   });
@@ -2498,7 +2494,7 @@ function initializeEventiAnimations() {
 
 // Enhanced hover effects for event cards
 function setupEventiHoverEffects() {
-  document.querySelectorAll('.evento-card').forEach((card, index) => {
+  document.querySelectorAll('.event-card').forEach((card, index) => {
     // Staggered animation delay
     card.style.animationDelay = (index * 150) + 'ms';
     
