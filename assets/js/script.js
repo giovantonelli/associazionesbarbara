@@ -2158,25 +2158,47 @@ function renderEventCard(ev, isPast = false) {
 
 // Global functions for modal and lightbox
 window.openEventModal = async function(eventId) {
-  if (!supabaseEventiClient) return;
+  if (!supabaseEventiClient) {
+    showNotification('Errore di connessione al database', 'error');
+    return;
+  }
   
   const modal = document.getElementById('event-modal');
   const modalContent = document.getElementById('modal-html-content');
   
   if (!modal || !modalContent) {
     console.error('Modal elements not found');
+    showNotification('Errore nell\'interfaccia del modale', 'error');
     return;
   }
   
-  modalContent.innerHTML = '<div style="text-align:center;color:#E10600;padding:2rem;">Caricamento...</div>';
+  // Add loading state with spinner
+  modalContent.innerHTML = `
+    <div style="text-align:center;color:#E10600;padding:3rem;">
+      <div style="display: inline-block; width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #E10600; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem;"></div>
+      <div style="font-size: 1.1rem; font-weight: 500;">Caricamento evento...</div>
+    </div>
+  `;
+  
+  // Show modal with smooth animation
   modal.style.display = 'flex';
+  modal.style.opacity = '0';
   modal.classList.add('active');
+  
+  // Animate in
+  requestAnimationFrame(() => {
+    modal.style.transition = 'opacity 0.3s ease';
+    modal.style.opacity = '1';
+  });
+  
+  // Prevent body scroll when modal is open
+  document.body.style.overflow = 'hidden';
   
   try {
     // Get event data including content from events table
     const { data: eventData, error: eventError } = await supabaseEventiClient
       .from('events')
-      .select('title, description, content')
+      .select('title, description, content, event_date, event_time, location, image_url')
       .eq('id', eventId)
       .single();
     
@@ -2188,34 +2210,121 @@ window.openEventModal = async function(eventId) {
       throw new Error('Evento non trovato');
     }
     
-    // Build modal content
+    // Build enhanced modal content
     let modalHtml = '';
     
-    // Add title
-    modalHtml += `<h2 style="color: #E10600; margin-bottom: 1rem;">${eventData.title || 'Evento'}</h2>`;
+    // Add event image if available
+    if (eventData.image_url) {
+      modalHtml += `
+        <div style="margin-bottom: 1.5rem; text-align: center;">
+          <img src="${eventData.image_url}" alt="Locandina evento" 
+               style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.15);"
+               onclick="openImageLightbox('${eventData.image_url}')" 
+               onmouseover="this.style.cursor='pointer'; this.style.transform='scale(1.02)'; this.style.transition='transform 0.3s ease'"
+               onmouseout="this.style.transform='scale(1)'">
+          <div style="font-size: 0.9rem; color: #888; margin-top: 0.5rem; font-style: italic;">📸 Clicca per ingrandire</div>
+        </div>
+      `;
+    }
+    
+    // Add title with enhanced styling
+    modalHtml += `
+      <h2 style="color: #E10600; margin-bottom: 1rem; font-size: 1.8rem; font-weight: 700; line-height: 1.3; text-align: center;">
+        ${eventData.title || 'Evento'}
+      </h2>
+    `;
+    
+    // Add event details in a nice card format
+    if (eventData.event_date || eventData.event_time || eventData.location) {
+      modalHtml += `
+        <div style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; border-left: 4px solid #E10600;">
+          <h4 style="color: #E10600; margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">📅 Dettagli Evento</h4>
+      `;
+      
+      if (eventData.event_date) {
+        const date = new Date(eventData.event_date).toLocaleDateString('it-IT', {
+          weekday: 'long', 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric'
+        });
+        modalHtml += `<div style="margin-bottom: 0.8rem;"><strong style="color: #333;">📆 Data:</strong> <span style="color: #555;">${date}</span></div>`;
+      }
+      
+      if (eventData.event_time) {
+        modalHtml += `<div style="margin-bottom: 0.8rem;"><strong style="color: #333;">🕐 Orario:</strong> <span style="color: #555;">${eventData.event_time}</span></div>`;
+      }
+      
+      if (eventData.location) {
+        modalHtml += `<div><strong style="color: #333;">📍 Luogo:</strong> <span style="color: #555;">${eventData.location}</span></div>`;
+      }
+      
+      modalHtml += `</div>`;
+    }
     
     // Add description if available
     if (eventData.description) {
-      modalHtml += `<p style="color: #666; margin-bottom: 1.5rem; line-height: 1.6;">${eventData.description}</p>`;
+      modalHtml += `
+        <div style="background: #fff; padding: 1.5rem; border-radius: 12px; border: 1px solid #e0e0e0; margin-bottom: 1.5rem;">
+          <h4 style="color: #E10600; margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">📝 Descrizione</h4>
+          <p style="color: #555; line-height: 1.7; margin: 0; font-size: 1rem;">${eventData.description}</p>
+        </div>
+      `;
     }
     
     // Add HTML content if available
     if (eventData.content) {
-      modalHtml += `<div style="margin-top: 1rem;">${eventData.content}</div>`;
+      modalHtml += `
+        <div style="margin-top: 1.5rem; padding: 1.5rem; background: #fff; border-radius: 12px; border: 1px solid #e0e0e0;">
+          <h4 style="color: #E10600; margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">📄 Contenuto Completo</h4>
+          <div style="line-height: 1.6;">${eventData.content}</div>
+        </div>
+      `;
     } else {
-      modalHtml += `<div style="color: #999; font-style: italic; text-align: center; padding: 2rem;">Contenuto dettagliato non disponibile per questo evento.</div>`;
+      modalHtml += `
+        <div style="color: #999; font-style: italic; text-align: center; padding: 2rem; background: #f8f9fa; border-radius: 12px; border: 2px dashed #ddd;">
+          <div style="font-size: 2rem; margin-bottom: 1rem;">📋</div>
+          <div>Contenuto dettagliato non ancora disponibile per questo evento.</div>
+        </div>
+      `;
     }
     
-    modalContent.innerHTML = modalHtml;
+    // Add smooth content update
+    modalContent.style.opacity = '0';
+    modalContent.style.transition = 'opacity 0.3s ease';
+    
+    setTimeout(() => {
+      modalContent.innerHTML = modalHtml;
+      modalContent.style.opacity = '1';
+      
+      // Add success notification
+      showNotification('Evento caricato con successo!', 'success');
+    }, 150);
     
   } catch (error) {
     console.error('Error loading event modal:', error);
-    modalContent.innerHTML = `
-      <div style="color: #E10600; text-align: center; padding: 2rem;">
-        <h3>Errore di caricamento</h3>
-        <p style="color: #666; margin-top: 1rem;">${error.message}</p>
-      </div>
-    `;
+    
+    // Smooth error display
+    modalContent.style.opacity = '0';
+    setTimeout(() => {
+      modalContent.innerHTML = `
+        <div style="color: #E10600; text-align: center; padding: 3rem;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+          <h3 style="margin-bottom: 1rem; font-weight: 600;">Ops! Qualcosa è andato storto</h3>
+          <p style="color: #666; margin-bottom: 2rem; line-height: 1.6;">${error.message}</p>
+          <button onclick="openEventModal('${eventId}')" 
+                  style="background: linear-gradient(135deg, #E10600, #FF4500); color: white; border: none; padding: 0.8rem 2rem; border-radius: 25px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;"
+                  onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(225,6,0,0.3)'"
+                  onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+            🔄 Riprova
+          </button>
+        </div>
+      `;
+      modalContent.style.opacity = '1';
+    }, 150);
+    
+    // Show error notification
+    showNotification(`Errore: ${error.message}`, 'error');
   }
 };
 
@@ -2595,26 +2704,135 @@ function addEventiStyles() {
   document.head.appendChild(style);
 }
 
+// Enhanced notification system for better UX feedback
+function showNotification(message, type = 'info', duration = 3000) {
+  // Remove existing notifications
+  const existingNotifications = document.querySelectorAll('.ux-notification');
+  existingNotifications.forEach(notif => notif.remove());
+  
+  const notification = document.createElement('div');
+  notification.className = 'ux-notification';
+  
+  // Set colors based on type
+  let bgColor, textColor, icon;
+  switch (type) {
+    case 'success':
+      bgColor = 'linear-gradient(135deg, #4CAF50, #45a049)';
+      textColor = 'white';
+      icon = '✅';
+      break;
+    case 'error':
+      bgColor = 'linear-gradient(135deg, #E10600, #d32f2f)';
+      textColor = 'white';
+      icon = '❌';
+      break;
+    case 'warning':
+      bgColor = 'linear-gradient(135deg, #FF9800, #f57c00)';
+      textColor = 'white';
+      icon = '⚠️';
+      break;
+    default:
+      bgColor = 'linear-gradient(135deg, #2196F3, #1976d2)';
+      textColor = 'white';
+      icon = 'ℹ️';
+  }
+  
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: ${bgColor};
+    color: ${textColor};
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    z-index: 10001;
+    font-weight: 500;
+    font-size: 0.95rem;
+    max-width: 350px;
+    transform: translateX(400px);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+  `;
+  
+  notification.innerHTML = `
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <span style="font-size: 1.2rem;">${icon}</span>
+      <span>${message}</span>
+    </div>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  // Animate in
+  requestAnimationFrame(() => {
+    notification.style.transform = 'translateX(0)';
+  });
+  
+  // Auto dismiss
+  const timeoutId = setTimeout(() => {
+    dismissNotification(notification);
+  }, duration);
+  
+  // Manual dismiss on click
+  notification.addEventListener('click', () => {
+    clearTimeout(timeoutId);
+    dismissNotification(notification);
+  });
+  
+  function dismissNotification(notif) {
+    notif.style.transform = 'translateX(400px)';
+    notif.style.opacity = '0';
+    setTimeout(() => {
+      if (notif.parentNode) {
+        notif.parentNode.removeChild(notif);
+      }
+    }, 400);
+  }
+}
+
 // Setup modal close events
 function setupEventiModal() {
   setTimeout(() => {
     const closeModal = document.getElementById('close-modal');
     const eventModal = document.getElementById('event-modal');
     
-    if (closeModal) {
-      closeModal.addEventListener('click', function() {
-        if (eventModal) {
+    // Function to close modal with animation
+    function closeModalWithAnimation() {
+      if (eventModal) {
+        eventModal.style.transition = 'opacity 0.3s ease';
+        eventModal.style.opacity = '0';
+        
+        setTimeout(() => {
           eventModal.style.display = 'none';
           eventModal.classList.remove('active');
-        }
+          document.body.style.overflow = ''; // Restore body scroll
+        }, 300);
+      }
+    }
+    
+    if (closeModal) {
+      closeModal.addEventListener('click', function() {
+        closeModalWithAnimation();
+      });
+      
+      // Add hover effect to close button
+      closeModal.addEventListener('mouseenter', function() {
+        this.style.transform = 'rotate(90deg) scale(1.1)';
+        this.style.color = '#E10600';
+      });
+      
+      closeModal.addEventListener('mouseleave', function() {
+        this.style.transform = 'rotate(0deg) scale(1)';
+        this.style.color = '#999';
       });
     }
     
     if (eventModal) {
       eventModal.addEventListener('click', function(e) {
         if (e.target === this) {
-          this.style.display = 'none';
-          this.classList.remove('active');
+          closeModalWithAnimation();
         }
       });
     }
@@ -2623,8 +2841,7 @@ function setupEventiModal() {
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && eventModal) {
         if (eventModal.classList.contains('active')) {
-          eventModal.style.display = 'none';
-          eventModal.classList.remove('active');
+          closeModalWithAnimation();
         }
         // Also close image lightbox if open
         if (typeof closeImageLightbox === 'function') {
