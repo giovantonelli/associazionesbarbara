@@ -2007,4 +2007,585 @@ async function initAttivitaPage() {
 document.addEventListener('DOMContentLoaded', function() {
   initChiSiamoPage();
   initAttivitaPage();
+  initEventiPage();
 });
+
+// ============= EVENTI PAGE SPECIFIC FUNCTIONALITY =============
+// Supabase client for eventi page
+let supabaseEventiClient = null;
+
+// Initialize eventi page functionality
+async function initEventiPage() {
+  // Only run if eventi specific elements exist
+  const eventiElements = document.getElementById('public-events-list') || document.getElementById('future-events-list') || document.querySelector('.eventi-header');
+  if (!eventiElements) {
+    return;
+  }
+  
+  // Initialize Supabase client if not already initialized
+  if (typeof supabase !== 'undefined' && supabase.createClient) {
+    supabaseEventiClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  }
+  
+  // Load public events
+  await loadPublicEvents();
+  
+  // Setup parallax effect
+  setupEventiParallax();
+  
+  // Setup modal events
+  setupEventiModal();
+  
+  // Check for logged in user
+  checkLoggedInUser();
+  
+  // Add ripple animation keyframes
+  addEventiStyles();
+  
+  // Initialize page animations
+  setTimeout(() => {
+    document.querySelectorAll('.animate-fade-in, .animate-slide-up, .animate-slide-left, .animate-slide-right').forEach(el => {
+      el.classList.add('animate');
+    });
+  }, 100);
+}
+
+// Load public events from Supabase
+async function loadPublicEvents() {
+  if (!supabaseEventiClient) return;
+  
+  const eventsList = document.getElementById('public-events-list');
+  const futureEventsList = document.getElementById('future-events-list');
+  const pastEventsList = document.getElementById('past-events-list');
+  
+  if (futureEventsList) {
+    futureEventsList.innerHTML = '<div style="text-align:center;color:#E10600;font-size:1.1em;"><span class="loading-spinner"></span>Caricamento eventi...</div>';
+  }
+  if (pastEventsList) {
+    pastEventsList.innerHTML = '';
+  }
+  
+  const { data, error } = await supabaseEventiClient.from('events').select('*').eq('is_public', true).order('event_date', { ascending: true });
+  
+  if (error) {
+    if (futureEventsList) {
+      futureEventsList.innerHTML = `<div style="color:red;text-align:center;">Errore nel caricamento eventi: ${error.message}</div>`;
+    }
+    return;
+  }
+  
+  if (!data || data.length === 0) {
+    if (futureEventsList) {
+      futureEventsList.innerHTML = '<div style="text-align:center;color:#444;">Nessun evento pubblico disponibile al momento.</div>';
+    }
+    return;
+  }
+  
+  // Divide events into future and past
+  const now = new Date();
+  const futureEvents = [];
+  const pastEvents = [];
+  
+  data.forEach(ev => {
+    const eventDate = ev.event_date ? new Date(ev.event_date) : null;
+    if (eventDate && eventDate.setHours(0,0,0,0) >= now.setHours(0,0,0,0)) {
+      futureEvents.push(ev);
+    } else {
+      pastEvents.push(ev);
+    }
+  });
+  
+  // Sort future events ascending, past events descending
+  futureEvents.sort((a, b) => new Date(a.event_date) - new Date(b.event_date));
+  pastEvents.sort((a, b) => new Date(b.event_date) - new Date(a.event_date));
+  
+  // Render events
+  if (futureEventsList) {
+    futureEventsList.innerHTML = futureEvents.length ? futureEvents.map(ev => renderEventCard(ev, false)).join('') : '<div style="text-align:center;color:#444;">Nessun evento futuro.</div>';
+  }
+  
+  if (pastEventsList) {
+    pastEventsList.innerHTML = pastEvents.length ? pastEvents.map(ev => renderEventCard(ev, true)).join('') : '<div style="text-align:center;color:#888;">Nessun evento passato.</div>';
+  }
+  
+  // Initialize animations after DOM update
+  setTimeout(() => {
+    initializeEventiAnimations();
+    setupEventiHoverEffects();
+  }, 100);
+}
+
+// Render event card
+function renderEventCard(ev, isPast = false) {
+  const img = ev.image_url ? `
+    <div class="event-image-container" data-image-url="${ev.image_url}" onclick="event.stopPropagation(); openImageLightbox('${ev.image_url}');" style="cursor: pointer;">
+      <img src="${ev.image_url}" alt="Locandina evento" ${isPast ? 'style="filter:grayscale(0.7) contrast(0.95);"' : ''}>
+      <div class="event-image-overlay">
+        <span style="color: white; font-weight: 600;">🔍 Ingrandisci immagine</span>
+      </div>
+      ${!isPast ? '<div class="event-date-badge">' + (ev.event_date ? new Date(ev.event_date).getDate() + '/' + (new Date(ev.event_date).getMonth() + 1) : 'TBD') + '</div>' : ''}
+    </div>
+  ` : '';
+  
+  const date = ev.event_date ? new Date(ev.event_date).toLocaleDateString('it-IT') : '';
+  const time = ev.event_time ? `Ore ${ev.event_time}` : '';
+  const location = ev.location ? `<span style="font-size:1.05em;">${ev.location}</span>` : '';
+  
+  // Determine event type for badge
+  const eventType = ev.category || 'generale';
+  const typeBadge = `<span class="event-type-badge ${eventType.toLowerCase()}">${eventType}</span>`;
+  
+  // Check if event is recent (within 7 days)
+  const isRecent = ev.created_at && new Date() - new Date(ev.created_at) < 7 * 24 * 60 * 60 * 1000;
+  
+  return `
+    <article class="evento-card ${isPast ? 'past-event' : ''} ${isRecent && !isPast ? 'pulse-glow' : ''}" data-event-id="${ev.id}">
+      <div style="width:100%;text-align:center;">
+        <div onclick="openEventModal('${ev.id}')" style="cursor: pointer;">
+          ${!isPast ? typeBadge : ''}
+          <h2 style="color:${isPast ? '#b0b0b0' : '#E10600'};font-size:1.6em;margin-bottom:0.8em;font-weight:600;">${ev.title || 'Evento'}</h2>
+          <div style="font-size:1.15em;color:${isPast ? '#888' : '#333'};margin-bottom:1.5em;">
+            <div style="margin-bottom:0.5em;"><strong style="color:${isPast ? '#999' : '#E10600'};">${date}</strong></div>
+            ${time ? `<div style="font-size:1.1em;color:${isPast ? '#b0b0b0' : '#666'};margin-bottom:0.5em;">${time}</div>` : ''}
+            ${location ? `<div style="color:${isPast ? '#aaa' : '#555'};">${location}</div>` : ''}
+          </div>
+        </div>
+        ${img}
+        <div onclick="openEventModal('${ev.id}')" style="cursor: pointer;">
+          <p style="font-size:1.1em;color:${isPast ? '#aaa' : '#555'};line-height:1.7;margin-bottom:1.5em;">${ev.description || ''}</p>
+          ${ev.external_link && !isPast ? `<a href="${ev.external_link}" target="_blank" onclick="event.stopPropagation();" style="display:inline-block;background:linear-gradient(135deg, #E10600, #FF4500);color:#fff;padding:0.8em 2em;border-radius:25px;font-size:1.05em;text-decoration:none;box-shadow:0 4px 15px rgba(225,6,0,0.3);transition:all 0.3s ease;font-weight:600;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(225,6,0,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 15px rgba(225,6,0,0.3)'">🔗 Info evento</a>` : ''}
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+// Global functions for modal and lightbox
+window.openEventModal = async function(eventId) {
+  if (!supabaseEventiClient) return;
+  
+  const modal = document.getElementById('event-modal');
+  const modalContent = document.getElementById('modal-html-content');
+  
+  if (!modal || !modalContent) return;
+  
+  modalContent.innerHTML = '<div style="text-align:center;color:#E10600;">Caricamento...</div>';
+  modal.classList.add('show');
+  
+  // Get HTML content from Supabase
+  const { data: eventData, error: eventError } = await supabaseEventiClient.from('events').select('content').eq('id', eventId).single();
+  
+  if (eventError || !eventData) {
+    modalContent.innerHTML = `<div style="color:red;text-align:center;">Errore: ${eventError ? eventError.message : 'Evento non trovato'}</div>`;
+    return;
+  }
+  
+  modalContent.innerHTML = `<div>${eventData.content}</div>`;
+};
+
+// Image lightbox functionality
+window.openImageLightbox = function(imageUrl) {
+  // Create or get image lightbox
+  let lightbox = document.getElementById('image-lightbox');
+  if (!lightbox) {
+    lightbox = createImageLightbox();
+  }
+  
+  // Reset zoom state when opening new image
+  if (typeof window.currentZoom !== 'undefined') {
+    window.currentZoom = 1;
+    window.imgPosition = { x: 0, y: 0 };
+  }
+  
+  // Show image
+  const img = document.getElementById('lightbox-img');
+  if (img) {
+    img.src = imageUrl;
+    img.style.transform = 'translate(0px, 0px) scale(1)';
+  }
+  
+  const zoomInfo = document.getElementById('zoom-info');
+  if (zoomInfo) {
+    zoomInfo.textContent = '100%';
+  }
+  
+  lightbox.style.display = 'flex';
+  setTimeout(() => {
+    lightbox.style.opacity = '1';
+  }, 10);
+  document.body.style.overflow = 'hidden';
+};
+
+window.closeImageLightbox = function() {
+  const lightbox = document.getElementById('image-lightbox');
+  if (lightbox) {
+    // Reset zoom state
+    if (typeof window.currentZoom !== 'undefined') {
+      window.currentZoom = 1;
+      window.imgPosition = { x: 0, y: 0 };
+    }
+    
+    lightbox.style.opacity = '0';
+    setTimeout(() => {
+      lightbox.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }, 300);
+  }
+};
+
+// Create image lightbox element
+function createImageLightbox() {
+  const lightbox = document.createElement('div');
+  lightbox.id = 'image-lightbox';
+  lightbox.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.9);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    overflow: hidden;
+  `;
+  
+  lightbox.innerHTML = `
+    <div id="lightbox-container" style="position: relative; width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+      <img id="lightbox-img" src="" alt="Immagine evento" style="
+        max-width: 95vw;
+        max-height: 95vh;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        border-radius: 10px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        cursor: grab;
+        transition: transform 0.3s ease;
+        transform-origin: center center;
+      ">
+      
+      <!-- Close button -->
+      <button onclick="closeImageLightbox()" style="
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(225, 6, 0, 0.8);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        font-size: 28px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        z-index: 10001;
+      " onmouseover="this.style.transform='scale(1.1)';this.style.background='#E10600'" onmouseout="this.style.transform='scale(1)';this.style.background='rgba(225, 6, 0, 0.8)'">&times;</button>
+      
+      <!-- Zoom controls -->
+      <div id="zoom-controls" style="
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        background: rgba(0,0,0,0.7);
+        padding: 10px 15px;
+        border-radius: 25px;
+        z-index: 10001;
+      ">
+        <button onclick="zoomImage(-0.2)" style="
+          background: rgba(225, 6, 0, 0.8);
+          color: white;
+          border: none;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          font-size: 20px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s ease;
+        " title="Riduci zoom">−</button>
+        
+        <button onclick="resetZoom()" style="
+          background: rgba(225, 6, 0, 0.8);
+          color: white;
+          border: none;
+          border-radius: 20px;
+          padding: 8px 12px;
+          font-size: 12px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-weight: 600;
+        " title="Reset zoom">RESET</button>
+        
+        <button onclick="zoomImage(0.2)" style="
+          background: rgba(225, 6, 0, 0.8);
+          color: white;
+          border: none;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          font-size: 20px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s ease;
+        " title="Aumenta zoom">+</button>
+      </div>
+      
+      <!-- Zoom info -->
+      <div id="zoom-info" style="
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background: rgba(0,0,0,0.7);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 15px;
+        font-size: 14px;
+        font-weight: 600;
+        z-index: 10001;
+      ">100%</div>
+    </div>
+  `;
+  
+  document.body.appendChild(lightbox);
+  setupLightboxInteractions();
+  
+  return lightbox;
+}
+
+// Setup lightbox zoom and drag interactions
+function setupLightboxInteractions() {
+  // Initialize zoom variables
+  window.currentZoom = 1;
+  window.isDragging = false;
+  window.dragStart = { x: 0, y: 0 };
+  window.imgPosition = { x: 0, y: 0 };
+  
+  const img = document.getElementById('lightbox-img');
+  const container = document.getElementById('lightbox-container');
+  const zoomInfo = document.getElementById('zoom-info');
+  
+  if (!img || !container || !zoomInfo) return;
+  
+  // Zoom functions
+  window.zoomImage = function(delta) {
+    window.currentZoom = Math.max(0.5, Math.min(5, window.currentZoom + delta));
+    updateImageTransform();
+    updateZoomInfo();
+  };
+  
+  window.resetZoom = function() {
+    window.currentZoom = 1;
+    window.imgPosition = { x: 0, y: 0 };
+    updateImageTransform();
+    updateZoomInfo();
+  };
+  
+  function updateImageTransform() {
+    img.style.transform = `translate(${window.imgPosition.x}px, ${window.imgPosition.y}px) scale(${window.currentZoom})`;
+    img.style.cursor = window.currentZoom > 1 ? 'grab' : 'default';
+  }
+  
+  function updateZoomInfo() {
+    zoomInfo.textContent = Math.round(window.currentZoom * 100) + '%';
+  }
+  
+  // Mouse wheel zoom
+  container.addEventListener('wheel', function(e) {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? -0.1 : 0.1;
+    window.zoomImage(delta);
+  });
+  
+  // Double click to zoom
+  img.addEventListener('dblclick', function(e) {
+    if (window.currentZoom === 1) {
+      window.currentZoom = 2;
+    } else {
+      window.resetZoom();
+      return;
+    }
+    updateImageTransform();
+    updateZoomInfo();
+  });
+  
+  // Mouse drag functionality
+  img.addEventListener('mousedown', function(e) {
+    if (window.currentZoom > 1) {
+      window.isDragging = true;
+      img.style.cursor = 'grabbing';
+      window.dragStart.x = e.clientX - window.imgPosition.x;
+      window.dragStart.y = e.clientY - window.imgPosition.y;
+      e.preventDefault();
+    }
+  });
+  
+  document.addEventListener('mousemove', function(e) {
+    if (window.isDragging && window.currentZoom > 1) {
+      window.imgPosition.x = e.clientX - window.dragStart.x;
+      window.imgPosition.y = e.clientY - window.dragStart.y;
+      updateImageTransform();
+    }
+  });
+  
+  document.addEventListener('mouseup', function() {
+    if (window.isDragging) {
+      window.isDragging = false;
+      img.style.cursor = window.currentZoom > 1 ? 'grab' : 'default';
+    }
+  });
+  
+  // Close on background click
+  const lightbox = document.getElementById('image-lightbox');
+  if (lightbox) {
+    lightbox.addEventListener('click', function(e) {
+      if (e.target === lightbox) {
+        closeImageLightbox();
+      }
+    });
+  }
+  
+  // Close on ESC key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && lightbox && lightbox.style.display !== 'none') {
+      closeImageLightbox();
+    }
+  });
+}
+
+// Initialize animations for eventi
+function initializeEventiAnimations() {
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const element = entry.target;
+        const delay = element.dataset.delay || 0;
+        
+        setTimeout(() => {
+          element.style.animationDelay = delay + 'ms';
+          element.classList.add('animate');
+        }, delay);
+        
+        observer.unobserve(element);
+      }
+    });
+  }, observerOptions);
+  
+  // Observe all animated elements
+  document.querySelectorAll('.animate-slide-up, .animate-slide-left, .animate-slide-right, .evento-card').forEach((el, index) => {
+    el.dataset.delay = index * 100;
+    observer.observe(el);
+  });
+}
+
+// Enhanced hover effects for event cards
+function setupEventiHoverEffects() {
+  document.querySelectorAll('.evento-card').forEach((card, index) => {
+    // Staggered animation delay
+    card.style.animationDelay = (index * 150) + 'ms';
+    
+    card.addEventListener('mouseenter', function() {
+      // Add ripple effect
+      const ripple = document.createElement('div');
+      ripple.style.cssText = `
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: radial-gradient(circle, rgba(225,6,0,0.1) 0%, transparent 70%);
+        pointer-events: none;
+        animation: ripple 0.6s ease-out;
+        border-radius: 20px;
+      `;
+      this.appendChild(ripple);
+      
+      setTimeout(() => {
+        if (ripple.parentNode) ripple.remove();
+      }, 600);
+    });
+  });
+}
+
+// Parallax effect for eventi hero section
+function setupEventiParallax() {
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const header = document.querySelector('.eventi-header');
+    if (header) {
+      header.style.transform = `translateY(${scrolled * 0.5}px)`;
+    }
+  });
+}
+
+// Check if user is logged in for member events
+function checkLoggedInUser() {
+  const currentUser = localStorage.getItem('currentUser');
+  if (currentUser) {
+    const loginRequired = document.getElementById('login-required');
+    const membersCalendar = document.getElementById('members-calendar');
+    const membersEvents = document.getElementById('members-events');
+    
+    if (loginRequired) loginRequired.style.display = 'none';
+    if (membersCalendar) membersCalendar.style.display = 'block';
+    if (membersEvents) membersEvents.style.display = 'block';
+  }
+}
+
+// Add eventi specific styles
+function addEventiStyles() {
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes ripple {
+      0% { transform: scale(0); opacity: 1; }
+      100% { transform: scale(1); opacity: 0; }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+// Setup modal close events
+function setupEventiModal() {
+  setTimeout(() => {
+    const closeModal = document.getElementById('close-modal');
+    const eventModal = document.getElementById('event-modal');
+    
+    if (closeModal) {
+      closeModal.addEventListener('click', function() {
+        if (eventModal) {
+          eventModal.classList.remove('show');
+        }
+      });
+    }
+    
+    if (eventModal) {
+      eventModal.addEventListener('click', function(e) {
+        if (e.target === this) this.classList.remove('show');
+      });
+    }
+    
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        if (eventModal) {
+          eventModal.classList.remove('show');
+        }
+        closeImageLightbox();
+      }
+    });
+  }, 500);
+}
