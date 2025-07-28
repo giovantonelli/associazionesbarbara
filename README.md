@@ -4,7 +4,6 @@
 
 [![Status](https://img.shields.io/badge/Status-Live-brightgreen)](https://stats.uptimerobot.com/zSca2dOph9)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-2.0-orange)](CHANGELOG.md)
 
 > **Sito web moderno e responsive per l'Associazione Santa Barbara APS - Promuoviamo cultura e volontariato nel territorio**
 
