@@ -5941,7 +5941,466 @@ section {
 
 .auth-form .form-row .form-group {
   flex: none;
-  margin-bottom: 20px;
+}
+
+/* ===================================
+   404 ERROR PAGE STYLES
+   =================================== */
+
+.error-page {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+.error-code,
+.error-message,
+.error-description,
+.error-actions,
+.suggestions {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.error-code {
+  font-size: 6rem;
+  font-weight: bold;
+  color: var(--primary-color, #2c5aa0);
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.error-message {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.error-description {
+  margin-bottom: 2rem;
+  color: #666;
+  max-width: 600px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.error-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.home-button, .back-button {
+  background: var(--primary-color, #2c5aa0);
+  color: white;
+  padding: 12px 24px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}
+
+.home-button:hover, .back-button:hover {
+  background: var(--primary-dark, #1e3a5f);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.back-button {
+  background: #6c757d;
+}
+
+.back-button:hover {
+  background: #5a6268;
+}
+
+.suggestions {
+  margin-top: 3rem;
+  max-width: 500px;
+}
+
+.suggestions h3 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.suggestions ul {
+  list-style: none;
+  padding: 0;
+}
+
+.suggestions li {
+  margin-bottom: 0.5rem;
+}
+
+.suggestions a {
+  color: var(--primary-color, #2c5aa0);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.suggestions a:hover {
+  color: var(--primary-dark, #1e3a5f);
+  text-decoration: underline;
+}
+
+/* Enhanced 404 Styles */
+.search-section {
+  margin: 2rem 0;
+}
+
+.search-box {
+  position: relative;
+  max-width: 500px;
+  margin: 0 auto 2rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 1rem 1.5rem 1rem 3rem;
+  border: 2px solid #e1e5e9;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  background: #fff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+.search-input:focus {
+  border-color: var(--primary-color, #2c5aa0);
+  box-shadow: 0 4px 20px rgba(44, 90, 160, 0.2);
+}
+
+.search-icon {
+  position: absolute;
+  left: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 1.2rem;
+}
+
+.search-results {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+  padding: 1rem;
+  display: none;
+  text-align: left;
+  border: 1px solid #e1e5e9;
+}
+
+.search-result-item {
+  padding: 0.8rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item:hover {
+  background: #f8f9fa;
+  transform: translateX(5px);
+}
+
+.search-result-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.search-result-link h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--primary-color, #2c5aa0);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.search-result-link p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.no-results {
+  text-align: center;
+  color: #999;
+  padding: 1rem;
+  font-style: italic;
+}
+
+.error-404-page {
+  background: var(--bg-color, #f8f9fa);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.error-404-page .main-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 4rem 0;
+  background: linear-gradient(135deg, rgba(44, 90, 160, 0.05) 0%, rgba(255, 255, 255, 0.1) 100%);
+}
+
+.error-404-page .error-content {
+  background: white;
+  border-radius: 20px;
+  padding: 3rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  border: 1px solid rgba(44, 90, 160, 0.1);
+}
+
+.error-404-page .error-code {
+  font-size: 6rem;
+  font-weight: 900;
+  color: var(--primary-color, #2c5aa0);
+  margin: 0 0 1rem 0;
+  line-height: 0.8;
+  text-shadow: 0 4px 8px rgba(44, 90, 160, 0.3);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  position: relative;
+}
+
+.error-404-page .error-code::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(circle, rgba(44, 90, 160, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: pulse404 2s infinite;
+  z-index: -1;
+}
+
+.error-404-page .error-message {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin: 1.5rem 0 1rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.error-404-page .error-description {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.error-404-page .error-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.error-404-page .search-section {
+  margin: 2.5rem 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.error-404-page .suggestions {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+  margin-top: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1rem;
+}
+
+.error-404-page .suggestions-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  width: 100%;
+}
+
+.error-404-page .suggestions-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  justify-content: center;
+  align-items: stretch;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.error-404-page .suggestion-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+  padding: 1.5rem;
+  background: white;
+  color: #333;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(44, 90, 160, 0.1);
+  opacity: 0;
+  transform: translateY(20px);
+  position: relative;
+  overflow: hidden;
+  min-height: 120px;
+  width: 280px;
+  flex: 0 0 280px;
+}
+
+.error-404-page .suggestion-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(44, 90, 160, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.error-404-page .suggestion-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(44, 90, 160, 0.2);
+  border-color: var(--primary-color, #2c5aa0);
+}
+
+.error-404-page .suggestion-item:hover::before {
+  left: 100%;
+}
+
+.error-404-page .suggestion-item h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--primary-color, #2c5aa0);
+}
+
+.error-404-page .suggestion-item p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* Responsive design for 404 page */
+@media (max-width: 768px) {
+  .error-404-page .error-content {
+    padding: 2rem 1.5rem;
+    margin: 1rem;
+  }
+  
+  .error-404-page .error-code {
+    font-size: 4rem;
+  }
+  
+  .error-404-page .error-message {
+    font-size: 1.8rem;
+  }
+  
+  .error-404-page .error-description {
+    font-size: 1rem;
+  }
+  
+  .error-404-page .error-actions {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  
+  .error-404-page .suggestions-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    max-width: 100%;
+  }
+  
+  .search-input {
+    font-size: 1rem;
+    padding: 0.9rem 1.2rem 0.9rem 2.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .error-404-page .main-content {
+    padding: 2rem 0;
+  }
+  
+  .error-404-page .error-content {
+    padding: 1.5rem 1rem;
+  }
+  
+  .error-404-page .error-code {
+    font-size: 3rem;
+  }
+  
+  .error-404-page .error-message {
+    font-size: 1.5rem;
+  }
+  
+  .error-404-page .suggestions-grid {
+    gap: 0.8rem;
+  }
+  
+  .error-404-page .suggestion-item {
+    min-height: 100px;
+    padding: 1.2rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .error-404-page .suggestions-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 900px;
+  }
 }
 
 .auth-form .form-group {

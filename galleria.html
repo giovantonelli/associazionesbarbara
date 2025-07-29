@@ -1,14 +1,15 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
   <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.8.0">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Galleria - Associazione Santa Barbara</title>
-  <meta name="description" content="Foto e video delle attività dell'Associazione Santa Barbara">
+  <meta name="description" content="Foto e video delle attivit� dell'Associazione Santa Barbara">
   <meta name="keywords" content="galleria, foto, video, eventi, associazione">
+  <meta name="robots" content="index, follow">
   <meta property="og:title" content="Galleria - Associazione Santa Barbara">
-  <meta property="og:description" content="Foto e video delle attività dell'Associazione Santa Barbara">
+  <meta property="og:description" content="Foto e video delle attivit� dell'Associazione Santa Barbara">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://associazionesbarbara.it/galleria.html">
   <link rel="stylesheet" href="assets/css/style.css">
@@ -19,922 +20,10 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
   <meta name="apple-mobile-web-app-title" content="S.Barbara" />
   <link rel="manifest" href="/favicon/site.webmanifest" />
-  <style>
-           /* Enhanced Animations */
-           @keyframes slideUp {
-                   from {
-                           opacity: 0;
-                           transform: translateY(30px);
-                   }
-                   to {
-                           opacity: 1;
-                           transform: translateY(0);
-                   }
-           }
-           
-           @keyframes fadeIn {
-                   from { opacity: 0; }
-                   to { opacity: 1; }
-           }
-           
-           @keyframes float {
-                   0%, 100% { transform: translateY(0px); }
-                   50% { transform: translateY(-10px); }
-           }
-           
-           @keyframes pulse {
-                   0%, 100% { transform: scale(1); }
-                   50% { transform: scale(1.05); }
-           }
-           
-           @keyframes particleFloat {
-                   0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-                   10% { opacity: 1; }
-                   90% { opacity: 1; }
-                   100% { transform: translateY(-100px) translateX(100px) rotate(360deg); opacity: 0; }
-           }
-           
-           .animate-slide-up {
-                   opacity: 0;
-                   animation: slideUp 0.8s ease-out forwards;
-           }
-           
-           .animate-fade-in {
-                   opacity: 0;
-                   animation: fadeIn 0.6s ease-out forwards;
-           }
-           
-           .animate-on-scroll {
-                   opacity: 0;
-                   transform: translateY(50px);
-                   transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-           }
-           
-           .animate-on-scroll.visible {
-                   opacity: 1;
-                   transform: translateY(0);
-           }
+</head>
 
-           /* Enhanced Page Header */
-           .enhanced-header {
-                   position: relative;
-                   background: linear-gradient(135deg, #e10600 0%, #d2001e 50%, #b8001b 100%);
-                   overflow: hidden;
-                   min-height: 60vh;
-                   display: flex;
-                   align-items: center;
-           }
-           
-           .header-background {
-                   position: absolute;
-                   top: 0;
-                   left: 0;
-                   right: 0;
-                   bottom: 0;
-                   background: 
-                           radial-gradient(circle at 20% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
-                           radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
-                           radial-gradient(circle at 40% 80%, rgba(255, 215, 0, 0.08) 0%, transparent 50%);
-           }
-           
-           .header-particles {
-                   position: absolute;
-                   top: 0;
-                   left: 0;
-                   right: 0;
-                   bottom: 0;
-                   overflow: hidden;
-                   pointer-events: none;
-           }
-           
-           .header-particles::before,
-           .header-particles::after {
-                   content: '';
-                   position: absolute;
-                   width: 4px;
-                   height: 4px;
-                   background: rgba(255, 215, 0, 0.6);
-                   border-radius: 50%;
-                   animation: particleFloat 15s infinite linear;
-           }
-           
-           .header-particles::before {
-                   left: 20%;
-                   animation-delay: -5s;
-           }
-           
-           .header-particles::after {
-                   left: 60%;
-                   animation-delay: -10s;
-           }
-           
-           .header-badge {
-                   display: inline-flex;
-                   align-items: center;
-                   gap: 0.5rem;
-                   background: rgba(255, 255, 255, 0.15);
-                   backdrop-filter: blur(10px);
-                   border: 1px solid rgba(255, 255, 255, 0.2);
-                   border-radius: 50px;
-                   padding: 0.5rem 1.5rem;
-                   margin-bottom: 1.5rem;
-                   font-weight: 600;
-                   color: #fff;
-                   font-size: 0.9rem;
-                   letter-spacing: 0.5px;
-           }
-           
-           .badge-icon {
-                   font-size: 1.2rem;
-                   animation: float 3s ease-in-out infinite;
-           }
-           
-           .header-stats {
-                   display: flex;
-                   align-items: center;
-                   justify-content: center;
-                   gap: 2rem;
-                   margin-top: 2rem;
-                   padding: 1.5rem;
-                   background: rgba(255, 255, 255, 0.1);
-                   backdrop-filter: blur(15px);
-                   border: 1px solid rgba(255, 255, 255, 0.2);
-                   border-radius: 20px;
-                   max-width: 300px;
-                   margin-left: auto;
-                   margin-right: auto;
-           }
-           
-           .stat-item {
-                   text-align: center;
-           }
-           
-           .stat-number {
-                   font-size: 2rem;
-                   font-weight: 700;
-                   color: #ffd700;
-                   line-height: 1;
-                   margin-bottom: 0.25rem;
-           }
-           
-           .stat-label {
-                   font-size: 0.9rem;
-                   color: rgba(255, 255, 255, 0.8);
-                   font-weight: 500;
-           }
-           
-           .stat-divider {
-                   width: 1px;
-                   height: 30px;
-                   background: rgba(255, 255, 255, 0.3);
-           }
-
-           /* Enhanced Sections */
-           .enhanced-section {
-                   position: relative;
-                   padding: 6rem 0;
-                   overflow: hidden;
-           }
-           
-           .section-background {
-                   position: absolute;
-                   top: 0;
-                   left: 0;
-                   right: 0;
-                   bottom: 0;
-                   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-           }
-           
-           .video-section-bg {
-                   background: linear-gradient(135deg, #343a40 0%, #495057 100%);
-           }
-           
-           .section-badge {
-                   display: inline-flex;
-                   align-items: center;
-                   gap: 0.5rem;
-                   background: linear-gradient(135deg, #e10600, #ffd700);
-                   color: #fff;
-                   border-radius: 50px;
-                   padding: 0.5rem 1.5rem;
-                   margin-bottom: 1.5rem;
-                   font-weight: 600;
-                   font-size: 0.9rem;
-                   letter-spacing: 0.5px;
-                   box-shadow: 0 4px 15px rgba(225, 6, 0, 0.3);
-           }
-           
-           .section-decorative-line {
-                   width: 100px;
-                   height: 4px;
-                   background: linear-gradient(90deg, #e10600, #ffd700);
-                   border-radius: 2px;
-                   margin: 2rem auto;
-                   position: relative;
-           }
-           
-           .section-decorative-line::before,
-           .section-decorative-line::after {
-                   content: '';
-                   position: absolute;
-                   width: 8px;
-                   height: 8px;
-                   background: #e10600;
-                   border-radius: 50%;
-                   top: -2px;
-           }
-           
-           .section-decorative-line::before {
-                   left: -12px;
-           }
-           
-           .section-decorative-line::after {
-                   right: -12px;
-                   background: #ffd700;
-           }
-
-           /* Gallery Headers */
-           .gallery-header {
-                   text-align: center;
-                   margin-bottom: 4rem;
-                   position: relative;
-                   z-index: 2;
-           }
-           
-           .section-title {
-                   font-size: 3rem;
-                   font-weight: 700;
-                   color: #333;
-                   margin-bottom: 1rem;
-                   background: linear-gradient(135deg, #e10600, #ffd700);
-                   -webkit-background-clip: text;
-                   -webkit-text-fill-color: transparent;
-                   background-clip: text;
-                   line-height: 1.2;
-           }
-           
-           .video-carousel-3d .section-title {
-                   color: #fff;
-                   -webkit-text-fill-color: #fff;
-           }
-           
-           .gallery-subtitle {
-                   font-size: 1.2rem;
-                   color: #666;
-                   max-width: 700px;
-                   margin: 0 auto;
-                   line-height: 1.6;
-                   font-weight: 400;
-           }
-           
-           .video-carousel-3d .gallery-subtitle {
-                   color: rgba(255, 255, 255, 0.9);
-           }
-           
-           /* Enhanced Loading States */
-           .enhanced-loading {
-                   text-align: center;
-                   padding: 4rem 2rem;
-                   background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-                   backdrop-filter: blur(20px);
-                   border: 1px solid rgba(255, 255, 255, 0.2);
-                   border-radius: 25px;
-                   margin: 2rem 0;
-                   position: relative;
-                   overflow: hidden;
-           }
-           
-           .enhanced-loading::before {
-                   content: '';
-                   position: absolute;
-                   top: 0;
-                   left: -100%;
-                   width: 100%;
-                   height: 100%;
-                   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-                   animation: shimmer 2s infinite;
-           }
-           
-           .loading-container {
-                   position: relative;
-                   z-index: 2;
-           }
-           
-           .enhanced-spinner {
-                   width: 50px;
-                   height: 50px;
-                   border: 4px solid rgba(225, 6, 0, 0.2);
-                   border-top: 4px solid #e10600;
-                   border-radius: 50%;
-                   animation: spin 1s linear infinite;
-                   margin: 0 auto 1.5rem;
-           }
-           
-           .loading-dots {
-                   display: flex;
-                   justify-content: center;
-                   gap: 0.5rem;
-                   margin-bottom: 1.5rem;
-           }
-           
-           .loading-dots span {
-                   width: 8px;
-                   height: 8px;
-                   background: #ffd700;
-                   border-radius: 50%;
-                   animation: dotPulse 1.4s infinite ease-in-out;
-           }
-           
-           .loading-dots span:nth-child(2) {
-                   animation-delay: 0.2s;
-           }
-           
-           .loading-dots span:nth-child(3) {
-                   animation-delay: 0.4s;
-           }
-           
-           .loading-text {
-                   font-size: 1.1rem;
-                   color: #333;
-                   font-weight: 500;
-                   margin-bottom: 1.5rem;
-           }
-           
-           .video-carousel-3d .loading-text {
-                   color: #fff;
-           }
-           
-           .loading-progress {
-                   width: 200px;
-                   height: 4px;
-                   background: rgba(225, 6, 0, 0.2);
-                   border-radius: 2px;
-                   margin: 0 auto;
-                   overflow: hidden;
-           }
-           
-           .progress-bar {
-                   width: 30%;
-                   height: 100%;
-                   background: linear-gradient(90deg, #e10600, #ffd700);
-                   border-radius: 2px;
-                   animation: progressSlide 2s infinite ease-in-out;
-           }
-           
-           @keyframes shimmer {
-                   0% { left: -100%; }
-                   100% { left: 100%; }
-           }
-           
-           @keyframes spin {
-                   0% { transform: rotate(0deg); }
-                   100% { transform: rotate(360deg); }
-           }
-           
-           @keyframes dotPulse {
-                   0%, 60%, 100% {
-                           transform: initial;
-                           opacity: 0.4;
-                   }
-                   30% {
-                           transform: scale(1.5);
-                           opacity: 1;
-                   }
-           }
-           
-           @keyframes progressSlide {
-                   0% { transform: translateX(-100%); }
-                   50% { transform: translateX(100%); }
-                   100% { transform: translateX(300%); }
-           }
-           
-           /* Enhanced Swiper Styles */
-           .enhanced-swiper {
-                   position: relative;
-                   z-index: 2;
-                   padding: 2rem 0;
-           }
-           
-           .enhanced-nav-btn {
-                   width: 60px !important;
-                   height: 60px !important;
-                   background: linear-gradient(135deg, #e10600, #ffd700) !important;
-                   border-radius: 50% !important;
-                   border: 3px solid rgba(255, 255, 255, 0.2) !important;
-                   box-shadow: 0 8px 25px rgba(225, 6, 0, 0.3) !important;
-                   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-                   backdrop-filter: blur(10px) !important;
-           }
-           
-           .enhanced-nav-btn:hover {
-                   transform: scale(1.1) !important;
-                   box-shadow: 0 12px 35px rgba(225, 6, 0, 0.4) !important;
-           }
-           
-           .enhanced-nav-btn:after {
-                   display: none !important;
-           }
-           
-           .nav-icon {
-                   font-size: 1.5rem;
-                   font-weight: bold;
-                   color: #fff;
-           }
-           
-           .enhanced-pagination .swiper-pagination-bullet {
-                   width: 12px !important;
-                   height: 12px !important;
-                   background: rgba(225, 6, 0, 0.3) !important;
-                   border: 2px solid transparent !important;
-                   transition: all 0.3s ease !important;
-           }
-           
-           .enhanced-pagination .swiper-pagination-bullet-active {
-                   background: linear-gradient(135deg, #e10600, #ffd700) !important;
-                   border-color: rgba(255, 255, 255, 0.5) !important;
-                   transform: scale(1.3) !important;
-           }
-           
-           /* Enhanced Gallery Cards */
-           .photo-slide, .video-slide {
-                   position: relative;
-                   overflow: hidden;
-                   border-radius: 20px;
-                   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-                   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-                   cursor: pointer;
-           }
-           
-           .photo-slide:hover, .video-slide:hover {
-                   transform: translateY(-8px);
-                   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-           }
-           
-           .photo-thumbnail, .video-thumbnail {
-                   position: relative;
-                   overflow: hidden;
-                   border-radius: 20px;
-                   background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-           }
-           
-           .photo-thumbnail img, .video-thumbnail img {
-                   width: 100%;
-                   height: 250px;
-                   object-fit: cover;
-                   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-           }
-           
-           .photo-slide:hover .photo-thumbnail img,
-           .video-slide:hover .video-thumbnail img {
-                   transform: scale(1.1);
-           }
-           
-           .photo-thumbnail::before, .video-thumbnail::before {
-                   content: '';
-                   position: absolute;
-                   top: 0;
-                   left: 0;
-                   right: 0;
-                   bottom: 0;
-                   background: linear-gradient(135deg, rgba(225, 6, 0, 0.3), rgba(255, 215, 0, 0.3));
-                   opacity: 0;
-                   transition: opacity 0.3s ease;
-                   z-index: 1;
-           }
-           
-           .photo-slide:hover .photo-thumbnail::before,
-           .video-slide:hover .video-thumbnail::before {
-                   opacity: 1;
-           }
-           
-           .photo-thumbnail::after {
-                   content: '🔍';
-                   position: absolute;
-                   top: 50%;
-                   left: 50%;
-                   transform: translate(-50%, -50%);
-                   font-size: 2rem;
-                   color: #fff;
-                   opacity: 0;
-                   transition: all 0.3s ease;
-                   z-index: 2;
-           }
-           
-           .photo-slide:hover .photo-thumbnail::after {
-                   opacity: 1;
-                   transform: translate(-50%, -50%) scale(1.2);
-           }
-           
-           .play-button {
-                   position: absolute;
-                   top: 50%;
-                   left: 50%;
-                   transform: translate(-50%, -50%);
-                   width: 70px;
-                   height: 70px;
-                   background: linear-gradient(135deg, #e10600, #ffd700);
-                   border-radius: 50%;
-                   display: flex;
-                   align-items: center;
-                   justify-content: center;
-                   color: #fff;
-                   font-size: 2rem;
-                   z-index: 2;
-                   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-                   box-shadow: 0 8px 25px rgba(225, 6, 0, 0.3);
-           }
-           
-           .play-button::before {
-                   content: '▶';
-                   margin-left: 3px;
-           }
-           
-           .video-slide:hover .play-button {
-                   transform: translate(-50%, -50%) scale(1.1);
-                   box-shadow: 0 12px 35px rgba(225, 6, 0, 0.4);
-           }
-           
-           .photo-gallery, .photo-gallery .container, .photo-swiper {
-                   padding-bottom: 0 !important;
-                   margin-bottom: 0 !important;
-           }
-           .photo-gallery {
-                   margin-bottom: 0 !important;
-           }
-           /* Enhanced Lightbox */
-           .enhanced-lightbox {
-                   position: fixed;
-                   top: 0; left: 0; right: 0; bottom: 0;
-                   width: 100vw; height: 100vh;
-                   z-index: 9999;
-                   display: flex;
-                   align-items: center;
-                   justify-content: center;
-                   opacity: 0;
-                   pointer-events: none;
-                   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-           }
-           
-           .lightbox-background {
-                   position: absolute;
-                   top: 0; left: 0; right: 0; bottom: 0;
-                   background: linear-gradient(135deg, rgba(0,0,0,0.95), rgba(33,37,41,0.95));
-                   backdrop-filter: blur(20px);
-           }
-           
-           .enhanced-lightbox.active {
-                   opacity: 1;
-                   pointer-events: auto;
-           }
-           
-           .enhanced-lightbox-content {
-                   position: relative;
-                   max-width: 95vw;
-                   max-height: 95vh;
-                   display: flex;
-                   align-items: center;
-                   justify-content: center;
-                   z-index: 10000;
-           }
-           
-           .image-container {
-                   position: relative;
-                   display: flex;
-                   flex-direction: column;
-                   align-items: center;
-           }
-           
-           .enhanced-image {
-                   max-width: 95vw;
-                   max-height: 85vh;
-                   width: auto;
-                   height: auto;
-                   border-radius: 15px;
-                   box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-                   transition: all 0.3s ease;
-                   cursor: zoom-in;
-           }
-           
-           .image-info {
-                   display: flex;
-                   align-items: center;
-                   justify-content: space-between;
-                   width: 100%;
-                   max-width: 400px;
-                   margin-top: 1rem;
-                   padding: 1rem;
-                   background: rgba(255, 255, 255, 0.1);
-                   backdrop-filter: blur(15px);
-                   border: 1px solid rgba(255, 255, 255, 0.2);
-                   border-radius: 15px;
-           }
-           
-           .image-counter {
-                   color: #fff;
-                   font-size: 0.9rem;
-                   font-weight: 500;
-           }
-           
-           .image-actions {
-                   display: flex;
-                   gap: 0.5rem;
-           }
-           
-           .action-btn {
-                   background: rgba(255, 255, 255, 0.2);
-                   border: none;
-                   border-radius: 50%;
-                   width: 35px;
-                   height: 35px;
-                   display: flex;
-                   align-items: center;
-                   justify-content: center;
-                   color: #fff;
-                   cursor: pointer;
-                   transition: all 0.3s ease;
-           }
-           
-           .action-btn:hover {
-                   background: rgba(255, 255, 255, 0.3);
-                   transform: scale(1.1);
-           }
-           
-           .enhanced-close-btn {
-                   position: absolute;
-                   top: 20px;
-                   right: 20px;
-                   width: 60px;
-                   height: 60px;
-                   background: linear-gradient(135deg, #e10600, #dc3545);
-                   border: none;
-                   border-radius: 50%;
-                   display: flex;
-                   align-items: center;
-                   justify-content: center;
-                   cursor: pointer;
-                   z-index: 10001;
-                   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-                   box-shadow: 0 8px 25px rgba(225, 6, 0, 0.3);
-           }
-           
-           .enhanced-close-btn:hover {
-                   transform: scale(1.1) rotate(90deg);
-                   box-shadow: 0 12px 35px rgba(225, 6, 0, 0.4);
-           }
-           
-           .close-icon {
-                   font-size: 1.8rem;
-                   color: #fff;
-                   font-weight: bold;
-           }
-           
-           .enhanced-photo-nav {
-                   position: absolute;
-                   top: 50%;
-                   transform: translateY(-50%);
-                   z-index: 10001;
-                   width: 60px;
-                   height: 60px;
-                   background: linear-gradient(135deg, #e10600, #ffd700);
-                   border: none;
-                   border-radius: 50%;
-                   display: flex;
-                   align-items: center;
-                   justify-content: center;
-                   cursor: pointer;
-                   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-                   box-shadow: 0 8px 25px rgba(225, 6, 0, 0.3);
-           }
-           
-           .enhanced-photo-nav:hover {
-                   transform: translateY(-50%) scale(1.1);
-                   box-shadow: 0 12px 35px rgba(225, 6, 0, 0.4);
-           }
-           
-           .photo-lightbox-prev { left: 20px; }
-           .photo-lightbox-next { right: 20px; }
-           
-           .nav-arrow {
-                   font-size: 1.8rem;
-                   color: #fff;
-                   font-weight: bold;
-           }
-           /* Enhanced Video Overlay */
-           .enhanced-overlay {
-                   position: fixed;
-                   top: 0; left: 0; right: 0; bottom: 0;
-                   z-index: 9999;
-                   display: flex;
-                   align-items: center;
-                   justify-content: center;
-                   opacity: 0;
-                   pointer-events: none;
-                   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-           }
-           
-           .overlay-background {
-                   position: absolute;
-                   top: 0; left: 0; right: 0; bottom: 0;
-                   background: linear-gradient(135deg, rgba(0,0,0,0.95), rgba(33,37,41,0.95));
-                   backdrop-filter: blur(20px);
-           }
-           
-           .enhanced-overlay.active {
-                   opacity: 1;
-                   pointer-events: auto;
-           }
-           
-           .enhanced-player {
-                   position: relative;
-                   display: flex;
-                   align-items: center;
-                   justify-content: center;
-                   gap: 2rem;
-                   max-width: 95vw;
-                   max-height: 95vh;
-                   z-index: 10000;
-           }
-           
-           .video-container {
-                   position: relative;
-                   display: flex;
-                   flex-direction: column;
-                   align-items: center;
-           }
-           
-           .enhanced-video {
-                   max-width: 80vw;
-                   max-height: 70vh;
-                   border-radius: 15px;
-                   box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-           }
-
-           .video-title {
-                   color: #fff;
-                   font-size: 1.1rem;
-                   font-weight: 600;
-           }
-           
-           .video-counter {
-                   color: rgba(255, 255, 255, 0.8);
-                   font-size: 0.9rem;
-                   font-weight: 500;
-           }
-           
-           .enhanced-video-nav {
-                   width: 70px;
-                   height: 70px;
-                   background: linear-gradient(135deg, #e10600, #ffd700);
-                   border: none;
-                   border-radius: 50%;
-                   display: flex;
-                   align-items: center;
-                   justify-content: center;
-                   cursor: pointer;
-                   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-                   box-shadow: 0 8px 25px rgba(225, 6, 0, 0.3);
-           }
-           
-           .enhanced-video-nav:hover {
-                   transform: scale(1.1);
-                   box-shadow: 0 12px 35px rgba(225, 6, 0, 0.4);
-           }
-           
-           .enhanced-video-nav .nav-arrow {
-                   font-size: 2rem;
-                   color: #fff;
-                   font-weight: bold;
-           }
-
-           /* Responsive Design */
-           @media (max-width: 1200px) {
-                   .header-stats {
-                           flex-direction: column;
-                           gap: 1rem;
-                   }
-                   
-                   .stat-divider {
-                           width: 100px;
-                           height: 1px;
-                   }
-           }
-           
-           @media (max-width: 900px) {
-                   .enhanced-header {
-                           min-height: 50vh;
-                   }
-                   
-                   .section-title {
-                           font-size: 2.5rem;
-                   }
-                   
-                   .enhanced-image { 
-                           max-width: 98vw; 
-                           max-height: 80vh; 
-                   }
-                   
-                   .enhanced-video {
-                           max-width: 90vw;
-                           max-height: 60vh;
-                   }
-                   
-                   .enhanced-player {
-                           flex-direction: column;
-                           gap: 1rem;
-                   }
-                   
-                   .enhanced-video-nav {
-                           width: 60px;
-                           height: 60px;
-                   }
-                   
-                   .enhanced-video-nav .nav-arrow {
-                           font-size: 1.5rem;
-                   }
-           }
-           
-           @media (max-width: 600px) {
-                   .enhanced-header {
-                           min-height: 40vh;
-                   }
-                   
-                   .section-title {
-                           font-size: 2rem;
-                   }
-                   
-                   .gallery-subtitle {
-                           font-size: 1rem;
-                   }
-                   
-                   .enhanced-image { 
-                           max-width: 100vw; 
-                           max-height: 60vh; 
-                   }
-                   
-                   .enhanced-close-btn, 
-                   .enhanced-photo-nav,
-                   .enhanced-video-nav { 
-                           width: 50px; 
-                           height: 50px; 
-                   }
-                   
-                   .close-icon,
-                   .nav-arrow { 
-                           font-size: 1.4rem; 
-                   }
-                   
-                   .enhanced-nav-btn {
-                           width: 50px !important;
-                           height: 50px !important;
-                   }
-                   
-                   .nav-icon {
-                           font-size: 1.2rem;
-                   }
-                   
-                   .photo-thumbnail img, 
-                   .video-thumbnail img {
-                           height: 200px;
-                   }
-                   
-                   .play-button {
-                           width: 60px;
-                           height: 60px;
-                           font-size: 1.5rem;
-                   }
-                   
-                   .header-badge,
-                   .section-badge {
-                           font-size: 0.8rem;
-                           padding: 0.4rem 1rem;
-                   }
-                   
-                   .enhanced-section {
-                           padding: 4rem 0;
-                   }
-           }
-  </style>
-  <script>
-                        // Define dataLayer and the gtag function
-                        window.dataLayer = window.dataLayer || [];
-
-                        function gtag() {
-                                dataLayer.push(arguments);
-                        }
-                        // Set default consent to 'denied' as a placeholder for EU users
-                        gtag('consent', 'default', {
-                                'ad_storage': 'denied',
-                                'ad_user_data': 'denied',
-                                'ad_personalization': 'denied',
-                                'analytics_storage': 'denied',
-                                'wait_for_update': 500
-                        });
-  </script>
+<body>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-F465WJF33T"></script>
-  <script>
-                        gtag('js', new Date());
-                        gtag('config', 'G-F465WJF33T');
-  </script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -956,7 +45,7 @@
           <a href="chi-siamo.html" class="nav-link">Chi siamo</a>
         </li>
         <li>
-          <a href="attivita.html" class="nav-link">Attività</a>
+          <a href="attivita.html" class="nav-link">Attivit�</a>
         </li>
         <li>
           <a href="eventi.html" class="nav-link">Eventi</a>
@@ -985,11 +74,11 @@
     <div class="header-particles"></div>
     <div class="container">
       <div class="header-badge animate-slide-up">
-        <span class="badge-icon">📸</span>
+        <span class="badge-icon">??</span>
         <span class="badge-text">Galleria Multimediale</span>
       </div>
       <h1 class="animate-slide-up" style="animation-delay: 0.2s;">Galleria Foto e Video</h1>
-      <p class="animate-slide-up" style="animation-delay: 0.4s;">Scopri i momenti più belli delle nostre attività attraverso immagini e video che raccontano la nostra storia</p>
+      <p class="animate-slide-up" style="animation-delay: 0.4s;">Scopri i momenti pi� belli delle nostre attivit� attraverso immagini e video che raccontano la nostra storia</p>
       <div class="header-stats animate-slide-up" style="animation-delay: 0.6s;">
         <div class="stat-item">
           <div class="stat-number" id="photoCount">0</div>
@@ -1008,11 +97,11 @@
     <div class="container">
       <div class="gallery-header animate-slide-up">
         <div class="section-badge">
-          <span class="badge-icon">📸</span>
+          <span class="badge-icon">??</span>
           <span class="badge-text">Galleria Fotografica</span>
         </div>
         <h2 class="section-title">Galleria Foto</h2>
-        <p class="gallery-subtitle">Esplora i momenti più belli delle nostre attività attraverso immagini che raccontano la nostra storia</p>
+        <p class="gallery-subtitle">Esplora i momenti pi� belli delle nostre attivit� attraverso immagini che raccontano la nostra storia</p>
         <div class="section-decorative-line"></div>
       </div>
       <div class="loading-photos enhanced-loading animate-fade-in" id="loadingPhotos">
@@ -1030,10 +119,10 @@
       <div class="swiper photo-swiper enhanced-swiper animate-fade-in" id="photoSwiper" style="display: none;">
         <div class="swiper-wrapper" id="photoSwiperWrapper" style="padding-bottom:0; margin-bottom:0;"></div>
         <div class="swiper-button-next enhanced-nav-btn">
-          <span class="nav-icon">→</span>
+          <span class="nav-icon">?</span>
         </div>
         <div class="swiper-button-prev enhanced-nav-btn">
-          <span class="nav-icon">←</span>
+          <span class="nav-icon">?</span>
         </div>
         <div class="swiper-pagination enhanced-pagination"></div>
       </div>
@@ -1044,11 +133,11 @@
     <div class="container">
       <div class="gallery-header animate-slide-up">
         <div class="section-badge">
-          <span class="badge-icon">🎬</span>
+          <span class="badge-icon">??</span>
           <span class="badge-text">Galleria Video</span>
         </div>
         <h2 class="section-title">Galleria Video</h2>
-        <p class="gallery-subtitle">I momenti più emozionanti delle nostre attività e dei nostri eventi catturati in video</p>
+        <p class="gallery-subtitle">I momenti pi� emozionanti delle nostre attivit� e dei nostri eventi catturati in video</p>
         <div class="section-decorative-line"></div>
       </div>
       <div class="loading-videos enhanced-loading animate-fade-in" id="loadingVideos">
@@ -1066,10 +155,10 @@
       <div class="swiper video-swiper enhanced-swiper animate-fade-in" id="videoSwiper" style="display: none;">
         <div class="swiper-wrapper" id="videoSwiperWrapper"></div>
         <div class="swiper-button-next enhanced-nav-btn">
-          <span class="nav-icon">→</span>
+          <span class="nav-icon">?</span>
         </div>
         <div class="swiper-button-prev enhanced-nav-btn">
-          <span class="nav-icon">←</span>
+          <span class="nav-icon">?</span>
         </div>
         <div class="swiper-pagination enhanced-pagination"></div>
       </div>
@@ -1079,10 +168,10 @@
     <div class="overlay-background"></div>
     <div class="video-player enhanced-player">
       <button class="close-button enhanced-close-btn" id="closeButton">
-        <span class="close-icon">×</span>
+        <span class="close-icon">�</span>
       </button>
       <button class="video-lightbox-nav video-lightbox-prev enhanced-video-nav" aria-label="Precedente">
-        <span class="nav-arrow">‹</span>
+        <span class="nav-arrow">�</span>
       </button>
       <div class="video-container">
         <video id="overlayVideo" controls="" class="enhanced-video">
@@ -1091,18 +180,18 @@
         </video>
       </div>
       <button class="video-lightbox-nav video-lightbox-next enhanced-video-nav" aria-label="Successivo">
-        <span class="nav-arrow">›</span>
+        <span class="nav-arrow">�</span>
       </button>
     </div>
   </div>
   <div class="lightbox enhanced-lightbox" id="photo-lightbox">
     <div class="lightbox-background"></div>
     <button class="photo-lightbox-nav photo-lightbox-prev enhanced-photo-nav" aria-label="Precedente">
-      <span class="nav-arrow">‹</span>
+      <span class="nav-arrow">�</span>
     </button>
     <div class="lightbox-content enhanced-lightbox-content">
       <button class="lightbox-close enhanced-close-btn" aria-label="Chiudi">
-        <span class="close-icon">×</span>
+        <span class="close-icon">�</span>
       </button>
       <div class="image-container" style="overflow: hidden; position: relative;">
         <img class="lightbox-image enhanced-image" src="" alt="Foto" style="
@@ -1135,7 +224,7 @@
                 align-items: center;
                 justify-content: center;
                 transition: all 0.3s ease;
-              " title="Riduci zoom">−</button>
+              " title="Riduci zoom">-</button>
               
               <button class="action-btn" onclick="resetZoom()" style="
                 background: rgba(225, 6, 0, 0.8);
@@ -1180,7 +269,7 @@
       </div>
     </div>
     <button class="photo-lightbox-nav photo-lightbox-next enhanced-photo-nav" aria-label="Successivo">
-      <span class="nav-arrow">›</span>
+      <span class="nav-arrow">�</span>
     </button>
   </div>
     <footer class="footer enhanced-footer">
@@ -1191,14 +280,14 @@
           <img src="assets/images/logo.svg" alt="Associazione Santa Barbara" class="footer-logo">
           <h4>Associazione Santa Barbara APS</h4>
           <p>
-            Preserviamo le tradizioni di Grumo Appula dal 2008 con il Corteo Storico e attività culturali che valorizzano il nostro patrimonio.
+            Preserviamo le tradizioni di Grumo Appula dal 2008 con il Corteo Storico e attivit� culturali che valorizzano il nostro patrimonio.
           </p>
           <div class="contact-info-footer">
             <p>
-              <span>📍</span> Via N. Mastroserio 12 - Grumo Appula (BA)
+              <span>??</span> Via N. Mastroserio 12 - Grumo Appula (BA)
             </p>
             <p>
-              <span>📧</span> info@associazionesbarbara.it
+              <span>??</span> info@associazionesbarbara.it
             </p>
             <p>
               <b>Contattaci per maggiori informazioni</b>
@@ -1209,38 +298,38 @@
         <div class="footer-sections">
           <div class="footer-section links-card">
             <div>
-              <h4>🔗 Link Utili</h4>
+              <h4>?? Link Utili</h4>
               <ul>
                 <li>
                   <a href="chi-siamo.html">
-                    <span>▶</span> Chi siamo
+                    <span>?</span> Chi siamo
                   </a>
                 </li>
                 <li>
                   <a href="eventi.html">
-                    <span>▶</span> Eventi
+                    <span>?</span> Eventi
                   </a>
                 </li>
                 <li>
                   <a href="galleria.html">
-                    <span>▶</span> Galleria
+                    <span>?</span> Galleria
                   </a>
                 </li>
                 <li>
                   <a href="attivita.html">
-                    <span>▶</span> Attività
+                    <span>?</span> Attivit�
                   </a>
                 </li>
                 <li>
                   <a href="faq.html">
-                    <span>▶</span> FAQ
+                    <span>?</span> FAQ
                   </a>
                 </li>
               </ul>
             </div>
             
             <div class="social-section">
-              <p>🌐 Seguici sui social:</p>
+              <p>?? Seguici sui social:</p>
               <div class="social-links">
                 <a href="https://www.facebook.com/santabarbara.grumoappula" class="enhanced-social" aria-label="Facebook">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentcolor">
@@ -1267,19 +356,19 @@
           </div>
 
           <div class="footer-section support-section">
-            <h4>🤝 Sostieni l'Associazione</h4>
+            <h4>?? Sostieni l'Associazione</h4>
             <p>
-              Aiutaci a preservare le tradizioni e organizzare eventi per la comunità. Il tuo supporto è fondamentale per mantenere viva la storia e la cultura di Grumo Appula.
+              Aiutaci a preservare le tradizioni e organizzare eventi per la comunit�. Il tuo supporto � fondamentale per mantenere viva la storia e la cultura di Grumo Appula.
             </p>
             <p>
               Con il tuo contributo possiamo continuare a organizzare il Corteo Storico, eventi culturali, iniziative educative e progetti per valorizzare il nostro patrimonio storico-artistico.
             </p>
             <p>
-              <strong>Ogni donazione, grande o piccola, fa la differenza!</strong> Insieme possiamo costruire un futuro migliore per la nostra comunità.
+              <strong>Ogni donazione, grande o piccola, fa la differenza!</strong> Insieme possiamo costruire un futuro migliore per la nostra comunit�.
             </p>
             <div class="sponsor-btn-container">
               <a href="contatti.html" class="sponsor-btn">
-                ❤️ Diventa Sponsor
+                ?? Diventa Sponsor
               </a>
             </div>
           </div>
@@ -1287,7 +376,7 @@
       </div>
 
       <div class="footer-bottom">
-        <p>© 2008- <span id="current-year"></span> Associazione Santa Barbara. Tutti i diritti riservati.<br>
+        <p>� 2008- <span id="current-year"></span> Associazione Santa Barbara. Tutti i diritti riservati.<br>
         <span class="privacy-links"><a href="privacy.html">PRIVACY POLICY</a> <span class="separator">|</span> <a href="#" onclick="window.cookieConsent && window.cookieConsent.open(); return false;">GESTISCI COOKIE</a></span></p>
       </div>
     </div>
@@ -1295,689 +384,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script> 
   <script src="assets/js/notifications.js"></script> 
   <script src="assets/js/script.js"></script> 
-  <script>
-
-                   // Initialize Supabase client
-                   const { createClient } = supabase;
-                   const supabaseClient = createClient('https://ciezrbsolxpjxswdkkpo.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpZXpyYnNvbHhwanhzd2Rra3BvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5MjM1NjAsImV4cCI6MjA2ODQ5OTU2MH0.V-U8KhO8byObUW5kJ8XbLBkp9O9Efh98MdbKYFfbQJk');
-
-
-                   // Carica i video da archive.org
-                   function loadVideosFromArchive() {
-                           const loadingElement = document.getElementById('loadingVideos');
-                           const videoSwiper = document.getElementById('videoSwiper');
-                           const swiperWrapper = document.getElementById('videoSwiperWrapper');
-                           const videoFiles = Array.from({length: 18}, (_, i) => `${i+1}.mp4`);
-                           // Clear existing content and hide loading
-                           swiperWrapper.innerHTML = '';
-                           loadingElement.style.display = 'none';
-                           videoSwiper.style.display = 'block';
-                           let videoCount = 0;
-                           for (let i = 0; i < videoFiles.length; i++) {
-                                   const file = videoFiles[i];
-                                   const videoSrc = `https://archive.org/download/17_20250722/${file}`;
-                                   const videoBaseName = file.replace(/\.[^/.]+$/, "");
-                                   // Use Supabase storage for thumbnails
-                                   const thumbnailUrl = `https://ciezrbsolxpjxswdkkpo.supabase.co/storage/v1/object/public/gallery/thumbnail/${videoBaseName}.png`;
-                                   videoCount++;
-                                   const slide = document.createElement('div');
-                                   slide.className = 'swiper-slide video-slide';
-                                   slide.setAttribute('data-video', videoSrc);
-                                   const videoTitle = videoBaseName.replace(/[_-]/g, ' ');
-                                   slide.innerHTML = `
-                                           <div class="video-thumbnail">
-                                                   <img src="${thumbnailUrl}" alt="${videoTitle}" loading="lazy" onerror="this.style.display='none'">
-                                                   <div class="play-button"></div>
-                                           </div>
-                                   `;
-                                   swiperWrapper.appendChild(slide);
-                           }
-                           if (videoCount === 0) {
-                                   loadingElement.innerHTML = '<p>Nessun video valido trovato su archive.org</p>';
-                                   return;
-                           }
-                           initializeVideoSwiper();
-                   }
-
-                   // Initialize Video Swiper
-                   function initializeVideoSwiper() {
-                           const videoSlides = document.querySelectorAll('.video-slide').length;
-                           const swiper = new Swiper('.video-swiper', {
-                                   effect: 'coverflow',
-                                   grabCursor: true,
-                                   centeredSlides: true,
-                                   slidesPerView: 3,
-                                   spaceBetween: 30,
-                                   loop: videoSlides >= 6, // Only enable loop if we have enough slides
-                                   speed: 600,
-                                   coverflowEffect: {
-                                           rotate: 30,
-                                           stretch: 0,
-                                           depth: 200,
-                                           modifier: 1,
-                                           slideShadows: true,
-                                   },
-                                   navigation: {
-                                           nextEl: '.video-swiper .swiper-button-next',
-                                           prevEl: '.video-swiper .swiper-button-prev',
-                                   },
-                                   pagination: {
-                                           el: '.video-swiper .swiper-pagination',
-                                           clickable: true,
-                                   },
-                                   breakpoints: {
-                                           0: { slidesPerView: 1 },
-                                           768: { slidesPerView: 2 },
-                                           1200: { slidesPerView: 3 }
-                                   }
-                           });
-
-                           // Initialize video lightbox after swiper is ready
-                           initializeVideoLightbox();
-                   }
-
-                   // Initialize Video Lightbox
-                   function initializeVideoLightbox() {
-                           const videoOverlay = document.getElementById('videoOverlay');
-                           const overlayVideo = document.getElementById('overlayVideo');
-                           const closeButton = document.getElementById('closeButton');
-                           const slides = document.querySelectorAll('.video-slide');
-                           let currentVideoIndex = 0;
-                           const videoList = Array.from(slides).map(slide => slide.getAttribute('data-video'));
-
-
-                           // Apertura video overlay
-                           slides.forEach((slide, idx) => {
-                                   slide.addEventListener('click', (e) => {
-                                           const videoSrc = slide.getAttribute('data-video');
-                                           if (videoSrc) {
-                                                   currentVideoIndex = idx;
-                                                   overlayVideo.src = videoSrc;
-                                                   videoOverlay.classList.add('active');
-                                                   document.body.style.overflow = 'hidden';
-                                                   
-                                                   // Update video info
-                                                   updateVideoInfo(currentVideoIndex, videoList.length);
-                                                   
-                                                   // Auto-play del video
-                                                   setTimeout(() => {
-                                                           overlayVideo.play().catch(e => {
-                                                           });
-                                                   }, 300);
-                                           }
-                                   });
-                           });
-
-                           // Navigazione prev/next nella video lightbox
-                           const prevBtn = document.querySelector('.video-lightbox-prev');
-                           const nextBtn = document.querySelector('.video-lightbox-next');
-                           
-                           function showVideo(idx) {
-                                   if (idx < 0) idx = videoList.length - 1;
-                                   if (idx >= videoList.length) idx = 0;
-                                   currentVideoIndex = idx;
-                                   overlayVideo.src = videoList[currentVideoIndex];
-                                   overlayVideo.currentTime = 0;
-                                   // Update video info
-                                   updateVideoInfo(currentVideoIndex, videoList.length);
-                                   overlayVideo.play().catch(e => {});
-                           }
-
-                           if (prevBtn && nextBtn) {
-                                   prevBtn.addEventListener('click', function(e) {
-                                           e.stopPropagation();
-                                           showVideo(currentVideoIndex - 1);
-                                   });
-                                   nextBtn.addEventListener('click', function(e) {
-                                           e.stopPropagation();
-                                           showVideo(currentVideoIndex + 1);
-                                   });
-                           }
-
-                           // Navigazione con frecce tastiera
-                           document.addEventListener('keydown', function(e) {
-                                   if (!videoOverlay.classList.contains('active')) return;
-                                   if (e.key === 'ArrowLeft') {
-                                           showVideo(currentVideoIndex - 1);
-                                   } else if (e.key === 'ArrowRight') {
-                                           showVideo(currentVideoIndex + 1);
-                                   } else if (e.key === 'Escape') {
-                                           closeVideoOverlay();
-                                   }
-                           });
-
-                           // Chiusura video overlay
-                           function closeVideoOverlay() {
-                                   videoOverlay.classList.remove('active');
-                                   overlayVideo.pause();
-                                   overlayVideo.src = '';
-                                   document.body.style.overflow = 'auto';
-                           }
-
-                           // Event listeners per chiusura
-                           if (closeButton) {
-                                   closeButton.addEventListener('click', closeVideoOverlay);
-                           }
-
-                           if (videoOverlay) {
-                                   videoOverlay.addEventListener('click', function(e) {
-                                           if (e.target === videoOverlay) {
-                                                   closeVideoOverlay();
-                                           }
-                                   });
-                           }
-                   }
-                   async function loadPhotosFromSupabase() {
-                           try {
-                                   const loadingElement = document.getElementById('loadingPhotos');
-                                   const photoSwiper = document.getElementById('photoSwiper');
-                                   const swiperWrapper = document.getElementById('photoSwiperWrapper');
-                                   
-                                   // Get list of files from the 'gallery' bucket
-                                   const { data: files, error } = await supabaseClient.storage
-                                           .from('gallery')
-                                           .list('foto', {
-                                                   limit: 100,
-                                                   offset: 0,
-                                                   sortBy: { column: 'name', order: 'asc' }
-                                           });
-
-                                   if (error) {
-                                           console.error('Errore caricamento foto:', error);
-                                           loadingElement.innerHTML = `<p>Errore nel caricamento delle foto: ${error.message}</p>`;
-                                           return;
-                                   }
-
-                                   if (!files || files.length === 0) {
-                                           loadingElement.innerHTML = '<p>Nessuna foto trovata nella cartella foto/</p>';
-                                           
-                                           // Prova a cercare nella root del bucket
-                                           const { data: rootFiles, error: rootError } = await supabaseClient.storage
-                                                   .from('gallery')
-                                                   .list('', {
-                                                           limit: 100,
-                                                           offset: 0
-                                                   });
-                                           
-                                           if (rootFiles && rootFiles.length > 0) {
-                                                   loadingElement.innerHTML = `<p>Trovati ${rootFiles.length} file nella root del bucket. Controlla la struttura delle cartelle.</p>`;
-                                           }
-                                           return;
-                                   }
-
-                                   // Clear existing content and hide loading
-                                   swiperWrapper.innerHTML = '';
-                                   loadingElement.style.display = 'none';
-                                   photoSwiper.style.display = 'block';
-
-                                   // Create slides for each photo
-                                   let photoCount = 0;
-                                   for (let i = 0; i < files.length; i++) {
-                                           const file = files[i];
-                                           
-                                           // Filter only image files
-                                           const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
-                                           const isImage = imageExtensions.some(ext => 
-                                                   file.name.toLowerCase().endsWith(ext)
-                                           );
-                                           
-                                           if (!isImage) continue;
-                                           
-                                           // Get public URL for the image
-                                           const { data } = supabaseClient.storage
-                                                   .from('gallery')
-                                                   .getPublicUrl(`foto/${file.name}`);
-                                           
-                                           if (data && data.publicUrl) {
-                                                   photoCount++;
-                                                   const slide = document.createElement('div');
-                                                   slide.className = 'swiper-slide photo-slide';
-                                                   slide.setAttribute('data-image', data.publicUrl);
-                                                   
-                                                   // Extract name without extension for alt text
-                                                   const altText = file.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g, ' ');
-                                                   
-                                                   slide.innerHTML = `
-                                                           <div class="photo-thumbnail">
-                                                                   <img src="${data.publicUrl}" alt="${altText}" loading="lazy" onerror="this.parentElement.parentElement.style.display='none'">
-                                                           </div>
-                                                   `;
-                                                   
-                                                   swiperWrapper.appendChild(slide);
-                                           }
-                                   }
-
-                                   if (photoCount === 0) {
-                                           loadingElement.innerHTML = '<p>Nessuna foto valida trovata nella cartella</p>';
-                                           return;
-                                   }
-
-
-                                   // Initialize Swiper after photos are loaded
-                                   initializePhotoSwiper();
-                                   
-                                   // Initialize lightbox functionality
-                                   initializePhotoLightbox();
-                                   
-                                   // Update photo counter with animation
-                                   updatePhotoCounter();
-
-                           } catch (error) {
-                                   console.error('Errore generale:', error);
-                                   document.getElementById('loadingPhotos').innerHTML = '<p>Errore nel caricamento delle foto</p>';
-                           }
-                   }
-
-                   // Initialize Photo Swiper
-                   function initializePhotoSwiper() {
-                           const photoSlides = document.querySelectorAll('.photo-slide').length;
-                           new Swiper('.photo-swiper', {
-                                   effect: 'coverflow',
-                                   grabCursor: true,
-                                   centeredSlides: true,
-                                   slidesPerView: 3,
-                                   spaceBetween: 30,
-                                   loop: photoSlides >= 6, // Only enable loop if we have enough slides
-                                   speed: 600,
-                                   coverflowEffect: {
-                                           rotate: 30,
-                                           stretch: 0,
-                                           depth: 200,
-                                           modifier: 1,
-                                           slideShadows: true,
-                                   },
-                                   navigation: {
-                                           nextEl: '.photo-swiper .swiper-button-next',
-                                           prevEl: '.photo-swiper .swiper-button-prev',
-                                   },
-                                   pagination: {
-                                           el: '.photo-swiper .swiper-pagination',
-                                           clickable: true,
-                                   },
-                                   breakpoints: {
-                                           0: { slidesPerView: 1 },
-                                           768: { slidesPerView: 2 },
-                                           1200: { slidesPerView: 3 }
-                                   }
-                           });
-                   }
-
-                   // Initialize Photo Lightbox
-                   function initializePhotoLightbox() {
-   const slides = document.querySelectorAll('.photo-slide');
-   let current = 0;
-   let images = Array.from(slides).map(slide => slide.getAttribute('data-image'));
-   const lightbox = document.getElementById('photo-lightbox');
-   const lightboxImage = lightbox.querySelector('.lightbox-image');
-   const closeBtn = lightbox.querySelector('.lightbox-close');
-   const prevBtn = lightbox.querySelector('.photo-lightbox-prev');
-   const nextBtn = lightbox.querySelector('.photo-lightbox-next');
-   let touchStartY = null;
-   
-   // Zoom variables
-   let currentZoom = 1;
-   let isDragging = false;
-   let dragStart = { x: 0, y: 0 };
-   let imgPosition = { x: 0, y: 0 };
-   const zoomInfo = document.getElementById('zoom-info');
-
-   // Zoom functions
-   window.zoomImage = function(delta) {
-     currentZoom = Math.max(0.5, Math.min(5, currentZoom + delta));
-     updateImageTransform();
-     updateZoomInfo();
-   };
-
-   window.resetZoom = function() {
-     currentZoom = 1;
-     imgPosition = { x: 0, y: 0 };
-     updateImageTransform();
-     updateZoomInfo();
-   };
-
-   function updateImageTransform() {
-     lightboxImage.style.transform = `translate(${imgPosition.x}px, ${imgPosition.y}px) scale(${currentZoom})`;
-     lightboxImage.style.cursor = currentZoom > 1 ? 'grab' : 'default';
-   }
-
-   function updateZoomInfo() {
-     if (zoomInfo) {
-       zoomInfo.textContent = Math.round(currentZoom * 100) + '%';
-     }
-   }
-
-   function show(idx) {
-           if (!images[idx]) return;
-           current = idx;
-           
-           // Reset zoom state when showing new image
-           currentZoom = 1;
-           imgPosition = { x: 0, y: 0 };
-           
-           lightboxImage.src = images[idx];
-           lightbox.classList.add('active');
-           document.body.style.overflow = 'hidden';
-           
-           // Update image transform and zoom info
-           updateImageTransform();
-           updateZoomInfo();
-           
-           // Update image counter
-           updateImageCounter(current, images.length);
-           // Blocca scroll su iOS
-           document.body.addEventListener('touchmove', preventScroll, { passive: false });
-           // Focus sulla X
-           setTimeout(() => closeBtn.focus(), 50);
-           // Precarica immagini vicine
-           preloadImage((current + 1) % images.length);
-           preloadImage((current - 1 + images.length) % images.length);
-   }
-
-   function hide() {
-           lightbox.classList.remove('active');
-           document.body.style.overflow = '';
-           lightboxImage.src = '';
-           document.body.removeEventListener('touchmove', preventScroll);
-   }
-
-   function next() {
-           current = (current + 1) % images.length;
-           show(current);
-   }
-
-   function prev() {
-           current = (current - 1 + images.length) % images.length;
-           show(current);
-   }
-
-   function preventScroll(e) {
-           e.preventDefault();
-   }
-
-   function preloadImage(idx) {
-           const url = images[idx];
-           if (!url) return;
-           const img = new window.Image();
-           img.src = url;
-   }
-
-   // Event listeners
-   slides.forEach((slide, idx) => {
-           slide.addEventListener('click', (e) => {
-                   e.preventDefault();
-                   show(idx);
-           });
-   });
-
-   closeBtn.addEventListener('click', hide);
-   nextBtn.addEventListener('click', (e) => { e.stopPropagation(); next(); });
-   prevBtn.addEventListener('click', (e) => { e.stopPropagation(); prev(); });
-
-   // Navigazione con click su bordo destro/sinistro dell'immagine (solo se non è zoomata)
-   lightboxImage.addEventListener('click', (e) => {
-           if (currentZoom > 1) return; // Don't navigate when zoomed
-           const rect = lightboxImage.getBoundingClientRect();
-           const x = e.clientX - rect.left;
-           if (x < rect.width * 0.3) prev();
-           else if (x > rect.width * 0.7) next();
-   });
-
-   // Mouse wheel zoom
-   lightbox.addEventListener('wheel', function(e) {
-           if (!lightbox.classList.contains('active')) return;
-           e.preventDefault();
-           const delta = e.deltaY > 0 ? -0.1 : 0.1;
-           zoomImage(delta);
-   });
-
-   // Double click to zoom
-   lightboxImage.addEventListener('dblclick', function(e) {
-           e.stopPropagation();
-           if (currentZoom === 1) {
-               currentZoom = 2;
-           } else {
-               resetZoom();
-               return;
-           }
-           updateImageTransform();
-           updateZoomInfo();
-   });
-
-   // Mouse drag functionality
-   lightboxImage.addEventListener('mousedown', function(e) {
-           if (currentZoom > 1) {
-               isDragging = true;
-               lightboxImage.style.cursor = 'grabbing';
-               dragStart.x = e.clientX - imgPosition.x;
-               dragStart.y = e.clientY - imgPosition.y;
-               e.preventDefault();
-           }
-   });
-
-   document.addEventListener('mousemove', function(e) {
-           if (isDragging && currentZoom > 1) {
-               imgPosition.x = e.clientX - dragStart.x;
-               imgPosition.y = e.clientY - dragStart.y;
-               updateImageTransform();
-           }
-   });
-
-   document.addEventListener('mouseup', function() {
-           if (isDragging) {
-               isDragging = false;
-               lightboxImage.style.cursor = currentZoom > 1 ? 'grab' : 'default';
-           }
-   });
-
-   // Keyboard navigation
-   document.addEventListener('keydown', (e) => {
-           if (!lightbox.classList.contains('active')) return;
-           if (e.key === 'Escape') hide();
-           if (e.key === 'ArrowRight') next();
-           if (e.key === 'ArrowLeft') prev();
-   });
-
-   // Click outside per chiudere
-   lightbox.addEventListener('click', (e) => {
-           if (e.target === lightbox) hide();
-   });
-
-   // Enhanced touch support with pinch-to-zoom
-   let initialDistance = 0;
-   let initialZoom = 1;
-
-   lightboxImage.addEventListener('touchstart', (e) => {
-           if (e.touches.length === 2) {
-               // Pinch to zoom start
-               const touch1 = e.touches[0];
-               const touch2 = e.touches[1];
-               initialDistance = Math.hypot(
-                   touch2.clientX - touch1.clientX,
-                   touch2.clientY - touch1.clientY
-               );
-               initialZoom = currentZoom;
-               e.preventDefault();
-           } else if (e.touches.length === 1) {
-               if (currentZoom > 1) {
-                   // Single touch drag start when zoomed
-                   isDragging = true;
-                   const touch = e.touches[0];
-                   dragStart.x = touch.clientX - imgPosition.x;
-                   dragStart.y = touch.clientY - imgPosition.y;
-               } else {
-                   // Swipe to close gesture
-                   touchStartY = e.touches[0].clientY;
-               }
-           }
-   });
-
-   lightboxImage.addEventListener('touchmove', (e) => {
-           if (e.touches.length === 2) {
-               // Pinch to zoom
-               e.preventDefault();
-               const touch1 = e.touches[0];
-               const touch2 = e.touches[1];
-               const currentDistance = Math.hypot(
-                   touch2.clientX - touch1.clientX,
-                   touch2.clientY - touch1.clientY
-               );
-               const scale = currentDistance / initialDistance;
-               currentZoom = Math.max(0.5, Math.min(5, initialZoom * scale));
-               updateImageTransform();
-               updateZoomInfo();
-           } else if (e.touches.length === 1) {
-               if (isDragging && currentZoom > 1) {
-                   // Single touch drag when zoomed
-                   e.preventDefault();
-                   const touch = e.touches[0];
-                   imgPosition.x = touch.clientX - dragStart.x;
-                   imgPosition.y = touch.clientY - dragStart.y;
-                   updateImageTransform();
-               } else if (touchStartY !== null && currentZoom === 1) {
-                   // Swipe down to close when not zoomed
-                   const deltaY = e.touches[0].clientY - touchStartY;
-                   if (deltaY > 60) {
-                       hide();
-                       touchStartY = null;
-                   }
-               }
-           }
-   });
-
-   lightboxImage.addEventListener('touchend', (e) => {
-           if (e.touches.length === 0) {
-               isDragging = false;
-               touchStartY = null;
-           }
-   });
-  }
-
-                   // Enhanced Intersection Observer for scroll animations
-                   function initScrollAnimations() {
-                           const observerOptions = {
-                                   threshold: 0.1,
-                                   rootMargin: '0px 0px -50px 0px'
-                           };
-                           
-                           const observer = new IntersectionObserver((entries) => {
-                                   entries.forEach(entry => {
-                                           if (entry.isIntersecting) {
-                                                   entry.target.classList.add('visible');
-                                           }
-                                   });
-                           }, observerOptions);
-                           
-                           document.querySelectorAll('.animate-on-scroll').forEach(el => {
-                                   observer.observe(el);
-                           });
-                   }
-                   
-                   // Enhanced photo counter update
-                   function updatePhotoCounter() {
-                           const photoCountElement = document.getElementById('photoCount');
-                           const photoSlides = document.querySelectorAll('.photo-slide');
-                           if (photoCountElement && photoSlides.length > 0) {
-                                   // Animate counter
-                                   let currentCount = 0;
-                                   const targetCount = photoSlides.length;
-                                   const increment = Math.ceil(targetCount / 20);
-                                   
-                                   const countAnimation = setInterval(() => {
-                                           currentCount += increment;
-                                           if (currentCount >= targetCount) {
-                                                   currentCount = targetCount;
-                                                   clearInterval(countAnimation);
-                                           }
-                                           photoCountElement.textContent = currentCount;
-                                   }, 50);
-                           }
-                   }
-                   
-                   // Enhanced lightbox with counter updates
-                   function updateImageCounter(current, total) {
-                           const counterElement = document.getElementById('imageCounter');
-                           if (counterElement) {
-                                   counterElement.textContent = `${current + 1} / ${total}`;
-                           }
-                   }
-                   
-                   // Enhanced video overlay with info updates
-                   function updateVideoInfo(current, total) {
-                           const titleElement = document.getElementById('videoTitle');
-                           const counterElement = document.getElementById('videoCounter');
-                           
-                           if (titleElement) {
-                                   titleElement.textContent = `Video ${current + 1}`;
-                           }
-                           
-                           if (counterElement) {
-                                   counterElement.textContent = `${current + 1} / ${total}`;
-                           }
-                   }
-                   
-                   // Enhanced loading progress animation
-                   function showLoadingProgress(elementId, duration = 3000) {
-                           const loadingElement = document.getElementById(elementId);
-                           if (!loadingElement) return;
-                           
-                           const progressBar = loadingElement.querySelector('.progress-bar');
-                           if (progressBar) {
-                                   progressBar.style.animation = 'none';
-                                   progressBar.offsetHeight; // Trigger reflow
-                                   progressBar.style.animation = `progressSlide ${duration / 1000}s ease-in-out`;
-                                   
-                                   setTimeout(() => {
-                                           progressBar.style.width = '100%';
-                                           progressBar.style.animation = 'none';
-                                           progressBar.style.background = 'linear-gradient(90deg, #28a745, #20c997)';
-                                   }, duration - 200);
-                           }
-                   }
-
-                   // Load photos and videos when page loads
-                   document.addEventListener('DOMContentLoaded', () => {
-                           // Initialize scroll animations
-                           initScrollAnimations();
-                           
-                           // Start loading animations
-                           showLoadingProgress('loadingPhotos', 2000);
-                           showLoadingProgress('loadingVideos', 2500);
-                           
-                           setTimeout(() => {
-                                   loadPhotosFromSupabase();
-                                   loadVideosFromArchive();
-                           }, 1000);
-                   });
-
-                   // Precarica i video dello slider dopo il caricamento
-                   function preloadSliderVideos() {
-                           // Attendi che le slide siano pronte
-                           setTimeout(() => {
-                                   const slides = document.querySelectorAll('.video-slide');
-                                   slides.forEach(slide => {
-                                           const videoUrl = slide.getAttribute('data-video');
-                                           if (videoUrl) {
-                                                   // Precarica il video in background (senza inserirlo nel DOM)
-                                                   fetch(videoUrl, { method: 'GET', mode: 'no-cors' })
-                                                           .then(() => {
-                                                                   // Precaricato OK (nessuna azione visibile)
-                                                           })
-                                                           .catch(() => {
-                                                                   // Ignora errori di CORS o fetch
-                                                           });
-                                           }
-                                   });
-                           }, 2500); // Attendi che lo slider sia popolato
-                   }
-
-                   // Avvia il pre-caricamento dopo il caricamento dei video (ritardato per performance)
-                   document.addEventListener('DOMContentLoaded', () => {
-                           setTimeout(preloadSliderVideos, 5000);
-                   });
-  </script> 
   <script src="assets/js/adblock-detector-v2.js"></script> 
   <script src="assets/js/adblock-integration-v2.js"></script>
-  
 </body>
 </html>
-

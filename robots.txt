@@ -1,0 +1,33 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://associazionesbarbara.it/sitemap.xml
+
+# Allow all common search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Block access to admin/private areas and error pages
+Disallow: /admin/
+Disallow: /private/
+Disallow: /.git/
+Disallow: /404.html
+
+# Allow access to CSS, JS and images for better rendering
+Allow: /assets/css/
+Allow: /assets/js/
+Allow: /assets/images/
+Allow: /favicon/
+
+# Crawl-delay (optional, helps with server load)
+Crawl-delay: 1
