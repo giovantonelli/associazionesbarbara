@@ -11,7 +11,10 @@
       "Bash(do echo \"Processing $file\")",
       "Bash(done)",
       "Bash(find:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "WebFetch(domain:www.toptal.com)",
+      "Bash(mv:*)",
+      "Bash(sed:*)"
     ],
     "deny": []
   }

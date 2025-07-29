@@ -1,0 +1,400 @@
+/* ===== TOUCH-FRIENDLY IMPROVEMENTS =====
+   Migliora l'usabilità touch su dispositivi mobili
+   Applica le linee guida WCAG 2.1 per accessibility
+   ========================================== */
+
+/* Touch Target Size Improvements */
+/* Ensure minimum 44x44px touch targets (WCAG 2.1 Level AA) */
+@media (hover: none) and (pointer: coarse) {
+  /* Primary buttons and links */
+  .btn,
+  .touch-target,
+  .nav-link,
+  .social-link,
+  .card .btn {
+    min-width: 48px !important;
+    min-height: 48px !important;
+    padding: 12px 20px !important;
+    margin: 4px !important;
+    border-radius: 8px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  /* Navigation toggle button */
+  .nav-toggle {
+    min-width: 48px !important;
+    min-height: 48px !important;
+    padding: 12px !important;
+    margin: 8px !important;
+  }
+  
+  /* Form inputs */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="tel"],
+  textarea,
+  select {
+    min-height: 48px !important;
+    padding: 12px 16px !important;
+    font-size: 16px !important; /* Prevents iOS zoom */
+    line-height: 1.5 !important;
+    border-radius: 8px !important;
+  }
+  
+  /* Lightbox controls */
+  .lightbox-close,
+  .photo-lightbox-nav,
+  .video-lightbox-nav {
+    min-width: 56px !important;
+    min-height: 56px !important;
+    font-size: 1.8rem !important;
+  }
+  
+  /* Gallery and carousel controls */
+  .swiper-button-next,
+  .swiper-button-prev {
+    width: 56px !important;
+    height: 56px !important;
+  }
+  
+  /* Cookie banner buttons */
+  .cookie-banner .btn {
+    min-height: 48px !important;
+    padding: 12px 24px !important;
+    margin: 6px !important;
+  }
+  
+  /* FAQ accordion triggers */
+  .faq-question {
+    min-height: 56px !important;
+    padding: 16px 20px !important;
+    font-size: 16px !important;
+  }
+  
+  /* Card buttons and links */
+  .card .btn,
+  .enhanced-card .btn {
+    width: 100% !important;
+    min-height: 52px !important;
+    margin-top: 16px !important;
+  }
+}
+
+/* Enhanced Touch Feedback */
+@media (hover: none) and (pointer: coarse) {
+  /* Tap highlighting */
+  * {
+    -webkit-tap-highlight-color: rgba(225, 6, 0, 0.2) !important;
+    -webkit-touch-callout: none;
+  }
+  
+  /* Interactive elements active states */
+  .btn:active,
+  .nav-link:active,
+  .touch-target:active,
+  .social-link:active {
+    transform: scale(0.98) !important;
+    background-color: #c70500 !important;
+    transition: all 0.1s ease !important;
+  }
+  
+  /* Form input focus states */
+  input:focus,
+  textarea:focus,
+  select:focus {
+    border-color: #E10600 !important;
+    box-shadow: 0 0 0 3px rgba(225, 6, 0, 0.2) !important;
+    outline: 2px solid #E10600 !important;
+    outline-offset: 2px !important;
+  }
+}
+
+/* Improved Spacing for Touch */
+@media (max-width: 768px) {
+  /* Increase spacing between interactive elements */
+  .btn + .btn,
+  .nav-link + .nav-link,
+  .social-link + .social-link {
+    margin-left: 12px !important;
+  }
+  
+  /* Vertical spacing */
+  .form-group {
+    margin-bottom: 24px !important;
+  }
+  
+  /* Navigation menu spacing */
+  .nav-menu.active {
+    padding: 20px !important;
+  }
+  
+  .nav-menu.active .nav-link {
+    padding: 16px 20px !important;
+    margin: 4px 0 !important;
+    border-radius: 8px !important;
+    width: 100% !important;
+  }
+  
+  /* Card grid spacing */
+  .card-grid,
+  .enhanced-card-grid {
+    gap: 20px !important;
+  }
+  
+  /* Gallery thumbnail spacing */
+  .gallery-item {
+    margin: 8px !important;
+  }
+  
+  /* FAQ item spacing */
+  .faq-item {
+    margin-bottom: 16px !important;
+  }
+  
+  /* Footer link spacing */
+  .footer-section ul li {
+    margin-bottom: 12px !important;
+  }
+  
+  .footer-section ul li a {
+    padding: 8px 12px !important;
+    display: inline-block !important;
+    border-radius: 6px !important;
+  }
+}
+
+/* Accessibility Improvements */
+@media (max-width: 768px) {
+  /* Skip link for keyboard navigation */
+  .skip-link {
+    position: absolute !important;
+    top: -40px !important;
+    left: 6px !important;
+    background: #E10600 !important;
+    color: white !important;
+    padding: 8px 16px !important;
+    text-decoration: none !important;
+    border-radius: 4px !important;
+    font-weight: bold !important;
+    z-index: 10000 !important;
+    transition: top 0.3s ease !important;
+  }
+  
+  .skip-link:focus {
+    top: 6px !important;
+  }
+  
+  /* Focus indicators */
+  .btn:focus,
+  .nav-link:focus,
+  .social-link:focus {
+    outline: 3px solid #E10600 !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 3px rgba(225, 6, 0, 0.3) !important;
+  }
+  
+  /* High contrast mode improvements */
+  @media (prefers-contrast: high) {
+    .btn,
+    .nav-link {
+      border: 2px solid currentColor !important;
+    }
+  }
+  
+  /* Reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Gesture and Swipe Improvements */
+@media (hover: none) and (pointer: coarse) {
+  /* Prevent text selection on interactive elements */
+  .btn,
+  .nav-toggle,
+  .lightbox-nav,
+  .swiper-button-next,
+  .swiper-button-prev {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+  }
+  
+  /* Smooth scrolling for touch */
+  html {
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  
+  /* Better scrollable areas */
+  .nav-menu,
+  .gallery-container,
+  .events-list {
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+  }
+  
+  /* Improved carousel/slider controls */
+  .swiper-container {
+    touch-action: pan-y pinch-zoom !important;
+  }
+  
+  /* Prevent unwanted zoom on inputs */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea {
+    font-size: 16px !important; /* iOS won't zoom if font-size >= 16px */
+  }
+}
+
+/* Enhanced Loading States for Touch */
+@media (hover: none) and (pointer: coarse) {
+  /* Loading button states */
+  .btn[disabled],
+  .btn.loading {
+    opacity: 0.7 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+  }
+  
+  .btn.loading::after {
+    content: "" !important;
+    display: inline-block !important;
+    width: 16px !important;
+    height: 16px !important;
+    border: 2px solid currentColor !important;
+    border-radius: 50% !important;
+    border-top-color: transparent !important;
+    animation: spin 1s linear infinite !important;
+    margin-left: 8px !important;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+/* Improved Modal and Overlay Interactions */
+@media (hover: none) and (pointer: coarse) {
+  /* Modal close button */
+  .modal .close,
+  .lightbox-close,
+  .popup-close {
+    position: absolute !important;
+    top: 16px !important;
+    right: 16px !important;
+    width: 48px !important;
+    height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 50% !important;
+    font-size: 24px !important;
+    cursor: pointer !important;
+    z-index: 10001 !important;
+  }
+  
+  /* Overlay tap-to-close area */
+  .modal-overlay,
+  .lightbox-overlay {
+    cursor: pointer !important;
+  }
+  
+  /* Prevent accidental closes on modal content */
+  .modal-content,
+  .lightbox-content {
+    cursor: default !important;
+  }
+}
+
+/* Print Styles (Accessibility) */
+@media print {
+  /* Hide interactive elements in print */
+  .nav-toggle,
+  .btn,
+  .cookie-banner,
+  .modal,
+  .lightbox {
+    display: none !important;
+  }
+  
+  /* Ensure readable text */
+  body {
+    font-size: 12pt !important;
+    line-height: 1.5 !important;
+    color: black !important;
+    background: white !important;
+  }
+  
+  /* Show URLs for links */
+  a[href]:after {
+    content: " (" attr(href) ")" !important;
+    font-size: 10pt !important;
+    color: #666 !important;
+  }
+}
+
+/* Performance Optimizations for Touch Devices */
+@media (hover: none) and (pointer: coarse) {
+  /* Hardware acceleration for animations */
+  .btn,
+  .card,
+  .nav-link,
+  .gallery-item {
+    transform: translateZ(0) !important;
+    will-change: transform !important;
+  }
+  
+  /* Optimize repaints */
+  .swiper-container,
+  .lightbox,
+  .modal {
+    contain: layout style paint !important;
+  }
+}
+
+/* Dark Mode Support (if system prefers) */
+@media (prefers-color-scheme: dark) and (hover: none) and (pointer: coarse) {
+  /* Adjust touch targets for dark mode */
+  .btn {
+    background: #E10600 !important;
+    color: white !important;
+    border: 1px solid #ff4757 !important;
+  }
+  
+  .btn:active {
+    background: #c70500 !important;
+  }
+  
+  /* Form inputs in dark mode */
+  input,
+  textarea {
+    background: #2c2c2c !important;
+    color: white !important;
+    border: 1px solid #555 !important;
+  }
+  
+  input:focus,
+  textarea:focus {
+    border-color: #E10600 !important;
+    background: #333 !important;
+  }
+}

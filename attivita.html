@@ -85,11 +85,11 @@
     </div>
   </nav>
   <div id="user-bar"></div>
-  <section class="page-header attivita-header">
+  <section class="hero attivita-hero">
     <div class="container">
-      <div class="animate-fade-in">
-        <h1>Attività e Progetti</h1>
-        <p>Scopri tutte le nostre iniziative per la comunità</p>
+      <div class="hero-content animate-fade-in">
+        <h1 class="hero-title">Attività e Progetti</h1>
+        <p class="lead">Scopri tutte le nostre iniziative per la comunità</p>
       </div>
     </div>
   </section>
@@ -98,7 +98,7 @@
       <div class="section-header">
         <span class="section-badge">Attività</span>
         <h2 class="section-title">Le nostre attività principali</h2>
-        <p class="section-subtitle">Clicca su ogni attività per scoprire maggiori dettagli</p>
+        <p class="section-subtitle">Clicca su ogni attività per scoprire maggiori dettagli e sfoglia le immagini</p>
       </div>
       <div class="row" id="attivita-container">
         <!-- Le attività verranno caricate dinamicamente da Supabase -->
@@ -108,9 +108,12 @@
       </div>
         <div id="dettagli-tamburi" class="activity-details">
           <h3>Tamburi Medievali</h3>
-          <div style="display:flex;align-items:flex-start;flex-wrap:wrap;">
-            <img src="assets/images/tamburini.jpg" alt="Tamburi Medievali"> <img src="assets/images/testimonials/tamburi1.jpg" alt="Esibizione tamburini">
-            <div>
+          <div class="activity-content">
+            <div class="activity-images">
+              <img src="assets/images/tamburini.jpg" alt="Tamburi Medievali" onclick="openActivityLightbox('assets/images/tamburini.jpg', 'Tamburi Medievali - Gruppo storico')"> 
+              <img src="assets/images/testimonials/tamburi1.jpg" alt="Esibizione tamburini" onclick="openActivityLightbox('assets/images/testimonials/tamburi1.jpg', 'Tamburi Medievali - Esibizione')">
+            </div>
+            <div class="activity-text">
               <p>I Tamburi Medievali sono il battito della nostra associazione: con prove settimanali e tanta passione, il gruppo anima cortei, rievocazioni e festival, trasmettendo energia e tradizione. Le loro esibizioni sono un momento di aggregazione e spettacolo che coinvolge giovani e famiglie.</p>
               <ul>
                 <li>Prove settimanali aperte ai giovani</li>
@@ -122,10 +125,13 @@
         </div>
         <div id="dettagli-inarrivo" class="activity-details">
           <h3>Nuovo Progetto in Arrivo</h3>
-          <div style="display:flex;align-items:flex-start;flex-wrap:wrap;">
-            <img src="assets/images/tamburini.jpg" alt="Nuovo progetto"> <img src="assets/images/about-preview.jpg" alt="Progetto sociale">
-            <div>
-              <p>Il prossimo progetto dell’associazione sarà dedicato all’innovazione sociale e alla partecipazione attiva: attività, laboratori e incontri pensati per favorire l’inclusione, la creatività e il dialogo tra generazioni. Presto tutte le informazioni su come aderire!</p>
+          <div class="activity-content">
+            <div class="activity-images">
+              <img src="assets/images/tamburini.jpg" alt="Nuovo progetto" onclick="openActivityLightbox('assets/images/tamburini.jpg', 'Nuovo Progetto - Anteprima')"> 
+              <img src="assets/images/about-preview.jpg" alt="Progetto sociale" onclick="openActivityLightbox('assets/images/about-preview.jpg', 'Nuovo Progetto - Iniziativa sociale')">
+            </div>
+            <div class="activity-text">
+              <p>Il prossimo progetto dell'associazione sarà dedicato all'innovazione sociale e alla partecipazione attiva: attività, laboratori e incontri pensati per favorire l'inclusione, la creatività e il dialogo tra generazioni. Presto tutte le informazioni su come aderire!</p>
               <ul>
                 <li>Attività innovative per tutte le età</li>
                 <li>Collaborazione con enti e associazioni del territorio</li>
@@ -246,6 +252,15 @@
       </div>
     </div>
   </footer>
+  <!-- Activity Image Lightbox -->
+  <div id="activity-lightbox" class="activity-lightbox">
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Chiudi">&times;</button>
+      <img id="lightbox-image" class="lightbox-image" src="" alt="">
+      <div class="lightbox-caption"></div>
+    </div>
+  </div>
+
   <script src="assets/js/notifications.js"></script> 
   <script src="assets/js/script.js"></script> 
   <script src="assets/js/adblock-detector-v2.js"></script>
