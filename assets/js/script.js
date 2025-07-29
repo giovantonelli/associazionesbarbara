@@ -1495,6 +1495,61 @@ function initVideoCarousel() {
 	});
 }
 
+// ====== TIMELINE INTERATTIVA CHI SIAMO ======
+function toggleTimelineExpand(button) {
+    const expandedContent = button.nextElementSibling;
+    const isExpanded = expandedContent.classList.contains('show');
+    
+    if (isExpanded) {
+        // Chiudi
+        expandedContent.classList.remove('show');
+        button.innerHTML = 'Scopri di più ▼';
+        button.classList.remove('expanded');
+    } else {
+        // Apri
+        expandedContent.classList.add('show');
+        button.innerHTML = 'Mostra meno ▲';
+        button.classList.add('expanded');
+    }
+}
+
+// Inizializzazione timeline al caricamento della pagina
+function initTimeline() {
+    // Effetto di apparizione progressiva degli elementi timeline
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    
+    if (timelineItems.length > 0) {
+        // Osservatore per animazioni on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.3
+        });
+        
+        timelineItems.forEach((item, index) => {
+            // Ritardo progressivo per l'animazione
+            item.style.transitionDelay = `${index * 0.2}s`;
+            observer.observe(item);
+        });
+        
+        // Click sui marker per espandere automaticamente
+        const timelineMarkers = document.querySelectorAll('.timeline-icon');
+        timelineMarkers.forEach(marker => {
+            marker.addEventListener('click', () => {
+                const timelineItem = marker.closest('.timeline-item');
+                const expandBtn = timelineItem.querySelector('.expand-btn');
+                if (expandBtn && !expandBtn.classList.contains('expanded')) {
+                    expandBtn.click();
+                }
+            });
+        });
+    }
+}
+
 // --- User Bar Centralizzata ---
 function renderUserBar() {
   const userBar = document.getElementById('user-bar');
@@ -2101,7 +2156,6 @@ document.addEventListener('DOMContentLoaded', function() {
   initFaqPage();
   initPartnerPage();
   initPrivacyPage();
-  init404Page();
 });
 
 // ============= EVENTI PAGE SPECIFIC FUNCTIONALITY =============
@@ -4153,258 +4207,12 @@ function initPrivacyParallax() {
   });
 }
 
-// 404 PAGE FUNCTIONALITY
-// =================================
-function init404Page() {
-  if (!document.body.classList.contains('error-404-page') && !window.location.pathname.includes('404')) {
-    return;
+// Inizializzazione timeline chi-siamo.html
+if (document.querySelector('.timeline-container')) {
+  // Assicurati che la funzione venga chiamata quando il DOM è pronto
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTimeline);
+  } else {
+    initTimeline();
   }
-  
-  console.log('Initializing enhanced 404 page...');
-  
-  // Enhanced URL tracking and display
-  enhanceErrorTracking();
-  
-  // Initialize quick search functionality
-  initQuickSearch();
-  
-  // Add interactive suggestions
-  enhanceSuggestions();
-  
-  // Initialize animations
-  init404Animations();
-  
-  // Track 404 events for analytics
-  track404Event();
-}
-
-function enhanceErrorTracking() {
-  // Get original URL from various sources
-  const urlParams = new URLSearchParams(window.location.search);
-  const originalUrl = urlParams.get('from') || document.referrer || 'URL sconosciuto';
-  
-  if (originalUrl && originalUrl !== 'URL sconosciuto' && !originalUrl.includes('404.html')) {
-    console.log('404 redirect from:', originalUrl);
-    
-    // Update error description with the original URL
-    const description = document.querySelector('.error-description');
-    if (description) {
-      const urlDisplay = originalUrl.length > 50 
-        ? '...' + originalUrl.slice(-47) 
-        : originalUrl;
-      
-      description.innerHTML = `
-        Siamo spiacenti, ma la pagina "<strong>${urlDisplay}</strong>" non esiste o potrebbe essere stata spostata.
-        <br>Controlla l'URL per eventuali errori di battitura o utilizza i link qui sotto per navigare nel sito.
-      `;
-    }
-    
-    // Store for potential reporting
-    sessionStorage.setItem('last404URL', originalUrl);
-  }
-}
-
-function initQuickSearch() {
-  const searchInput = document.getElementById('quickSearch');
-  const searchResults = document.getElementById('searchResults');
-  
-  if (!searchInput || !searchResults) return;
-  
-  // Pages database for search
-  const pages = [
-    { title: 'Home', url: 'index.html', description: 'Pagina principale dell\'associazione', keywords: ['home', 'principale', 'inizio'] },
-    { title: 'Chi siamo', url: 'chi-siamo.html', description: 'Storia e missione dell\'associazione', keywords: ['storia', 'missione', 'direttivo', 'chi', 'siamo'] },
-    { title: 'Attività', url: 'attivita.html', description: 'Progetti e iniziative', keywords: ['progetti', 'iniziative', 'attività', 'volontariato'] },
-    { title: 'Eventi', url: 'eventi.html', description: 'Calendario eventi', keywords: ['eventi', 'calendario', 'manifestazioni', 'incontri'] },
-    { title: 'Galleria', url: 'galleria.html', description: 'Foto e video degli eventi', keywords: ['foto', 'video', 'galleria', 'immagini'] },
-    { title: 'Contatti', url: 'contatti.html', description: 'Come raggiungerci', keywords: ['contatti', 'telefono', 'email', 'indirizzo'] },
-    { title: 'FAQ', url: 'faq.html', description: 'Domande frequenti', keywords: ['faq', 'domande', 'risposte', 'aiuto'] },
-    { title: 'Partner', url: 'partner.html', description: 'I nostri partner e sponsor', keywords: ['partner', 'sponsor', 'collaborazioni'] }
-  ];
-  
-  let searchTimeout;
-  
-  searchInput.addEventListener('input', function() {
-    clearTimeout(searchTimeout);
-    const query = this.value.trim().toLowerCase();
-    
-    if (query.length < 2) {
-      searchResults.innerHTML = '';
-      searchResults.style.display = 'none';
-      return;
-    }
-    
-    searchTimeout = setTimeout(() => {
-      const results = searchPages(query, pages);
-      displaySearchResults(results, searchResults);
-    }, 300);
-  });
-  
-  // Handle Enter key
-  searchInput.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      performQuickSearch();
-    }
-  });
-}
-
-function searchPages(query, pages) {
-  const results = [];
-  
-  pages.forEach(page => {
-    let score = 0;
-    
-    // Check title match
-    if (page.title.toLowerCase().includes(query)) {
-      score += 10;
-    }
-    
-    // Check keywords match
-    page.keywords.forEach(keyword => {
-      if (keyword.includes(query)) {
-        score += 5;
-      }
-    });
-    
-    // Check description match
-    if (page.description.toLowerCase().includes(query)) {
-      score += 3;
-    }
-    
-    if (score > 0) {
-      results.push({ ...page, score });
-    }
-  });
-  
-  return results.sort((a, b) => b.score - a.score).slice(0, 5);
-}
-
-function displaySearchResults(results, container) {
-  if (results.length === 0) {
-    container.innerHTML = '<p class="no-results">Nessun risultato trovato</p>';
-    container.style.display = 'block';
-    return;
-  }
-  
-  const resultsHTML = results.map(result => `
-    <div class="search-result-item">
-      <a href="${result.url}" class="search-result-link">
-        <h4>${result.title}</h4>
-        <p>${result.description}</p>
-      </a>
-    </div>
-  `).join('');
-  
-  container.innerHTML = resultsHTML;
-  container.style.display = 'block';
-}
-
-function performQuickSearch() {
-  const searchInput = document.getElementById('quickSearch');
-  const query = searchInput.value.trim().toLowerCase();
-  
-  if (!query) return;
-  
-  // Simple redirect based on common searches
-  const redirectMap = {
-    'contatti': 'contatti.html',
-    'chi siamo': 'chi-siamo.html',
-    'eventi': 'eventi.html',
-    'galleria': 'galleria.html',
-    'attività': 'attivita.html',
-    'foto': 'galleria.html',
-    'video': 'galleria.html',
-    'home': 'index.html'
-  };
-  
-  if (redirectMap[query]) {
-    window.location.href = redirectMap[query];
-  }
-}
-
-function enhanceSuggestions() {
-  const suggestionItems = document.querySelectorAll('.suggestion-item');
-  
-  suggestionItems.forEach((item, index) => {
-    // Add staggered animation delay
-    item.style.animationDelay = `${index * 0.1}s`;
-    
-    // Add hover analytics tracking
-    item.addEventListener('mouseenter', function() {
-      const page = this.getAttribute('href');
-      console.log('404 suggestion hover:', page);
-    });
-    
-    // Add click tracking
-    item.addEventListener('click', function() {
-      const page = this.getAttribute('href');
-      console.log('404 suggestion click:', page);
-      
-      // Store for analytics
-      if (typeof gtag !== 'undefined') {
-        gtag('event', '404_suggestion_click', {
-          'page_title': page,
-          'original_url': sessionStorage.getItem('last404URL') || 'unknown'
-        });
-      }
-    });
-  });
-}
-
-function init404Animations() {
-  // Animate error code with pulse effect
-  const errorCode = document.querySelector('.error-code');
-  if (errorCode) {
-    setTimeout(() => {
-      errorCode.style.opacity = '1';
-      errorCode.style.transform = 'scale(1)';
-    }, 100);
-  }
-  
-  // Animate other elements with staggered timing
-  const animatedElements = [
-    { selector: '.error-message', delay: 300 },
-    { selector: '.error-description', delay: 500 },
-    { selector: '.search-section', delay: 700 },
-    { selector: '.error-actions', delay: 900 },
-    { selector: '.suggestions', delay: 1100 }
-  ];
-  
-  animatedElements.forEach(element => {
-    const elem = document.querySelector(element.selector);
-    if (elem) {
-      setTimeout(() => {
-        elem.style.opacity = '1';
-        elem.style.transform = 'translateY(0)';
-      }, element.delay);
-    }
-  });
-  
-  // Add floating animation to suggestion items
-  const suggestionItems = document.querySelectorAll('.suggestion-item');
-  suggestionItems.forEach((item, index) => {
-    setTimeout(() => {
-      item.style.opacity = '1';
-      item.style.transform = 'translateY(0)';
-    }, 1300 + (index * 100));
-  });
-}
-
-function track404Event() {
-  // Track 404 events for analytics
-  if (typeof gtag !== 'undefined') {
-    gtag('event', 'page_view', {
-      'page_title': '404 Error',
-      'page_location': window.location.href,
-      'original_url': sessionStorage.getItem('last404URL') || 'unknown'
-    });
-  }
-  
-  // Console log for debugging
-  console.log('404 Event tracked:', {
-    currentURL: window.location.href,
-    originalURL: sessionStorage.getItem('last404URL'),
-    timestamp: new Date().toISOString()
-  });
 }

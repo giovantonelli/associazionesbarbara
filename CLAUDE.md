@@ -6,17 +6,31 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a static website for "Associazione Santa Barbara APS", a non-profit organization based in Grumo Appula, Italy. The site combines vanilla HTML/CSS/JavaScript with modern authentication capabilities via Supabase. Hosted on GitHub Pages with custom domain `associazionesbarbara.it`.
 
-### Testing & Validation
-No automated test framework is configured. Manual testing workflow:
+### Common Development Commands
+No package.json or build process is configured. Common workflow commands:
 ```bash
-# Test authentication flow
-# 1. Open register.html - test user registration
-# 2. Check email for confirmation link
-# 3. Open login.html - test authentication
-# 4. Access area-soci.html - verify role-based access
+# Local development server options
+python3 -m http.server 8000                    # Python HTTP server
+npx http-server -p 8000                         # Node.js HTTP server  
+# VS Code: Use Live Server extension (recommended)
 
-# Performance testing with Lighthouse
-# SEO validation with Google Search Console
+# Git workflow (no CI/CD, direct to GitHub Pages)
+git add -A                                      # Stage all changes
+git commit -m "Descriptive commit message"     # Commit with clear message
+git push origin main                            # Deploy to GitHub Pages (live site)
+
+# Manual testing workflow
+# 1. Test authentication: register.html → email confirmation → login.html → area-soci.html
+# 2. Test responsive design on mobile/tablet/desktop
+# 3. Test gallery lightbox navigation (photos and videos)
+# 4. Verify AdBlock detection system with different browsers
+# 5. Check FAQ accordion and contact form functionality
+# 6. Validate all footer links and privacy/cookie management
+
+# Performance and SEO validation
+# - Use Lighthouse in Chrome DevTools for performance audit
+# - Google Search Console for SEO and indexing issues
+# - Test with real AdBlockers for detection accuracy
 ```
 
 ### Content Updates
@@ -34,13 +48,14 @@ No automated test framework is configured. Manual testing workflow:
 
 ## Architecture & Key Files
 
-### Core Structure
-- **Frontend**: Pure HTML5/CSS3/Vanilla JavaScript (no framework dependencies)
-- **Authentication**: Supabase for user management and role-based access control
-- **Hosting**: GitHub Pages with Jekyll static site generation
+### Core Architecture
+- **Frontend**: Pure HTML5/CSS3/Vanilla JavaScript (~4500 lines CSS, ~1490 lines JS)
+- **Authentication**: Supabase with role-based access control (`utente` vs `socio` roles)
+- **Hosting**: GitHub Pages (direct static files, no Jekyll processing despite presence of _config.yml)
 - **Domain**: Custom domain `associazionesbarbara.it` via CNAME
-- **Media**: Static assets in assets/images/, gallery photos in Supabase Storage, videos from Archive.org CDN
-- **Database**: Supabase handles user sessions, metadata, events management, and RLS policies
+- **Media Strategy**: Local assets in assets/images/, gallery photos via Supabase Storage buckets, videos from Archive.org CDN
+- **Database**: Supabase handles user sessions, profiles table, events table with RLS policies
+- **No Build Process**: All dependencies loaded via CDN, no package.json or compilation required
 
 ### Page Architecture
 **Public Pages (12 total):**
@@ -256,19 +271,21 @@ The site auto-deploys to GitHub Pages when changes are pushed to the main branch
 - **Sitemap**: Manual XML sitemap for search engines
 - **Custom Domain**: `associazionesbarbara.it` with SSL certificate
 
-## Important Development Notes
+## Critical Architecture Details
 
-### Working with script.js
+### Monolithic JavaScript Structure
 The main JavaScript file (`assets/js/script.js`) is a large (~1490 lines) monolithic file containing:
-- Photo and video lightbox functionality with keyboard navigation
-- Cookie consent management with Google Analytics integration
-- FAQ accordion functionality
-- Gallery initialization and carousel management
-- Authentication forms handling with advanced password validation
-- Member area profile and event management
-- Notification system integration
+- **404 detection and redirect logic** (validates against valid pages list)
+- **Photo and video lightbox systems** with keyboard navigation (ESC, arrows)
+- **Cookie consent management** with Google Analytics integration (GA4)
+- **FAQ accordion functionality** reading from data/faq.json
+- **Gallery initialization** with Swiper.js carousel and Archive.org video integration  
+- **Authentication forms** handling with Supabase integration and role validation
+- **Member area profile and event management** with CRUD operations
+- **Notification system integration** with toast notifications
+- **AdBlock detection integration** with modal enforcement
 
-When modifying this file, be aware that many functions are interdependent and changes may affect multiple page functionalities.
+**CRITICAL**: This file has many interdependent functions. Changes can affect multiple pages simultaneously. Always test authentication flow, gallery functionality, and AdBlock detection after modifications.
 
 ### Lightbox and Gallery Systems
 The site has two main lightbox systems:
@@ -289,29 +306,24 @@ The authentication system has multiple validation layers:
 - **Lightbox Navigation**: Keyboard shortcuts and touch gestures supported
 - **Loading States**: Progressive loading with skeleton screens
 
-### Development Conventions (from copilot-instruction.md)
+### Key Development Patterns
 
-#### Form Naming Conventions
-- Use consistent `id` and `name` attributes (e.g., `event-date`, `event-title`)
-- Event forms use standardized field names for JavaScript integration
-- Profile forms follow similar patterns for consistency
+#### Form and JavaScript Integration
+- **Consistent naming**: Use `id` and `name` attributes like `event-date`, `event-title` for JS integration
+- **Event forms**: Standardized field names that match JavaScript event handling in script.js
+- **Profile forms**: Follow similar patterns for consistency with Supabase integration
+- **Validation**: Client-side validation patterns already established in authentication forms
 
-#### Footer Standards
-- All pages must have uniform footer with privacy and cookie management links
-- Ensure proper HTML tag closure (especially `<span>` elements)
-- Include social media links and contact information
+#### Page Footer Requirements
+- **Uniform footer**: All pages must include privacy and cookie management links
+- **HTML validation**: Ensure proper tag closure (especially `<span>` elements - known issue area)
+- **Social links**: Include Facebook, Instagram, Telegram links as established
+- **GDPR compliance**: Cookie consent and privacy policy links required on all pages
 
-#### Commit Message Standards
-- Use descriptive, clear commit messages
-- Example: "Correzione errori HTML nei footer" for HTML fixes
-- Reference specific areas changed (e.g., "Update authentication flow")
-
-#### Best Practices
-- Maintain consistency between HTML, CSS, and JS
-- Validate HTML and JS syntax after modifications
-- Test changes across all affected pages
-- Comment complex code sections for maintainability
-- Follow existing file organization patterns
+#### Content Management Patterns
+- **FAQ system**: Edit `data/faq.json` directly (JSON array with question/answer/category structure)
+- **Gallery management**: Upload photos to Supabase Storage `gallery/foto/` bucket, videos use Archive.org CDN pattern
+- **Static content**: Images in `assets/images/` optimized under 1MB for performance
 
 ## Important Development Reminders
 
