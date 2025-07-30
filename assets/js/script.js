@@ -2252,22 +2252,20 @@ function renderPastEventsByYear(pastEvents) {
 		const isFirstYear = index === 0; // Il primo anno (più recente) è aperto di default
 
 		html += `
-      <div class="year-section" style="margin-bottom: 3rem;">
-        <div style="text-align: center; margin-bottom: 2rem;">
+      <div class="year-section" style="margin-bottom: 2rem;">
+        <div style="text-align: center;">
           <span class="section-badge year-badge" 
-                onclick="toggleYearSection('${year}')" 
+                onclick="showYearFullscreen('${year}')" 
                 id="badge-${year}"
-                style="cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem; font-size: 1rem; padding: 0.8rem 1.5rem; user-select: none; ${isFirstYear ? 'opacity: 1; transform: scale(1.05);' : 'opacity: 0.7;'}"
+                style="cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem; font-size: 1rem; padding: 0.8rem 1.5rem; user-select: none; opacity: 0.8; margin: 0.5rem;"
                 onmouseover="this.style.opacity='1'; this.style.transform='scale(1.1)'"
-                onmouseout="this.style.opacity='${isFirstYear ? '1' : '0.7'}'; this.style.transform='${isFirstYear ? 'scale(1.05)' : 'scale(1)'}'">
+                onmouseout="this.style.opacity='0.8'; this.style.transform='scale(1)'">
             <span class="year-text">${year}</span> <span class="year-count" id="count-${year}">(${yearEvents.length})</span>
-            <span class="year-toggle" id="toggle-${year}" style="font-size: 0.8rem; transition: transform 0.3s ease;">${isFirstYear ? '▼' : '▶'}</span>
+            <span style="font-size: 0.8rem; margin-left: 0.3rem;">👁</span>
           </span>
         </div>
-        <div class="year-events" id="events-${year}" style="display: ${isFirstYear ? 'block' : 'none'}; overflow: hidden; transition: all 0.4s ease; opacity: ${isFirstYear ? '1' : '0'};">
-          <div class="public-events-grid">
-            ${yearEvents.map(event => renderEventCard(event, true)).join('')}
-          </div>
+        <div class="year-events-data" id="events-${year}" style="display: none;">
+          ${yearEvents.map(event => renderEventCard(event, true)).join('')}
         </div>
       </div>
     `;
@@ -2276,32 +2274,135 @@ function renderPastEventsByYear(pastEvents) {
 	return html;
 }
 
-// Funzione per toggle delle sezioni anno
-function toggleYearSection(year) {
-	const eventsDiv = document.getElementById(`events-${year}`);
-	const toggleIcon = document.getElementById(`toggle-${year}`);
-	const badge = document.getElementById(`badge-${year}`);
+// Funzione per mostrare gli eventi di un anno in fullscreen
+function showYearFullscreen(year) {
+	const eventsData = document.getElementById(`events-${year}`);
+	if (!eventsData) return;
 	
-	if (!eventsDiv || !toggleIcon || !badge) return;
+	// Crea o trova l'overlay fullscreen
+	let overlay = document.getElementById('year-fullscreen-overlay');
+	if (!overlay) {
+		overlay = document.createElement('div');
+		overlay.id = 'year-fullscreen-overlay';
+		overlay.style.cssText = `
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(255, 255, 255, 0.98);
+			backdrop-filter: blur(10px);
+			z-index: 10000;
+			display: flex;
+			flex-direction: column;
+			opacity: 0;
+			transition: opacity 0.4s ease;
+		`;
+		document.body.appendChild(overlay);
+	}
 	
-	const isVisible = eventsDiv.style.display !== 'none';
+	// Conta il numero di eventi
+	const eventCount = eventsData.children.length;
 	
-	if (isVisible) {
-		// Chiudi la sezione
-		eventsDiv.style.display = 'none';
-		eventsDiv.style.opacity = '0';
-		toggleIcon.textContent = '▶';
-		badge.style.opacity = '0.7';
-		badge.style.transform = 'scale(1)';
-	} else {
-		// Apri la sezione
-		eventsDiv.style.display = 'block';
+	// Contenuto dell'overlay
+	overlay.innerHTML = `
+		<div style="padding: 3rem 1.5rem 1.5rem; text-align: center; position: relative;">
+			<button onclick="closeYearFullscreen()" style="
+				position: absolute;
+				top: 2rem;
+				right: 2rem;
+				background: none;
+				border: none;
+				font-size: 2rem;
+				color: #999;
+				cursor: pointer;
+				transition: all 0.2s ease;
+				width: 40px;
+				height: 40px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-radius: 50%;
+			" onmouseover="this.style.color='#E10600'; this.style.background='rgba(225,6,0,0.1)'" onmouseout="this.style.color='#999'; this.style.background='none'">
+				×
+			</button>
+			<h1 style="margin: 0 0 0.5rem; font-size: 2rem; font-weight: 300; color: #333; letter-spacing: -0.02em;">
+				${year}
+			</h1>
+			<p style="margin: 0 0 2rem; font-size: 1.1rem; color: #666; font-weight: 400;">
+				${eventCount} event${eventCount !== 1 ? 'i' : 'o'}
+			</p>
+		</div>
+		<div style="flex: 1; overflow-y: auto; padding: 0 2rem 4rem;">
+			<div class="public-events-grid" style="max-width: 1200px; margin: 0 auto;" id="fullscreen-events-grid">
+				${eventsData.innerHTML}
+			</div>
+		</div>
+	`;
+	
+	// Mostra l'overlay
+	overlay.style.display = 'flex';
+	setTimeout(() => {
+		overlay.style.opacity = '1';
+	}, 10);
+	
+	// Blocca lo scroll del body
+	document.body.style.overflow = 'hidden';
+	
+	// Aggiungi listener per ESC
+	document.addEventListener('keydown', handleEscapeKey);
+	
+	// Intercetta i click sulle card nell'overlay per gestire il comportamento
+	setTimeout(() => {
+		const eventCards = overlay.querySelectorAll('.event-card');
+		eventCards.forEach(card => {
+			const originalOnclick = card.getAttribute('onclick');
+			const eventId = originalOnclick.match(/openEventModal\('(.+?)'\)/)?.[1];
+			
+			if (eventId) {
+				// Rimuovi il click handler originale
+				card.removeAttribute('onclick');
+				
+				// Aggiungi il nuovo handler
+				card.addEventListener('click', (e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					// Chiudi l'overlay dell'anno
+					closeYearFullscreen();
+					// Aspetta che l'overlay si chiuda, poi apri la modal dell'evento
+					setTimeout(() => {
+						window.openEventModal(eventId);
+					}, 350);
+				});
+				
+				// Aggiungi anche un indicatore visivo che è cliccabile
+				card.style.cursor = 'pointer';
+			}
+		});
+	}, 50);
+}
+
+// Funzione per chiudere l'overlay fullscreen
+function closeYearFullscreen() {
+	const overlay = document.getElementById('year-fullscreen-overlay');
+	if (overlay) {
+		overlay.style.opacity = '0';
 		setTimeout(() => {
-			eventsDiv.style.opacity = '1';
-		}, 50);
-		toggleIcon.textContent = '▼';
-		badge.style.opacity = '1';
-		badge.style.transform = 'scale(1.05)';
+			overlay.style.display = 'none';
+		}, 300);
+	}
+	
+	// Ripristina lo scroll del body
+	document.body.style.overflow = 'auto';
+	
+	// Rimuovi listener per ESC
+	document.removeEventListener('keydown', handleEscapeKey);
+}
+
+// Gestione tasto ESC
+function handleEscapeKey(event) {
+	if (event.key === 'Escape') {
+		closeYearFullscreen();
 	}
 }
 
@@ -2351,6 +2452,7 @@ function setupEventCountObserver() {
 }
 
 // Rendi le funzioni disponibili globalmente
-window.toggleYearSection = toggleYearSection;
+window.showYearFullscreen = showYearFullscreen;
+window.closeYearFullscreen = closeYearFullscreen;
 window.updateYearEventCounts = updateYearEventCounts;
 window.setupEventCountObserver = setupEventCountObserver;
