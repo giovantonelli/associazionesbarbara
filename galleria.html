@@ -5,11 +5,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Galleria - Associazione Santa Barbara</title>
-  <meta name="description" content="Foto e video delle attivit� dell'Associazione Santa Barbara">
+  <meta name="description" content="Foto e video delle attività dell'Associazione Santa Barbara">
   <meta name="keywords" content="galleria, foto, video, eventi, associazione">
-  <meta name="robots" content="index, follow">
   <meta property="og:title" content="Galleria - Associazione Santa Barbara">
-  <meta property="og:description" content="Foto e video delle attivit� dell'Associazione Santa Barbara">
+  <meta property="og:description" content="Foto e video delle attività dell'Associazione Santa Barbara">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://associazionesbarbara.it/galleria.html">
   <link rel="stylesheet" href="assets/css/style.css">
@@ -20,10 +19,27 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
   <meta name="apple-mobile-web-app-title" content="S.Barbara" />
   <link rel="manifest" href="/favicon/site.webmanifest" />
-</head>
+  <script>
+                        // Define dataLayer and the gtag function
+                        window.dataLayer = window.dataLayer || [];
 
-<body>
+                        function gtag() {
+                                dataLayer.push(arguments);
+                        }
+                        // Set default consent to 'denied' as a placeholder for EU users
+                        gtag('consent', 'default', {
+                                'ad_storage': 'denied',
+                                'ad_user_data': 'denied',
+                                'ad_personalization': 'denied',
+                                'analytics_storage': 'denied',
+                                'wait_for_update': 500
+                        });
+  </script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-F465WJF33T"></script>
+  <script>
+                        gtag('js', new Date());
+                        gtag('config', 'G-F465WJF33T');
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -45,7 +61,7 @@
           <a href="chi-siamo.html" class="nav-link">Chi siamo</a>
         </li>
         <li>
-          <a href="attivita.html" class="nav-link">Attivit�</a>
+          <a href="attivita.html" class="nav-link">Attività</a>
         </li>
         <li>
           <a href="eventi.html" class="nav-link">Eventi</a>
@@ -74,11 +90,11 @@
     <div class="header-particles"></div>
     <div class="container">
       <div class="header-badge animate-slide-up">
-        <span class="badge-icon">??</span>
+        <span class="badge-icon">📸</span>
         <span class="badge-text">Galleria Multimediale</span>
       </div>
       <h1 class="animate-slide-up" style="animation-delay: 0.2s;">Galleria Foto e Video</h1>
-      <p class="animate-slide-up" style="animation-delay: 0.4s;">Scopri i momenti pi� belli delle nostre attivit� attraverso immagini e video che raccontano la nostra storia</p>
+      <p class="animate-slide-up" style="animation-delay: 0.4s;">Scopri i momenti più belli delle nostre attività attraverso immagini e video che raccontano la nostra storia</p>
       <div class="header-stats animate-slide-up" style="animation-delay: 0.6s;">
         <div class="stat-item">
           <div class="stat-number" id="photoCount">0</div>
@@ -97,11 +113,11 @@
     <div class="container">
       <div class="gallery-header animate-slide-up">
         <div class="section-badge">
-          <span class="badge-icon">??</span>
+          <span class="badge-icon">📸</span>
           <span class="badge-text">Galleria Fotografica</span>
         </div>
         <h2 class="section-title">Galleria Foto</h2>
-        <p class="gallery-subtitle">Esplora i momenti pi� belli delle nostre attivit� attraverso immagini che raccontano la nostra storia</p>
+        <p class="gallery-subtitle">Esplora i momenti più belli delle nostre attività attraverso immagini che raccontano la nostra storia</p>
         <div class="section-decorative-line"></div>
       </div>
       <div class="loading-photos enhanced-loading animate-fade-in" id="loadingPhotos">
@@ -119,10 +135,10 @@
       <div class="swiper photo-swiper enhanced-swiper animate-fade-in" id="photoSwiper" style="display: none;">
         <div class="swiper-wrapper" id="photoSwiperWrapper" style="padding-bottom:0; margin-bottom:0;"></div>
         <div class="swiper-button-next enhanced-nav-btn">
-          <span class="nav-icon">?</span>
+          <span class="nav-icon">→</span>
         </div>
         <div class="swiper-button-prev enhanced-nav-btn">
-          <span class="nav-icon">?</span>
+          <span class="nav-icon">←</span>
         </div>
         <div class="swiper-pagination enhanced-pagination"></div>
       </div>
@@ -133,11 +149,11 @@
     <div class="container">
       <div class="gallery-header animate-slide-up">
         <div class="section-badge">
-          <span class="badge-icon">??</span>
+          <span class="badge-icon">🎬</span>
           <span class="badge-text">Galleria Video</span>
         </div>
         <h2 class="section-title">Galleria Video</h2>
-        <p class="gallery-subtitle">I momenti pi� emozionanti delle nostre attivit� e dei nostri eventi catturati in video</p>
+        <p class="gallery-subtitle">I momenti più emozionanti delle nostre attività e dei nostri eventi catturati in video</p>
         <div class="section-decorative-line"></div>
       </div>
       <div class="loading-videos enhanced-loading animate-fade-in" id="loadingVideos">
@@ -155,10 +171,10 @@
       <div class="swiper video-swiper enhanced-swiper animate-fade-in" id="videoSwiper" style="display: none;">
         <div class="swiper-wrapper" id="videoSwiperWrapper"></div>
         <div class="swiper-button-next enhanced-nav-btn">
-          <span class="nav-icon">?</span>
+          <span class="nav-icon">→</span>
         </div>
         <div class="swiper-button-prev enhanced-nav-btn">
-          <span class="nav-icon">?</span>
+          <span class="nav-icon">←</span>
         </div>
         <div class="swiper-pagination enhanced-pagination"></div>
       </div>
@@ -168,10 +184,10 @@
     <div class="overlay-background"></div>
     <div class="video-player enhanced-player">
       <button class="close-button enhanced-close-btn" id="closeButton">
-        <span class="close-icon">�</span>
+        <span class="close-icon">×</span>
       </button>
       <button class="video-lightbox-nav video-lightbox-prev enhanced-video-nav" aria-label="Precedente">
-        <span class="nav-arrow">�</span>
+        <span class="nav-arrow">‹</span>
       </button>
       <div class="video-container">
         <video id="overlayVideo" controls="" class="enhanced-video">
@@ -180,18 +196,18 @@
         </video>
       </div>
       <button class="video-lightbox-nav video-lightbox-next enhanced-video-nav" aria-label="Successivo">
-        <span class="nav-arrow">�</span>
+        <span class="nav-arrow">›</span>
       </button>
     </div>
   </div>
   <div class="lightbox enhanced-lightbox" id="photo-lightbox">
     <div class="lightbox-background"></div>
     <button class="photo-lightbox-nav photo-lightbox-prev enhanced-photo-nav" aria-label="Precedente">
-      <span class="nav-arrow">�</span>
+      <span class="nav-arrow">‹</span>
     </button>
     <div class="lightbox-content enhanced-lightbox-content">
       <button class="lightbox-close enhanced-close-btn" aria-label="Chiudi">
-        <span class="close-icon">�</span>
+        <span class="close-icon">×</span>
       </button>
       <div class="image-container" style="overflow: hidden; position: relative;">
         <img class="lightbox-image enhanced-image" src="" alt="Foto" style="
@@ -224,7 +240,7 @@
                 align-items: center;
                 justify-content: center;
                 transition: all 0.3s ease;
-              " title="Riduci zoom">-</button>
+              " title="Riduci zoom">−</button>
               
               <button class="action-btn" onclick="resetZoom()" style="
                 background: rgba(225, 6, 0, 0.8);
@@ -269,7 +285,7 @@
       </div>
     </div>
     <button class="photo-lightbox-nav photo-lightbox-next enhanced-photo-nav" aria-label="Successivo">
-      <span class="nav-arrow">�</span>
+      <span class="nav-arrow">›</span>
     </button>
   </div>
     <footer class="footer enhanced-footer">
@@ -278,16 +294,16 @@
       <div class="footer-main">
         <div class="footer-brand brand-card">
           <img src="assets/images/logo.svg" alt="Associazione Santa Barbara" class="footer-logo">
-          <h4>Associazione Santa Barbara APS</h4>
+          <h4>Associazione Santa Barbara</h4>
           <p>
-            Preserviamo le tradizioni di Grumo Appula dal 2008 con il Corteo Storico e attivit� culturali che valorizzano il nostro patrimonio.
+            Preserviamo le tradizioni di Grumo Appula dal 2008 con il Corteo Storico e attività culturali che valorizzano il nostro patrimonio.
           </p>
           <div class="contact-info-footer">
             <p>
-              <span>??</span> Via N. Mastroserio 12 - Grumo Appula (BA)
+              <span>📍</span> Via N. Mastroserio 12 - Grumo Appula (BA)
             </p>
             <p>
-              <span>??</span> info@associazionesbarbara.it
+              <span>📧</span> info@associazionesbarbara.it
             </p>
             <p>
               <b>Contattaci per maggiori informazioni</b>
@@ -298,38 +314,38 @@
         <div class="footer-sections">
           <div class="footer-section links-card">
             <div>
-              <h4>?? Link Utili</h4>
+              <h4>🔗 Link Utili</h4>
               <ul>
                 <li>
                   <a href="chi-siamo.html">
-                    <span>?</span> Chi siamo
+                    <span>▶</span> Chi siamo
                   </a>
                 </li>
                 <li>
                   <a href="eventi.html">
-                    <span>?</span> Eventi
+                    <span>▶</span> Eventi
                   </a>
                 </li>
                 <li>
                   <a href="galleria.html">
-                    <span>?</span> Galleria
+                    <span>▶</span> Galleria
                   </a>
                 </li>
                 <li>
                   <a href="attivita.html">
-                    <span>?</span> Attivit�
+                    <span>▶</span> Attività
                   </a>
                 </li>
                 <li>
                   <a href="faq.html">
-                    <span>?</span> FAQ
+                    <span>▶</span> FAQ
                   </a>
                 </li>
               </ul>
             </div>
             
             <div class="social-section">
-              <p>?? Seguici sui social:</p>
+              <p>🌐 Seguici sui social:</p>
               <div class="social-links">
                 <a href="https://www.facebook.com/santabarbara.grumoappula" class="enhanced-social" aria-label="Facebook">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentcolor">
@@ -356,19 +372,19 @@
           </div>
 
           <div class="footer-section support-section">
-            <h4>?? Sostieni l'Associazione</h4>
+            <h4>🤝 Sostieni l'Associazione</h4>
             <p>
-              Aiutaci a preservare le tradizioni e organizzare eventi per la comunit�. Il tuo supporto � fondamentale per mantenere viva la storia e la cultura di Grumo Appula.
+              Aiutaci a preservare le tradizioni e organizzare eventi per la comunità. Il tuo supporto è fondamentale per mantenere viva la storia e la cultura di Grumo Appula.
             </p>
             <p>
               Con il tuo contributo possiamo continuare a organizzare il Corteo Storico, eventi culturali, iniziative educative e progetti per valorizzare il nostro patrimonio storico-artistico.
             </p>
             <p>
-              <strong>Ogni donazione, grande o piccola, fa la differenza!</strong> Insieme possiamo costruire un futuro migliore per la nostra comunit�.
+              <strong>Ogni donazione, grande o piccola, fa la differenza!</strong> Insieme possiamo costruire un futuro migliore per la nostra comunità.
             </p>
             <div class="sponsor-btn-container">
               <a href="contatti.html" class="sponsor-btn">
-                ?? Diventa Sponsor
+                ❤️ Diventa Sponsor
               </a>
             </div>
           </div>
@@ -376,7 +392,7 @@
       </div>
 
       <div class="footer-bottom">
-        <p>� 2008- <span id="current-year"></span> Associazione Santa Barbara. Tutti i diritti riservati.<br>
+        <p>&copy; 2008 - <span id="current-year"></span> Associazione Santa Barbara APS. Tutti i diritti riservati.<br>
         <span class="privacy-links"><a href="privacy.html">PRIVACY POLICY</a> <span class="separator">|</span> <a href="#" onclick="window.cookieConsent && window.cookieConsent.open(); return false;">GESTISCI COOKIE</a></span></p>
       </div>
     </div>
@@ -384,7 +400,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script> 
   <script src="assets/js/notifications.js"></script> 
   <script src="assets/js/script.js"></script> 
+ 
   <script src="assets/js/adblock-detector-v2.js"></script> 
   <script src="assets/js/adblock-integration-v2.js"></script>
+  
 </body>
 </html>

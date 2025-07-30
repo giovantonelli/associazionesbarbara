@@ -265,7 +265,7 @@ gtag('config', 'G-F465WJF33T');
         <div class="col-md-3 animate-fade-up" data-delay="300">
           <div class="enhanced-stat">
             <div class="stat-icon">🚀</div>
-            <div class="stat-number counter" data-target="8" id="progetti-counter">
+            <div class="stat-number counter" data-target="3" id="progetti-counter">
               0
             </div>
             <div class="stat-label">
@@ -294,7 +294,7 @@ gtag('config', 'G-F465WJF33T');
       <div class="footer-main">
         <div class="footer-brand brand-card">
           <img src="assets/images/logo.svg" alt="Associazione Santa Barbara" class="footer-logo">
-          <h4>Associazione Santa Barbara APS</h4>
+          <h4>Associazione Santa Barbara</h4>
           <p>
             Preserviamo le tradizioni di Grumo Appula dal 2008 con il Corteo Storico e attività culturali che valorizzano il nostro patrimonio.
           </p>
@@ -303,7 +303,7 @@ gtag('config', 'G-F465WJF33T');
               <span>📍</span> Via N. Mastroserio 12 - Grumo Appula (BA)
             </p>
             <p>
-              <span>📧</span> info@associazionesbarbara.it
+              <span>📧</span> <a href="mailto:info@associazionesbarbara.it">info@associazionesbarbara.it</a>
             </p>
             <p>
               <b>Contattaci per maggiori informazioni</b>
@@ -392,7 +392,7 @@ gtag('config', 'G-F465WJF33T');
       </div>
 
       <div class="footer-bottom">
-        <p>© 2008- <span id="current-year"></span> Associazione Santa Barbara. Tutti i diritti riservati.<br>
+        <p>&copy; 2008 - <span id="current-year"></span> Associazione Santa Barbara APS. Tutti i diritti riservati.<br>
         <span class="privacy-links"><a href="privacy.html">PRIVACY POLICY</a> <span class="separator">|</span> <a href="#" onclick="window.cookieConsent && window.cookieConsent.open(); return false;">GESTISCI COOKIE</a></span></p>
       </div>
     </div>
@@ -512,20 +512,31 @@ gtag('config', 'G-F465WJF33T');
         observer.observe(el);
       });
       
-      // Counter animation
-      function animateCounter(element, target, duration = 2000) {
+      // Counter animation - more fluid
+      function animateCounter(element, target, duration = 1500) {
         let start = 0;
-        const increment = target / (duration / 16);
+        const startTime = performance.now();
         
-        const timer = setInterval(() => {
-          start += increment;
-          element.textContent = Math.floor(start);
+        function easeOutQuart(t) {
+          return 1 - (--t) * t * t * t;
+        }
+        
+        function updateCounter(currentTime) {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const easedProgress = easeOutQuart(progress);
           
-          if (start >= target) {
+          const current = Math.floor(easedProgress * target);
+          element.textContent = current;
+          
+          if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+          } else {
             element.textContent = target + (target >= 100 ? '+' : '');
-            clearInterval(timer);
           }
-        }, 16);
+        }
+        
+        requestAnimationFrame(updateCounter);
       }
       
       // Stats counter observer with mobile-friendly settings
