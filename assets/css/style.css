@@ -1938,7 +1938,6 @@ section {
 
 .admin-table th,
 .category-btn,
-.event-type-badge,
 .faq-category-badge,
 .user-role {
 	text-transform: uppercase;
@@ -2864,7 +2863,7 @@ section {
 
 .event-card {
 	position: relative;
-	height: 100%
+	height: auto
 }
 
 .event-card .card-img-container {
@@ -2910,34 +2909,10 @@ section {
 	z-index: 10
 }
 
-.event-type-badge {
-	display: inline-block;
-	background: linear-gradient(135deg, #2196f3, #03a9f4);
-	color: #fff;
-	padding: .4rem 1rem;
-	border-radius: 15px;
-	font-size: .85rem;
-	font-weight: 600;
-	margin-bottom: 1rem;
-	box-shadow: 0 2px 8px rgba(33, 150, 243, .3)
-}
-
 .dashboard-card,
 .event-summary,
 .events-management {
 	box-shadow: var(--shadow)
-}
-
-.event-type-badge.culturale {
-	background: linear-gradient(135deg, #9c27b0, #e91e63)
-}
-
-.event-type-badge.sociale {
-	background: linear-gradient(135deg, #4caf50, #8bc34a)
-}
-
-.event-type-badge.religioso {
-	background: linear-gradient(135deg, #ff9800, #ffc107)
 }
 
 .past-event {
@@ -2965,10 +2940,12 @@ section {
 
 .public-events-grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+	grid-template-columns: repeat(3, 1fr);
 	gap: 2rem;
-	margin: 2rem 0;
-	padding: 0 1rem
+	margin: 2rem auto;
+	padding: 0 1rem;
+	justify-items: center;
+	max-width: 1200px
 }
 
 .past-events-section {
@@ -4644,6 +4621,12 @@ section {
 		grid-template-columns: 1fr;
 		gap: 1.5rem;
 		padding: 0 .5rem
+	}
+
+	@media (min-width: 768px) and (max-width: 1024px) {
+		.public-events-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
 	}
 
 	.event-modal .modal-content {
@@ -8523,6 +8506,9 @@ section {
 	position: relative;
 	z-index: 10;
 	background: white;
+	max-width: 1200px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 
@@ -8548,4 +8534,11 @@ section {
 
 .eventi-main .section-badge {
 	color: #fff !important;
+}
+
+.eventi-main .animate-slide-right,
+.eventi-main .animate-slide-left {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 1rem;
 }

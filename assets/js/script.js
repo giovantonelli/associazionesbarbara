@@ -1039,14 +1039,11 @@ function renderEventCard(e, t = !1) {
 		n = e.event_date ? new Date(e.event_date).toLocaleDateString("it-IT") : "",
 		o = e.event_time ? `Ore ${e.event_time}` : "",
 		a = e.location ? `<span style="font-size:1.05em;">${e.location}</span>` : "",
-		r = e.category || "generale",
-		l = `<span class="event-type-badge ${r.toLowerCase()}">${r}</span>`,
 		s = e.created_at && new Date - new Date(e.created_at) < 6048e5;
 	return `
     <article class="card enhanced-card event-card ${t?"past-event":""} ${s&&!t?"pulse-glow":""}" data-event-id="${e.id}" onclick="openEventModal('${e.id}')" style="cursor: pointer;">
       ${i}
       <div class="card-content">
-        ${t?"":l}
         <h3 style="color:${t?"#b0b0b0":"#E10600"};font-size:1.4em;margin-bottom:0.8em;font-weight:600;">${e.title||"Evento"}</h3>
         <div style="font-size:1.1em;color:${t?"#888":"#333"};margin-bottom:1em;">
           <div style="margin-bottom:0.5em;"><strong style="color:${t?"#999":"#E10600"};">${n}</strong></div>
