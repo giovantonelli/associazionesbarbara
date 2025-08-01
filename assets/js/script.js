@@ -173,7 +173,32 @@ function initGallery() {
 			let i = e.getAttribute("data-video"),
 				n = e.querySelector(".video-info h3")?.textContent || "",
 				o = e.querySelector(".video-info p")?.textContent || "";
-			i ? (g.src = i, g.currentTime = 0, g.play()) : g.src = "", f.textContent = n, p.textContent = o, u.classList.add("active"), u.focus(), document.body.style.overflow = "hidden"
+			// Validazione URL video: solo http(s) o path relativo, estensione video
+			function isSafeVideoUrl(url) {
+				if (!url) return false;
+				// Solo http(s) o path relativo, termina con .mp4, .webm, .ogg
+				const allowedExt = /\.(mp4|webm|ogg)$/i;
+				try {
+					const u = new URL(url, window.location.origin);
+					if ((u.protocol === "http:" || u.protocol === "https:") && allowedExt.test(u.pathname)) return true;
+				} catch {
+					// Se non è un URL assoluto, verifica path relativo
+					if (allowedExt.test(url) && !/^javascript:/i.test(url)) return true;
+				}
+				return false;
+			}
+			if (isSafeVideoUrl(i)) {
+				g.src = i;
+				g.currentTime = 0;
+				g.play();
+			} else {
+				g.src = "";
+			}
+			f.textContent = n;
+			p.textContent = o;
+			u.classList.add("active");
+			u.focus();
+			document.body.style.overflow = "hidden";
 		}), e.addEventListener("keydown", function(t) {
 			("Enter" === t.key || " " === t.key) && (t.preventDefault(), e.click())
 		})
@@ -853,19 +878,19 @@ function renderAttivita(e) {
 	t && (t.innerHTML = "", e.forEach((e, i) => {
 		let n = document.createElement("div");
 		n.className = "col-md-4 animate-fade-up", n.setAttribute("data-delay", 100 * i), n.innerHTML = `
-      <div class="enhanced-card" onclick="showActivityDetails('dettagli-${e.id}')">
-        <div class="card-img-container">
-          <img src="${e.image_url}" alt="${e.title}" class="card-img">
-          <div class="card-overlay">
-            <div class="overlay-icon">${e.emoji}</div>
-          </div>
-        </div>
-        <div class="enhanced-card-content">
-          <h3>${e.title}</h3>
-          <p>${e.short_description}</p>
-        </div>
-      </div>
-    `, t.appendChild(n)
+	  <div class="enhanced-card" onclick="showActivityDetails('dettagli-${e.id}')">
+		<div class="card-img-container">
+		  <img src="${e.image_url}" alt="${e.title}" class="card-img">
+		  <div class="card-overlay">
+			<div class="overlay-icon">${e.emoji}</div>
+		  </div>
+		</div>
+		<div class="enhanced-card-content">
+		  <h3>${e.title}</h3>
+		  <p>${e.short_description}</p>
+		</div>
+	  </div>
+	`, t.appendChild(n)
 	}))
 }
 
@@ -878,28 +903,28 @@ function renderActivityDetails(e) {
 		e.photo1_url && (n += `<img src="${e.photo1_url}" alt="${e.title} foto 1" onclick="openActivityLightbox('${e.photo1_url}', '${e.title} - Foto 1')">`), e.photo2_url && (n += `<img src="${e.photo2_url}" alt="${e.title} foto 2" onclick="openActivityLightbox('${e.photo2_url}', '${e.title} - Foto 2')">`);
 		let o = "";
 		(e.cubital1 || e.cubital2 || e.cubital3) && (o = "<ul>", e.cubital1 && (o += `<li>${e.cubital1}</li>`), e.cubital2 && (o += `<li>${e.cubital2}</li>`), e.cubital3 && (o += `<li>${e.cubital3}</li>`), o += "</ul>"), i.innerHTML = `
-      <h3>${e.title}</h3>
-      <div class="activity-content">
-        <div class="activity-images">
-          ${n}
-        </div>
-        <div class="activity-text">
-          <p>${e.long_description}</p>
-          ${o}
-        </div>
-      </div>
-    `, t.appendChild(i)
+	  <h3>${e.title}</h3>
+	  <div class="activity-content">
+		<div class="activity-images">
+		  ${n}
+		</div>
+		<div class="activity-text">
+		  <p>${e.long_description}</p>
+		  ${o}
+		</div>
+	  </div>
+	`, t.appendChild(i)
 	}))
 }
 
 function openLightbox(e) {
 	let t = document.getElementById("photo-lightbox");
 	t || ((t = document.createElement("div")).id = "photo-lightbox", t.className = "photo-lightbox", t.innerHTML = `
-      <div class="lightbox-content">
-        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
-        <img id="lightbox-image" src="" alt="Foto ingrandita">
-      </div>
-    `, document.body.appendChild(t)), document.getElementById("lightbox-image").src = e, t.style.display = "flex", document.body.style.overflow = "hidden"
+	  <div class="lightbox-content">
+		<span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+		<img id="lightbox-image" src="" alt="Foto ingrandita">
+	  </div>
+	`, document.body.appendChild(t)), document.getElementById("lightbox-image").src = e, t.style.display = "flex", document.body.style.overflow = "hidden"
 }
 
 function closeLightbox() {
@@ -1049,156 +1074,156 @@ async function loadPublicEvents() {
 
 function renderEventCard(e, t = !1) {
 	let i = e.image_url ? `
-    <div class="card-img-container" onclick="event.stopPropagation(); openImageLightbox('${e.image_url}');" style="cursor: pointer;">
-      <img src="${e.image_url}" alt="Locandina evento" class="card-img" ${t?'style="filter:grayscale(0.7) contrast(0.95);"':""}>
-      <div class="card-overlay">
-        <span style="color: white; font-weight: 600;">🔍 Ingrandisci immagine</span>
-      </div>
-      ${t?"":'<div class="event-date-badge">'+(e.event_date?new Date(e.event_date).getDate()+"/"+(new Date(e.event_date).getMonth()+1):"TBD")+"</div>"}
-    </div>
+	<div class="card-img-container" onclick="event.stopPropagation(); openImageLightbox('${e.image_url}');" style="cursor: pointer;">
+	  <img src="${e.image_url}" alt="Locandina evento" class="card-img" ${t?'style="filter:grayscale(0.7) contrast(0.95);"':""}>
+	  <div class="card-overlay">
+		<span style="color: white; font-weight: 600;">🔍 Ingrandisci immagine</span>
+	  </div>
+	  ${t?"":'<div class="event-date-badge">'+(e.event_date?new Date(e.event_date).getDate()+"/"+(new Date(e.event_date).getMonth()+1):"TBD")+"</div>"}
+	</div>
   ` : "",
 		n = e.event_date ? new Date(e.event_date).toLocaleDateString("it-IT") : "",
 		o = e.event_time ? `Ore ${e.event_time}` : "",
 		a = e.location ? `<span style="font-size:1.05em;">${e.location}</span>` : "",
 		s = e.created_at && new Date - new Date(e.created_at) < 6048e5;
 	return `
-    <article class="card enhanced-card event-card ${t?"past-event":""} ${s&&!t?"pulse-glow":""}" data-event-id="${e.id}" onclick="openEventModal('${e.id}')" style="cursor: pointer;">
-      ${i}
-      <div class="card-content">
-        <h3 style="color:${t?"#b0b0b0":"#E10600"};font-size:1.4em;margin-bottom:0.8em;font-weight:600;">${e.title||"Evento"}</h3>
-        <div style="font-size:1.1em;color:${t?"#888":"#333"};margin-bottom:1em;">
-          <div style="margin-bottom:0.5em;"><strong style="color:${t?"#999":"#E10600"};">${n}</strong></div>
-          ${o?`<div style="font-size:1em;color:${t?"#b0b0b0":"#666"};margin-bottom:0.5em;">${o}</div>`:""}
-          ${a?`<div style="color:${t?"#aaa":"#555"};">${a}</div>`:""}
-        </div>
-        <p style="font-size:1em;color:${t?"#aaa":"#555"};line-height:1.6;margin-bottom:1em;">${e.description||""}</p>
-        ${e.external_link&&!t?`<a href="${e.external_link}" target="_blank" onclick="event.stopPropagation();" style="display:inline-block;background:linear-gradient(135deg, #E10600, #FF4500);color:#fff;padding:0.6em 1.5em;border-radius:20px;font-size:1em;text-decoration:none;box-shadow:0 4px 15px rgba(225,6,0,0.3);transition:all 0.3s ease;font-weight:600;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(225,6,0,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 15px rgba(225,6,0,0.3)'">🔗 Info evento</a>`:""}
-      </div>
-    </article>
+	<article class="card enhanced-card event-card ${t?"past-event":""} ${s&&!t?"pulse-glow":""}" data-event-id="${e.id}" onclick="openEventModal('${e.id}')" style="cursor: pointer;">
+	  ${i}
+	  <div class="card-content">
+		<h3 style="color:${t?"#b0b0b0":"#E10600"};font-size:1.4em;margin-bottom:0.8em;font-weight:600;">${e.title||"Evento"}</h3>
+		<div style="font-size:1.1em;color:${t?"#888":"#333"};margin-bottom:1em;">
+		  <div style="margin-bottom:0.5em;"><strong style="color:${t?"#999":"#E10600"};">${n}</strong></div>
+		  ${o?`<div style="font-size:1em;color:${t?"#b0b0b0":"#666"};margin-bottom:0.5em;">${o}</div>`:""}
+		  ${a?`<div style="color:${t?"#aaa":"#555"};">${a}</div>`:""}
+		</div>
+		<p style="font-size:1em;color:${t?"#aaa":"#555"};line-height:1.6;margin-bottom:1em;">${e.description||""}</p>
+		${e.external_link&&!t?`<a href="${e.external_link}" target="_blank" onclick="event.stopPropagation();" style="display:inline-block;background:linear-gradient(135deg, #E10600, #FF4500);color:#fff;padding:0.6em 1.5em;border-radius:20px;font-size:1em;text-decoration:none;box-shadow:0 4px 15px rgba(225,6,0,0.3);transition:all 0.3s ease;font-weight:600;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(225,6,0,0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 15px rgba(225,6,0,0.3)'">🔗 Info evento</a>`:""}
+	  </div>
+	</article>
   `
 }
 
 function createImageLightbox() {
 	let e = document.createElement("div");
 	return e.id = "image-lightbox", e.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0,0,0,0.9);
-    z-index: 10000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    overflow: hidden;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(0,0,0,0.9);
+	z-index: 10000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	overflow: hidden;
   `, e.innerHTML = `
-    <div id="lightbox-container" style="position: relative; width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-      <img id="lightbox-img" src="" alt="Immagine evento" style="
-        max-width: 95vw;
-        max-height: 95vh;
-        width: auto;
-        height: auto;
-        object-fit: contain;
-        border-radius: 10px;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-        cursor: grab;
-        transition: transform 0.3s ease;
-        transform-origin: center center;
-      ">
-      
-      <!-- Close button -->
-      <button onclick="closeImageLightbox()" style="
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        background: rgba(225, 6, 0, 0.8);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        font-size: 28px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-        z-index: 10001;
-      " onmouseover="this.style.transform='scale(1.1)';this.style.background='#E10600'" onmouseout="this.style.transform='scale(1)';this.style.background='rgba(225, 6, 0, 0.8)'">&times;</button>
-      
-      <!-- Zoom controls -->
-      <div id="zoom-controls" style="
-        position: absolute;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        gap: 10px;
-        background: rgba(0,0,0,0.7);
-        padding: 10px 15px;
-        border-radius: 25px;
-        z-index: 10001;
-      ">
-        <button onclick="zoomImage(-0.2)" style="
-          background: rgba(225, 6, 0, 0.8);
-          color: white;
-          border: none;
-          border-radius: 50%;
-          width: 40px;
-          height: 40px;
-          font-size: 20px;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.3s ease;
-        " title="Riduci zoom">−</button>
-        
-        <button onclick="resetZoom()" style="
-          background: rgba(225, 6, 0, 0.8);
-          color: white;
-          border: none;
-          border-radius: 20px;
-          padding: 8px 12px;
-          font-size: 12px;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          font-weight: 600;
-        " title="Reset zoom">RESET</button>
-        
-        <button onclick="zoomImage(0.2)" style="
-          background: rgba(225, 6, 0, 0.8);
-          color: white;
-          border: none;
-          border-radius: 50%;
-          width: 40px;
-          height: 40px;
-          font-size: 20px;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.3s ease;
-        " title="Aumenta zoom">+</button>
-      </div>
-      
-      <!-- Zoom info -->
-      <div id="zoom-info" style="
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        background: rgba(0,0,0,0.7);
-        color: white;
-        padding: 8px 12px;
-        border-radius: 15px;
-        font-size: 14px;
-        font-weight: 600;
-        z-index: 10001;
-      ">100%</div>
-    </div>
+	<div id="lightbox-container" style="position: relative; width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+	  <img id="lightbox-img" src="" alt="Immagine evento" style="
+		max-width: 95vw;
+		max-height: 95vh;
+		width: auto;
+		height: auto;
+		object-fit: contain;
+		border-radius: 10px;
+		box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+		cursor: grab;
+		transition: transform 0.3s ease;
+		transform-origin: center center;
+	  ">
+	  
+	  <!-- Close button -->
+	  <button onclick="closeImageLightbox()" style="
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		background: rgba(225, 6, 0, 0.8);
+		color: white;
+		border: none;
+		border-radius: 50%;
+		width: 50px;
+		height: 50px;
+		font-size: 28px;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.3s ease;
+		z-index: 10001;
+	  " onmouseover="this.style.transform='scale(1.1)';this.style.background='#E10600'" onmouseout="this.style.transform='scale(1)';this.style.background='rgba(225, 6, 0, 0.8)'">&times;</button>
+	  
+	  <!-- Zoom controls -->
+	  <div id="zoom-controls" style="
+		position: absolute;
+		bottom: 30px;
+		left: 50%;
+		transform: translateX(-50%);
+		display: flex;
+		gap: 10px;
+		background: rgba(0,0,0,0.7);
+		padding: 10px 15px;
+		border-radius: 25px;
+		z-index: 10001;
+	  ">
+		<button onclick="zoomImage(-0.2)" style="
+		  background: rgba(225, 6, 0, 0.8);
+		  color: white;
+		  border: none;
+		  border-radius: 50%;
+		  width: 40px;
+		  height: 40px;
+		  font-size: 20px;
+		  cursor: pointer;
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  transition: all 0.3s ease;
+		" title="Riduci zoom">−</button>
+		
+		<button onclick="resetZoom()" style="
+		  background: rgba(225, 6, 0, 0.8);
+		  color: white;
+		  border: none;
+		  border-radius: 20px;
+		  padding: 8px 12px;
+		  font-size: 12px;
+		  cursor: pointer;
+		  transition: all 0.3s ease;
+		  font-weight: 600;
+		" title="Reset zoom">RESET</button>
+		
+		<button onclick="zoomImage(0.2)" style="
+		  background: rgba(225, 6, 0, 0.8);
+		  color: white;
+		  border: none;
+		  border-radius: 50%;
+		  width: 40px;
+		  height: 40px;
+		  font-size: 20px;
+		  cursor: pointer;
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  transition: all 0.3s ease;
+		" title="Aumenta zoom">+</button>
+	  </div>
+	  
+	  <!-- Zoom info -->
+	  <div id="zoom-info" style="
+		position: absolute;
+		top: 20px;
+		left: 20px;
+		background: rgba(0,0,0,0.7);
+		color: white;
+		padding: 8px 12px;
+		border-radius: 15px;
+		font-size: 14px;
+		font-weight: 600;
+		z-index: 10001;
+	  ">100%</div>
+	</div>
   `, document.body.appendChild(e), setupLightboxInteractions(), e
 }
 
@@ -1280,13 +1305,13 @@ function setupEventiHoverEffects() {
 		e.style.animationDelay = 150 * t + "ms", e.addEventListener("mouseenter", function() {
 			let e = document.createElement("div");
 			e.style.cssText = `
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: radial-gradient(circle, rgba(225,6,0,0.1) 0%, transparent 70%);
-        pointer-events: none;
-        animation: ripple 0.6s ease-out;
-        border-radius: 20px;
-      `, this.appendChild(e), setTimeout(() => {
+		position: absolute;
+		top: 0; left: 0; right: 0; bottom: 0;
+		background: radial-gradient(circle, rgba(225,6,0,0.1) 0%, transparent 70%);
+		pointer-events: none;
+		animation: ripple 0.6s ease-out;
+		border-radius: 20px;
+	  `, this.appendChild(e), setTimeout(() => {
 				e.parentNode && e.remove()
 			}, 600)
 		})
@@ -1314,10 +1339,10 @@ function checkLoggedInUser() {
 function addEventiStyles() {
 	let e = document.createElement("style");
 	e.textContent = `
-    @keyframes ripple {
-      0% { transform: scale(0); opacity: 1; }
-      100% { transform: scale(1); opacity: 0; }
-    }
+	@keyframes ripple {
+	  0% { transform: scale(0); opacity: 1; }
+	  100% { transform: scale(1); opacity: 0; }
+	}
   `, document.head.appendChild(e)
 }
 
@@ -1341,27 +1366,27 @@ function showNotification(e, t = "info", i = 3e3) {
 			a = "linear-gradient(135deg, #2196F3, #1976d2)", r = "white", l = "ℹ️"
 	}
 	o.style.cssText = `
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: ${a};
-    color: ${r};
-    padding: 1rem 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-    z-index: 10001;
-    font-weight: 500;
-    font-size: 0.95rem;
-    max-width: 350px;
-    transform: translateX(400px);
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    cursor: pointer;
-    backdrop-filter: blur(10px);
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	background: ${a};
+	color: ${r};
+	padding: 1rem 1.5rem;
+	border-radius: 8px;
+	box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+	z-index: 10001;
+	font-weight: 500;
+	font-size: 0.95rem;
+	max-width: 350px;
+	transform: translateX(400px);
+	transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	cursor: pointer;
+	backdrop-filter: blur(10px);
   `, o.innerHTML = `
-    <div style="display: flex; align-items: center; gap: 0.5rem;">
-      <span style="font-size: 1.2rem;">${l}</span>
-      <span>${e}</span>
-    </div>
+	<div style="display: flex; align-items: center; gap: 0.5rem;">
+	  <span style="font-size: 1.2rem;">${l}</span>
+	  <span>${e}</span>
+	</div>
   `, document.body.appendChild(o), requestAnimationFrame(() => {
 		o.style.transform = "translateX(0)"
 	});
@@ -1456,10 +1481,10 @@ function initGalleriaPage() {
 					f.className = "swiper-slide photo-slide", f.setAttribute("data-image", m.publicUrl);
 					let p = d.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ");
 					f.innerHTML = `
-            <div class="photo-thumbnail">
-              <img src="${m.publicUrl}" alt="${p}" loading="lazy" onerror="this.parentElement.parentElement.style.display='none'">
-            </div>
-          `, n.appendChild(f)
+			<div class="photo-thumbnail">
+			  <img src="${m.publicUrl}" alt="${p}" loading="lazy" onerror="this.parentElement.parentElement.style.display='none'">
+			</div>
+		  `, n.appendChild(f)
 				}
 			}
 			if (0 === s) {
@@ -1709,11 +1734,11 @@ function initGalleriaPage() {
 					g.className = "swiper-slide video-slide", g.setAttribute("data-video", c);
 					let m = d.replace(/[_-]/g, " ");
 					g.innerHTML = `
-        <div class="video-thumbnail">
-          <img src="${u}" alt="${m}" loading="lazy" onerror="this.style.display='none'">
-          <div class="play-button"></div>
-        </div>
-      `, o.appendChild(g)
+		<div class="video-thumbnail">
+		  <img src="${u}" alt="${m}" loading="lazy" onerror="this.style.display='none'">
+		  <div class="play-button"></div>
+		</div>
+	  `, o.appendChild(g)
 				}
 				if (0 === r) {
 					t.innerHTML = "<p>Nessun video valido trovato su archive.org</p>";
@@ -2143,10 +2168,10 @@ window.openEventModal = async function(e) {
 		return
 	}
 	i.innerHTML = `
-    <div style="text-align:center;color:#E10600;padding:3rem;">
-      <div style="display: inline-block; width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #E10600; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem;"></div>
-      <div style="font-size: 1.1rem; font-weight: 500;">Caricamento evento...</div>
-    </div>
+	<div style="text-align:center;color:#E10600;padding:3rem;">
+	  <div style="display: inline-block; width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #E10600; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem;"></div>
+	  <div style="font-size: 1.1rem; font-weight: 500;">Caricamento evento...</div>
+	</div>
   `, t.style.display = "flex", t.style.opacity = "0", t.classList.add("active"), requestAnimationFrame(() => {
 		t.style.transition = "opacity 0.3s ease", t.style.opacity = "1"
 	}), document.body.style.overflow = "hidden";
@@ -2159,23 +2184,23 @@ window.openEventModal = async function(e) {
 		if (!n) throw Error("Evento non trovato");
 		let a = "";
 		if (n.image_url && (a += `
-        <div style="margin-bottom: 1.5rem; text-align: center;">
-          <img src="${n.image_url}" alt="Locandina evento" 
-               style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.15);"
-               onclick="openImageLightbox('${n.image_url}')" 
-               onmouseover="this.style.cursor='pointer'; this.style.transform='scale(1.02)'; this.style.transition='transform 0.3s ease'"
-               onmouseout="this.style.transform='scale(1)'">
-          <div style="font-size: 0.9rem; color: #888; margin-top: 0.5rem; font-style: italic;">📸 Clicca per ingrandire</div>
-        </div>
-      `), a += `
-      <h2 style="color: #E10600; margin-bottom: 1rem; font-size: 1.8rem; font-weight: 700; line-height: 1.3; text-align: center;">
-        ${n.title||"Evento"}
-      </h2>
-    `, n.event_date || n.event_time || n.location) {
+		<div style="margin-bottom: 1.5rem; text-align: center;">
+		  <img src="${n.image_url}" alt="Locandina evento" 
+			   style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.15);"
+			   onclick="openImageLightbox('${n.image_url}')" 
+			   onmouseover="this.style.cursor='pointer'; this.style.transform='scale(1.02)'; this.style.transition='transform 0.3s ease'"
+			   onmouseout="this.style.transform='scale(1)'">
+		  <div style="font-size: 0.9rem; color: #888; margin-top: 0.5rem; font-style: italic;">📸 Clicca per ingrandire</div>
+		</div>
+	  `), a += `
+	  <h2 style="color: #E10600; margin-bottom: 1rem; font-size: 1.8rem; font-weight: 700; line-height: 1.3; text-align: center;">
+		${n.title||"Evento"}
+	  </h2>
+	`, n.event_date || n.event_time || n.location) {
 			if (a += `
-        <div style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; border-left: 4px solid #E10600;">
-          <h4 style="color: #E10600; margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">📅 Dettagli Evento</h4>
-      `, n.event_date) {
+		<div style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; border-left: 4px solid #E10600;">
+		  <h4 style="color: #E10600; margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">📅 Dettagli Evento</h4>
+	  `, n.event_date) {
 				let r = new Date(n.event_date).toLocaleDateString("it-IT", {
 					weekday: "long",
 					year: "numeric",
@@ -2187,38 +2212,38 @@ window.openEventModal = async function(e) {
 			n.event_time && (a += `<div style="margin-bottom: 0.8rem;"><strong style="color: #333;">🕐 Orario:</strong> <span style="color: #555;">${n.event_time}</span></div>`), n.location && (a += `<div><strong style="color: #333;">📍 Luogo:</strong> <span style="color: #555;">${n.location}</span></div>`), a += "</div>"
 		}
 		n.description && (a += `
-        <div style="background: #fff; padding: 1.5rem; border-radius: 12px; border: 1px solid #e0e0e0; margin-bottom: 1.5rem;">
-          <h4 style="color: #E10600; margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">📝 Descrizione</h4>
-          <p style="color: #555; line-height: 1.7; margin: 0; font-size: 1rem;">${n.description}</p>
-        </div>
-      `), n.content ? a += `
-        <div style="margin-top: 1.5rem; padding: 1.5rem; background: #fff; border-radius: 12px; border: 1px solid #e0e0e0;">
-          <h4 style="color: #E10600; margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">📄 Contenuto Completo</h4>
-          <div style="line-height: 1.6;">${n.content}</div>
-        </div>
-      ` : a += `
-        <div style="color: #999; font-style: italic; text-align: center; padding: 2rem; background: #f8f9fa; border-radius: 12px; border: 2px dashed #ddd;">
-          <div style="font-size: 2rem; margin-bottom: 1rem;">📋</div>
-          <div>Contenuto dettagliato non ancora disponibile per questo evento.</div>
-        </div>
-      `, i.style.opacity = "0", i.style.transition = "opacity 0.3s ease", setTimeout(() => {
+		<div style="background: #fff; padding: 1.5rem; border-radius: 12px; border: 1px solid #e0e0e0; margin-bottom: 1.5rem;">
+		  <h4 style="color: #E10600; margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">📝 Descrizione</h4>
+		  <p style="color: #555; line-height: 1.7; margin: 0; font-size: 1rem;">${n.description}</p>
+		</div>
+	  `), n.content ? a += `
+		<div style="margin-top: 1.5rem; padding: 1.5rem; background: #fff; border-radius: 12px; border: 1px solid #e0e0e0;">
+		  <h4 style="color: #E10600; margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">📄 Contenuto Completo</h4>
+		  <div style="line-height: 1.6;">${n.content}</div>
+		</div>
+	  ` : a += `
+		<div style="color: #999; font-style: italic; text-align: center; padding: 2rem; background: #f8f9fa; border-radius: 12px; border: 2px dashed #ddd;">
+		  <div style="font-size: 2rem; margin-bottom: 1rem;">📋</div>
+		  <div>Contenuto dettagliato non ancora disponibile per questo evento.</div>
+		</div>
+	  `, i.style.opacity = "0", i.style.transition = "opacity 0.3s ease", setTimeout(() => {
 			i.innerHTML = a, i.style.opacity = "1", showNotification("Evento caricato con successo!", "success")
 		}, 150)
 	} catch (l) {
 		i.style.opacity = "0", setTimeout(() => {
 			i.innerHTML = `
-        <div style="color: #E10600; text-align: center; padding: 3rem;">
-          <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
-          <h3 style="margin-bottom: 1rem; font-weight: 600;">Ops! Qualcosa \xe8 andato storto</h3>
-          <p style="color: #666; margin-bottom: 2rem; line-height: 1.6;">${l.message}</p>
-          <button onclick="openEventModal('${e}')" 
-                  style="background: linear-gradient(135deg, #E10600, #FF4500); color: white; border: none; padding: 0.8rem 2rem; border-radius: 25px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;"
-                  onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(225,6,0,0.3)'"
-                  onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-            🔄 Riprova
-          </button>
-        </div>
-      `, i.style.opacity = "1"
+		<div style="color: #E10600; text-align: center; padding: 3rem;">
+		  <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+		  <h3 style="margin-bottom: 1rem; font-weight: 600;">Ops! Qualcosa \xe8 andato storto</h3>
+		  <p style="color: #666; margin-bottom: 2rem; line-height: 1.6;">${l.message}</p>
+		  <button onclick="openEventModal('${e}')" 
+				  style="background: linear-gradient(135deg, #E10600, #FF4500); color: white; border: none; padding: 0.8rem 2rem; border-radius: 25px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;"
+				  onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(225,6,0,0.3)'"
+				  onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+			🔄 Riprova
+		  </button>
+		</div>
+	  `, i.style.opacity = "1"
 		}, 150), showNotification(`Errore: ${l.message}`, "error")
 	}
 }, window.openImageLightbox = function(e) {
@@ -2270,23 +2295,23 @@ function renderPastEventsByYear(pastEvents) {
 		const isFirstYear = index === 0; // Il primo anno (più recente) è aperto di default
 
 		html += `
-      <div class="year-section" style="margin-bottom: 2rem;">
-        <div style="text-align: center;">
-          <span class="section-badge year-badge" 
-                onclick="showYearFullscreen('${year}')" 
-                id="badge-${year}"
-                style="cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem; font-size: 1rem; padding: 0.8rem 1.5rem; user-select: none; opacity: 0.8; margin: 0.5rem;"
-                onmouseover="this.style.opacity='1'; this.style.transform='scale(1.1)'"
-                onmouseout="this.style.opacity='0.8'; this.style.transform='scale(1)'">
-            <span class="year-text">${year}</span> <span class="year-count" id="count-${year}">(${yearEvents.length})</span>
-            <span style="font-size: 0.8rem; margin-left: 0.3rem;">👁</span>
-          </span>
-        </div>
-        <div class="year-events-data" id="events-${year}" style="display: none;">
-          ${yearEvents.map(event => renderEventCard(event, true)).join('')}
-        </div>
-      </div>
-    `;
+	  <div class="year-section" style="margin-bottom: 2rem;">
+		<div style="text-align: center;">
+		  <span class="section-badge year-badge" 
+				onclick="showYearFullscreen('${year}')" 
+				id="badge-${year}"
+				style="cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem; font-size: 1rem; padding: 0.8rem 1.5rem; user-select: none; opacity: 0.8; margin: 0.5rem;"
+				onmouseover="this.style.opacity='1'; this.style.transform='scale(1.1)'"
+				onmouseout="this.style.opacity='0.8'; this.style.transform='scale(1)'">
+			<span class="year-text">${year}</span> <span class="year-count" id="count-${year}">(${yearEvents.length})</span>
+			<span style="font-size: 0.8rem; margin-left: 0.3rem;">👁</span>
+		  </span>
+		</div>
+		<div class="year-events-data" id="events-${year}" style="display: none;">
+		  ${yearEvents.map(event => renderEventCard(event, true)).join('')}
+		</div>
+	  </div>
+	`;
 	});
 
 	return html;
