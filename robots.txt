@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /assets/css/
+Allow: /assets/js/
+Allow: /assets/images/
+Sitemap: https://associazionesbarbara.it/sitemap.xml
