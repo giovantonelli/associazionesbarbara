@@ -3160,3 +3160,545 @@ function initializeGalleryPage() {
 
 // Initialize gallery page when DOM is loaded
 document.addEventListener('DOMContentLoaded', initializeGalleryPage);
+
+// Registration functionality for register.html
+function initializeRegistrationPage() {
+	// Only run on register.html page
+	if (!window.location.pathname.includes('register.html')) return;
+
+	// Use global Supabase client instance
+	const supabaseClient = window.getSupabaseClient();
+	
+	// DOM Elements
+	const registerForm = document.getElementById('registerForm');
+	const firstNameInput = document.getElementById('firstName');
+	const lastNameInput = document.getElementById('lastName');
+	const emailInput = document.getElementById('email');
+	const passwordInput = document.getElementById('password');
+	const confirmPasswordInput = document.getElementById('confirmPassword');
+	const acceptTermsInput = document.getElementById('acceptTerms');
+	const registerButton = document.getElementById('registerButton');
+	const statusMessage = document.getElementById('statusMessage');
+	const btnText = registerButton?.querySelector('.btn-text');
+	const loadingSpinner = registerButton?.querySelector('.loading-spinner');
+	
+	// Additional form elements
+	const dateOfBirthInput = document.getElementById('dateOfBirth');
+	const placeOfBirthInput = document.getElementById('placeOfBirth');
+	const genderInput = document.getElementById('gender');
+	const fiscalCodeInput = document.getElementById('fiscalCode');
+	const phoneNumberInput = document.getElementById('phoneNumber');
+	const addressInput = document.getElementById('address');
+	const cityInput = document.getElementById('city');
+	const zipCodeInput = document.getElementById('zipCode');
+	const provinceInput = document.getElementById('province');
+
+	// Return early if required elements don't exist
+	if (!registerForm || !firstNameInput || !lastNameInput || !emailInput || !passwordInput || !confirmPasswordInput) {
+		return;
+	}
+
+	// Utility Functions
+	function showStatus(message, type = 'info') {
+		if (!statusMessage) return;
+		statusMessage.className = `status-message ${type}`;
+		statusMessage.innerHTML = message;
+		statusMessage.style.display = 'block';
+		statusMessage.scrollIntoView({
+			behavior: 'smooth',
+			block: 'nearest'
+		});
+	}
+
+	function hideStatus() {
+		if (statusMessage) {
+			statusMessage.style.display = 'none';
+		}
+	}
+
+	function setLoading(isLoading) {
+		if (!registerButton || !btnText || !loadingSpinner) return;
+		
+		if (isLoading) {
+			btnText.style.display = 'none';
+			loadingSpinner.style.display = 'block';
+			registerButton.disabled = true;
+		} else {
+			btnText.style.display = 'block';
+			loadingSpinner.style.display = 'none';
+			registerButton.disabled = false;
+		}
+	}
+
+	// Password validation
+	function validatePassword(password) {
+		const errors = [];
+		if (password.length < 8) {
+			errors.push('La password deve essere di almeno 8 caratteri');
+		}
+		if (!/[a-z]/.test(password)) {
+			errors.push('La password deve contenere almeno una lettera minuscola');
+		}
+		if (!/[A-Z]/.test(password)) {
+			errors.push('La password deve contenere almeno una lettera maiuscola');
+		}
+		if (!/[0-9]/.test(password)) {
+			errors.push('La password deve contenere almeno un numero');
+		}
+		if (!/[!@#$%^&*()_+\-=\[\]{}|;':".,<>?~`]/.test(password)) {
+			errors.push('La password deve contenere almeno un simbolo (!@#$%^&* ecc.)');
+		}
+		return {
+			isValid: errors.length === 0,
+			errors: errors,
+			strength: calculatePasswordStrength(password)
+		};
+	}
+
+	// Calculate password strength for visual feedback
+	function calculatePasswordStrength(password) {
+		let strength = 0;
+		// Length scoring
+		if (password.length >= 8) strength += 1;
+		if (password.length >= 12) strength += 1;
+		if (password.length >= 16) strength += 1;
+		// Character variety scoring
+		if (/[a-z]/.test(password)) strength += 1;
+		if (/[A-Z]/.test(password)) strength += 1;
+		if (/[0-9]/.test(password)) strength += 1;
+		if (/[!@#$%^&*()_+\-=\[\]{}|;':".,<>?~`]/.test(password)) strength += 1;
+		// Return strength level (0-4)
+		return Math.min(strength, 4);
+	}
+
+	// Email validation
+	function validateEmail(email) {
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (!emailRegex.test(email)) {
+			return 'Inserisci un indirizzo email valido.';
+		}
+		return null;
+	}
+
+	// Fiscal Code API functions
+	const FISCAL_CODE_API_KEY = '15ba6b0df94ce0a6ad015ec6dc268365943838c2aea7ed7e94a5f1deda14e6ad68e';
+	
+	async function calculateFiscalCode(firstName, lastName, gender, dateOfBirth, placeOfBirth) {
+		if (!firstName || !lastName || !gender || !dateOfBirth || !placeOfBirth) {
+			return null;
+		}
+		try {
+			const date = new Date(dateOfBirth);
+			const day = date.getDate();
+			const month = date.getMonth() + 1; // JavaScript months are 0-based
+			const year = date.getFullYear();
+			const url = `https://api.miocodicefiscale.com/calculate?` + 
+				`lname=${encodeURIComponent(lastName)}&` + 
+				`fname=${encodeURIComponent(firstName)}&` + 
+				`gender=${gender}&` + 
+				`city=${encodeURIComponent(placeOfBirth)}&` + 
+				`day=${day}&` + 
+				`month=${month}&` + 
+				`year=${year}&` + 
+				`access_token=${FISCAL_CODE_API_KEY}`;
+			
+			const response = await fetch(url);
+			const data = await response.json();
+			
+			if (data.status && data.data && data.data.cf) {
+				return data.data.cf;
+			} else {
+				console.error('Errore calcolo codice fiscale:', data.message);
+				return null;
+			}
+		} catch (error) {
+			console.error('Errore nella chiamata API:', error);
+			return null;
+		}
+	}
+
+	async function updateFiscalCode() {
+		if (!fiscalCodeInput) return;
+		
+		const firstName = firstNameInput.value.trim();
+		const lastName = lastNameInput.value.trim();
+		const gender = genderInput?.value;
+		const dateOfBirth = dateOfBirthInput?.value;
+		const placeOfBirth = placeOfBirthInput?.value.trim();
+		const helpElement = document.getElementById('fiscalCodeHelp');
+
+		if (!firstName || !lastName || !gender || !dateOfBirth || !placeOfBirth) {
+			fiscalCodeInput.value = '';
+			fiscalCodeInput.placeholder = 'Compila tutti i campi per il calcolo automatico';
+			if (helpElement) {
+				helpElement.textContent = 'Compila tutti i campi sopra per il calcolo automatico';
+				helpElement.style.color = '#666';
+			}
+			return;
+		}
+
+		if (helpElement) {
+			helpElement.textContent = 'Calcolo in corso...';
+			helpElement.style.color = '#007bff';
+		}
+
+		const fiscalCode = await calculateFiscalCode(firstName, lastName, gender, dateOfBirth, placeOfBirth);
+		
+		if (fiscalCode) {
+			fiscalCodeInput.value = fiscalCode;
+			fiscalCodeInput.placeholder = '';
+			if (helpElement) {
+				helpElement.textContent = 'Codice fiscale calcolato automaticamente ✓';
+				helpElement.style.color = '#28a745';
+			}
+		} else {
+			fiscalCodeInput.value = '';
+			fiscalCodeInput.placeholder = 'Errore nel calcolo automatico';
+			if (helpElement) {
+				helpElement.textContent = 'Errore nel calcolo. Verifica i dati inseriti o inserisci manualmente';
+				helpElement.style.color = '#dc3545';
+			}
+			// Allow manual input if API fails
+			fiscalCodeInput.removeAttribute('readonly');
+		}
+	}
+
+	// Check if user is already logged in
+	async function checkExistingSession() {
+		try {
+			const { data: { session }, error } = await supabaseClient.auth.getSession();
+			
+			if (error) {
+				console.error('Error checking session:', error);
+				return;
+			}
+			
+			if (session) {
+				// User is already logged in, redirect to area soci
+				showStatus('Sessione esistente trovata, reindirizzamento...', 'success');
+				setTimeout(() => {
+					window.location.href = 'area-soci.html';
+				}, 1000);
+			}
+		} catch (error) {
+			console.error('Error checking existing session:', error);
+		}
+	}
+
+	// Registration Function
+	async function handleRegistration(event) {
+		event.preventDefault();
+		hideStatus();
+
+		// Get form values - Required fields
+		const firstName = firstNameInput.value.trim();
+		const lastName = lastNameInput.value.trim();
+		const email = emailInput.value.trim();
+		const password = passwordInput.value;
+		const confirmPassword = confirmPasswordInput.value;
+		const acceptTerms = acceptTermsInput.checked;
+		const dateOfBirth = dateOfBirthInput?.value || null;
+		const placeOfBirth = placeOfBirthInput?.value.trim() || null;
+		const gender = genderInput?.value || null;
+
+		// Get form values - Optional fields (convert empty strings to null)
+		const fiscalCode = fiscalCodeInput?.value.trim().toUpperCase() || null;
+		const phoneNumber = phoneNumberInput?.value.trim() || null;
+		const address = addressInput?.value.trim() || null;
+		const city = cityInput?.value.trim() || 'Grumo Appula';
+		const zipCode = zipCodeInput?.value.trim() || null;
+		const province = provinceInput?.value.trim().toUpperCase() || 'BA';
+
+		// Validation - Required fields
+		const missingFields = [
+			{ label: 'Nome', value: firstName },
+			{ label: 'Cognome', value: lastName },
+			{ label: 'Email', value: email },
+			{ label: 'Password', value: password },
+			{ label: 'Conferma Password', value: confirmPassword },
+			{ label: 'Data di nascita', value: dateOfBirth },
+			{ label: 'Luogo di nascita', value: placeOfBirth },
+			{ label: 'Sesso', value: gender }
+		].filter(f => !f.value || (typeof f.value === 'string' && f.value.trim() === ''));
+
+		if (missingFields.length > 0 || !(gender === 'M' || gender === 'F')) {
+			showStatus('Compila tutti i campi obbligatori (contrassegnati con *).', 'error');
+			return;
+		}
+
+		const emailError = validateEmail(email);
+		if (emailError) {
+			showStatus(emailError, 'error');
+			return;
+		}
+
+		const passwordValidation = validatePassword(password);
+		if (!passwordValidation.isValid) {
+			showStatus('Password non valida: ' + passwordValidation.errors.join(', '), 'error');
+			return;
+		}
+
+		if (password !== confirmPassword) {
+			showStatus('Le password non coincidono.', 'error');
+			return;
+		}
+
+		if (!acceptTerms) {
+			showStatus('Devi accettare i Termini e Condizioni e l\'Informativa sulla Privacy per procedere.', 'error');
+			return;
+		}
+
+		// Additional field validation
+		if (zipCode && !/^\d{5}$/.test(zipCode)) {
+			showStatus('Il CAP deve essere di 5 cifre.', 'error');
+			return;
+		}
+
+		if (province && !/^[A-Z]{2}$/.test(province)) {
+			showStatus('La provincia deve essere di 2 lettere maiuscole (es. BA).', 'error');
+			return;
+		}
+
+		if (fiscalCode && !/^[A-Z0-9]{16}$/.test(fiscalCode)) {
+			showStatus('Il codice fiscale deve essere di 16 caratteri alfanumerici.', 'error');
+			return;
+		}
+
+		if (phoneNumber && !/^\+?[\d\s\-\(\)]{7,20}$/.test(phoneNumber.replace(/\s/g, ''))) {
+			showStatus('Formato numero di telefono non valido. Usa un formato come +39 320 123 4567.', 'error');
+			return;
+		}
+
+		setLoading(true);
+		
+		try {
+			// Helper function to convert empty strings to null
+			function toNullIfEmpty(value) {
+				if (value === undefined || value === null) return null;
+				if (typeof value === 'string' && value.trim() === '') return null;
+				return typeof value === 'string' ? value.trim() : value;
+			}
+
+			// Helper function for date conversion
+			function formatDateForDB(dateStr) {
+				if (!dateStr || typeof dateStr !== 'string') return null;
+				// Ensure YYYY-MM-DD format
+				const date = new Date(dateStr);
+				if (isNaN(date.getTime())) return null;
+				return dateStr; // HTML date input already provides YYYY-MM-DD format
+			}
+
+			// Sign up with Supabase Auth
+			const { data: authData, error: authError } = await supabaseClient.auth.signUp({
+				email: email,
+				password: password,
+				options: {
+					data: {
+						first_name: firstName,
+						last_name: lastName,
+						full_name: `${firstName} ${lastName}`,
+						date_of_birth: dateOfBirth,
+						place_of_birth: placeOfBirth,
+						gender: gender,
+						fiscal_code: fiscalCode,
+						phone_number: phoneNumber,
+						address: address,
+						city: city,
+						zip_code: zipCode,
+						province: province,
+						privacy_accepted: true,
+						registration_completed: true,
+						role: 'utente'
+					},
+					emailRedirectTo: `${window.location.origin}/index.html?email_verified=true`
+				}
+			});
+
+			if (authError) {
+				throw authError;
+			}
+
+			if (authData.user) {
+				// Build profile data using ONLY existing database columns
+				const profileData = {
+					id: authData.user.id,
+					user_id: authData.user.id, // Required for RLS policies
+					email: email // Required field
+				};
+
+				// Add optional fields that exist in the database
+				if (firstName) profileData.first_name = firstName;
+				if (lastName) profileData.last_name = lastName;
+				// full_name is a generated column in the database, don't set it manually
+				if (dateOfBirth) profileData.date_of_birth = formatDateForDB(dateOfBirth);
+				if (placeOfBirth) profileData.place_of_birth = placeOfBirth;
+				if (gender) profileData.gender = gender; // Now exists in database
+				if (fiscalCode) profileData.fiscal_code = fiscalCode;
+				if (phoneNumber) profileData.phone_number = phoneNumber;
+				if (address) profileData.address = address;
+				if (city) profileData.city = city; // Has default 'Grumo Appula'
+				if (zipCode) profileData.zip_code = zipCode;
+				if (province) profileData.province = province;
+				
+				// Set privacy accepted to true (user checked the checkbox)
+				profileData.privacy_accepted = true;
+				
+				// Note: created_at and updated_at have default values (now()) so we don't set them
+				// Note: role, membership_type, membership_status have defaults so we don't override them
+				
+				// Profile data will be created automatically after email confirmation
+				// via Supabase trigger or in the auth verification process
+				console.log('User registered with metadata:', profileData);
+				
+				showStatus(`
+					<strong>Registrazione completata!</strong><br>
+					Ti abbiamo inviato un'email di conferma all'indirizzo <strong>${email}</strong>.<br>
+					Controlla la tua casella di posta e clicca sul link di conferma per attivare il tuo account.<br>
+					<small>I tuoi dati sono stati salvati e saranno disponibili dopo la conferma email.</small>
+				`, 'success');
+
+				// Reset form and clear all fields
+				registerForm.reset();
+				// Clear all input fields explicitly
+				firstNameInput.value = '';
+				lastNameInput.value = '';
+				emailInput.value = '';
+				passwordInput.value = '';
+				confirmPasswordInput.value = '';
+				if (dateOfBirthInput) dateOfBirthInput.value = '';
+				if (placeOfBirthInput) placeOfBirthInput.value = '';
+				if (genderInput) genderInput.value = '';
+				if (fiscalCodeInput) fiscalCodeInput.value = '';
+				if (phoneNumberInput) phoneNumberInput.value = '';
+				if (addressInput) addressInput.value = '';
+				if (cityInput) cityInput.value = '';
+				if (zipCodeInput) zipCodeInput.value = '';
+				if (provinceInput) provinceInput.value = '';
+				acceptTermsInput.checked = false;
+				
+				// Reset fiscal code field
+				if (fiscalCodeInput) {
+					fiscalCodeInput.placeholder = 'Verrà calcolato automaticamente';
+					fiscalCodeInput.setAttribute('readonly', 'readonly');
+				}
+				const helpElement = document.getElementById('fiscalCodeHelp');
+				if (helpElement) {
+					helpElement.textContent = 'Compila i campi sopra per il calcolo automatico';
+					helpElement.style.color = '#666';
+				}
+			} else if (authData.user && authData.user.identities && authData.user.identities.length === 0) {
+				// User already exists
+				showStatus('Un account con questa email esiste già.', 'warning');
+			} else {
+				throw new Error('Errore durante la registrazione');
+			}
+		} catch (error) {
+			console.error('Registration error:', error);
+			let errorMessage = 'Errore durante la registrazione. ';
+			
+			if (error.message.includes('User already registered') || error.message.includes('already been registered')) {
+				errorMessage = 'Un account con questa email esiste già.';
+			} else if (error.message.includes('Password should be at least')) {
+				errorMessage = 'La password deve essere di almeno 8 caratteri con lettere maiuscole, minuscole, numeri e simboli.';
+			} else if (error.message.includes('Invalid email')) {
+				errorMessage = 'Indirizzo email non valido.';
+			} else if (error.message.includes('signup disabled')) {
+				errorMessage = 'La registrazione è temporaneamente disabilitata. Riprova più tardi.';
+			} else if (error.message.includes('confirmation email')) {
+				errorMessage = 'Registrazione completata! Controlla la tua email per il link di conferma.';
+				showStatus(errorMessage, 'success');
+				registerForm.reset();
+				if (cityInput) cityInput.value = 'Grumo Appula';
+				if (provinceInput) provinceInput.value = 'BA';
+				return;
+			} else if (error.message.includes('fiscal_code')) {
+				errorMessage = 'Codice fiscale non valido. Controlla il formato.';
+			} else if (error.message.includes('phone_number')) {
+				errorMessage = 'Numero di telefono non valido. Usa il formato corretto.';
+			} else if (error.message.includes('Unable to validate email address')) {
+				errorMessage = 'Indirizzo email non valido o già in uso.';
+			} else if (error.message.includes('Email not confirmed')) {
+				errorMessage = 'Account creato! Controlla la tua email per il link di conferma prima di accedere.';
+				showStatus(errorMessage, 'warning');
+				registerForm.reset();
+				if (cityInput) cityInput.value = 'Grumo Appula';
+				if (provinceInput) provinceInput.value = 'BA';
+				return;
+			} else {
+				// For email confirmation errors, treat as success
+				if (error.status === 500 && error.message.includes('Error sending')) {
+					errorMessage = 'Registrazione completata! Account creato con successo.';
+					showStatus(errorMessage, 'success');
+					registerForm.reset();
+					if (cityInput) cityInput.value = 'Grumo Appula';
+					if (provinceInput) provinceInput.value = 'BA';
+					return;
+				}
+				errorMessage += error.message;
+			}
+			showStatus(errorMessage, 'error');
+		} finally {
+			setLoading(false);
+		}
+	}
+
+	// Real-time password validation
+	if (passwordInput) {
+		passwordInput.addEventListener('input', function() {
+			const password = this.value;
+			const helpText = this.nextElementSibling;
+			if (helpText) {
+				if (password.length > 0 && password.length < 8) {
+					helpText.textContent = 'Password troppo corta (minimo 8 caratteri)';
+					helpText.style.color = '#d32f2f';
+				} else if (password.length >= 8) {
+					helpText.textContent = 'Password valida ✓';
+					helpText.style.color = '#2e7d32';
+				} else {
+					helpText.textContent = 'Minimo 8 caratteri';
+					helpText.style.color = '#666';
+				}
+			}
+		});
+	}
+
+	// Real-time confirm password validation
+	if (confirmPasswordInput) {
+		confirmPasswordInput.addEventListener('input', function() {
+			const password = passwordInput.value;
+			const confirmPassword = this.value;
+			if (confirmPassword.length > 0) {
+				if (password === confirmPassword) {
+					this.style.borderColor = '#2e7d32';
+				} else {
+					this.style.borderColor = '#d32f2f';
+				}
+			} else {
+				this.style.borderColor = '#e1e1e1';
+			}
+		});
+	}
+
+	// Event Listeners
+	if (registerForm) {
+		registerForm.addEventListener('submit', handleRegistration);
+	}
+
+	// Fiscal code auto-calculation
+	if (firstNameInput) firstNameInput.addEventListener('input', updateFiscalCode);
+	if (lastNameInput) lastNameInput.addEventListener('input', updateFiscalCode);
+	if (genderInput) genderInput.addEventListener('change', updateFiscalCode);
+	if (dateOfBirthInput) dateOfBirthInput.addEventListener('change', updateFiscalCode);
+	if (placeOfBirthInput) placeOfBirthInput.addEventListener('input', updateFiscalCode);
+
+	// Check for existing session on page load
+	checkExistingSession();
+
+	// Auto-focus first name field
+	if (firstNameInput) {
+		firstNameInput.focus();
+	}
+}
+
+// Initialize registration page when DOM is loaded
+document.addEventListener('DOMContentLoaded', initializeRegistrationPage);
