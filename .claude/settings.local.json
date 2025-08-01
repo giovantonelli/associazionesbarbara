@@ -14,8 +14,10 @@
       "Bash(ls:*)",
       "WebFetch(domain:www.toptal.com)",
       "Bash(mv:*)",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "WebFetch(domain:associazionesbarbara.it)"
     ],
     "deny": []
-  }
+  },
+  "$schema": "https://json.schemastore.org/claude-code-settings.json"
 }
