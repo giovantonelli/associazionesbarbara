@@ -108,7 +108,8 @@ const supabaseClient = createClient(
 - `assets/js/notifications.js`: Toast notification system
 - `assets/js/adblock-detector-v2.js`: AdBlock detection system (4-test detection)
 - `assets/js/adblock-integration-v2.js`: AdBlock modal integration
-- `assets/images/`: Static image assets (logo.svg, banners, activities)
+- `assets/images/`: Static image assets (logo.png, banners, activities)
+- `assets/js/analytics.js`: Centralized Google Analytics 4 configuration
 - `data/faq.json`: Dynamic FAQ content structure (question/answer/category format)
 
 **Media & Content:**
@@ -257,9 +258,9 @@ The site auto-deploys to GitHub Pages when changes are pushed to the main branch
 4. **CDN**: GitHub's CDN serves assets globally
 
 ### Performance Optimizations Implemented
-- **Images**: Optimized formats (WebP where supported, SVG for logos)
-- **JavaScript**: Vanilla JS (no framework overhead), async loading
-- **CSS**: Critical CSS inlined, non-critical loaded asynchronously  
+- **Images**: Optimized formats (WebP where supported, PNG for logos)
+- **JavaScript**: Vanilla JS (no framework overhead), async loading, centralized analytics.js
+- **CSS**: Critical CSS inlined, non-critical loaded asynchronously, syntax errors fixed
 - **Videos**: External CDN (Archive.org) reduces hosting load
 - **Caching**: Browser caching headers via meta tags
 - **Lazy Loading**: Images load on scroll to improve initial page speed

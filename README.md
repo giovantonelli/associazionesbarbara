@@ -2,63 +2,71 @@
 
 # 🏛️ Associazione Santa Barbara APS – Sito Ufficiale
 
-[![Status](https://img.shields.io/badge/Status-Live-brightgreen)](https://stats.uptimerobot.com/zSca2dOph9)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+> Sito web informativo e gestionale per l'Associazione Santa Barbara APS
 
-> **Sito web moderno e responsive per l'Associazione Santa Barbara APS - Promuoviamo cultura e volontariato nel territorio**
-
-## 🎯 Chi siamo
-L'**Associazione Santa Barbara APS** è una realtà di promozione sociale nata nel 2008 dall'iniziativa di cittadini appassionati e dediti al servizio della comunità. Prende il nome da Santa Barbara, simbolo di forza e protezione. 
-
-📍 **Sede:** Via N. Mastroserio 12, Grumo Appula (BA)  
-🌐 **Sito:** [associazionesbarbara.it](https://associazionesbarbara.it)
-
-## 🚀 Missione
-- 🎭 **Cultura:** Eventi, conferenze e mostre per la comunità
-- 🤝 **Volontariato:** Solidarietà sociale e supporto ai bisognosi
-- 🌱 **Ambiente:** Tutela del territorio e sostenibilità
-- 🏘️ **Comunità:** Valorizzazione e inclusione sociale
-
-## 💎 Valori Fondamentali
-- **🤲 Solidarietà** - Aiuto reciproco e inclusione
-- **🔍 Trasparenza** - Chiarezza e onestà nelle attività  
-- **💡 Innovazione** - Soluzioni moderne per la comunità
-- **⭐ Eccellenza** - Impegno costante in ogni progetto
-
-## 👥 Direttivo
-- **👑 Presidente:** Antonia Baccelliere
-- **🔄 Vicepresidente:** Francesca Rita Favia
-
-## ✨ Caratteristiche del Sito
-
-### 🎨 **Design Moderno**
-- Interface responsive per tutti i dispositivi
-- Design glassmorphism con gradienti
-- Animazioni fluide e transizioni CSS
-- Accessibilità WCAG 2.1 compliant
-
-### 🔐 **Area Soci Avanzata**
-- Autenticazione sicura con Supabase
-- Dashboard personalizzata per membri
-- Gestione profilo e documenti riservati
-- Sistema di ruoli e permessi
-
-### 🎬 **Galleria Multimediale**
-- Carousel 3D interattivo con Swiper.js
-- Lightbox fullscreen per foto e video
-- 18 video ottimizzati (compressi sotto 100MB)
-- Navigazione con frecce e keyboard shortcuts
-
-### ⚡ **Performance & SEO**
-- Google Analytics 4 con Consent Mode
-- Meta tags OpenGraph e Twitter Cards
-- Sitemap.xml automatico
-- Google AdSense integrato
-- Cookie management GDPR compliant
-
-## 📁 Struttura del Progetto
+## Struttura del progetto
 
 ```
+404.html                # Pagina errore
+area-soci.html          # Dashboard soci (autenticazione Supabase)
+attivita.html           # Attività e progetti
+chi-siamo.html          # Storia e missione
+contatti.html           # Informazioni e form contatto
+eventi.html             # Calendario eventi
+faq.html                # Domande frequenti
+galleria.html           # Galleria foto/video
+index.html              # Homepage
+login.html              # Accesso soci
+partner.html            # Partner e sponsor
+privacy.html            # Privacy policy GDPR
+register.html           # Registrazione soci
+robots.txt              # SEO crawling
+sitemap.xml             # Mappa sito
+assets/
+  ├── css/
+  │     └── style.css   # Stile principale
+  ├── images/
+  │     └── logo.png    # Logo associazione (192x192px)
+  └── js/
+        ├── script.js
+        ├── adblock-detector-v2.js
+        ├── adblock-integration-v2.js
+        ├── adsense-optimization.js
+        ├── analytics.js
+        ├── counter-mobile-fix.js
+        ├── notifications.js
+        ├── seo-enhancements.js
+data/
+  └── faq.json          # Database FAQ
+favicon/                # Icone e manifest
+CNAME                   # Dominio personalizzato
+LICENSE                 # Licenza
+README.md               # Documentazione
+copilot-instruction.md  # Linee guida sviluppo
+CLAUDE.md               # Istruzioni Claude
+```
+
+## Funzionalità principali
+- Pagine informative e di servizio
+- Area soci protetta (Supabase)
+- Galleria foto/video
+- FAQ dinamiche
+- SEO ottimizzato (meta tag, sitemap, robots.txt)
+- Privacy policy e gestione cookie
+- Sistema AdBlock (protezione contenuti)
+
+## Tecnologie
+- HTML5, CSS3, JavaScript
+- Supabase (autenticazione soci)
+
+## Come contribuire
+Modifica i file HTML/CSS/JS secondo le esigenze dell’associazione.
+Aggiorna le immagini e i dati in `assets/images` e `data/faq.json`.
+Commit con messaggi chiari e descrittivi.
+
+## Licenza
+© 2025 Associazione Santa Barbara APS. Tutti i diritti riservati.
+Il codice sorgente è disponibile per modifiche interne all'associazione. Non è consentita la ridistribuzione o l'uso commerciale senza autorizzazione.
 🏛️ Sito S.Barbara/
 ├── 📁 assets/
 │   ├── 🎨 css/
@@ -93,73 +101,25 @@ L'**Associazione Santa Barbara APS** è una realtà di promozione sociale nata n
 ├── 🌐 CNAME                  # Dominio personalizzato
 ├── ⚙️ _config.yml           # Configurazione Jekyll
 └── 📖 README.md             # Documentazione
-```
-
-## ⭐ Funzionalità Principali
-
-### 🌐 **Area Pubblica**
-- 🏠 **Homepage:** Hero section con CTA e panoramica associazione
-- 👥 **Chi Siamo:** Storia, missione, valori e team direttivo  
-- 🎭 **Attività:** Corteo Storico, Tamburi, progetti sociali
-- 📅 **Eventi:** Calendario interattivo con dettagli eventi
 - 🖼️ **Galleria:** Carousel 3D video + lightbox foto responsive
 - ❓ **FAQ:** Sistema categorizzato con ricerca dinamica
-- 📞 **Contatti:** Form contatto, mappa, info sede
-- 🤝 **Partner:** Showcase sponsor e collaborazioni
-
-### 🔐 **Area Riservata Soci**
-- 🔑 **Autenticazione:** Login/registrazione sicura Supabase
-- 📊 **Dashboard:** Pannello personalizzato per membri
 - 👤 **Profilo:** Gestione dati personali e preferenze
 - 📄 **Documenti:** Accesso materiali riservati soci
-- 🎟️ **Eventi Esclusivi:** Prenotazioni eventi membri
-- 🔄 **Gestione Tessera:** Rinnovo e stato iscrizione
-
-### 🛠️ **Funzionalità Tecniche**
-- 📱 **Responsive Design:** Layout adattivo mobile-first
-- ⚡ **Performance:** Lazy loading, compressione, CDN
-- 🔍 **SEO Avanzato:** Meta tags, schema markup, sitemap
-- 🍪 **GDPR Compliance:** Cookie consent, privacy policy
-- 📈 **Analytics:** Google Analytics 4 con consent mode
-- 💰 **Monetizzazione:** Google AdSense integrato
-- 🎨 **Accessibilità:** WCAG 2.1 AA compliant
-
-## Funzionalità principali
-
 - **Area pubblica:**
   - Presentazione dell’associazione
-  - Elenco attività, eventi e partner
-  - Galleria fotografica
-  - FAQ e modulo contatti
   - Informativa privacy e gestione cookie
 
-- **Area soci (protetta):**
-  - Accesso tramite autenticazione Supabase
-  - Visualizzazione e modifica profilo
-  - Dashboard eventi, tessera, comunicazioni e documenti
   - Accesso riservato solo ai soci (controllo ruolo)
-
-- **Backend:**
-  - Supabase per autenticazione, gestione profili, RLS e database eventi/documenti
 
 ## Come avviare il sito in locale
 
-1. Clona il repository:
-   ```bash
-   git clone https://github.com/giovantonelli/associazionesbarbara.git
    ```
 2. Apri la cartella `Sito S.Barbara` in un editor (es. VS Code).
-3. Avvia un server locale (es. con Live Server di VS Code o Python):
-   ```bash
-   # Con Python 3
-   python3 -m http.server
-   # Oppure con Live Server extension su VS Code
    ```
 4. Visita `http://localhost:8000` nel browser.
 
 ## Dipendenze principali
 - [Supabase JS](https://supabase.com/docs/reference/javascript) (autenticazione e database)
-- HTML5, CSS3, JavaScript (vanilla)
 
 ## Sicurezza e privacy
 - L’area soci è protetta da autenticazione e controllo ruolo (solo i soci possono accedere ai contenuti riservati)
