@@ -4,8 +4,7 @@ function init404Detection() {
 	if ("404.html" === t) return;
 	let i = ["", "index.html", "chi-siamo.html", "attivita.html", "eventi.html", "galleria.html", "faq.html", "contatti.html", "partner.html", "privacy.html", "area-soci.html", "login.html", "register.html", "404.html"].includes(t);
 	if (!i) {
-		console.log("Pagina non trovata, reindirizzamento a 404.html");
-		let n = window.location.href;
+				let n = window.location.href;
 		window.location.replace(`404.html?from=${encodeURIComponent(n)}`);
 		return
 	}
@@ -17,21 +16,18 @@ function checkPageExists(e) {
 		method: "HEAD"
 	}).then(e => {
 		if (404 === e.status) {
-			console.log("Pagina non trovata (404), reindirizzamento a 404.html");
-			let t = window.location.href;
+						let t = window.location.href;
 			window.location.replace(`404.html?from=${encodeURIComponent(t)}`)
 		}
 	}).catch(e => {
-		console.log("Errore nel controllo della pagina:", e)
-	})
+			})
 }
 
 function checkHashRouting() {
 	let e = window.location.hash;
 	e && "#" !== e && setTimeout(() => {
 		let t = document.querySelector(e);
-		t || console.log("Elemento hash non trovato:", e)
-	}, 500)
+			}, 500)
 }
 
 function initPhotoCarousel() {
@@ -721,7 +717,7 @@ async function getEventsCount() {
 		}
 		return 0
 	} catch (n) {
-		return console.error("Errore nel recupero del conteggio eventi:", n), 0
+		return 0
 	}
 }
 async function getAttivitaCount() {
@@ -743,7 +739,7 @@ async function getAttivitaCount() {
 		}
 		return 0
 	} catch (n) {
-		return console.error("Errore nel recupero del conteggio attivit\xe0:", n), 0
+		return 0
 	}
 }
 async function initChiSiamoPage() {
@@ -847,8 +843,7 @@ async function loadAttivita() {
 		let t = await e.json();
 		renderAttivita(t), renderActivityDetails(t)
 	} catch (i) {
-		console.error("Errore:", i);
-		let n = document.getElementById("attivita-container");
+				let n = document.getElementById("attivita-container");
 		n && (n.innerHTML = "<p>Errore nel caricamento delle attivit\xe0</p>")
 	}
 }
@@ -986,17 +981,43 @@ document.addEventListener("DOMContentLoaded", function() {
 }), document.addEventListener("DOMContentLoaded", function() {
 	initChiSiamoPage(), initAttivitaPage(), initEventiPage(), initGalleriaPage(), initFaqPage(), initPartnerPage(), initPrivacyPage()
 });
-let supabaseEventiClient = null;
+// Single global Supabase client instance
+window.globalSupabaseClient = null;
+
+// Initialize once and only once
+function initializeSupabaseClient() {
+	if (!window.globalSupabaseClient && typeof supabase !== 'undefined' && supabase.createClient) {
+		const { createClient } = supabase;
+		window.globalSupabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+	}
+	return window.globalSupabaseClient;
+}
+
+// Initialize when DOM is ready and supabase is available
+document.addEventListener('DOMContentLoaded', function() {
+	if (typeof supabase !== 'undefined') {
+		initializeSupabaseClient();
+	}
+});
+
+// Getter function that never creates, only returns existing
+function getSupabaseClient() {
+	return window.globalSupabaseClient || initializeSupabaseClient();
+}
+
+// Expose globally
+window.getSupabaseClient = getSupabaseClient;
 async function initEventiPage() {
 	let e = document.getElementById("public-events-list") || document.getElementById("future-events-list") || document.querySelector(".eventi-header");
-	e && ("undefined" != typeof supabase && supabase.createClient && (supabaseEventiClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)), await loadPublicEvents(), setupEventiParallax(), setupEventiModal(), checkLoggedInUser(), addEventiStyles(), setTimeout(() => {
+	e && (await loadPublicEvents(), setupEventiParallax(), setupEventiModal(), checkLoggedInUser(), addEventiStyles(), setTimeout(() => {
 		document.querySelectorAll(".animate-fade-in, .animate-slide-up, .animate-slide-left, .animate-slide-right").forEach(e => {
 			e.classList.add("animate")
 		})
 	}, 100))
 }
 async function loadPublicEvents() {
-	if (!supabaseEventiClient) return;
+	const supabaseClient = getSupabaseClient();
+	if (!supabaseClient) return;
 	document.getElementById("public-events-list");
 	let e = document.getElementById("future-events-list"),
 		t = document.getElementById("past-events-list");
@@ -1004,7 +1025,7 @@ async function loadPublicEvents() {
 	let {
 		data: i,
 		error: n
-	} = await supabaseEventiClient.from("events").select("*").eq("is_public", !0).order("event_date", {
+	} = await supabaseClient.from("events").select("*").eq("is_public", !0).order("event_date", {
 		ascending: !0
 	});
 	if (n) {
@@ -1384,8 +1405,7 @@ function setupEventiModal() {
 
 function initGalleriaPage() {
 	if (!document.body.classList.contains("galleria-page") && !window.location.pathname.includes("galleria")) return;
-	console.log("Initializing Galleria page...");
-	let {
+		let {
 		createClient: e
 	} = supabase, t = e("https://ciezrbsolxpjxswdkkpo.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpZXpyYnNvbHhwanhzd2Rra3BvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5MjM1NjAsImV4cCI6MjA2ODQ5OTU2MH0.V-U8KhO8byObUW5kJ8XbLBkp9O9Efh98MdbKYFfbQJk");
 	async function i() {
@@ -1405,7 +1425,7 @@ function initGalleriaPage() {
 					}
 				});
 			if (a) {
-				console.error("Errore caricamento foto:", a), e.innerHTML = `<p>Errore nel caricamento delle foto: ${a.message}</p>`;
+				e.innerHTML = `<p>Errore nel caricamento delle foto: ${a.message}</p>`;
 				return
 			}
 			if (!o || 0 === o.length) {
@@ -1639,7 +1659,7 @@ function initGalleriaPage() {
 				}
 			}()
 		} catch (h) {
-			console.error("Errore generale:", h), document.getElementById("loadingPhotos").innerHTML = "<p>Errore nel caricamento delle foto</p>"
+			document.getElementById("loadingPhotos").innerHTML = "<p>Errore nel caricamento delle foto</p>"
 		}
 	}
 
@@ -1932,7 +1952,7 @@ function initGalleriaScrollAnimations() {
 }
 
 function initFaqPage() {
-	(document.body.classList.contains("faq-page") || window.location.pathname.includes("faq")) && (console.log("Initializing FAQ page..."), initFaqAnimations(), initFaqCategoryFiltering(), initFaqAccordion(), initFaqParallax())
+	(document.body.classList.contains("faq-page") || window.location.pathname.includes("faq")) && (initFaqAnimations(), initFaqCategoryFiltering(), initFaqAccordion(), initFaqParallax())
 }
 
 function initFaqAnimations() {
@@ -2034,7 +2054,7 @@ function initFaqParallax() {
 }
 
 function initPartnerPage() {
-	(document.body.classList.contains("partner-page") || window.location.pathname.includes("partner")) && (console.log("Initializing Partner page..."), initPartnerAnimations(), initPartnerCardInteractions(), initPartnerParallax())
+	(document.body.classList.contains("partner-page") || window.location.pathname.includes("partner")) && (initPartnerAnimations(), initPartnerCardInteractions(), initPartnerParallax())
 }
 
 function initPartnerAnimations() {
@@ -2076,7 +2096,7 @@ function initPartnerParallax() {
 }
 
 function initPrivacyPage() {
-	(document.body.classList.contains("privacy-page") || window.location.pathname.includes("privacy")) && (console.log("Initializing Privacy page..."), initPrivacyAnimations(), initPrivacySectionInteractions(), initPrivacyParallax())
+	(document.body.classList.contains("privacy-page") || window.location.pathname.includes("privacy")) && (initPrivacyAnimations(), initPrivacySectionInteractions(), initPrivacyParallax())
 }
 
 function initPrivacyAnimations() {
@@ -2111,14 +2131,15 @@ function initPrivacyParallax() {
 	})
 }
 window.openEventModal = async function(e) {
-	if (!supabaseEventiClient) {
+	const supabaseClient = getSupabaseClient();
+	if (!supabaseClient) {
 		showNotification("Errore di connessione al database", "error");
 		return
 	}
 	let t = document.getElementById("event-modal"),
 		i = document.getElementById("modal-html-content");
 	if (!t || !i) {
-		console.error("Modal elements not found"), showNotification("Errore nell'interfaccia del modale", "error");
+		showNotification("Errore nell'interfaccia del modale", "error");
 		return
 	}
 	i.innerHTML = `
@@ -2133,7 +2154,7 @@ window.openEventModal = async function(e) {
 		let {
 			data: n,
 			error: o
-		} = await supabaseEventiClient.from("events").select("title, description, content, event_date, event_time, location, image_url").eq("id", e).single();
+		} = await supabaseClient.from("events").select("title, description, content, event_date, event_time, location, image_url").eq("id", e).single();
 		if (o) throw Error(`Errore recupero evento: ${o.message}`);
 		if (!n) throw Error("Evento non trovato");
 		let a = "";
@@ -2184,7 +2205,7 @@ window.openEventModal = async function(e) {
 			i.innerHTML = a, i.style.opacity = "1", showNotification("Evento caricato con successo!", "success")
 		}, 150)
 	} catch (l) {
-		console.error("Error loading event modal:", l), i.style.opacity = "0", setTimeout(() => {
+		i.style.opacity = "0", setTimeout(() => {
 			i.innerHTML = `
         <div style="color: #E10600; text-align: center; padding: 3rem;">
           <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
@@ -2463,9 +2484,8 @@ function initializeGalleryPage() {
 		return;
 	}
 
-	// Initialize Supabase client for gallery
-	const { createClient } = supabase;
-	const supabaseClient = createClient('https://ciezrbsolxpjxswdkkpo.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpZXpyYnNvbHhwanhzd2Rra3BvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5MjM1NjAsImV4cCI6MjA2ODQ5OTU2MH0.V-U8KhO8byObUW5kJ8XbLBkp9O9Efh98MdbKYFfbQJk');
+	// Use global Supabase client (already initialized)
+	const supabaseClient = getSupabaseClient();
 
 	// Carica i video da archive.org
 	function loadVideosFromArchive() {
@@ -2648,8 +2668,7 @@ function initializeGalleryPage() {
 				});
 
 			if (error) {
-				console.error('Errore caricamento foto:', error);
-				loadingElement.innerHTML = `<p>Errore nel caricamento delle foto: ${error.message}</p>`;
+								loadingElement.innerHTML = `<p>Errore nel caricamento delle foto: ${error.message}</p>`;
 				return;
 			}
 
@@ -2727,8 +2746,7 @@ function initializeGalleryPage() {
 			updatePhotoCounter();
 
 		} catch (error) {
-			console.error('Errore generale:', error);
-			document.getElementById('loadingPhotos').innerHTML = '<p>Errore nel caricamento delle foto</p>';
+						document.getElementById('loadingPhotos').innerHTML = '<p>Errore nel caricamento delle foto</p>';
 		}
 	}
 
