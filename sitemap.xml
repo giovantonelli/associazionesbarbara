@@ -19,66 +19,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://associazionesbarbara.it/assets/css/style.css</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://associazionesbarbara.it/assets/js/adblock-detector-v2.js</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://associazionesbarbara.it/assets/js/adblock-integration-v2.js</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://associazionesbarbara.it/assets/js/adsense-optimization.js</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://associazionesbarbara.it/assets/js/analytics.js</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://associazionesbarbara.it/assets/js/counter-mobile-fix.js</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://associazionesbarbara.it/assets/js/notifications.js</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://associazionesbarbara.it/assets/js/script.js</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://associazionesbarbara.it/assets/js/seo-enhancements.js</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://associazionesbarbara.it/assets/images/logo.png</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
     <loc>https://associazionesbarbara.it/attivita.html</loc>
     <lastmod>2025-08-01</lastmod>
     <changefreq>weekly</changefreq>
