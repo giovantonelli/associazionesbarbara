@@ -36,7 +36,7 @@
           <a href="chi-siamo.html" class="nav-link">Chi siamo</a>
         </li>
         <li>
-          <a href="attivita.html" class="nav-link">Attività</a>
+          <a href="attivita.html" class="nav-link">Attivitï¿½</a>
         </li>
         <li>
           <a href="eventi.html" class="nav-link">Eventi</a>
@@ -124,7 +124,7 @@
               <label for="edit-address">Indirizzo</label> <input type="text" id="edit-address" name="address">
             </div>
             <div class="form-group">
-              <label for="edit-city">Città</label> <input type="text" id="edit-city" name="city">
+              <label for="edit-city">Cittï¿½</label> <input type="text" id="edit-city" name="city">
             </div>
             <div class="form-group">
               <label for="edit-zipCode">CAP</label> <input type="text" id="edit-zipCode" name="zipCode" pattern="[0-9]{5}" title="5 cifre" maxlength="5">
@@ -318,7 +318,7 @@
           <img src="favicon/favicon.ico" alt="Associazione Santa Barbara" class="footer-logo">
           <h4>Associazione Santa Barbara</h4>
           <p>
-            Preserviamo le tradizioni di Grumo Appula dal 2008 con il Corteo Storico e attività culturali che valorizzano il nostro patrimonio.
+            Preserviamo le tradizioni di Grumo Appula dal 2008 con il Corteo Storico e attivitï¿½ culturali che valorizzano il nostro patrimonio.
           </p>
           <div class="contact-info-footer">
             <p>
@@ -355,7 +355,7 @@
                 </li>
                 <li>
                   <a href="attivita.html">
-                    <span>?</span> Attività
+                    <span>?</span> Attivitï¿½
                   </a>
                 </li>
                 <li>
@@ -396,13 +396,13 @@
           <div class="footer-section support-section">
             <h4>?? Sostieni l'Associazione</h4>
             <p>
-              Aiutaci a preservare le tradizioni e organizzare eventi per la comunità. Il tuo supporto è fondamentale per mantenere viva la storia e la cultura di Grumo Appula.
+              Aiutaci a preservare le tradizioni e organizzare eventi per la comunitï¿½. Il tuo supporto ï¿½ fondamentale per mantenere viva la storia e la cultura di Grumo Appula.
             </p>
             <p>
               Con il tuo contributo possiamo continuare a organizzare il Corteo Storico, eventi culturali, iniziative educative e progetti per valorizzare il nostro patrimonio storico-artistico.
             </p>
             <p>
-              <strong>Ogni donazione, grande o piccola, fa la differenza!</strong> Insieme possiamo costruire un futuro migliore per la nostra comunità.
+              <strong>Ogni donazione, grande o piccola, fa la differenza!</strong> Insieme possiamo costruire un futuro migliore per la nostra comunitï¿½.
             </p>
             <div class="sponsor-btn-container">
               <a href="contatti.html" class="sponsor-btn">
@@ -609,7 +609,7 @@
                         
                                                                         <div class="auth-prompt">
                                                                                 <h2>?? Email non confermata</h2>
-                                                                                <p>Il tuo account non è ancora stato confermato.</p>
+                                                                                <p>Il tuo account non ï¿½ ancora stato confermato.</p>
                                                                                 <p>Controlla la tua casella di posta e clicca sul link di conferma.</p>
                                                                                 <div class="auth-actions">
                                                                                         <button onclick="resendConfirmation()" class="btn btn-primary">Invia di nuovo email</button>
@@ -651,7 +651,7 @@
                         
                                                                         <div class="auth-prompt">
                                                                                 <h2>?? Accesso Limitato</h2>
-                                                                                <p>Il tuo account è attivo ma non hai i permessi per accedere all'area soci.</p>
+                                                                                <p>Il tuo account ï¿½ attivo ma non hai i permessi per accedere all'area soci.</p>
                                                                                 <p>Contatta l'amministrazione per richiedere l'attivazione come socio.</p>
                                                                                 <div class="contact-info">
                                                                                         <p>?? 
@@ -790,7 +790,7 @@
                         
                         function populateEditForm() {
                                 if (!currentUser) return;
-                                // Usa user_metadata già merge-ato con i dati del profilo (come fatto in checkAuthentication)
+                                // Usa user_metadata giï¿½ merge-ato con i dati del profilo (come fatto in checkAuthentication)
                                 const metadata = currentUser.user_metadata || {};
                                 // Informazioni Personali
                                 document.getElementById('edit-firstName').value = metadata.first_name || '';
@@ -1195,7 +1195,7 @@
                                                 <td class="event-title" style="padding: 12px; border: 1px solid #ddd; font-weight: 600; color: #e10600; word-wrap: break-word; max-width: 250px;">${escapeHtml(event.title || '')}</td>
                                                 <td class="event-date" style="padding: 12px; border: 1px solid #ddd; white-space: nowrap; text-align: center; color: #333; font-weight: 500;">${formatDate(event.event_date)}</td>
                                                 <td style="padding: 12px; border: 1px solid #ddd; word-wrap: break-word; max-width: 200px; text-align: center;">${escapeHtml(event.location || '-')}</td>
-                                                <td class="event-public" style="padding: 12px; border: 1px solid #ddd; text-align: center; white-space: nowrap;">${event.is_public ? '? Sì' : '? No'}</td>
+                                                <td class="event-public" style="padding: 12px; border: 1px solid #ddd; text-align: center; white-space: nowrap;">${event.is_public ? '? Sï¿½' : '? No'}</td>
                                                 <td class="event-actions" style="padding: 8px; border: 1px solid #ddd; text-align: center; white-space: nowrap;">
                                                         <button onclick="editEvent('${event.id}')" class="btn-sm btn-edit" style="padding: 6px 12px; margin-right: 8px; margin-bottom: 0; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; display: inline-block; text-decoration: none; outline: none;">?? Modifica</button>
                                                         <button onclick="deleteEvent('${event.id}')" class="btn-sm btn-delete" style="padding: 6px 12px; margin-bottom: 0; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; display: inline-block; text-decoration: none; outline: none;">??? Elimina</button>
@@ -1281,10 +1281,10 @@
                                         
                                         // Validation
                                         if (!formData.get('title')?.trim()) {
-                                                throw new Error('Il titolo è obbligatorio');
+                                                throw new Error('Il titolo ï¿½ obbligatorio');
                                         }
                                         if (!formData.get('event_date')) {
-                                                throw new Error('La data è obbligatoria');
+                                                throw new Error('La data ï¿½ obbligatoria');
                                         }
                                         
                                         const eventData = {
@@ -1379,7 +1379,7 @@
                         }
                         
                         async function deleteEvent(eventId) {
-                                if (!confirm('Sei sicuro di voler eliminare questo evento? Questa azione non può essere annullata.')) {
+                                if (!confirm('Sei sicuro di voler eliminare questo evento? Questa azione non puï¿½ essere annullata.')) {
                                         return;
                                 }
                                 
@@ -1572,7 +1572,7 @@
                         }
 
                         async function deleteUser(userId) {
-                                if (!confirm('Sei sicuro di voler eliminare questo profilo utente? Questa azione non può essere annullata.')) {
+                                if (!confirm('Sei sicuro di voler eliminare questo profilo utente? Questa azione non puï¿½ essere annullata.')) {
                                         return;
                                 }
 
@@ -1674,7 +1674,7 @@
                                                                                         <input type="text" id="edit-user-address" value="${profile.address || ''}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
                                                                                 </div>
                                                                                 <div>
-                                                                                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Città</label>
+                                                                                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Cittï¿½</label>
                                                                                         <input type="text" id="edit-user-city" value="${profile.city || ''}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
                                                                                 </div>
                                                                                 <div>
