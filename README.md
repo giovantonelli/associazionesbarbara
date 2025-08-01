@@ -1,125 +1,23 @@
 
+
 [![Sito Web](https://img.shields.io/badge/Sito-Web-blue?logo=google-chrome)](https://associazionesbarbara.it)
 
 # 🏛️ Associazione Santa Barbara APS – Sito Ufficiale
 
-> Sito web informativo e gestionale per l'Associazione Santa Barbara APS
+>Sito web informativo e gestionale per l'Associazione Santa Barbara APS
 
-## Struttura del progetto
+Scopri la documentazione tecnica e le guide nella [Wiki](wiki.md).
 
-```
-404.html                # Pagina errore
-area-soci.html          # Dashboard soci (autenticazione Supabase)
-attivita.html           # Attività e progetti
-chi-siamo.html          # Storia e missione
-contatti.html           # Informazioni e form contatto
-eventi.html             # Calendario eventi
-faq.html                # Domande frequenti
-galleria.html           # Galleria foto/video
-index.html              # Homepage
-login.html              # Accesso soci
-partner.html            # Partner e sponsor
-privacy.html            # Privacy policy GDPR
-register.html           # Registrazione soci
-robots.txt              # SEO crawling
-sitemap.xml             # Mappa sito
-assets/
-  ├── css/
-  │     └── style.css   # Stile principale
-  ├── images/
-  │     └── logo.png    # Logo associazione (192x192px)
-  └── js/
-        ├── script.js
-        ├── adblock-detector-v2.js
-        ├── adblock-integration-v2.js
-        ├── adsense-optimization.js
-        ├── analytics.js
-        ├── counter-mobile-fix.js
-        ├── notifications.js
-        ├── seo-enhancements.js
-data/
-  └── faq.json          # Database FAQ
-favicon/                # Icone e manifest
-CNAME                   # Dominio personalizzato
-LICENSE                 # Licenza
-README.md               # Documentazione
-copilot-instruction.md  # Linee guida sviluppo
-CLAUDE.md               # Istruzioni Claude
-```
+---
 
-## Funzionalità principali
-- Pagine informative e di servizio
-- Area soci protetta (Supabase)
-- Galleria foto/video
-- FAQ dinamiche
-- SEO ottimizzato (meta tag, sitemap, robots.txt)
-- Privacy policy e gestione cookie
-- Sistema AdBlock (protezione contenuti)
+**Contatti**
+- Email: info@associazionesbarbara.it
+- Sede: Via N. Mastroserio 12, Grumo Appula (BA)
+- Facebook: santabarbara.grumoappula
+- Instagram: corteostoricosantabarbara
+- Telegram: associazionesbarbara
 
-## Tecnologie
-- HTML5, CSS3, JavaScript
-- Supabase (autenticazione soci)
-
-## Come contribuire
-Modifica i file HTML/CSS/JS secondo le esigenze dell’associazione.
-Aggiorna le immagini e i dati in `assets/images` e `data/faq.json`.
-Commit con messaggi chiari e descrittivi.
-
-## Licenza
-© 2025 Associazione Santa Barbara APS. Tutti i diritti riservati.
-Il codice sorgente è disponibile per modifiche interne all'associazione. Non è consentita la ridistribuzione o l'uso commerciale senza autorizzazione.
-🏛️ Sito S.Barbara/
-├── 📁 assets/
-│   ├── 🎨 css/
-│   │   └── style.css          # CSS principale con custom properties
-│   ├── 🖼️ images/
-│   │   ├── banner.jpg         # Hero banner homepage
-│   │   ├── logo.svg           # Logo associazione vettoriale
-│   │   ├── corteostorico.jpg  # Immagini attività
-│   │   └── tamburini.jpg
-│   └── ⚡ js/
-│       ├── script.js          # JavaScript principale
-│       └── notifications.js   # Sistema notifiche
-├── 📊 data/
-│   └── faq.json              # Database FAQ dinamiche
-├── 🎬 galleria/
-│   ├── 📸 foto/              # Immagini galleria
-│   └── 🎥 video/             # Video MP4 + thumbnails
-├── 📄 index.html             # Homepage
-├── ℹ️ chi-siamo.html         # Storia e missione
-├── 🎭 attivita.html          # Progetti e iniziative
-├── 📅 eventi.html            # Calendario eventi
-├── 🖼️ galleria.html          # Galleria foto/video avanzata
-├── ❓ faq.html               # Domande frequenti
-├── 📞 contatti.html          # Informazioni contatto
-├── 🤝 partner.html           # Partner e sponsor
-├── 🔒 privacy.html           # Privacy policy GDPR
-├── 👥 area-soci.html         # Dashboard membri (auth)
-├── 🔑 login.html             # Autenticazione
-├── ✍️ register.html          # Registrazione utenti
-├── 🤖 robots.txt             # SEO crawling
-├── 🗺️ sitemap.xml           # Mappa sito
-├── 🌐 CNAME                  # Dominio personalizzato
-├── ⚙️ _config.yml           # Configurazione Jekyll
-└── 📖 README.md             # Documentazione
-- 🖼️ **Galleria:** Carousel 3D video + lightbox foto responsive
-- ❓ **FAQ:** Sistema categorizzato con ricerca dinamica
-- 👤 **Profilo:** Gestione dati personali e preferenze
-- 📄 **Documenti:** Accesso materiali riservati soci
-- **Area pubblica:**
-  - Presentazione dell’associazione
-  - Informativa privacy e gestione cookie
-
-  - Accesso riservato solo ai soci (controllo ruolo)
-
-## Come avviare il sito in locale
-
-   ```
-2. Apri la cartella `Sito S.Barbara` in un editor (es. VS Code).
-   ```
-4. Visita `http://localhost:8000` nel browser.
-
-## Dipendenze principali
+© 2008–2025 Associazione Santa Barbara APS. Tutti i diritti riservati.
 - [Supabase JS](https://supabase.com/docs/reference/javascript) (autenticazione e database)
 
 ## Sicurezza e privacy
