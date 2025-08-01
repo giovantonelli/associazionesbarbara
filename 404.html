@@ -22,6 +22,14 @@
   <script src="assets/js/analytics.js"></script>
 </head>
 <body>
+  <div id="cookie-banner" class="cookie-banner">
+    <div class="cookie-content">
+      <p>Questo sito utilizza cookie per migliorare la tua esperienza. Continuando la navigazione accetti l'uso dei cookie.</p>
+      <div class="cookie-actions">
+        <button id="cookie-accept" class="btn btn-primary">Accetta</button> <button id="cookie-decline" class="btn btn-secondary">Rifiuta</button> <a href="privacy.html" class="btn btn-link">Leggi di più</a>
+      </div>
+    </div>
+  </div>
   <nav class="navbar">
     <div class="container">
       <div class="nav-brand">
@@ -111,7 +119,7 @@
           </p>
           <div class="contact-info-footer">
             <p><span>📍</span> Via N. Mastroserio 12 - Grumo Appula (BA)</p>
-            <p><span>📧</span> info@associazionesbarbara.it</p>
+            <p><span>📧</span> <a href="mailto:info@associazionesbarbara.it">info@associazionesbarbara.it</a></p>
             <p><b>Contattaci per maggiori informazioni</b></p>
           </div>
         </div>
@@ -216,11 +224,16 @@
       
       if (originalUrl) {
         const description = document.querySelector('.error-description');
-        description.innerHTML = `
-          Sembra che la pagina "<strong>${decodeURIComponent(originalUrl)}</strong>" sia andata a fare una passeggiata nel centro storico di Grumo Appula e si sia persa!
-          <br><br>
-          Non preoccuparti, ti aiutiamo noi a ritrovare la strada.
-        `;
+        description.textContent = '';
+        // Crea il messaggio in modo sicuro
+        description.append(
+          'Sembra che la pagina "',
+          (() => { const strong = document.createElement('strong'); strong.textContent = decodeURIComponent(originalUrl); return strong; })(),
+          '" sia andata a fare una passeggiata nel centro storico di Grumo Appula e si sia persa!',
+          document.createElement('br'),
+          document.createElement('br'),
+          'Non preoccuparti, ti aiutiamo noi a ritrovare la strada.'
+        );
       }
       
       // Aggiorna l'anno nel footer

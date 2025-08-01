@@ -22,7 +22,15 @@
   <script src="assets/js/analytics.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body>
+<body class="galleria-page">
+  <div id="cookie-banner" class="cookie-banner">
+    <div class="cookie-content">
+      <p>Questo sito utilizza cookie per migliorare la tua esperienza. Continuando la navigazione accetti l'uso dei cookie.</p>
+      <div class="cookie-actions">
+        <button id="cookie-accept" class="btn btn-primary">Accetta</button> <button id="cookie-decline" class="btn btn-secondary">Rifiuta</button> <a href="privacy.html" class="btn btn-link">Leggi di più</a>
+      </div>
+    </div>
+  </div>
   <nav class="navbar">
     <div class="container">
       <div class="nav-brand">
@@ -82,7 +90,7 @@
         </div>
         <div class="stat-divider"></div>
         <div class="stat-item">
-          <div class="stat-number">18</div>
+          <div class="stat-number" id="videoCount">0</div>
           <div class="stat-label">Video</div>
         </div>
       </div>
@@ -162,12 +170,12 @@
   </section>
   <div class="video-overlay enhanced-overlay" id="videoOverlay">
     <div class="overlay-background"></div>
+    <button class="video-lightbox-nav video-lightbox-prev enhanced-video-nav" aria-label="Precedente">
+      <span class="nav-arrow">‹</span>
+    </button>
     <div class="video-player enhanced-player">
       <button class="close-button enhanced-close-btn" id="closeButton">
         <span class="close-icon">×</span>
-      </button>
-      <button class="video-lightbox-nav video-lightbox-prev enhanced-video-nav" aria-label="Precedente">
-        <span class="nav-arrow">‹</span>
       </button>
       <div class="video-container">
         <video id="overlayVideo" controls="" class="enhanced-video">
@@ -175,10 +183,10 @@
           Il tuo browser non supporta i video HTML5.
         </video>
       </div>
-      <button class="video-lightbox-nav video-lightbox-next enhanced-video-nav" aria-label="Successivo">
-        <span class="nav-arrow">›</span>
-      </button>
     </div>
+    <button class="video-lightbox-nav video-lightbox-next enhanced-video-nav" aria-label="Successivo">
+      <span class="nav-arrow">›</span>
+    </button>
   </div>
   <div class="lightbox enhanced-lightbox" id="photo-lightbox">
     <div class="lightbox-background"></div>
@@ -283,7 +291,7 @@
               <span>📍</span> Via N. Mastroserio 12 - Grumo Appula (BA)
             </p>
             <p>
-              <span>📧</span> info@associazionesbarbara.it
+              <span>📧</span> <a href="mailto:info@associazionesbarbara.it">info@associazionesbarbara.it</a>
             </p>
             <p>
               <b>Contattaci per maggiori informazioni</b>

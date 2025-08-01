@@ -1429,10 +1429,11 @@ function setupEventiModal() {
 }
 
 function initGalleriaPage() {
-	if (!document.body.classList.contains("galleria-page") && !window.location.pathname.includes("galleria")) return;
-		let {
-		createClient: e
-	} = supabase, t = e("https://ciezrbsolxpjxswdkkpo.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpZXpyYnNvbHhwanhzd2Rra3BvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5MjM1NjAsImV4cCI6MjA2ODQ5OTU2MH0.V-U8KhO8byObUW5kJ8XbLBkp9O9Efh98MdbKYFfbQJk");
+	if (!document.body.classList.contains("galleria-page") && !window.location.pathname.includes("galleria")) {
+		return;
+	}
+		// Use global Supabase client instance to avoid multiple client warnings
+		const t = getSupabaseClient();
 	async function i() {
 		try {
 			let e = document.getElementById("loadingPhotos"),
@@ -1617,7 +1618,7 @@ function initGalleriaPage() {
 					e.preventDefault();
 					let t = e.deltaY > 0 ? -.1 : .1;
 					zoomImage(t)
-				}), a.addEventListener("dblclick", function(e) {
+				}, { passive: false }), a.addEventListener("dblclick", function(e) {
 					if (e.stopPropagation(), 1 === d) d = 2;
 					else {
 						resetZoom();
@@ -1649,7 +1650,7 @@ function initGalleriaPage() {
 							g.x = n.clientX - m.x, g.y = n.clientY - m.y
 						} else c = e.touches[0].clientY
 					}
-				}), a.addEventListener("touchmove", e => {
+				}, { passive: false }), a.addEventListener("touchmove", e => {
 					if (2 === e.touches.length) {
 						e.preventDefault();
 						let t = e.touches[0],
@@ -1667,7 +1668,7 @@ function initGalleriaPage() {
 							r > 60 && (v(), c = null)
 						}
 					}
-				}), a.addEventListener("touchend", e => {
+				}, { passive: false }), a.addEventListener("touchend", e => {
 					0 === e.touches.length && (u = !1, c = null)
 				})
 			}(),
@@ -1829,6 +1830,25 @@ function initGalleriaPage() {
 			})
 		}, 2500)
 	}, 5e3)
+	
+	// Update video counter with animation
+	setTimeout(() => {
+		const videoCountElement = document.getElementById('videoCount');
+		const videoSlides = document.querySelectorAll('.video-slide');
+		if (videoCountElement && videoSlides.length > 0) {
+			let currentCount = 0;
+			const targetCount = videoSlides.length;
+			const increment = Math.ceil(targetCount / 20);
+			const counterInterval = setInterval(() => {
+				currentCount += increment;
+				if (currentCount >= targetCount) {
+					currentCount = targetCount;
+					clearInterval(counterInterval);
+				}
+				videoCountElement.textContent = currentCount;
+			}, 50);
+		}
+	}, 1200); // Wait for video slides to be created
 }
 
 function initGalleriaAnimations() {
@@ -1976,8 +1996,117 @@ function initGalleriaScrollAnimations() {
 	})
 }
 
+async function loadFAQsFromSupabase() {
+	const loadingElement = document.getElementById('loading-faq');
+	const containerElement = document.getElementById('faq-container');
+	const errorElement = document.getElementById('error-message');
+	
+	if (!loadingElement || !containerElement || !errorElement) {
+		return;
+	}
+	
+	const supabaseClient = getSupabaseClient();
+	if (!supabaseClient) {
+		loadingElement.style.display = 'none';
+		errorElement.innerHTML = '<p>Errore di inizializzazione database. Riprova più tardi.</p>';
+		errorElement.style.display = 'block';
+		return;
+	}
+	
+	try {
+		const { data: faqs, error } = await supabaseClient
+			.from('faq')
+			.select('id, question, answer')
+			.order('id', { ascending: true });
+		
+		if (error) {
+			throw error;
+		}
+		
+		loadingElement.style.display = 'none';
+		
+		if (!faqs || faqs.length === 0) {
+			errorElement.innerHTML = '<p>Nessuna FAQ trovata nel database.</p>';
+			errorElement.style.display = 'block';
+			return;
+		}
+		
+		let faqHTML = '';
+		faqs.forEach((faq, index) => {
+			faqHTML += `
+				<div class="faq-item" data-index="${index}">
+					<div class="faq-question" onclick="toggleFaq(${index})" style="cursor: pointer;">
+						<h3>${faq.question}</h3>
+						<span class="faq-toggle" style="font-size: 1.5em; font-weight: bold;">+</span>
+					</div>
+					<div class="faq-answer" id="faq-answer-${index}" style="display: none; max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
+						<div class="faq-answer-content" style="padding: 15px 0;">
+							<p>${faq.answer}</p>
+						</div>
+					</div>
+				</div>
+			`;
+		});
+		
+		containerElement.innerHTML = faqHTML;
+		containerElement.style.display = 'block';
+		
+	} catch (error) {
+		loadingElement.style.display = 'none';
+		errorElement.innerHTML = `<p>Errore nel caricamento delle FAQ: ${error.message || 'Errore sconosciuto'}. Riprova più tardi.</p>`;
+		errorElement.style.display = 'block';
+	}
+}
+
+function toggleFaq(index) {
+	const answer = document.getElementById(`faq-answer-${index}`);
+	const question = answer.previousElementSibling;
+	const toggle = question.querySelector('.faq-toggle');
+	const faqItem = question.closest('.faq-item');
+	
+	// Close all other FAQs first
+	document.querySelectorAll('.faq-item').forEach((item, i) => {
+		if (i !== index) {
+			const otherAnswer = item.querySelector('.faq-answer');
+			const otherQuestion = item.querySelector('.faq-question');
+			const otherToggle = otherQuestion.querySelector('.faq-toggle');
+			
+			item.classList.remove('active');
+			otherAnswer.style.maxHeight = '0px';
+			otherAnswer.style.display = 'none';
+			otherToggle.textContent = '+';
+		}
+	});
+	
+	// Toggle current FAQ
+	const isOpen = faqItem.classList.contains('active');
+	
+	if (isOpen) {
+		faqItem.classList.remove('active');
+		answer.style.maxHeight = '0px';
+		answer.style.display = 'none';
+		toggle.textContent = '+';
+	} else {
+		faqItem.classList.add('active');
+		answer.style.display = 'block';
+		answer.style.maxHeight = answer.scrollHeight + 'px';
+		toggle.textContent = '−';
+		
+		// Scroll to question after animation
+		setTimeout(() => {
+			question.scrollIntoView({
+				behavior: 'smooth',
+				block: 'center'
+			});
+		}, 300);
+	}
+}
+
+// Make toggleFaq globally accessible
+window.toggleFaq = toggleFaq;
+
 function initFaqPage() {
-	(document.body.classList.contains("faq-page") || window.location.pathname.includes("faq")) && (initFaqAnimations(), initFaqCategoryFiltering(), initFaqAccordion(), initFaqParallax())
+	(document.body.classList.contains("faq-page") || window.location.pathname.includes("faq")) && (loadFAQsFromSupabase(), initFaqAnimations(), initFaqCategoryFiltering(), initFaqAccordion(), initFaqParallax())
 }
 
 function initFaqAnimations() {
@@ -2514,6 +2643,13 @@ function initializeGalleryPage() {
 
 	// Carica i video da archive.org
 	function loadVideosFromArchive() {
+		console.log('🎥 loadVideosFromArchive called');
+		console.log('🔍 Looking for video elements...');
+		
+		// DEBUG: Check DOM ready state
+		console.log('📄 Document ready state:', document.readyState);
+		console.log('🔍 All elements with id:', Array.from(document.querySelectorAll('[id]')).map(el => el.id));
+		
 		const loadingElement = document.getElementById('loadingVideos');
 		const videoSwiper = document.getElementById('videoSwiper');
 		const swiperWrapper = document.getElementById('videoSwiperWrapper');
@@ -2542,6 +2678,53 @@ function initializeGalleryPage() {
 			`;
 			swiperWrapper.appendChild(slide);
 		}
+		
+		// Update video counter in hero
+		console.log('🔄 Attempting to update video counter...');
+		const videoCountElement = document.getElementById('videoCount');
+		console.log('🎯 videoCountElement found:', !!videoCountElement);
+		console.log('📊 videoCount value:', videoCount);
+		
+		// Try multiple approaches to find the element
+		if (!videoCountElement) {
+			console.log('❌ videoCount element not found via getElementById!');
+			console.log('🔍 Trying querySelector...');
+			const altElement = document.querySelector('#videoCount');
+			console.log('🔍 querySelector result:', !!altElement);
+			
+			console.log('🔍 Trying to find by class or other selectors...');
+			const statNumbers = document.querySelectorAll('.stat-number');
+			console.log('🔍 Found .stat-number elements:', statNumbers.length);
+			Array.from(statNumbers).forEach((el, i) => {
+				console.log(`🔍 .stat-number[${i}] id:`, el.id, 'text:', el.textContent);
+			});
+			
+			console.log('🔍 All elements with id attribute:');
+			Array.from(document.querySelectorAll('[id]')).forEach(el => {
+				console.log('  - id:', el.id, 'tag:', el.tagName, 'classes:', el.className);
+			});
+		}
+		
+		if (videoCountElement) {
+			videoCountElement.textContent = videoCount;
+			console.log('✅ Video counter updated to:', videoCount);
+			console.log('📝 Element content now:', videoCountElement.textContent);
+		} else {
+			console.log('❌ videoCount element still not found after all attempts!');
+			
+			// Try to update after a short delay
+			setTimeout(() => {
+				console.log('🔄 Retrying video counter update after delay...');
+				const retryElement = document.getElementById('videoCount');
+				if (retryElement) {
+					retryElement.textContent = videoCount;
+					console.log('✅ Video counter updated on retry to:', videoCount);
+				} else {
+					console.log('❌ Video counter element still not found on retry');
+				}
+			}, 500);
+		}
+		
 		if (videoCount === 0) {
 			loadingElement.innerHTML = '<p>Nessun video valido trovato su archive.org</p>';
 			return;
@@ -3141,20 +3324,29 @@ function initializeGalleryPage() {
 		}
 	}
 
-	// Load photos and videos when page loads
-	document.addEventListener('DOMContentLoaded', () => {
-		// Initialize scroll animations
-		initScrollAnimations();
+	// Initialize scroll animations
+	console.log('🎬 Initializing scroll animations...');
+	initScrollAnimations();
+	
+	// Start loading animations
+	console.log('⏳ Starting loading animations...');
+	showLoadingProgress('loadingPhotos', 2000);
+	showLoadingProgress('loadingVideos', 2500);
+	
+	// Load photos and videos
+	console.log('📸 Scheduling photo and video loading in 1 second...');
+	setTimeout(() => {
+		console.log('📸 Starting loadPhotosFromSupabase...');
+		loadPhotosFromSupabase();
+		console.log('🎥 Starting loadVideosFromArchive...');
 		
-		// Start loading animations
-		showLoadingProgress('loadingPhotos', 2000);
-		showLoadingProgress('loadingVideos', 2500);
+		// DEBUG: Check if videoCount element exists before calling loadVideosFromArchive
+		const videoCountCheck = document.getElementById('videoCount');
+		console.log('🔍 PRE-LOAD CHECK - videoCount element exists:', !!videoCountCheck);
+		console.log('🔍 PRE-LOAD CHECK - videoCount element:', videoCountCheck);
 		
-		setTimeout(() => {
-			loadPhotosFromSupabase();
-			loadVideosFromArchive();
-		}, 1000);
-	});
+		loadVideosFromArchive();
+	}, 1000);
 
 	// Precarica i video dello slider dopo il caricamento
 	function preloadSliderVideos() {
@@ -3178,13 +3370,8 @@ function initializeGalleryPage() {
 	}
 
 	// Avvia il pre-caricamento dopo il caricamento dei video (ritardato per performance)
-	document.addEventListener('DOMContentLoaded', () => {
-		setTimeout(preloadSliderVideos, 5000);
-	});
+	setTimeout(preloadSliderVideos, 5000);
 }
-
-// Initialize gallery page when DOM is loaded
-document.addEventListener('DOMContentLoaded', initializeGalleryPage);
 
 // Registration functionality for register.html
 function initializeRegistrationPage() {

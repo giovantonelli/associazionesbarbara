@@ -1,31 +1,517 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.8.0">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contatti - Associazione Santa Barbara</title>
-  <meta name="description" content="Contatta l'Associazione Santa Barbara - Indirizzo, telefono, email e mappa">
-  <meta name="keywords" content="contatti, indirizzo, telefono, email, mappa, associazione">
-  <meta name="robots" content="index, follow">
-  <meta property="og:title" content="Contatti - Associazione Santa Barbara">
-  <meta property="og:description" content="Contatta l'Associazione Santa Barbara - Indirizzo, telefono, email e mappa">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://associazionesbarbara.it/contatti.html">
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
-  <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
-  <link rel="shortcut icon" href="favicon/favicon.ico" />
-  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
-  <meta name="apple-mobile-web-app-title" content="S.Barbara" />
-  <link rel="manifest" href="favicon/site.webmanifest" />
-  <script src="assets/js/analytics.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contatti - Associazione Santa Barbara</title>
+<meta name="description" content="Contatta l'Associazione Santa Barbara. Trova i nostri recapiti, indirizzo e modulo di contatto per richiedere informazioni sui nostri eventi e attività.">
+<meta name="keywords" content="contatti, Associazione Santa Barbara, telefono, email, indirizzo, Grumo Appula">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://associazionesbarbara.it/contatti.html">
+<meta property="og:title" content="Contatti - Associazione Santa Barbara">
+<meta property="og:description" content="Contatta l'Associazione Santa Barbara per informazioni sui nostri eventi e attività di volontariato.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://associazionesbarbara.it/contatti.html">
+<meta property="og:image" content="https://associazionesbarbara.it/favicon/favicon.ico">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Contatti - Associazione Santa Barbara">
+<meta name="twitter:description" content="Contatta l'Associazione Santa Barbara per informazioni sui nostri eventi e attività di volontariato.">
+<meta name="twitter:image" content="https://associazionesbarbara.it/favicon/favicon.ico">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="favicon/favicon.svg">
+<link rel="shortcut icon" href="favicon/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="S.Barbara">
+<link rel="manifest" href="favicon/site.webmanifest">
+<script src="assets/js/analytics.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Contatti - Associazione Santa Barbara",
+  "description": "Pagina di contatto dell'Associazione Santa Barbara",
+  "about": {
+    "@type": "Organization",
+    "name": "Associazione Santa Barbara",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "General inquiries",
+      "availableLanguage": "Italian",
+      "email": "info@associazionesbarbara.it",
+      "telephone": "+39-333-289-3715"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Via N. Mastroserio 12",
+      "addressLocality": "Grumo Appula",
+      "addressRegion": "BA",
+      "postalCode": "70025",
+      "addressCountry": "IT"
+    }
+  }
+}
+</script>
+<style>
+/* Enhanced Hero Styles */
+.contact-hero {
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--primary-color) 0%, #c70500 50%, #ff4757 100%);
+  color: white;
+}
+
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.hero-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+                    radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.06) 0%, transparent 50%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 60px 0;
+}
+
+.hero-content .row {
+  align-items: flex-start;
+  min-height: 500px;
+  gap: 60px;
+}
+
+.hero-content .col-md-7 {
+  display: flex;
+  align-items: center;
+  padding-right: 40px;
+}
+
+.hero-content .col-md-5 {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding-top: 20px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  padding: 12px 20px;
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  overflow: hidden;
+}
+
+.badge-icon {
+  font-size: 14px;
+  line-height: 1;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 600px;
+}
+
+.text-highlight {
+  position: relative;
+  color: #ffd700;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  display: inline-block;
+  min-width: 200px;
+  text-align: left;
+}
+
+.typewriter {
+  border-right: 3px solid #ffd700;
+  animation: blink 1s infinite;
+}
+
+.typewriter.typing {
+  border-right: 3px solid #ffd700;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { border-color: #ffd700; }
+  51%, 100% { border-color: transparent; }
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.hero-description {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  opacity: 0.95;
+  max-width: 600px;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+  align-items: center;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffd700;
+  text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-top: 5px;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.hero-actions {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.btn-large {
+  padding: 15px 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-large:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  color: white;
+}
+
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  color: white;
+}
+
+.hero-visual {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  min-height: 400px;
+  width: 100%;
+}
+
+.contact-preview-cards {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+  margin-left: 60px;
+  margin-right: 0;
+  flex-shrink: 0;
+}
+
+.preview-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 15px;
+  color: var(--text-color);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.preview-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color), #ffd700);
+}
+
+.preview-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.card-phone { animation-delay: 0.2s; }
+.card-email { animation-delay: 0.4s; }
+.card-location { animation-delay: 0.6s; }
+
+.preview-card .card-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.preview-card h4 {
+  margin: 0 0 5px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.preview-card p {
+  margin: 0 0 8px 0;
+  font-weight: 500;
+}
+
+.card-status {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+.hero-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.decoration-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 215, 0, 0.1);
+  animation: float 6s ease-in-out infinite;
+}
+
+.circle-1 {
+  width: 60px;
+  height: 60px;
+  top: 10%;
+  right: 10%;
+  animation-delay: 0s;
+}
+
+.circle-2 {
+  width: 80px;
+  height: 80px;
+  bottom: 20%;
+  left: 5%;
+  animation-delay: 2s;
+}
+
+.circle-3 {
+  width: 40px;
+  height: 40px;
+  top: 60%;
+  right: 30%;
+  animation-delay: 4s;
+}
+
+.hero-wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+
+.hero-wave svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 60px;
+  color: white;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .hero-content .row {
+    gap: 40px;
+  }
+  
+  .contact-preview-cards {
+    margin-left: 40px;
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 992px) {
+  .contact-hero {
+    min-height: 90vh;
+  }
+  
+  .hero-content .row {
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .hero-content .col-md-7 {
+    padding-right: 20px;
+  }
+  
+  .hero-content .col-md-5 {
+    align-items: center;
+    padding-top: 0;
+  }
+  
+  .hero-visual {
+    justify-content: center;
+    min-height: 400px;
+    margin-top: 40px;
+  }
+  
+  .contact-preview-cards {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-hero {
+    min-height: 100vh;
+    text-align: center;
+  }
+  
+  .hero-content .row {
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .text-highlight {
+    min-width: 150px;
+  }
+  
+  .hero-stats {
+    justify-content: center;
+  }
+  
+  .hero-actions {
+    justify-content: center;
+  }
+  
+  .btn-large {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .contact-preview-cards {
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .hero-description {
+    font-size: 1rem;
+  }
+  
+  .stat-number {
+    font-size: 1.5rem;
+  }
+}
+</style>
 </head>
 <body>
+  <div id="cookie-banner" class="cookie-banner">
+    <div class="cookie-content">
+      <p>Questo sito utilizza cookie per migliorare la tua esperienza. Continuando la navigazione accetti l'uso dei cookie.</p>
+      <div class="cookie-actions">
+        <button id="cookie-accept" class="btn btn-primary">Accetta</button>
+        <button id="cookie-decline" class="btn btn-secondary">Rifiuta</button>
+        <a href="privacy.html" class="btn btn-link">Leggi di più</a>
+      </div>
+    </div>
+  </div>
+
   <nav class="navbar">
     <div class="container">
       <div class="nav-brand">
-        <a href="index.html" class="nav-brand-link"><img src="favicon/favicon.ico" alt="Logo Associazione Santa Barbara" class="logo"> <span class="brand-text">Associazione Santa Barbara</span></a>
+        <a href="index.html" class="nav-brand-link">
+          <img src="favicon/favicon.ico" alt="Logo Associazione Santa Barbara" class="logo">
+          <span class="brand-text">Associazione Santa Barbara</span>
+        </a>
       </div>
       <button class="nav-toggle" aria-label="Toggle navigation">
         <span></span>
@@ -33,473 +519,578 @@
         <span></span>
       </button>
       <ul class="nav-menu">
-        <li>
-          <a href="index.html" class="nav-link">Home</a>
-        </li>
-        <li>
-          <a href="chi-siamo.html" class="nav-link">Chi siamo</a>
-        </li>
-        <li>
-          <a href="attivita.html" class="nav-link">Attivit�</a>
-        </li>
-        <li>
-          <a href="eventi.html" class="nav-link">Eventi</a>
-        </li>
-        <li>
-          <a href="galleria.html" class="nav-link">Galleria</a>
-        </li>
-        <li>
-          <a href="faq.html" class="nav-link">FAQ</a>
-        </li>
-        <li>
-          <a href="contatti.html" class="nav-link active">Contatti</a>
-        </li>
-        <li>
-          <a href="partner.html" class="nav-link">Partner</a>
-        </li>
-        <li>
-          <a href="area-soci.html" class="nav-link btn btn-primary">Area Soci</a>
-        </li>
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="chi-siamo.html" class="nav-link">Chi siamo</a></li>
+        <li><a href="attivita.html" class="nav-link">Attività</a></li>
+        <li><a href="eventi.html" class="nav-link">Eventi</a></li>
+        <li><a href="galleria.html" class="nav-link">Galleria</a></li>
+        <li><a href="faq.html" class="nav-link">FAQ</a></li>
+        <li><a href="contatti.html" class="nav-link active">Contatti</a></li>
+        <li><a href="partner.html" class="nav-link">Partner</a></li>
+        <li><a href="area-soci.html" class="nav-link btn btn-primary">Area Soci</a></li>
       </ul>
     </div>
   </nav>
-  <div id="user-bar"></div>
-  <section class="page-header enhanced-header fade-in" data-parallax>
-    <div class="container">
-      <div class="section-badge animate-badge">Contatti</div>
-      <h1 class="animate-title">Contatti</h1>
-      <p class="animate-subtitle">Siamo qui per rispondere alle tue domande e accogliere le tue proposte</p>
-    </div>
-    <div class="header-decoration"></div>
-  </section>
-  <section class="contact-info enhanced-contact-info">
-    <div class="container">
-      <div class="section-badge animate-badge slide-up" data-animation-delay="0.2">Informazioni</div>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="contact-card enhanced-contact-card slide-up" data-animation-delay="0.3">
-            <div class="contact-icon enhanced-icon">
-              <svg width="40" height="40" viewbox="0 0 24 24" fill="var(--primary-color)">
-              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>
-            </div>
-            <h3>Indirizzo</h3>
-            <div class="contact-details">
-              <p>Via N. Mastroserio 12<br>
-              Grumo Appula (BA)<br>
-              Italia</p>
-              <div class="contact-actions">
-                <a href="https://maps.app.goo.gl/17mpxTbgqAVh5Tqv9" target="_blank" class="btn btn-outline btn-sm">
-                  <span class="btn-icon">???</span>
-                  <span class="btn-text">Apri Mappa</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="contact-card enhanced-contact-card slide-up" data-animation-delay="0.4">
-            <div class="contact-icon enhanced-icon">
-              <svg width="40" height="40" viewbox="0 0 24 24" fill="var(--primary-color)">
-              <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"></path></svg>
-            </div>
-            <h3>Telefono</h3>
-            <div class="contact-details">
-              <div class="phone-list">
-                <div class="phone-item">
-                  <span class="phone-label">Cellulare:</span>
-                  <a href="tel:+393332893715" class="phone-link">+39 333 289 3715</a>
-                </div>
-              </div>
-              <div class="contact-actions">
-                <a href="tel:+393332893715" class="btn btn-outline btn-sm">
-                  <span class="btn-icon">??</span>
-                  <span class="btn-text">Chiama Ora</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="contact-card enhanced-contact-card slide-up" data-animation-delay="0.5">
-            <div class="contact-icon enhanced-icon">
-              <svg width="40" height="40" viewbox="0 0 24 24" fill="var(--primary-color)">
-              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg>
-            </div>
-            <h3>Email</h3>
-            <div class="contact-details">
-              <div class="email-list">
-                <div class="email-item">
-                  <span class="email-label">Generale:</span>
-                  <a href="mailto:info@associazionesbarbara.it" class="email-link">info@associazionesbarbara.it</a>
-                </div>
-                <div class="email-item">
-                  <span class="email-label">Presidente:</span>
-                  <a href="mailto:presidente@associazionesbarbara.it" class="email-link">presidente@associazionesbarbara.it</a>
-                  <small>Antonia Baccelliere</small>
-                </div>
-              </div>
-              <div class="contact-actions">
-                <a href="mailto:info@associazionesbarbara.it" class="btn btn-outline btn-sm">
-                  <span class="btn-icon">??</span>
-                  <span class="btn-text">Scrivi Email</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="contact-details-section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4">
-          <div class="contact-sidebar enhanced-sidebar slide-up" data-animation-delay="0.6">
-            <div class="sidebar-section">
-              <div class="section-header">
-                <span class="section-icon">??</span>
-                <h3>Orari di apertura</h3>
-              </div>
-              <div class="opening-hours enhanced-hours">
-                <div class="opening-day">
-                  <span class="day">Orari</span>
-                  <span class="hours">La sede � aperta su appuntamento e in occasione di eventi. Per fissare un incontro, contattaci via email o telefono oppure consulta la sezione <a href="eventi.html">Eventi</a> per conoscere le prossime aperture pubbliche.</span>
-                </div>
-              </div>
-            </div>
-            
-            <div class="sidebar-section">
-              <div class="section-header">
-                <span class="section-icon">??</span>
-                <h3>Come raggiungerci</h3>
-              </div>
-              <div class="transport-info enhanced-transport">
-                <div class="transport-item">
-                  <span class="transport-icon">??</span>
-                  <div class="transport-details">
-                    <strong>Autobus STP/FAL</strong>
-                    <span class="transport-desc">Fermata: Via Vincenzo Rella 84<br>(5 min a piedi)</span>
-                  </div>
-                </div>
-                <div class="transport-item">
-                  <span class="transport-icon">??</span>
-                  <div class="transport-details">
-                    <strong>Auto</strong>
-                    <span class="transport-desc">Parcheggio disponibile nelle vicinanze</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="sidebar-section">
-              <div class="section-header">
-                <span class="section-icon">?</span>
-                <h3>Contatti rapidi</h3>
-              </div>
-              <div class="quick-contacts enhanced-quick">
-                <div class="quick-contact-item">
-                  <a href="https://wa.me/........" class="quick-link whatsapp">
-                    <span class="quick-icon">??</span>
-                    <div class="quick-info">
-                      <span class="quick-label">WhatsApp</span>
-                      <span class="quick-value">+39 .......</span>
-                    </div>
-                  </a>
-                </div>
-                <div class="quick-contact-item">
-                  <a href="https://t.me/associazionesbarbara" class="quick-link telegram">
-                    <span class="quick-icon">??</span>
-                    <div class="quick-info">
-                      <span class="quick-label">Telegram</span>
-                      <span class="quick-value">@associazionesbarbara</span>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="col-md-8">
-          <div class="contact-form-section slide-up" data-animation-delay="0.7">
-            <div class="section-badge animate-badge">Contattaci</div>
-            <h2>Invia un messaggio</h2>
-            <p>Compila il modulo per inviarci una richiesta. Ti risponderemo il prima possibile!</p>
-            
-            <form class="contact-form enhanced-form" id="contactForm">
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="nome">Nome *</label>
-                  <input type="text" id="nome" name="nome" required>
-                </div>
-                <div class="form-group">
-                  <label for="cognome">Cognome *</label>
-                  <input type="text" id="cognome" name="cognome" required>
-                </div>
-              </div>
-              
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="email">Email *</label>
-                  <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                  <label for="telefono">Telefono</label>
-                  <input type="tel" id="telefono" name="telefono">
-                </div>
-              </div>
-              
-              <div class="form-group">
-                <label for="oggetto">Oggetto *</label>
-                <select id="oggetto" name="oggetto" required>
-                  <option value="">Seleziona l'oggetto...</option>
-                  <option value="iscrizione">Informazioni sull'iscrizione</option>
-                  <option value="volontariato">Opportunit� di volontariato</option>
-                  <option value="eventi">Domande sugli eventi</option>
-                  <option value="partnership">Proposte di partnership</option>
-                  <option value="altro">Altro</option>
-                </select>
-              </div>
-              
-              <div class="form-group">
-                <label for="messaggio">Messaggio *</label>
-                <textarea id="messaggio" name="messaggio" rows="5" required placeholder="Scrivi qui il tuo messaggio..."></textarea>
-              </div>
-              
-              <div class="form-group checkbox-group">
-                <label class="checkbox-label">
-                  <input type="checkbox" id="privacy" name="privacy" required>
-                  <span class="checkmark"></span>
-                  Accetto l'<a href="privacy.html" target="_blank">Informativa sulla Privacy</a> *
-                </label>
-              </div>
-              
-              <button type="submit" class="btn btn-primary btn-full enhanced-submit">
-                <span class="btn-icon">??</span>
-                <span class="btn-text">Invia Messaggio</span>
-                <div class="btn-loader" style="display: none;"></div>
-              </button>
-            </form>
-            
-            <div id="form-status" class="form-status" style="display: none;"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="map-section enhanced-map-section slide-up" data-animation-delay="0.8">
-    <div class="container">
-      <div class="section-badge animate-badge">Posizione</div>
-      <h2 class="section-title animate-title">Dove siamo</h2>
-      <p class="section-subtitle animate-subtitle">Vieni a trovarci nella nostra sede di Grumo Appula</p>
-      
-      <div class="map-container enhanced-map-container">
-        <div class="map-overlay">
-          <div class="map-info">
-            <div class="map-address">
-              <span class="address-icon">??</span>
-              <div class="address-details">
-                <strong>Via N. Mastroserio 12</strong>
-                <span>70025 Grumo Appula (BA)</span>
-              </div>
-            </div>
-            <div class="map-actions">
-              <a href="https://maps.app.goo.gl/17mpxTbgqAVh5Tqv9" target="_blank" class="btn btn-primary btn-sm">
-                <span class="btn-icon">??</span>
-                <span class="btn-text">Ottieni Indicazioni</span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="map-placeholder enhanced-map">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3673.114508777878!2d16.705670776505155!3d41.01166441921549!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1347f2b3a8470611%3A0xb07079213f3d2058!2sVia%20Nicola%20Mastroserio%2C%2012%2C%2070025%20Grumo%20Appula%20BA!5e1!3m2!1sit!2sit!4v1752937171378!5m2!1sit!2sit" width="100%" height="450" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-      </div>
-      
-      <div class="location-features">
-        <div class="feature-item">
-          <span class="feature-icon">???</span>
-          <span class="feature-text">Parcheggio disponibile</span>
-        </div>
-        <div class="feature-item">
-          <span class="feature-icon">?</span>
-          <span class="feature-text">Accesso facilitato</span>
-        </div>
-        <div class="feature-item">
-          <span class="feature-icon">??</span>
-          <span class="feature-text">Collegamento mezzi pubblici</span>
-        </div>
-      </div>
-    </div>
-  </section>
-    <footer class="footer enhanced-footer">
-    <div class="container">
-      <!-- Sezione principale del footer -->
-      <div class="footer-main">
-        <div class="footer-brand brand-card">
-          <img src="favicon/favicon.ico" alt="Associazione Santa Barbara" class="footer-logo">
-          <h4>Associazione Santa Barbara</h4>
-          <p>
-            Preserviamo le tradizioni di Grumo Appula dal 2008 con il Corteo Storico e attivit� culturali che valorizzano il nostro patrimonio.
-          </p>
-          <div class="contact-info-footer">
-            <p>
-              <span>??</span> Via N. Mastroserio 12 - Grumo Appula (BA)
-            </p>
-            <p>
-              <span>??</span> info@associazionesbarbara.it
-            </p>
-            <p>
-              <b>Contattaci per maggiori informazioni</b>
-            </p>
-          </div>
-        </div>
 
-        <div class="footer-sections">
-          <div class="footer-section links-card">
-            <div>
-              <h4>?? Link Utili</h4>
-              <ul>
-                <li>
-                  <a href="chi-siamo.html">
-                    <span>?</span> Chi siamo
+  <div id="user-bar"></div>
+
+  <main>
+    <!-- Enhanced Hero Section -->
+    <section class="contact-hero">
+      <div class="hero-background">
+        <div class="hero-overlay"></div>
+        <div class="hero-pattern"></div>
+      </div>
+      <div class="container">
+        <div class="hero-content animate-fade-in">
+          <div class="row align-items-center">
+            <div class="col-md-7">
+              <div class="hero-text">
+                <div class="hero-badge">
+                  <span class="badge-icon">✉</span>
+                  <span class="badge-text">Contattaci</span>
+                </div>
+                <h1 class="hero-title">
+                  Siamo qui per <span class="text-highlight typewriter" id="dynamic-text">ascoltarti</span>
+                </h1>
+                <p class="hero-description">
+                  Hai domande sui nostri eventi? Vuoi unirti all'associazione? 
+                  Cerchi informazioni sul Corteo Storico o sui Tamburi Medievali? 
+                  <strong>Contattaci senza esitare!</strong>
+                </p>
+                <div class="hero-stats">
+                  <div class="stat-item">
+                    <div class="stat-number">24h</div>
+                    <div class="stat-label">Tempo di risposta</div>
+                  </div>
+                  <div class="stat-divider"></div>
+                  <div class="stat-item">
+                    <div class="stat-number" id="years-experience">17</div>
+                    <div class="stat-label">Anni di esperienza</div>
+                  </div>
+                  <div class="stat-divider"></div>
+                  <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Disponibilità</div>
+                  </div>
+                </div>
+                <div class="hero-actions">
+                  <a href="#contact-form" class="btn btn-primary btn-large">
+                    <span class="btn-icon">📝</span>
+                    Scrivi un messaggio
                   </a>
-                </li>
-                <li>
-                  <a href="eventi.html">
-                    <span>?</span> Eventi
+                  <a href="tel:+393332893715" class="btn btn-outline btn-large">
+                    <span class="btn-icon">📞</span>
+                    Chiama ora
                   </a>
-                </li>
-                <li>
-                  <a href="galleria.html">
-                    <span>?</span> Galleria
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="hero-visual">
+                <div class="contact-preview-cards">
+                  <div class="preview-card card-phone animate-slide-left">
+                    <div class="card-icon">📞</div>
+                    <div class="card-content">
+                      <h4>Telefono</h4>
+                      <p>+39 333 289 3715</p>
+                      <span class="card-status">🟢 Disponibile</span>
+                    </div>
+                  </div>
+                  <div class="preview-card card-email animate-slide-right">
+                    <div class="card-icon">✉️</div>
+                    <div class="card-content">
+                      <h4>Email</h4>
+                      <p>info@associazionesbarbara.it</p>
+                      <span class="card-status">⚡ Risposta rapida</span>
+                    </div>
+                  </div>
+                  <div class="preview-card card-location animate-slide-up">
+                    <div class="card-icon">📍</div>
+                    <div class="card-content">
+                      <h4>Sede</h4>
+                      <p>Grumo Appula (BA)</p>
+                      <span class="card-status">🗺️ Visualizza mappa</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="hero-decoration">
+                  <div class="decoration-circle circle-1"></div>
+                  <div class="decoration-circle circle-2"></div>
+                  <div class="decoration-circle circle-3"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-wave">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="currentColor"></path>
+          <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="currentColor"></path>
+          <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="currentColor"></path>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Contact Information Section -->
+    <section class="contact-info-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="contact-card animate-slide-up">
+              <div class="contact-icon">
+                📞
+              </div>
+              <h3>Telefono</h3>
+              <p><a href="tel:+393332893715">+39 333 289 3715</a></p>
+              <p class="contact-note">Disponibili dal lunedì al venerdì, 9:00-18:00</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="contact-card animate-slide-up">
+              <div class="contact-icon">
+                ✉️
+              </div>
+              <h3>Email</h3>
+              <p><a href="mailto:info@associazionesbarbara.it">info@associazionesbarbara.it</a></p>
+              <p class="contact-note">Risponderemo entro 24 ore</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="contact-card animate-slide-up">
+              <div class="contact-icon">
+                📍
+              </div>
+              <h3>Indirizzo</h3>
+              <p>Via N. Mastroserio 12<br>70025 Grumo Appula (BA)<br>Italia</p>
+              <p class="contact-note">Sede operativa dell'associazione</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact-form-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-container animate-slide-right">
+              <h2>Invia un messaggio</h2>
+              <p>Compila il modulo sottostante e ti risponderemo il prima possibile. Tutti i campi contrassegnati con (*) sono obbligatori.</p>
+              
+              <form id="contact-form" class="contact-form" method="POST" action="#" novalidate>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="nome" class="form-label">Nome *</label>
+                      <input type="text" id="nome" name="nome" class="form-input" required>
+                      <div class="error-message" id="nome-error"></div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="cognome" class="form-label">Cognome *</label>
+                      <input type="text" id="cognome" name="cognome" class="form-input" required>
+                      <div class="error-message" id="cognome-error"></div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="email" class="form-label">Email *</label>
+                      <input type="email" id="email" name="email" class="form-input" required>
+                      <div class="error-message" id="email-error"></div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="telefono" class="form-label">Telefono</label>
+                      <input type="tel" id="telefono" name="telefono" class="form-input">
+                      <div class="error-message" id="telefono-error"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="oggetto" class="form-label">Oggetto *</label>
+                  <select id="oggetto" name="oggetto" class="form-select" required>
+                    <option value="">Seleziona un oggetto</option>
+                    <option value="informazioni-generali">Informazioni generali</option>
+                    <option value="adesione">Adesione all'associazione</option>
+                    <option value="eventi">Partecipazione eventi</option>
+                    <option value="corteo-storico">Corteo Storico</option>
+                    <option value="tamburi-medievali">Tamburi Medievali</option>
+                    <option value="volontariato">Attività di volontariato</option>
+                    <option value="partnership">Partnership e collaborazioni</option>
+                    <option value="altro">Altro</option>
+                  </select>
+                  <div class="error-message" id="oggetto-error"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="messaggio" class="form-label">Messaggio *</label>
+                  <textarea id="messaggio" name="messaggio" class="form-textarea" rows="6" placeholder="Scrivi qui il tuo messaggio..." required></textarea>
+                  <div class="error-message" id="messaggio-error"></div>
+                </div>
+
+                <div class="form-group">
+                  <label class="checkbox-container">
+                    <input type="checkbox" id="privacy" name="privacy" required>
+                    <span class="checkmark"></span>
+                    Accetto il trattamento dei dati personali secondo la <a href="privacy.html" target="_blank">Privacy Policy</a> *
+                  </label>
+                  <div class="error-message" id="privacy-error"></div>
+                </div>
+
+                <div class="form-group">
+                  <label class="checkbox-container">
+                    <input type="checkbox" id="newsletter" name="newsletter">
+                    <span class="checkmark"></span>
+                    Desidero ricevere aggiornamenti sulle attività dell'associazione
+                  </label>
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary">
+                    <span class="btn-text">Invia messaggio</span>
+                    <span class="btn-loading" style="display: none;">Invio in corso...</span>
+                  </button>
+                  <button type="reset" class="btn btn-secondary">Cancella</button>
+                </div>
+              </form>
+
+              <div id="form-success" class="alert alert-success" style="display: none;">
+                <h4>Messaggio inviato con successo!</h4>
+                <p>Grazie per averci contattato. Ti risponderemo il prima possibile.</p>
+              </div>
+
+              <div id="form-error" class="alert alert-error" style="display: none;">
+                <h4>Errore nell'invio</h4>
+                <p>Si è verificato un problema nell'invio del messaggio. Riprova più tardi o contattaci direttamente.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="contact-sidebar animate-slide-left">
+              <div class="contact-info-card">
+                <h3>Orari di apertura</h3>
+                <div class="opening-hours">
+                  <div class="hours-item">
+                    <span class="day">Lunedì - Venerdì</span>
+                    <span class="time">9:00 - 18:00</span>
+                  </div>
+                  <div class="hours-item">
+                    <span class="day">Sabato</span>
+                    <span class="time">9:00 - 13:00</span>
+                  </div>
+                  <div class="hours-item">
+                    <span class="day">Domenica</span>
+                    <span class="time">Chiuso</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="contact-info-card">
+                <h3>Seguici sui social</h3>
+                <div class="social-links">
+                  <a href="https://www.facebook.com/s.barbaragrumo" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <span class="social-icon">📘</span>
+                    Facebook
                   </a>
-                </li>
-                <li>
-                  <a href="attivita.html">
-                    <span>?</span> Attivit�
+                  <a href="https://www.instagram.com/corteostoricosantabarbara/" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <span class="social-icon">📷</span>
+                    Instagram
                   </a>
-                </li>
-                <li>
-                  <a href="faq.html">
-                    <span>?</span> FAQ
-                  </a>
-                </li>
+                </div>
+              </div>
+
+              <div class="contact-info-card">
+                <h3>Come raggiungerci</h3>
+                <p>La nostra sede è facilmente raggiungibile:</p>
+                <ul class="transport-info">
+                  <li>🚗 Parcheggio gratuito nelle vicinanze</li>
+                  <li>🚌 Fermata autobus linea urbana</li>
+                  <li>🚃 Stazione ferroviaria a 2 km</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+      <div class="container">
+        <div class="map-container">
+          <h2>Dove siamo</h2>
+          <div class="map-wrapper">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3010.618439704736!2d16.70552467635354!3d41.01172391921225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1347f30066269b41%3A0x37436ac072019319!2sAssociazione%20Santa%20Barbara%20APS!5e0!3m2!1sit!2sit!4v1754068566635!5m2!1sit!2sit"
+              width="100%" 
+              height="400" 
+              style="border:0;" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Mappa della sede Associazione Santa Barbara">
+            </iframe>
+          </div>
+          <p class="map-note">
+            <strong>Associazione Santa Barbara</strong><br>
+            Via N. Mastroserio 12, 70025 Grumo Appula (BA)
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="enhanced-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="footer-section">
+              <div class="footer-brand">
+                <img src="favicon/favicon.ico" alt="Logo" class="footer-logo">
+                <span class="footer-brand-text">Associazione Santa Barbara</span>
+              </div>
+              <p>Promuoviamo cultura, tradizione e volontariato nel territorio di Grumo Appula dal 2008.</p>
+              <div class="social-links">
+                <a href="https://www.facebook.com/s.barbaragrumo" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">📘</a>
+                <a href="https://www.instagram.com/corteostoricosantabarbara/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">📷</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="footer-section">
+              <h4>Link utili</h4>
+              <ul class="footer-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="chi-siamo.html">Chi siamo</a></li>
+                <li><a href="attivita.html">Attività</a></li>
+                <li><a href="eventi.html">Eventi</a></li>
+                <li><a href="galleria.html">Galleria</a></li>
+                <li><a href="area-soci.html">Area Soci</a></li>
               </ul>
             </div>
-            
-            <div class="social-section">
-              <p>?? Seguici sui social:</p>
-              <div class="social-links">
-                <a href="https://www.facebook.com/s.barbaragrumo" class="enhanced-social" aria-label="Facebook">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentcolor">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
-                  </svg>
-                </a>
-                <a href="https://www.instagram.com/corteostoricosantabarbara/" class="enhanced-social" aria-label="Instagram">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentcolor">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.40s-.644-1.44-1.439-1.40z"></path>
-                  </svg>
-                </a>
-                <a href="https://t.me/associazionesbarbara" class="enhanced-social" aria-label="Telegram">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentcolor">
-                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"></path>
-                  </svg>
-                </a>
-              </div>
-              <div class="secondary-links">
-                <a href="privacy.html">Privacy</a>
-                <a href="partner.html">Partner</a>
-                <a href="area-soci.html">Area Soci</a>
-              </div>
-            </div>
           </div>
-
-          <div class="footer-section support-section">
-            <h4>?? Sostieni l'Associazione</h4>
-            <p>
-              Aiutaci a preservare le tradizioni e organizzare eventi per la comunit�. Il tuo supporto � fondamentale per mantenere viva la storia e la cultura di Grumo Appula.
-            </p>
-            <p>
-              Con il tuo contributo possiamo continuare a organizzare il Corteo Storico, eventi culturali, iniziative educative e progetti per valorizzare il nostro patrimonio storico-artistico.
-            </p>
-            <p>
-              <strong>Ogni donazione, grande o piccola, fa la differenza!</strong> Insieme possiamo costruire un futuro migliore per la nostra comunit�.
-            </p>
-            <div class="sponsor-btn-container">
-              <a href="contatti.html" class="sponsor-btn">
-                ?? Diventa Sponsor
-              </a>
+          <div class="col-md-4">
+            <div class="footer-section">
+              <h4>Contatti</h4>
+              <div class="contact-info-footer">
+                <p><span>📍</span> Via N. Mastroserio 12, 70025 Grumo Appula (BA)</p>
+                <p><span>📞</span> <a href="tel:+393332893715">+39 333 289 3715</a></p>
+                <p><span>✉️</span> <a href="mailto:info@associazionesbarbara.it">info@associazionesbarbara.it</a></p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
       <div class="footer-bottom">
-        <p>&copy; 2008 - <span id="current-year"></span> Associazione Santa Barbara APS. Tutti i diritti riservati.<br>
-        <span class="privacy-links"><a href="privacy.html">PRIVACY POLICY</a> <span class="separator">|</span> <a href="#" onclick="window.cookieConsent && window.cookieConsent.open(); return false;">GESTISCI COOKIE</a></span></p>
+        <div class="row">
+          <div class="col-md-6">
+            <p>&copy; <span id="current-year">2024</span> Associazione Santa Barbara. Tutti i diritti riservati.</p>
+          </div>
+          <div class="col-md-6">
+            <div class="footer-links-inline">
+              <a href="privacy.html">Privacy Policy</a>
+              <a href="sitemap.xml">Sitemap</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </footer>
-  <script src="assets/js/notifications.js"></script> 
-  <script src="assets/js/script.js"></script> 
-  <script src="assets/js/adblock-detector-v2.js"></script> 
-  <script src="assets/js/adblock-integration-v2.js"></script>
-  
+
+  <!-- Scripts -->
+  <script src="assets/js/script.js"></script>
+
   <script>
-    // Enhanced UX JavaScript for Contatti
+    // Dynamic title animation
+    function initDynamicTitle() {
+      const dynamicText = document.getElementById('dynamic-text');
+      const words = ['ascoltarti', 'supportarti', 'aiutarti', 'risponderti'];
+      let currentWordIndex = 0;
+      let currentCharIndex = 0;
+      let isDeleting = false;
+      let isWaiting = false;
+
+      function typeEffect() {
+        const currentWord = words[currentWordIndex];
+        
+        if (isWaiting) {
+          setTimeout(() => {
+            isWaiting = false;
+            isDeleting = true;
+            typeEffect();
+          }, 2000);
+          return;
+        }
+
+        if (isDeleting) {
+          dynamicText.textContent = currentWord.substring(0, currentCharIndex - 1);
+          currentCharIndex--;
+          
+          if (currentCharIndex === 0) {
+            isDeleting = false;
+            currentWordIndex = (currentWordIndex + 1) % words.length;
+          }
+        } else {
+          dynamicText.textContent = currentWord.substring(0, currentCharIndex + 1);
+          currentCharIndex++;
+          
+          if (currentCharIndex === currentWord.length) {
+            isWaiting = true;
+          }
+        }
+
+        const speed = isDeleting ? 100 : 150;
+        setTimeout(typeEffect, speed);
+      }
+
+      // Start animation after a brief delay
+      setTimeout(typeEffect, 1000);
+    }
+
+    // Calculate years of experience automatically
+    function updateYearsOfExperience() {
+      const foundingYear = 2008;
+      const currentYear = new Date().getFullYear();
+      const yearsOfExperience = currentYear - foundingYear;
+      
+      const yearsElement = document.getElementById('years-experience');
+      if (yearsElement) {
+        yearsElement.textContent = yearsOfExperience;
+      }
+    }
+
+    // Form validation and submission
     document.addEventListener('DOMContentLoaded', function() {
+      // Update years of experience
+      updateYearsOfExperience();
       
-      // Intersection Observer for animations
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      };
+      // Initialize dynamic title
+      initDynamicTitle();
       
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const element = entry.target;
-            const delay = element.dataset.delay || 0;
-            
-            setTimeout(() => {
-              element.style.animationDelay = delay + 'ms';
-              element.classList.add('animate');
-            }, delay);
-            
-            observer.unobserve(element);
+      // Smooth scroll for hero button
+      const heroFormButton = document.querySelector('a[href="#contact-form"]');
+      if (heroFormButton) {
+        heroFormButton.addEventListener('click', function(e) {
+          e.preventDefault();
+          const contactForm = document.getElementById('contact-form');
+          if (contactForm) {
+            contactForm.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'start' 
+            });
           }
         });
-      }, observerOptions);
+      }
       
-      // Observe all animated elements
-      document.querySelectorAll('.animate-fade-in, .animate-slide-left, .animate-slide-right').forEach(el => {
-        observer.observe(el);
-      });
-      
-      // Enhanced form interactions
-      document.querySelectorAll('.form-group input, .form-group textarea').forEach(input => {
-        input.addEventListener('focus', function() {
-          this.parentElement.style.transform = 'translateY(-2px)';
+      const form = document.getElementById('contact-form');
+      const successMessage = document.getElementById('form-success');
+      const errorMessage = document.getElementById('form-error');
+
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          // Reset previous error messages
+          document.querySelectorAll('.error-message').forEach(el => {
+            el.textContent = '';
+            el.style.display = 'none';
+          });
+
+          let isValid = true;
+
+          // Validate required fields
+          const requiredFields = ['nome', 'cognome', 'email', 'oggetto', 'messaggio'];
+          requiredFields.forEach(fieldName => {
+            const field = document.getElementById(fieldName);
+            const errorEl = document.getElementById(fieldName + '-error');
+            
+            if (!field.value.trim()) {
+              errorEl.textContent = 'Questo campo è obbligatorio';
+              errorEl.style.display = 'block';
+              isValid = false;
+            }
+          });
+
+          // Validate email
+          const email = document.getElementById('email');
+          const emailError = document.getElementById('email-error');
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          
+          if (email.value && !emailRegex.test(email.value)) {
+            emailError.textContent = 'Inserisci un indirizzo email valido';
+            emailError.style.display = 'block';
+            isValid = false;
+          }
+
+          // Validate privacy checkbox
+          const privacy = document.getElementById('privacy');
+          const privacyError = document.getElementById('privacy-error');
+          
+          if (!privacy.checked) {
+            privacyError.textContent = 'Devi accettare la Privacy Policy';
+            privacyError.style.display = 'block';
+            isValid = false;
+          }
+
+          if (isValid) {
+            // Show loading state
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnLoading = submitBtn.querySelector('.btn-loading');
+            
+            btnText.style.display = 'none';
+            btnLoading.style.display = 'inline';
+            submitBtn.disabled = true;
+
+            // Simulate form submission (replace with actual submission logic)
+            setTimeout(() => {
+              // Reset form
+              form.reset();
+              
+              // Show success message
+              successMessage.style.display = 'block';
+              errorMessage.style.display = 'none';
+              
+              // Reset button state
+              btnText.style.display = 'inline';
+              btnLoading.style.display = 'none';
+              submitBtn.disabled = false;
+              
+              // Scroll to success message
+              successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              
+              // Hide success message after 5 seconds
+              setTimeout(() => {
+                successMessage.style.display = 'none';
+              }, 5000);
+              
+            }, 2000);
+          }
         });
-        
-        input.addEventListener('blur', function() {
-          this.parentElement.style.transform = 'translateY(0)';
+
+        // Real-time validation
+        form.addEventListener('input', function(e) {
+          const field = e.target;
+          const errorEl = document.getElementById(field.name + '-error');
+          
+          if (errorEl && field.value.trim()) {
+            errorEl.style.display = 'none';
+          }
         });
-      });
-      
-      // Parallax effect for page header
-      window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const header = document.querySelector('.page-header');
-        if (header) {
-          header.style.transform = `translateY(${scrolled * 0.5}px)`;
-        }
-      });
-      
+      }
     });
   </script>
-  
 </body>
 </html>
-

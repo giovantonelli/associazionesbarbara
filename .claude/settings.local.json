@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "permissions": {
     "allow": [
       "mcp__ide__getDiagnostics",
@@ -15,9 +16,15 @@
       "WebFetch(domain:www.toptal.com)",
       "Bash(mv:*)",
       "Bash(sed:*)",
-      "WebFetch(domain:associazionesbarbara.it)"
+      "WebFetch(domain:associazionesbarbara.it)",
+      "Bash(for:*)",
+      "Bash(do)",
+      "Bash(if ! grep -q \"cookie-banner\" \"$file\")",
+      "Bash(then)",
+      "Bash(echo:*)",
+      "Bash(else)",
+      "Bash(fi)"
     ],
     "deny": []
-  },
-  "$schema": "https://json.schemastore.org/claude-code-settings.json"
+  }
 }
