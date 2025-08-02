@@ -1,39 +1,4 @@
-function initSEOBreadcrumbs() {
-	let t = window.location.pathname,
-		e = t.split("/").filter(t => t),
-		a = {
-			"@context": "https://schema.org",
-			"@type": "BreadcrumbList",
-			itemListElement: [{
-				"@type": "ListItem",
-				position: 1,
-				name: "Home",
-				item: "https://associazionesbarbara.it/"
-			}]
-		};
-	if ("/" !== t && "/index.html" !== t) {
-		let i = e[e.length - 1] || "index.html";
-		a.itemListElement.push({
-			"@type": "ListItem",
-			position: 2,
-			name: {
-				"index.html": "Home",
-				"chi-siamo.html": "Chi Siamo - Storia e Missione",
-				"attivita.html": "Attività e Progetti Culturali",
-				"eventi.html": "Eventi e Calendario Attività",
-				"galleria.html": "Galleria Foto e Video",
-				"faq.html": "Domande Frequenti",
-				"contatti.html": "Contatti e Informazioni",
-				"partner.html": "Partner e Collaborazioni",
-				"area-soci.html": "Area Riservata Soci",
-				"privacy.html": "Privacy Policy"
-			} [i] || i,
-			item: `https://associazionesbarbara.it${t}`
-		})
-	}
-	let n = document.createElement("script");
-	n.type = "application/ld+json", n.textContent = JSON.stringify(a, null, 2), document.head.appendChild(n)
-}
+
 
 function optimizeInternalLinks() {
 	let t = document.querySelectorAll('a[href^="/"], a[href^="./"], a[href$=".html"]');
@@ -56,39 +21,7 @@ function optimizeInternalLinks() {
 	})
 }
 
-function addEventStructuredData() {
-	let t = document.querySelectorAll(".event-card, .enhanced-card[data-event-id]");
-	t.forEach((t, e) => {
-		let a = t.querySelector("h3, .card-title")?.textContent,
-			i = t.querySelector("p, .card-text")?.textContent,
-			n = t.querySelector("[data-event-date], .event-date"),
-			r = t.querySelector(".location, .event-location");
-		if (a && i) {
-			let o = {
-				"@context": "https://schema.org",
-				"@type": "Event",
-				name: a,
-				description: i,
-				organizer: {
-					"@type": "Organization",
-					name: "Associazione Santa Barbara",
-					url: "https://associazionesbarbara.it"
-				}
-			};
-			if (n) {
-				let l = n.getAttribute("data-event-date") || n.textContent;
-				l && (o.startDate = l)
-			}
-			r && (o.location = {
-				"@type": "Place",
-				name: r.textContent,
-				address: "Grumo Appula, BA, Italia"
-			});
-			let s = document.createElement("script");
-			s.type = "application/ld+json", s.textContent = JSON.stringify(o, null, 2), document.head.appendChild(s)
-		}
-	})
-}
+
 
 function optimizeImagesForSEO() {
 	let t = document.querySelectorAll("img");
@@ -103,34 +36,10 @@ function optimizeImagesForSEO() {
 	})
 }
 
-function addFAQStructuredData() {
-	let t = document.querySelectorAll(".faq-item");
-	if (t.length > 0) {
-		let e = {
-			"@context": "https://schema.org",
-			"@type": "FAQPage",
-			mainEntity: []
-		};
-		if (t.forEach(t => {
-				let a = t.querySelector(".faq-question")?.textContent,
-					i = t.querySelector(".faq-answer")?.textContent;
-				a && i && e.mainEntity.push({
-					"@type": "Question",
-					name: a,
-					acceptedAnswer: {
-						"@type": "Answer",
-						text: i
-					}
-				})
-			}), e.mainEntity.length > 0) {
-			let a = document.createElement("script");
-			a.type = "application/ld+json", a.textContent = JSON.stringify(e, null, 2), document.head.appendChild(a)
-		}
-	}
-}
+
 
 function improveSEOPerformance() {
-	["/assets/css/style.css", "/assets/js/script.js", "/assets/images/logo.svg"].forEach(t => {
+	["/assets/css/style.css", "/assets/js/script.js", "/favicon.svg"].forEach(t => {
 		let e = document.querySelector(`link[href="${t}"]`);
 		if (!e && !document.querySelector(`link[rel="preload"][href="${t}"]`)) {
 			let a = document.createElement("link");
@@ -145,14 +54,15 @@ function improveSEOPerformance() {
 
 function initAdvancedSEO() {
 	try {
-		initSEOBreadcrumbs(), optimizeInternalLinks(), addEventStructuredData(), optimizeImagesForSEO(), addFAQStructuredData(), improveSEOPerformance(), setTimeout(() => {
+		optimizeInternalLinks();
+		optimizeImagesForSEO();
+		improveSEOPerformance();
+		setTimeout(() => {
 			let t = {
-				breadcrumbs: !!document.querySelector('script[type="application/ld+json"]'),
 				internalLinks: document.querySelectorAll("a[title]").length,
-				optimizedImages: document.querySelectorAll("img[alt]").length,
-				structuredData: document.querySelectorAll('script[type="application/ld+json"]').length
+				optimizedImages: document.querySelectorAll("img[alt]").length
 			};
-		}, 1e3)
+		}, 1e3);
 	} catch (t) {}
 }
 "loading" === document.readyState ? document.addEventListener("DOMContentLoaded", initAdvancedSEO) : initAdvancedSEO(), window.testSEOOptimizations = function() {
