@@ -106,8 +106,7 @@ const supabaseClient = createClient(
 - `assets/css/style.css`: Main stylesheet (~4500 lines, mobile-first responsive)
 - `assets/js/script.js`: Main JavaScript with Supabase auth logic (~1490 lines)
 - `assets/js/notifications.js`: Toast notification system
-- `assets/js/adblock-detector-v2.js`: AdBlock detection system (4-test detection)
-- `assets/js/adblock-integration-v2.js`: AdBlock modal integration
+- `assets/js/adblock.js`: AdBlock detection system (4-test detection)
 - `assets/images/`: Static image assets (logo.png, banners, activities)
 - `assets/js/analytics.js`: Centralized Google Analytics 4 configuration
 - `data/faq.json`: Dynamic FAQ content structure (question/answer/category format)
@@ -225,8 +224,7 @@ To promote a user to "socio" role:
 The site implements a comprehensive AdBlock detection system:
 
 ### Components
-- `assets/js/adblock-detector-v2.js`: Core detection logic with 4 test methods
-- `assets/js/adblock-integration-v2.js`: Configuration and automatic integration
+- `assets/js/adblock.js`: Core detection logic with 4 test methods
 
 ### Detection Methods
 1. **Bait Elements Test**: Hidden elements with ad-like classes

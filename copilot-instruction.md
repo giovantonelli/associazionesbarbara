@@ -1,5 +1,3 @@
-
-
 # Copilot Instruction: Associazione Santa Barbara APS
 
 ## Scopo
@@ -8,7 +6,7 @@ Sito informativo e gestionale per soci e visitatori. Include pagine pubbliche e 
 ## Struttura
 - HTML: una pagina per ogni sezione (`index.html`, `attivita.html`, `area-soci.html`, ecc.)
 - CSS: stile in `assets/css/style.css`
-- JS: logica in `assets/js/script.js`, adblock-detector-v2.js, adblock-integration-v2.js, ecc.
+- JS: logica in `assets/js/script.js`, adblock.js, ecc.
 
 ## Convenzioni di sviluppo
 - Footer uniforme con link privacy/cookie
