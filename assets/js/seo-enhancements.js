@@ -9,24 +9,34 @@
 
 
 function improveSEOPerformance() {
-	["/assets/css/style.css", "/assets/js/script.js", "/favicon.svg"].forEach(t => {
-		let e = document.querySelector(`link[href="${t}"]`);
-		if (!e && !document.querySelector(`link[rel="preload"][href="${t}"]`)) {
+	// Precarica style.css
+	["/assets/css/style.css", "/assets/js/script.js"].forEach(t => {
+		if (!document.querySelector(`link[rel="preload"][href="${t}"]`)) {
 			let a = document.createElement("link");
-			a.rel = "preload", a.href = t, t.endsWith(".css") ? a.as = "style" : t.endsWith(".js") ? a.as = "script" : (t.endsWith(".svg") || t.includes("image")) && (a.as = "image"), document.head.appendChild(a)
+			a.rel = "preload";
+			a.href = t;
+			a.as = t.endsWith(".css") ? "style" : "script";
+			document.head.appendChild(a);
 		}
 	});
-	let t = document.querySelectorAll('[style*="display: none"], .hidden');
-	t.forEach(t => {
-		t.textContent.trim() && !t.hasAttribute("aria-hidden") && t.setAttribute("aria-hidden", "true")
-	})
+	// Precarica lo script JS corrispondente alla pagina HTML
+	let page = location.pathname.split("/").pop();
+	if (page.endsWith(".html")) {
+		let jsName = page.replace(".html", ".js");
+		let jsPath = `/assets/js/${jsName}`;
+		if (!document.querySelector(`link[rel="preload"][href="${jsPath}"]`)) {
+			let a = document.createElement("link");
+			a.rel = "preload";
+			a.href = jsPath;
+			a.as = "script";
+			document.head.appendChild(a);
+		}
+	}
 }
 
 function initAdvancedSEO() {
 	try {
 		improveSEOPerformance();
-		setTimeout(() => {
-		}, 1e3);
 	} catch (t) {}
 }
 "loading" === document.readyState ? document.addEventListener("DOMContentLoaded", initAdvancedSEO) : initAdvancedSEO(), window.testSEOOptimizations = function() {
