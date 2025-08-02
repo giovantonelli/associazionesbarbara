@@ -1522,7 +1522,9 @@ section {
 
 .enhanced-footer .brand-card .footer-logo {
 	width: 80px;
-	height: 80px;
+	height: auto;
+	max-width: 100%;
+	object-fit: contain;
 	margin-bottom: 20px
 }
 
@@ -2167,7 +2169,9 @@ section {
 
 .footer-logo {
 	width: 60px;
-	height: 60px;
+	height: auto;
+	max-width: 100%;
+	object-fit: contain;
 	margin-bottom: 15px
 }
 
@@ -8623,10 +8627,10 @@ section {
 
 @media (max-width: 768px) {
   .page-header h1 {
-    font-size: 2.5rem;
+	font-size: 2.5rem;
   }
   
   .privacy-content {
-    padding: 25px;
+	padding: 25px;
   }
 }

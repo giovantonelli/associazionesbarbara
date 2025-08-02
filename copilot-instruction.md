@@ -9,7 +9,6 @@ Sito informativo e gestionale per soci e visitatori. Include pagine pubbliche e 
 - HTML: una pagina per ogni sezione (`index.html`, `attivita.html`, `area-soci.html`, ecc.)
 - CSS: stile in `assets/css/style.css`
 - JS: logica in `assets/js/script.js`, adblock-detector-v2.js, adblock-integration-v2.js, ecc.
-- Dati: contenuti dinamici in `data/faq.json`
 
 ## Convenzioni di sviluppo
 - Footer uniforme con link privacy/cookie
@@ -28,7 +27,6 @@ Sito informativo e gestionale per soci e visitatori. Include pagine pubbliche e 
 ## Note tecniche
 - Supabase per autenticazione e gestione dati soci
 - AdBlock Detection System per protezione contenuti
-- Immagini/media in `assets/images/`
 - SEO: meta tag, sitemap.xml, robots.txt
 - Privacy: banner cookie, policy GDPR
 

@@ -20,7 +20,6 @@
   <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
   <meta name="apple-mobile-web-app-title" content="S.Barbara" />
   <link rel="manifest" href="favicon/site.webmanifest" />
-  <!-- Windows 10/11 & Edge tile meta -->
   <meta name="msapplication-TileColor" content="#d75414">
   <meta name="msapplication-TileImage" content="/favicon.ico">
   <script src="assets/js/analytics.js"></script>
@@ -30,10 +29,12 @@
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   "name": "Associazione Santa Barbara",
-  "image": "assets/images/logo.png",
+  "image": "https://associazionesbarbara.it/logo.png",
+  "logo": "https://associazionesbarbara.it/logo.png",
   "@id": "https://associazionesbarbara.it/",
   "url": "https://associazionesbarbara.it/",
   "telephone": "+39 333 289 3715",
+  "email": "info@associazionesbarbara.it",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Via Nicola Mastroserio 12",
@@ -44,11 +45,24 @@
   },
   "geo": {
     "@type": "GeoCoordinates",
-    "latitude": "41.0036",
-    "longitude": "16.7032"
+    "latitude": "41.011707",
+    "longitude": "16.7079645"
   },
-  "email": "info@associazionesbarbara.it",
-  "description": "Associazione culturale e sociale attiva dal 2008 a Grumo Appula (BA), promuove tradizioni, cultura e solidarietà."
+  "openingHours": [
+    "Mo 08:00-13:00,17:00-20:00",
+    "Tu 08:00-13:00,17:00-20:00",
+    "We 08:00-13:00,17:00-20:00",
+    "Th 08:00-13:00,17:00-20:00",
+    "Fr 08:00-13:00,17:00-20:00",
+    "Sa 08:00-13:00"
+  ],
+  "foundingDate": "2008",
+  "inLanguage": "it",
+  "sameAs": [
+    "https://www.facebook.com/s.barbaragrumo",
+    "https://www.instagram.com/corteostoricosantabarbara/"
+  ],
+  "description": "L'Associazione Santa Barbara, attiva dal 2008 a Grumo Appula (BA), promuove la cultura, le tradizioni popolari e la solidarietà attraverso eventi, attività sociali e iniziative educative rivolte alla comunità."
 }
 </script>
 </head>
@@ -235,8 +249,6 @@
         ">
         <div class="image-info">
           <div class="image-counter" id="imageCounter">1 / 1</div>
-   "image": "assets/images/logo.png",
-            <!-- Zoom controls -->
             <div id="zoom-controls" style="
               display: flex;
               gap: 10px;
@@ -288,7 +300,6 @@
               " title="Aumenta zoom">+</button>
             </div>
             
-            <!-- Zoom info -->
             <div id="zoom-info" style="
               background: rgba(0,0,0,0.7);
               color: white;
@@ -308,7 +319,6 @@
   </div>
     <footer class="footer enhanced-footer">
     <div class="container">
-      <!-- Sezione principale del footer -->
       <div class="footer-main">
         <div class="footer-brand brand-card">
           <img src="/favicon.ico" alt="Associazione Santa Barbara" class="footer-logo">
