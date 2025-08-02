@@ -1011,16 +1011,17 @@ window.globalSupabaseClient = null;
 
 // Initialize once and only once
 function initializeSupabaseClient() {
-	if (!window.globalSupabaseClient && typeof supabase !== 'undefined' && supabase.createClient) {
-		const { createClient } = supabase;
-		window.globalSupabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+	if (!window.globalSupabaseClient) {
+		if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
+			window.globalSupabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+		}
 	}
 	return window.globalSupabaseClient;
 }
 
 // Initialize when DOM is ready and supabase is available
 document.addEventListener('DOMContentLoaded', function() {
-	if (typeof supabase !== 'undefined') {
+	if (typeof window.supabase !== 'undefined') {
 		initializeSupabaseClient();
 	}
 });
@@ -1432,26 +1433,42 @@ function initGalleriaPage() {
 	if (!document.body.classList.contains("galleria-page") && !window.location.pathname.includes("galleria")) {
 		return;
 	}
-		// Use global Supabase client instance to avoid multiple client warnings
-		const t = getSupabaseClient();
+	
+	// Use global Supabase client instance to avoid multiple client warnings
+	const t = getSupabaseClient();
+	
+	if (!t) {
+		const loadingPhotos = document.getElementById("loadingPhotos");
+		if (loadingPhotos) {
+			loadingPhotos.innerHTML = "<p>Errore: client Supabase non disponibile</p>";
+		}
+		return;
+	}
 	async function i() {
 		try {
 			let e = document.getElementById("loadingPhotos"),
 				i = document.getElementById("photoSwiper"),
-				n = document.getElementById("photoSwiperWrapper"),
-				{
-					data: o,
-					error: a
-				} = await t.storage.from("gallery").list("foto", {
-					limit: 100,
-					offset: 0,
-					sortBy: {
-						column: "name",
-						order: "asc"
-					}
-				});
+				n = document.getElementById("photoSwiperWrapper");
+			
+			let {
+				data: o,
+				error: a
+			} = await t.storage.from("gallery").list("foto", {
+				limit: 100,
+				offset: 0,
+				sortBy: {
+					column: "name",
+					order: "asc"
+				}
+			});
 			if (a) {
+				console.error("Errore Supabase storage:", a);
 				e.innerHTML = `<p>Errore nel caricamento delle foto: ${a.message}</p>`;
+				// Keep navigation controls hidden on error
+				const photoNavControls = document.querySelectorAll('.photo-swiper .swiper-button-next, .photo-swiper .swiper-button-prev, .photo-swiper .swiper-pagination');
+				photoNavControls.forEach(control => {
+					control.style.display = 'none';
+				});
 				return
 			}
 			if (!o || 0 === o.length) {
@@ -1463,7 +1480,13 @@ function initGalleriaPage() {
 					limit: 100,
 					offset: 0
 				});
-				r && r.length > 0 && (e.innerHTML = `<p>Trovati ${r.length} file nella root del bucket. Controlla la struttura delle cartelle.</p>`);
+				if (r && r.length > 0) {
+					e.innerHTML = `<p>Trovati ${r.length} file nella root del bucket. Controlla la struttura delle cartelle.</p>`;
+				} else if (l) {
+					e.innerHTML = `<p>Errore nell'accesso al bucket: ${l.message}</p>`;
+				} else {
+					e.innerHTML = "<p>Bucket vuoto o non accessibile</p>";
+				}
 				return
 			}
 			n.innerHTML = "", e.style.display = "none", i.style.display = "block";
@@ -1491,7 +1514,15 @@ function initGalleriaPage() {
 			if (0 === s) {
 				e.innerHTML = "<p>Nessuna foto valida trovata nella cartella</p>";
 				return
-			}(function e() {
+			}
+			
+			// Show navigation controls only when photos are loaded successfully
+			const photoNavControls = document.querySelectorAll('.photo-swiper .swiper-button-next, .photo-swiper .swiper-button-prev, .photo-swiper .swiper-pagination');
+			photoNavControls.forEach(control => {
+				control.style.display = 'block';
+			});
+			
+			(function e() {
 				let t = document.querySelectorAll(".photo-slide").length;
 				new Swiper(".photo-swiper", {
 					effect: "coverflow",
@@ -1527,7 +1558,28 @@ function initGalleriaPage() {
 							slidesPerView: 3
 						}
 					}
-				})
+				});
+				
+				// Update photo counter after Swiper is initialized
+				setTimeout(() => {
+					let photoCountElement = document.getElementById("photoCount"),
+						photoSlides = document.querySelectorAll(".photo-slide");
+					if (photoCountElement && photoSlides.length > 0) {
+						let currentCount = 0,
+							totalCount = photoSlides.length,
+							increment = Math.ceil(totalCount / 20),
+							counterInterval = setInterval(() => {
+								currentCount += increment;
+								if (currentCount >= totalCount) {
+									currentCount = totalCount;
+									clearInterval(counterInterval);
+								}
+								photoCountElement.textContent = currentCount;
+							}, 50);
+					} else if (photoCountElement) {
+						photoCountElement.textContent = "0";
+					}
+				}, 100);
 			})(),
 			function e() {
 				let t = document.querySelectorAll(".photo-slide"),
@@ -1563,7 +1615,12 @@ function initGalleriaPage() {
 					n[e] && (i = e, d = 1, m = {
 						x: 0,
 						y: 0
-					}, a.src = n[e], o.classList.add("active"), document.body.style.overflow = "hidden", p(), h(), function e(t, i) {
+					}, a.src = n[e], o.classList.add("active"), document.body.style.overflow = "hidden", 
+					// Hide swiper navigation buttons when lightbox opens
+					document.querySelectorAll('.photo-swiper .swiper-button-next, .photo-swiper .swiper-button-prev').forEach(btn => {
+						btn.style.display = 'none';
+					}),
+					p(), h(), function e(t, i) {
 						let n = document.getElementById("imageCounter");
 						n && (n.textContent = `${t+1} / ${i}`)
 					}(i, n.length), document.body.addEventListener("touchmove", E, {
@@ -1572,7 +1629,11 @@ function initGalleriaPage() {
 				}
 
 				function v() {
-					o.classList.remove("active"), document.body.style.overflow = "", a.src = "", document.body.removeEventListener("touchmove", E)
+					o.classList.remove("active"), document.body.style.overflow = "", a.src = "", document.body.removeEventListener("touchmove", E),
+					// Show swiper navigation buttons when lightbox closes
+					document.querySelectorAll('.photo-swiper .swiper-button-next, .photo-swiper .swiper-button-prev').forEach(btn => {
+						btn.style.display = 'flex';
+					})
 				}
 
 				function $() {
@@ -1671,21 +1732,14 @@ function initGalleriaPage() {
 				}, { passive: false }), a.addEventListener("touchend", e => {
 					0 === e.touches.length && (u = !1, c = null)
 				})
-			}(),
-			function e() {
-				let t = document.getElementById("photoCount"),
-					i = document.querySelectorAll(".photo-slide");
-				if (t && i.length > 0) {
-					let n = 0,
-						o = i.length,
-						a = Math.ceil(o / 20),
-						r = setInterval(() => {
-							(n += a) >= o && (n = o, clearInterval(r)), t.textContent = n
-						}, 50)
-				}
 			}()
 		} catch (h) {
-			document.getElementById("loadingPhotos").innerHTML = "<p>Errore nel caricamento delle foto</p>"
+			document.getElementById("loadingPhotos").innerHTML = "<p>Errore nel caricamento delle foto</p>";
+			// Keep navigation controls hidden on error
+			const photoNavControls = document.querySelectorAll('.photo-swiper .swiper-button-next, .photo-swiper .swiper-button-prev, .photo-swiper .swiper-pagination');
+			photoNavControls.forEach(control => {
+				control.style.display = 'none';
+			});
 		}
 	}
 
@@ -1744,7 +1798,15 @@ function initGalleriaPage() {
 				if (0 === r) {
 					t.innerHTML = "<p>Nessun video valido trovato su archive.org</p>";
 					return
-				}(function e() {
+				}
+				
+				// Show video navigation controls only when videos are loaded successfully
+				const videoNavControls = document.querySelectorAll('.video-swiper .swiper-button-next, .video-swiper .swiper-button-prev, .video-swiper .swiper-pagination');
+				videoNavControls.forEach(control => {
+					control.style.display = 'block';
+				});
+				
+				(function e() {
 					let t = document.querySelectorAll(".video-slide").length;
 					new Swiper(".video-swiper", {
 							effect: "coverflow",
@@ -2942,6 +3004,13 @@ function initializeGalleryPage() {
 			if (photoCount === 0) {
 				loadingElement.innerHTML = '<p>Nessuna foto valida trovata nella cartella</p>';
 				return;
+			}
+
+			// Show navigation controls if there are photos
+			if (photoCount > 0) {
+				document.querySelector('.photo-swiper .swiper-button-next').style.display = 'block';
+				document.querySelector('.photo-swiper .swiper-button-prev').style.display = 'block';
+				document.querySelector('.photo-swiper .swiper-pagination').style.display = 'block';
 			}
 
 			// Initialize Swiper after photos are loaded

@@ -1,0 +1,20 @@
+/* 404 Page Styles */
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px); }
+  60% { transform: translateY(-5px); }
+}
+
+.suggestion-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(225,6,0,0.15);
+  border-color: #E10600;
+}
+
+@media (max-width: 768px) {
+  .error-code { font-size: 6rem !important; }
+  .error-message { font-size: 2rem !important; }
+  .error-actions .btn { margin: 0.5rem; padding: 0.8rem 1.5rem; }
+  .suggestions-grid { grid-template-columns: 1fr !important; }
+}

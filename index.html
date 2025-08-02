@@ -18,29 +18,15 @@
 <meta name="twitter:description" content="Cultura, tradizione e volontariato nel territorio. Scopri i nostri eventi e progetti.">
 <meta name="twitter:image" content="logo.png">
 <link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="shortcut icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="S.Barbara">
 <link rel="manifest" href="site.webmanifest">
-<meta name="msapplication-TileColor" content="#d75414">
+<meta name="msapplication-TileColor" content="#ff8200">
 <meta name="msapplication-TileImage" content="favicon.ico">
 <script src="assets/js/analytics.js"></script>
-  </head>
-<body>
-  <div id="cookie-banner" class="cookie-banner">
-    <div class="cookie-content">
-      <p>Questo sito utilizza cookie per migliorare la tua esperienza. Continuando la navigazione accetti l'uso dei cookie.</p>
-      <div class="cookie-actions">
-        <button id="cookie-accept" class="btn btn-primary">Accetta</button> <button id="cookie-decline" class="btn btn-secondary">Rifiuta</button> <a href="privacy.html" class="btn btn-link">Informativa Privacy</a>
-      </div>
-    </div>
-  </div>
-  <nav class="navbar">
-    <div class="container">
-      <div class="nav-brand">
-        <a href="index.html" class="nav-brand-link"><img src="/favicon.ico" alt="Logo Associazione Santa Barbara" class="logo"> <span class="brand-text">Associazione Santa Barbara</span></a>
-      </div>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -82,6 +68,21 @@
   "description": "L'Associazione Santa Barbara, attiva dal 2008 a Grumo Appula (BA), promuove la cultura, le tradizioni popolari e la solidarietà attraverso eventi, attività sociali e iniziative educative rivolte alla comunità."
 }
 </script>
+  </head>
+<body>
+  <div id="cookie-banner" class="cookie-banner">
+    <div class="cookie-content">
+      <p>Questo sito utilizza cookie per migliorare la tua esperienza. Continuando la navigazione accetti l'uso dei cookie.</p>
+      <div class="cookie-actions">
+        <button id="cookie-accept" class="btn btn-primary">Accetta</button> <button id="cookie-decline" class="btn btn-secondary">Rifiuta</button> <a href="privacy.html" class="btn btn-link">Informativa Privacy</a>
+      </div>
+    </div>
+  </div>
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-brand">
+        <a href="index.html" class="nav-brand-link"><img src="logo.png" alt="Logo Associazione Santa Barbara" class="logo"> <span class="brand-text">Associazione Santa Barbara</span></a>
+      </div>
       <button class="nav-toggle" aria-label="Toggle navigation">
         <span></span>
         <span></span>
@@ -123,8 +124,8 @@
   <section class="hero">
     <div class="container">
       <div class="hero-content animate-fade-in">
-        <img src="/favicon.ico" alt="Logo Associazione Santa Barbara" class="hero-logo">
-        <h1 class="hero-title">Associazione Santa Barbara APS Grumo Appula</h1>
+        <img src="logo.png" alt="Logo Associazione Santa Barbara" class="hero-logo">
+        <h1 class="hero-title">Associazione Santa Barbara </h1>
         <p class="lead">Promuoviamo la cultura e il volontariato nel nostro territorio</p>
         <div class="hero-actions">
           <a href="contatti.html" class="btn btn-primary">Contattaci</a>
@@ -292,7 +293,7 @@
     <div class="container">
       <div class="footer-main">
         <div class="footer-brand brand-card">
-          <img src="/favicon.ico" alt="Associazione Santa Barbara" class="footer-logo">
+          <img src="/logo.png" alt="Associazione Santa Barbara" class="footer-logo">
           <h4>Associazione Santa Barbara</h4>
           <p>
             Preserviamo le tradizioni di Grumo Appula dal 2008 con il Corteo Storico e attività culturali che valorizzano il nostro patrimonio.
@@ -400,233 +401,7 @@
   <script src="assets/js/script.js"></script> 
   <script src="assets/js/adblock-detector-v2.js"></script> 
   <script src="assets/js/adblock-integration-v2.js"></script>
-  
-  <script>
-    // Supabase configuration (use existing constants from script.js)
-    const INDEX_SUPABASE_URL = 'https://ciezrbsolxpjxswdkkpo.supabase.co';
-    const INDEX_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpZXpyYnNvbHhwanhzd2Rra3BvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5MjM1NjAsImV4cCI6MjA2ODQ5OTU2MH0.V-U8KhO8byObUW5kJ8XbLBkp9O9Efh98MdbKYFfbQJk';
-
-    // Function to get events count from Supabase
-    async function getEventsCount() {
-      try {
-        const response = await fetch(`${INDEX_SUPABASE_URL}/rest/v1/events?select=count`, {
-          headers: {
-            'apikey': INDEX_SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${INDEX_SUPABASE_ANON_KEY}`,
-            'Content-Type': 'application/json',
-            'Prefer': 'count=exact'
-          }
-        });
-        
-        if (response.ok) {
-          const countHeader = response.headers.get('content-range');
-          if (countHeader) {
-            const count = parseInt(countHeader.split('/')[1]);
-            return count || 0;
-          }
-        }
-        return 0;
-      } catch (error) {
-        return 0;
-      }
-    }
-
-    // Function to get activities count from Supabase
-    async function getAttivitaCount() {
-      try {
-        const response = await fetch(`${INDEX_SUPABASE_URL}/rest/v1/attivita?select=count`, {
-          headers: {
-            'apikey': INDEX_SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${INDEX_SUPABASE_ANON_KEY}`,
-            'Content-Type': 'application/json',
-            'Prefer': 'count=exact'
-          }
-        });
-        
-        if (response.ok) {
-          const countHeader = response.headers.get('content-range');
-          if (countHeader) {
-            const count = parseInt(countHeader.split('/')[1]);
-            return count || 0;
-          }
-        }
-        return 0;
-      } catch (error) {
-        return 0;
-      }
-    }
-
-    // Enhanced UX JavaScript for Index
-    document.addEventListener('DOMContentLoaded', async function() {
-      
-      // Load events count
-      const eventsCount = await getEventsCount();
-      const eventiCounter = document.getElementById('eventi-counter');
-      if (eventiCounter) {
-        eventiCounter.dataset.target = eventsCount;
-      }
-      
-      // Calculate years of activity (current year - 2008)
-      const currentYear = new Date().getFullYear();
-      const foundationYear = 2008;
-      const yearsOfActivity = currentYear - foundationYear;
-      const anniCounter = document.getElementById('anni-counter');
-      if (anniCounter) {
-        anniCounter.dataset.target = yearsOfActivity;
-      }
-      
-      // Load activities count
-      const attivitaCount = await getAttivitaCount();
-      const progettiCounter = document.getElementById('progetti-counter');
-      if (progettiCounter) {
-        progettiCounter.dataset.target = attivitaCount;
-      }
-      
-      // Intersection Observer for animations
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      };
-      
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const element = entry.target;
-            const delay = element.dataset.delay || 0;
-            
-            setTimeout(() => {
-              element.style.animationDelay = delay + 'ms';
-              element.classList.add('animate');
-            }, delay);
-            
-            observer.unobserve(element);
-          }
-        });
-      }, observerOptions);
-      
-      // Observe all animated elements
-      document.querySelectorAll('.animate-fade-up, .animate-slide-left, .animate-slide-right').forEach(el => {
-        observer.observe(el);
-      });
-      
-      // Counter animation - more fluid
-      function animateCounter(element, target, duration = 1500) {
-        let start = 0;
-        const startTime = performance.now();
-        
-        function easeOutQuart(t) {
-          return 1 - (--t) * t * t * t;
-        }
-        
-        function updateCounter(currentTime) {
-          const elapsed = currentTime - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          const easedProgress = easeOutQuart(progress);
-          
-          const current = Math.floor(easedProgress * target);
-          element.textContent = current;
-          
-          if (progress < 1) {
-            requestAnimationFrame(updateCounter);
-          } else {
-            element.textContent = target + (target >= 100 ? '+' : '');
-          }
-        }
-        
-        requestAnimationFrame(updateCounter);
-      }
-      
-      // Stats counter observer with mobile-friendly settings
-      const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const counters = entry.target.querySelectorAll('.counter');
-            counters.forEach(counter => {
-              const target = parseInt(counter.dataset.target);
-              if (target > 0) {
-                animateCounter(counter, target);
-              }
-            });
-            statsObserver.unobserve(entry.target);
-          }
-        });
-      }, { 
-        threshold: window.innerWidth <= 768 ? 0.1 : 0.5,
-        rootMargin: '0px 0px -10px 0px'
-      });
-      
-      const statsSection = document.querySelector('.stats-section');
-      if (statsSection) {
-        statsObserver.observe(statsSection);
-      }
-      
-      // Fallback for mobile - trigger counter after delay if not already triggered
-      setTimeout(() => {
-        const counters = document.querySelectorAll('.counter');
-        counters.forEach(counter => {
-          if (counter.textContent === '0' && parseInt(counter.dataset.target) > 0) {
-            const target = parseInt(counter.dataset.target);
-            animateCounter(counter, target);
-          }
-        });
-      }, 3000);
-      
-      // Smooth scroll for internal links
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute('href'));
-          if (target) {
-            target.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
-          }
-        });
-      });
-      
-      // Parallax effect for hero section
-      window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const hero = document.querySelector('.hero');
-        if (hero) {
-          hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-        }
-      });
-      
-      // Add staggered loading animation for cards
-      document.querySelectorAll('.enhanced-card').forEach((card, index) => {
-        card.style.animationDelay = (index * 100) + 'ms';
-      });
-      
-      // Enhanced hover effects for action buttons
-      document.querySelectorAll('.btn').forEach(btn => {
-        btn.addEventListener('mouseenter', function() {
-          this.style.transform = 'translateY(-2px) scale(1.02)';
-        });
-        
-        btn.addEventListener('mouseleave', function() {
-          this.style.transform = '';
-        });
-      });
-      
-      // Check for email verification success
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('email_verified') === 'true') {
-        // Show success notification
-        if (window.showNotification) {
-          window.showNotification('✅ Email verificata con successo! Ora puoi accedere al tuo account.', 'success');
-        }
-        // Auto-redirect to login after 3 seconds
-        setTimeout(() => {
-          window.location.href = 'login.html?verified=true';
-        }, 3000);
-        // Remove the parameter from URL
-        window.history.replaceState({}, document.title, window.location.pathname);
-      }
-      
-    });
-  </script>
+  <script src="assets/js/index.js"></script>
   <script src="assets/js/counter-mobile-fix.js"></script>
   <script src="assets/js/adsense-optimization.js"></script>
   <script src="assets/js/seo-enhancements.js"></script>

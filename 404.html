@@ -13,14 +13,15 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://associazionesbarbara.it/404.html">
   <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
-  <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
-  <link rel="shortcut icon" href="/favicon.ico" />
-  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+  <link rel="stylesheet" href="assets/css/404.css">
+  <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
   <meta name="apple-mobile-web-app-title" content="S.Barbara" />
   <link rel="manifest" href="site.webmanifest" />
-  <meta name="msapplication-TileColor" content="#d75414">
-  <meta name="msapplication-TileImage" content="/favicon.ico">
+  <meta name="msapplication-TileColor" content="#ff8200">
+  <meta name="msapplication-TileImage" content="favicon.ico">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -77,7 +78,7 @@
     <div class="container">
       <div class="nav-brand">
         <a href="index.html" class="nav-brand-link">
-          <img src="/favicon.ico" alt="Logo Associazione Santa Barbara" class="logo">
+          <img src="logo.png" alt="Logo Associazione Santa Barbara" class="logo">
           <span class="brand-text">Associazione Santa Barbara</span>
         </a>
       </div>
@@ -154,7 +155,7 @@
     <div class="container">
       <div class="footer-main">
         <div class="footer-brand brand-card">
-          <img src="/favicon.ico" alt="Associazione Santa Barbara" class="footer-logo">
+          <img src="logo.png" alt="Associazione Santa Barbara" class="footer-logo">
           <h4>Associazione Santa Barbara</h4>
           <p>
             Preserviamo le tradizioni di Grumo Appula dal 2008 con il Corteo Storico e attività culturali che valorizzano il nostro patrimonio.
@@ -237,50 +238,6 @@
   <script src="assets/js/adblock-detector-v2.js"></script> 
   <script src="assets/js/adblock-integration-v2.js"></script>
   
-  <style>
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-      40% { transform: translateY(-10px); }
-      60% { transform: translateY(-5px); }
-    }
-    
-    .suggestion-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 25px rgba(225,6,0,0.15);
-      border-color: #E10600;
-    }
-    
-    @media (max-width: 768px) {
-      .error-code { font-size: 6rem !important; }
-      .error-message { font-size: 2rem !important; }
-      .error-actions .btn { margin: 0.5rem; padding: 0.8rem 1.5rem; }
-      .suggestions-grid { grid-template-columns: 1fr !important; }
-    }
-  </style>
-  
-  <script>
-    // Registra che siamo arrivati qui tramite 404 redirect
-    document.addEventListener('DOMContentLoaded', function() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const originalUrl = urlParams.get('from');
-      
-      if (originalUrl) {
-        const description = document.querySelector('.error-description');
-        description.textContent = '';
-        // Crea il messaggio in modo sicuro
-        description.append(
-          'Sembra che la pagina "',
-          (() => { const strong = document.createElement('strong'); strong.textContent = decodeURIComponent(originalUrl); return strong; })(),
-          '" sia andata a fare una passeggiata nel centro storico di Grumo Appula e si sia persa!',
-          document.createElement('br'),
-          document.createElement('br'),
-          'Non preoccuparti, ti aiutiamo noi a ritrovare la strada.'
-        );
-      }
-      
-      // Aggiorna l'anno nel footer
-      document.getElementById('current-year').textContent = new Date().getFullYear();
-    });
-  </script>
+  <script src="assets/js/404.js"></script>
 </body>
 </html>
