@@ -1,25 +1,6 @@
 
 
-function optimizeInternalLinks() {
-	let t = document.querySelectorAll('a[href^="/"], a[href^="./"], a[href$=".html"]');
-	t.forEach(t => {
-		let e = t.getAttribute("href"),
-			a = t.textContent.trim();
-		if (!t.getAttribute("title") && a) {
-			let i = {
-				"chi-siamo.html": "Scopri la storia dell'Associazione Santa Barbara",
-				"attivita.html": "Esplora le nostre attività culturali e progetti",
-				"eventi.html": "Calendario eventi e manifestazioni pubbliche",
-				"galleria.html": "Foto e video delle nostre iniziative",
-				"faq.html": "Risposte alle domande più frequenti",
-				"contatti.html": "Come contattare l'Associazione Santa Barbara",
-				"partner.html": "I nostri partner e collaboratori",
-				"area-soci.html": "Accesso riservato ai soci dell'associazione"
-			} [e] || `Vai alla sezione ${a}`;
-			t.setAttribute("title", i)
-		}
-	})
-}
+
 
 
 
@@ -54,12 +35,10 @@ function improveSEOPerformance() {
 
 function initAdvancedSEO() {
 	try {
-		optimizeInternalLinks();
 		optimizeImagesForSEO();
 		improveSEOPerformance();
 		setTimeout(() => {
 			let t = {
-				internalLinks: document.querySelectorAll("a[title]").length,
 				optimizedImages: document.querySelectorAll("img[alt]").length
 			};
 		}, 1e3);
