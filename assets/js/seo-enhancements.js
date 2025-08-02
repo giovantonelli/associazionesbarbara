@@ -4,18 +4,7 @@
 
 
 
-function optimizeImagesForSEO() {
-	let t = document.querySelectorAll("img");
-	t.forEach(t => {
-		if (!t.getAttribute("alt") || "" === t.getAttribute("alt").trim()) {
-			let e = t.src || t.getAttribute("src") || "",
-				a = e.split("/").pop().split(".")[0],
-				i = "";
-			i = a.includes("logo") ? "Logo Associazione Santa Barbara" : a.includes("event") || t.closest(".event-card") ? "Immagine evento Associazione Santa Barbara" : t.closest(".gallery, .galleria") ? "Foto galleria Associazione Santa Barbara" : "Immagine Associazione Santa Barbara", t.setAttribute("alt", i)
-		}
-		t.hasAttribute("loading") || t.closest(".hero, .banner") || t.setAttribute("loading", "lazy")
-	})
-}
+
 
 
 
@@ -35,12 +24,8 @@ function improveSEOPerformance() {
 
 function initAdvancedSEO() {
 	try {
-		optimizeImagesForSEO();
 		improveSEOPerformance();
 		setTimeout(() => {
-			let t = {
-				optimizedImages: document.querySelectorAll("img[alt]").length
-			};
 		}, 1e3);
 	} catch (t) {}
 }
