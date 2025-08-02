@@ -1,87 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://associazionesbarbara.it/</loc>
-    <lastmod>2025-08-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
     <loc>https://associazionesbarbara.it/index.html</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2025-08-02</lastmod>
+    <changefreq>hourly</changefreq>
   </url>
   <url>
     <loc>https://associazionesbarbara.it/chi-siamo.html</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2025-08-02</lastmod>
+    <changefreq>hourly</changefreq>
   </url>
   <url>
     <loc>https://associazionesbarbara.it/attivita.html</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2025-08-02</lastmod>
+    <changefreq>hourly</changefreq>
   </url>
   <url>
     <loc>https://associazionesbarbara.it/eventi.html</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <lastmod>2025-08-02</lastmod>
+    <changefreq>hourly</changefreq>
   </url>
   <url>
     <loc>https://associazionesbarbara.it/galleria.html</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <lastmod>2025-08-02</lastmod>
+    <changefreq>hourly</changefreq>
   </url>
   <url>
     <loc>https://associazionesbarbara.it/faq.html</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2025-08-02</lastmod>
+    <changefreq>hourly</changefreq>
   </url>
   <url>
     <loc>https://associazionesbarbara.it/contatti.html</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <lastmod>2025-08-02</lastmod>
+    <changefreq>hourly</changefreq>
   </url>
   <url>
     <loc>https://associazionesbarbara.it/partner.html</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2025-08-02</lastmod>
+    <changefreq>hourly</changefreq>
   </url>
   <url>
     <loc>https://associazionesbarbara.it/privacy.html</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <lastmod>2025-08-02</lastmod>
+    <changefreq>hourly</changefreq>
   </url>
   <url>
     <loc>https://associazionesbarbara.it/area-soci.html</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
+    <lastmod>2025-08-02</lastmod>
+    <changefreq>hourly</changefreq>
   </url>
   <url>
     <loc>https://associazionesbarbara.it/login.html</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
+    <lastmod>2025-08-02</lastmod>
+    <changefreq>hourly</changefreq>
   </url>
   <url>
     <loc>https://associazionesbarbara.it/register.html</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
+    <lastmod>2025-08-02</lastmod>
+    <changefreq>hourly</changefreq>
   </url>
   <url>
     <loc>https://associazionesbarbara.it/404.html</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.1</priority>
+    <lastmod>2025-08-02</lastmod>
+    <changefreq>hourly</changefreq>
   </url>
 </urlset>
