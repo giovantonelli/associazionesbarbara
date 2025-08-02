@@ -23,7 +23,8 @@
       "Bash(then)",
       "Bash(echo:*)",
       "Bash(else)",
-      "Bash(fi)"
+      "Bash(fi)",
+      "Bash(copy contatti_clean.html contatti.html)"
     ],
     "deny": []
   }
