@@ -24,7 +24,10 @@
       "Bash(echo:*)",
       "Bash(else)",
       "Bash(fi)",
-      "Bash(copy contatti_clean.html contatti.html)"
+      "Bash(copy contatti_clean.html contatti.html)",
+      "Bash(do sed -i 's/class=\"\"enhanced-social\"\" aria-label=\"\"/class=\"\"enhanced-social\"\" rel=\"\"nofollow\"\" aria-label=\"\"/g' \"$file\")",
+      "Bash(do if [ -f \"$file\" ])",
+      "Bash(then sed -i 's|<a href=\"\"privacy.html\"\" class=\"\"btn btn-link\"\">Leggi di più</a>|<a href=\"\"privacy.html\"\" class=\"\"btn btn-link\"\">Informativa Privacy</a>|g' \"$file\")"
     ],
     "deny": []
   }
