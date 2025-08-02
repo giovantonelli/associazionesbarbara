@@ -31,7 +31,7 @@ async function getEventsCount() {
     }
     return 0;
   } catch (error) {
-    console.error('Errore nel caricamento del conteggio eventi:', error);
+    // Errore silenzioso
     return 0;
   }
 }
@@ -60,7 +60,7 @@ async function getAttivitaCount() {
     }
     return 0;
   } catch (error) {
-    console.error('Errore nel caricamento del conteggio attività:', error);
+    // Errore silenzioso
     return 0;
   }
 }
@@ -272,7 +272,7 @@ async function loadAndUpdateCounters() {
       progettiCounter.dataset.target = attivitaCount;
     }
   } catch (error) {
-    console.error('Errore nel caricamento dei contatori:', error);
+    // Errore silenzioso
   }
 }
 
@@ -280,8 +280,6 @@ async function loadAndUpdateCounters() {
  * Initialize all homepage functionality
  */
 async function initializeHomepage() {
-  console.log('🏠 Inizializzazione homepage...');
-  
   try {
     // Load data from Supabase
     await loadAndUpdateCounters();
@@ -294,10 +292,8 @@ async function initializeHomepage() {
     initializeCardAnimations();
     initializeButtonEffects();
     handleEmailVerification();
-    
-    console.log('✅ Homepage inizializzata con successo');
   } catch (error) {
-    console.error('❌ Errore durante l\'inizializzazione della homepage:', error);
+    // Errore silenzioso
   }
 }
 
